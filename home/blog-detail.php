@@ -1,0 +1,180 @@
+<?php
+include 'header.php';
+include 'config.php';
+
+$geturl = $_GET['url'];
+$divurl = explode("_", $geturl);
+$url = $divurl[0];
+$tableid = $divurl[1];
+
+$sqlblog = "select * from blogs where url = '$url' and id = '$tableid'";
+$resultblog = mysqli_query($con,$sqlblog);
+$rowblog = mysqli_fetch_assoc($resultblog)
+?>
+
+    <!-- START -->
+    <section>
+        <div class="inn-ban">
+            <div class="container">
+                <div class="row">
+                    <h1><?php echo $rowblog['heading']; ?></h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END -->
+
+    <!-- START -->
+    <section>
+        <div class="blog-main blog-detail">
+            <div class="container">
+                <div class="row">
+                    <div class="inn">
+                        <div class="lhs">
+                            <!--BIG POST START-->
+                            <div class="blog-home-box">
+                                <div class="im">
+                                    <img src="controller/blogimages/<?php echo $rowblog['blogimages']; ?>" alt="" loading="lazy">
+                                    <span class="blog-date"><?php echo date('d, M Y', strtotime($rowblog['postdate'])); ?></span>
+                                    <input type="text" name="bloglink" value="https://myptetest.com/desirishta/blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id']?>" id="myInput<?php echo $rowblog['id']; ?>" style="display:none">
+                                    <div class="shar-1">
+                                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                        <ul>
+                                            <li><a href="https://api.whatsapp.com/send?text=https://myptetest.com/desirishta/blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id']?>" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                                            <li><span><i class="fa fa-link" aria-hidden="true" onclick="myFunction<?php echo $rowblog['id']; ?>()"></i></span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="txt">
+                                    <span class="blog-cate"><?php echo $rowblog['category']; ?></span>
+                                    <h2><?php echo $rowblog['heading']; ?></h2>
+                                    <div class="text-justify">
+                                        <?php echo $rowblog['content']; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--END BIG POST START-->
+
+                            <!--START-->
+                            <div class="blog-nav">
+                                <div class="com lhs">
+                                    <?php
+                                    $sqlprevious = "select * from blogs where id < '$tableid' order by id desc limit 1";
+                                    $resultprevious = mysqli_query($con,$sqlprevious);
+                                    $rowprevious = mysqli_fetch_assoc($resultprevious);
+                                    
+                                    $previousid = $rowprevious['id'];
+                                    if($previousid != '')
+                                    {
+                                    ?>
+                                    <span><i class="fa fa-long-arrow-left" aria-hidden="true"></i> Previous post</span>
+                                    <a href="blog-detail.php?url=<?php echo $rowprevious['url'].'_'.$rowprevious['id']; ?>" class="fclick"></a>
+                                    <?php
+                                    }
+                                    else
+                                    {
+                                    ?>
+                                    <span class="noprevious"><i class="fa fa-long-arrow-left" aria-hidden="true"></i> Previous post</span>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+                                <div class="com rhs">
+                                    <?php
+                                    $sqlnext = "select * from blogs where id > '$tableid' order by id asc limit 1";
+                                    $resultnext = mysqli_query($con,$sqlnext);
+                                    $rownext = mysqli_fetch_assoc($resultnext);
+                                    
+                                    $nextid = $rownext['id'];
+                                    if($nextid != '')
+                                    {
+                                    ?>
+                                    <span>Next post <i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                                    <a href="blog-detail.php?url=<?php echo $rownext['url'].'_'.$rownext['id']; ?>" class="fclick"></a>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <!--END-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END -->
+
+    <!-- START -->
+    <section>
+        <div class="blog-rel slid-inn">
+            <div class="container">
+                <div class="row">
+                    <div class="home-tit">
+                        <p>Blog & Articles</p>
+                        <h2><span>Related posts</span></h2>
+                        <span class="leaf1"></span>
+                    </div>
+                    <div class="cus-revi">
+                        <ul class="slider4">
+                            <?php
+                            $sqlrelatedblog = "select * from blogs where id != '$tableid' order by id desc";
+                            $resultrelatedblog = mysqli_query($con,$sqlrelatedblog);
+                            while($rowrelatedblog = mysqli_fetch_assoc($resultrelatedblog))
+                            {
+                            ?>
+                            <li>
+                                <div class="blog-home-box">
+                                    <div class="im">
+                                        <img src="controller/blogimages/<?php echo $rowrelatedblog['blogimages']; ?>" alt="" loading="lazy">
+                                    </div>
+                                    <div class="txt">
+                                        <span class="blog-cate"><?php echo $rowrelatedblog['category']; ?></span>
+                                        <h2><?php echo $rowrelatedblog['heading']; ?></h2>
+                                        <a href="blog-detail.php?url=<?php echo $rowrelatedblog['url'].'_'.$rowrelatedblog['id'];?>" class="fclick"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END -->
+
+
+<?php
+include 'footer.php';
+
+$sqlblog1 = "select * from blogs where url = '$url' and id = '$tableid'";
+$resultblog1 = mysqli_query($con,$sqlblog1);
+while($rowblog1 = mysqli_fetch_assoc($resultblog1))
+{
+?>
+
+    <script>
+        function myFunction<?php echo $rowblog1['id']; ?>() {
+            // Get the text field
+            var copyText = document.getElementById("myInput<?php echo $rowblog1['id']; ?>");
+                                      
+            // Select the text field
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+                                    
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+                                      
+            // Alert the copied text
+            //alert("Copied the text: " + copyText.value);
+                                      
+            $('.copybox').css('display', 'block');
+        }
+    </script>
+<?php
+}
+?>
