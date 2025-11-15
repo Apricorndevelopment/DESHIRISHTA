@@ -23,6 +23,14 @@
                         </li>
                         <li><a href="faq.php">FAQ's</a>
                         </li>
+                           <li><a href="terms.php">Terms and Conditions  links</a>
+                        </li>
+                         <li><a href="privacy.php">Privacy policy</a>
+                        </li>
+                         <li><a href="cookies.php"> Cookies policy </a>
+                        </li>
+                        <li><a href="cookies.php">Graviences</a>
+                        </li>
                     </ul>
                     <?php
                     }
@@ -38,8 +46,8 @@
                         </li>
                         <li><a href="faq.php">FAQ's</a>
                         </li>
-                        <li><a href="reviewrating.php">Reviews & Rating</a>
-                        </li>
+                     
+                       
                     </ul>
                     <?php
                     }

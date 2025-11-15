@@ -61,8 +61,11 @@ include 'header.php';
                             <div class="we-cont">
                                 <img src="images/icon/telephone.png" alt="">
                                 <h4>WhatsApp Support</h4>
-                                <p>Welcome to our WhatsApp support</p>
-                                <a href="https://wa.me/918377053041?text=Hello i am having some queries" target="_blank" class="cta-rou-line">Chat Now</a>
+                                <p>Welcome to our WhatsApp support Mon – Sat (9AM – 6PM)</p>
+                                <a href="https://wa.me/918377053041?text=Hi There,
+I have some queries toask.
+Thanks!
+" target="_blank" class="cta-rou-line">Chat Now</a>
                             </div>
                         </li>
                     </ul>
@@ -140,6 +143,15 @@ include 'header.php';
                                             </span>
                                             <p class="text-danger errorstatement" id="messerror" style="display:none">Please Enter Message</p>
                                         </div>
+                                          <div class="terms-container">
+                                    <input type="checkbox" id="terms" name="terms" checked>
+                                    
+                                    <p>
+                                        By creating an account, I agree to the 
+                                        <a href="terms.php">T&C</a> and 
+                                        <a href="privacy.php">Privacy Policy</a>
+                                    </p>
+                                </div>
                                         <button type="submit" id="enquirybtn" class="btn btn-primary">Send Enquiry</button>
                                     </form>
                                 </div>
@@ -210,8 +222,9 @@ include 'header.php';
                                                 <textarea name="message" class="form-control leftspace" id="message" placeholder="Enter Message" required></textarea>
                                                 <span class="material-symbols-outlined icon">edit_note</span>
                                             </span>
-                                            <p class="text-danger errorstatement" id="messerror" style="display:none">Please Enter Message</p>
+                                            <p class="text-danger errorstatement" id="messerror" style="display:none">Please Enter Messagess</p>
                                         </div>
+                               
                                         <button type="submit" id="enquirybtn" class="btn btn-primary">Send Enquiry</button>
                                     </form>
                                 </div>
@@ -233,6 +246,95 @@ include 'footer.php';
 ?>
 
 <script>
+$(document).ready(function(){
+ $("#enquirybtn").click(function(e){ // 'e' yahaan zaroori hai
+  var name = $("#name").val();
+  var email = $("#email").val();
+  var phone = $("#phone").val();
+  var message = $("#message").val();
+    var isValid = true; // Form valid hai ya nahi, iska flag
+  
+  if(name == '')
+  {
+    $("#nameerror").show();
+        // BADLAAV YAHAN: Sirf border-bottom-color badlein
+    $("#name").css("border-bottom-color", "red"); 
+    isValid = false;
+  }
+  else
+  {
+    $("#nameerror").hide();
+  }
+  
+  if(email == '')
+  {
+    $("#emailerror").show();
+        // BADLAAV YAHAN
+    $("#email").css("border-bottom-color", "red");
+    isValid = false;
+  }
+  else
+  {
+    $("#emailerror").hide();
+  }
+  
+  if(phone == '')
+  {
+    $("#phoneerror").show();
+        // BADLAAV YAHAN
+    $("#phone").css("border-bottom-color", "red");
+    isValid = false;
+  }
+  else
+  {
+    $("#phoneerror").hide();
+  }
+  
+  if(message == '')
+  {
+    $("#messerror").show();
+        // BADLAAV YAHAN
+    $("#message").css("border-bottom-color", "red");
+    isValid = false;
+  }
+  else
+  {
+    $("#messerror").hide();
+  }
+  
+  if(isValid == false) {
+      e.preventDefault(); // Form ko submit hone se rokein
+      return false;
+  }
+  // Agar sab aacha hai, toh form submit ho jaayega
+ });
+ 
+ // Keyup events (Jab user type karega)
+ $("#name").keyup(function(){
+  $("#nameerror").hide();
+    // BADLAAV YAHAN: Border color ko normal karein
+  $("#name").css("border-bottom-color", "#626466");
+ });
+ $("#email").keyup(function(){
+  $("#emailerror").hide();
+    // BADLAAV YAHAN
+  $("#email").css("border-bottom-color", "#626466");
+ });
+ $("#phone").keyup(function(){
+  $("#phoneerror").hide();
+    // BADLAAV YAHAN
+  $("#phone").css("border-bottom-color", "#626466");
+ });
+ $("#message").keyup(function(){
+  $("#messerror").hide();
+    // BADLAAV YAHAN
+  $("#message").css("border-bottom-color", "#626466");
+ });
+
+});
+</script>
+
+<!-- <script>
 $(document).ready(function(){
   $("#enquirybtn").click(function(){
     var name = $("#name").val();
@@ -309,4 +411,48 @@ $(document).ready(function(){
       return true;
   }
 });
-</script>
+</script> -->
+<style>.form-login .form-control {
+    border: none; /* Saare default borders hata dein */
+    border-radius: 0; /* Corners ko flat rakhein */
+    border-bottom: 2px solid maroon; /* Sirf bottom border rakhein */
+    outline: none; /* Click karne par aane waali outline hata dein */
+    box-shadow: none; /* Default shadow hata dein */
+}
+
+/* Optional: Jab user type kar raha ho tab border ka color badalna */
+.form-login .form-control:focus {
+    border-bottom-color: maroon; /* Aap yahaan apna primary color daal sakte hain */
+    box-shadow: none;
+}</style>
+<style>
+    .terms-container {
+        display: flex; /* Checkbox aur text ko ek line mein laata hai */
+        align-items: center; /* Unhein vertically center karta hai */
+        font-family: Arial, sans-serif;
+        font-size: 16px; /* Font size aap adjust kar sakte hain */
+    }
+
+    /* Checkbox ko blue karne ke liye */
+    .terms-container input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #0d6efd; /* Yeh modern browsers mein checkbox ka color badalta hai */
+    }
+
+    .terms-container p {
+        margin-left: 8px; /* Checkbox aur text ke beech thodi space */
+        margin-bottom: 0; /* Default <p> margin hatane ke liye */
+    }
+
+    /* Links ko red aur bold karne ke liye */
+    .terms-container a {
+        color: #E60023; /* Aapka red color */
+        font-weight: bold;
+        text-decoration: none; /* Underline hatane ke liye */
+    }
+    
+    .terms-container a:hover {
+        text-decoration: underline; /* Hover par underline dikhana acha rehta hai */
+    }
+</style>

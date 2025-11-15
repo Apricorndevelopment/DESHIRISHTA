@@ -11,7 +11,10 @@ $sqlblog = "select * from blogs where url = '$url' and id = '$tableid'";
 $resultblog = mysqli_query($con,$sqlblog);
 $rowblog = mysqli_fetch_assoc($resultblog)
 ?>
-
+<head>
+     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
     <!-- START -->
     <section>
         <div class="inn-ban">
@@ -23,13 +26,28 @@ $rowblog = mysqli_fetch_assoc($resultblog)
         </div>
     </section>
     <!-- END -->
+<style>
+/* MOBILE VIEW (max-width: 768px) */
+@media (max-width: 768px) {
+    .inn {
+        flex-direction: column !important;  /* row → column */
+    }
 
+    .lhs, .rhs {
+        width: 100% !important; 
+    }
+
+    .blog-main .lhs {
+        margin-bottom: 20px;
+    }
+}
+</style>
     <!-- START -->
     <section>
         <div class="blog-main blog-detail">
             <div class="container">
-                <div class="row">
-                    <div class="inn">
+                <div class="row" >
+                    <div class="inn" style="display:flex; flex-direction: row;">
                         <div class="lhs">
                             <!--BIG POST START-->
                             <div class="blog-home-box">
@@ -39,10 +57,21 @@ $rowblog = mysqli_fetch_assoc($resultblog)
                                     <input type="text" name="bloglink" value="https://myptetest.com/desirishta/blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id']?>" id="myInput<?php echo $rowblog['id']; ?>" style="display:none">
                                     <div class="shar-1">
                                         <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                        <ul>
-                                            <li><a href="https://api.whatsapp.com/send?text=https://myptetest.com/desirishta/blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id']?>" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                                            <li><span><i class="fa fa-link" aria-hidden="true" onclick="myFunction<?php echo $rowblog['id']; ?>()"></i></span></li>
-                                        </ul>
+                                                 <!-- <i class="fa fa-share-alt act" aria-hidden="true"></i> -->
+           <ul>
+    <li><a href="https://api.whatsapp.com/send?text=<?= $link ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a></li>
+    <li><a href="https://www.facebook.com/sharer/sharer.php?u=<?= $link ?>" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+    <li><a href="https://www.instagram.com/?url=<?= $link ?>" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+    <li><a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= $link ?>" target="_blank"><i class="fa-brands fa-linkedin"></i></a></li>
+    <li><a href="https://twitter.com/intent/tweet?url=<?= $link ?>" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
+
+    <!-- FIXED COPY BUTTON -->
+    <li>
+        <a href="javascript:void(0)" onclick="copyLink(<?= $rowblog['id']; ?>)">
+            <i class="fa fa-link" id="copyIcon<?= $rowblog['id']; ?>"></i>
+        </a>
+    </li>
+</ul>
                                     </div>
                                 </div>
                                 <div class="txt">
@@ -99,7 +128,31 @@ $rowblog = mysqli_fetch_assoc($resultblog)
                             <!--END-->
 
                         </div>
+                      <div class="rhs">
+                            <div class="blog-com-rhs">
+                                <!-- SUBSCRIBE START-->
+                                <div class="blog-subsc">
+                                    <div class="ud-rhs-poin1">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/6349/6349282.png" alt=""
+                                            loading="lazy">
+                                        <h5>Subscribe <b>Newsletter</b></h5>
+                                    </div>
+                                    <form name="news_newsletter_subscribe_form" id="news_newsletter_subscribe_form">
+                                        <ul>
+                                            <li><input type="text" name="news_newsletter_subscribe_name"
+                                                    placeholder="Enter Email Id*" class="form-control" required="">
+                                            </li>
+                                            <li><input type="submit" id="news_newsletter_subscribe_submit"
+                                                    name="news_newsletter_subscribe_submit" class="form-control"></li>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <!-- SUBSCRIBE END-->
+                            </div>
+                        </div>
                     </div>
+
+                   
                 </div>
             </div>
         </div>
@@ -175,6 +228,30 @@ while($rowblog1 = mysqli_fetch_assoc($resultblog1))
             $('.copybox').css('display', 'block');
         }
     </script>
+    <script>
+function copyLink(id) {
+    var copyText = document.getElementById("myInput" + id);
+
+    // Select text
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+
+    // Copy
+    navigator.clipboard.writeText(copyText.value).then(() => {
+
+        // Find icon inside share list
+        let icon = document.querySelector("#copyIcon" + id);
+
+        icon.classList.remove("fa-link");
+        icon.classList.add("fa-chain-broken");
+
+        setTimeout(() => {
+            icon.classList.remove("fa-chain-broken");
+            icon.classList.add("fa-link");
+        }, 1500);
+    });
+}
+</script>
 <?php
 }
 ?>
