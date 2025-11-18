@@ -6,7 +6,7 @@
                     <h4>Get In Touch</h4>
                     <p>Location: New Delhi, India</p>
                     <p>Phone: <a href="tel:+918377053041">+91-8377053041</a></p>
-                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com</a></p>
+                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com.</a></p>
                 </div>
                 <div class="col-md-4">
                     <h4>HELP &amp; SUPPORT</h4>
@@ -23,6 +23,14 @@
                         </li>
                         <li><a href="faq.php">FAQ's</a>
                         </li>
+                           <li><a href="faqterms.php">Terms and Conditions </a>
+                        </li>
+                         <li><a href="faqprivacy.php">Privacy policy</a>
+                        </li>
+                         <li><a href="faqcookies.php"> Cookies policy </a>
+                        </li>
+                        <li><a href="faqgravience.php">Graviences</a>
+                        </li>
                     </ul>
                     <?php
                     }
@@ -38,8 +46,8 @@
                         </li>
                         <li><a href="faq.php">FAQ's</a>
                         </li>
-                        <li><a href="reviewrating.php">Reviews & Rating</a>
-                        </li>
+                     
+                       
                     </ul>
                     <?php
                     }
@@ -825,3 +833,11 @@ $(document).ready(function () {
 </script>
 </body>
 </html>
+<style>
+    @media (min-width: 768px) {
+    .col-md-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+}
+</style>

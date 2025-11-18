@@ -83,7 +83,7 @@ include 'config.php';
                                             <td><?php echo $row['userid']; ?></td>
                                             <td><?php echo $row['name']; ?></td>
                                             <td><?php echo $row['phone'].'<br>'.$row['email']; ?></td>
-                                            <td>
+                                            <!-- <td>
                                                 <?php 
                                                 if($row['profilestatus'] == '0')
                                                 {
@@ -92,6 +92,28 @@ include 'config.php';
                                                 else
                                                 {
                                                     echo "<span class='text-success'>Approved</span>";
+                                                }
+                                                ?>
+                                            </td> -->
+
+
+                                                        <td>
+                                                <?php 
+                                                if($row['profilestatus'] == '0')
+                                                {
+                                                    echo "<span class='text-danger'>Pending</span>";
+                                                }
+                                                elseif($row['profilestatus'] == '1')
+                                                {
+                                                    echo "<span class='text-success'>Approved</span>";
+                                                }
+                                                elseif($row['profilestatus'] == '2')
+                                                {
+                                                    echo "<span class='text-warning'>Deactivated</span>"; 
+                                                }
+                                                elseif($row['profilestatus'] == '3')
+                                                {
+                                                    echo "<span class='text-dark'>Deleted</span>"; 
                                                 }
                                                 ?>
                                             </td>

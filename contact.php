@@ -1,87 +1,83 @@
 <?php
 include 'header.php';
 ?>
-    <!-- BANNER -->
-    <section>
-        <div class="str">
-            <div class="ban-inn ab-ban pg-cont">
-                <div class="container">
-                    <div class="row">
-                        <div class="hom-ban">
-                            <div class="ban-tit">
-                                <span>We are here to assist you.</span>
-                                <h1>Our Support</h1>
-                                <p>Most Trusted and premium Matrimony & Matchmaking Service in the World.</p>
-                            </div>
+<!-- BANNER -->
+<section>
+    <div class="str">
+        <div class="ban-inn ab-ban pg-cont">
+            <div class="container">
+                <div class="row">
+                    <div class="hom-ban">
+                        <div class="ban-tit">
+                            <span>We are here to assist you.</span>
+                            <h1>Our Support</h1>
+                            <p>Most Trusted and premium Matrimony & Matchmaking Service in the World.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- END -->
+    </div>
+</section>
+<!-- END -->
 
-    <!-- START -->
-    <section>
-        <div class="ab-sec2 pg-cont">
-            <div class="container">
-                <div class="row">
-                    <ul>
-                        <li>
-                            <div class="we-cont">
-                                <img src="images/icon/buildings.png" alt="">
-                                <h4>Our office</h4>
-                                <p class="mb-2"> +91-8377053041</p>
-                                <p class="mb-2"> support@desi-rishta.com </p>
-                                <p class="mb-2"> New Delhi, India</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="we-cont">
-                                <img src="images/icon/help-desk.png" alt="">
-                                <h4>Customer Relations</h4>
-                                <p>Your inquiries are invaluable to us.</p>
-                                <?php
-                                if($userid == '')
-                                {
-                                ?>
+<!-- START -->
+<section>
+    <div class="ab-sec2 pg-cont">
+        <div class="container">
+            <div class="row">
+                <ul>
+                    <li>
+                        <div class="we-cont">
+                            <img src="images/icon/buildings.png" alt="">
+                            <h4>Our office</h4>
+                            <p class="mb-2"> +91-8377053041</p>
+                            <p class="mb-2"> support@desi-rishta.com </p>
+                            <p class="mb-2"> New Delhi, India</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="we-cont">
+                            <img src="images/icon/help-desk.png" alt="">
+                            <h4>Customer Relations</h4>
+                            <p>Your inquiries are invaluable to us.</p>
+                            <?php
+                            if ($userid == '') {
+                            ?>
                                 <a href="#support" class="cta-rou-line">Enquire Now</a>
-                                <?php
-                                }
-                                else
-                                {
-                                ?>
+                            <?php
+                            } else {
+                            ?>
                                 <a href="#support" class="cta-rou-line">Send Request Now</a>
-                                <?php
-                                }
-                                ?>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="we-cont">
-                                <img src="images/icon/telephone.png" alt="">
-                                <h4>WhatsApp Support</h4>
-                                <p>Welcome to our WhatsApp support Mon – Sat (9AM – 6PM)</p>
-                                <a href="https://wa.me/918377053041?text=Hi There,
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="we-cont">
+                            <img src="images/icon/telephone.png" alt="">
+                            <h4>WhatsApp Support</h4>
+                            <p>Welcome to our WhatsApp support Mon – Sat (9AM – 6PM)</p>
+                            <a href="https://wa.me/918377053041?text=Hi There,
 I have some queries toask.
 Thanks!
 " target="_blank" class="cta-rou-line">Chat Now</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-    </section>
-    <!-- END -->
+    </div>
+</section>
+<!-- END -->
 
-    <!-- REGISTER -->
-    <section>
-        <div class="login pg-cont" id="support">
-            <?php
-            if($userid == '')
-            {
-            ?>
+<!-- REGISTER -->
+<section>
+    <div class="login pg-cont" id="support">
+        <?php
+        if ($userid == '') {
+        ?>
             <div class="container">
                 <div class="row">
 
@@ -103,14 +99,21 @@ Thanks!
                                 </div>
                                 <div class="form-login">
                                     <form class="cform fvali" method="post" action="insert-contact.php">
-                                        <?php
-                                            if($_GET['success'] == 'yes')
-                                            {
-                                            ?>
+                                        <!-- <?php
+                                                if ($_GET['success'] == 'yes') {
+                                                ?>
                                             <p class="text-success text-center" id="invalidpop">Your message was sent successfully</p>
                                             <?php
-                                            }
-                                            ?>
+                                                }
+                                            ?> -->
+                                        <?php if (isset($_GET['success']) && $_GET['success'] == 'yes') { ?>
+                                            <script>
+                                                setTimeout(() => {
+                                                    showSuccessModal();
+                                                }, 300);
+                                            </script>
+                                        <?php } ?>
+
                                         <div class="form-group">
                                             <label class="lb">Name</label>
                                             <span class="iconbox">
@@ -143,15 +146,15 @@ Thanks!
                                             </span>
                                             <p class="text-danger errorstatement" id="messerror" style="display:none">Please Enter Message</p>
                                         </div>
-                                          <div class="terms-container">
-                                    <input type="checkbox" id="terms" name="terms" checked>
-                                    
-                                    <p>
-                                        By creating an account, I agree to the 
-                                        <a href="terms.php">T&C</a> and 
-                                        <a href="privacy.php">Privacy Policy</a>
-                                    </p>
-                                </div>
+                                        <div class="terms-container">
+                                            <input type="checkbox" id="terms" name="terms" checked>
+
+                                            <p>
+                                                By creating an account, I agree to the
+                                                <a href="terms.php">T&C</a> and
+                                                <a href="privacy.php">Privacy Policy</a>
+                                            </p>
+                                        </div>
                                         <button type="submit" id="enquirybtn" class="btn btn-primary">Send Enquiry</button>
                                     </form>
                                 </div>
@@ -160,12 +163,20 @@ Thanks!
                     </div>
 
                 </div>
+
+                <div id="successModal" class="modal">
+                    <div class="modal-content">
+                        <img src="images/thank-you-free-png.webp" alt="Congrats" style="height:200px;margin-bottom:12px;">
+                    <H2> Thank you for contacting us! </H2>
+<p>We’ve received your message successfully.<br> Our support team will review your query and get back to you shortly.<br> You will be notified via Email or WhatsApp once we respond to your message.</p>
+                        <button onclick="closeModal()" class="modal-btn">I Understands</button>
+                    </div>
+                </div>
+
             </div>
-            <?php
-            }
-            else
-            {
-            ?>
+        <?php
+        } else {
+        ?>
             <div class="container">
                 <div class="row">
 
@@ -187,14 +198,13 @@ Thanks!
                                 </div>
                                 <div class="form-login">
                                     <form class="cform fvali" method="post" action="insert-submitrequest.php">
-                                            <?php
-                                            if($_GET['success'] == 'yes')
-                                            {
-                                            ?>
+                                        <?php
+                                        if ($_GET['success'] == 'yes') {
+                                        ?>
                                             <p class="text-success text-center" id="invalidpop">Your message was sent successfully.</p>
-                                            <?php
-                                            }
-                                            ?>
+                                        <?php
+                                        }
+                                        ?>
                                         <div class="form-group">
                                             <label class="lb">Name</label>
                                             <span class="iconbox">
@@ -224,7 +234,7 @@ Thanks!
                                             </span>
                                             <p class="text-danger errorstatement" id="messerror" style="display:none">Please Enter Messagess</p>
                                         </div>
-                               
+
                                         <button type="submit" id="enquirybtn" class="btn btn-primary">Send Enquiry</button>
                                     </form>
                                 </div>
@@ -234,106 +244,145 @@ Thanks!
 
                 </div>
             </div>
-            <?php
-            }
-            ?>
-        </div>
-    </section>
-    <!-- END -->
+        <?php
+        }
+        ?>
+    </div>
+</section>
+<!-- END -->
 
 <?php
 include 'footer.php';
 ?>
 
 <script>
-$(document).ready(function(){
- $("#enquirybtn").click(function(e){ // 'e' yahaan zaroori hai
-  var name = $("#name").val();
-  var email = $("#email").val();
-  var phone = $("#phone").val();
-  var message = $("#message").val();
-    var isValid = true; // Form valid hai ya nahi, iska flag
-  
-  if(name == '')
-  {
-    $("#nameerror").show();
-        // BADLAAV YAHAN: Sirf border-bottom-color badlein
-    $("#name").css("border-bottom-color", "red"); 
-    isValid = false;
-  }
-  else
-  {
-    $("#nameerror").hide();
-  }
-  
-  if(email == '')
-  {
-    $("#emailerror").show();
-        // BADLAAV YAHAN
-    $("#email").css("border-bottom-color", "red");
-    isValid = false;
-  }
-  else
-  {
-    $("#emailerror").hide();
-  }
-  
-  if(phone == '')
-  {
-    $("#phoneerror").show();
-        // BADLAAV YAHAN
-    $("#phone").css("border-bottom-color", "red");
-    isValid = false;
-  }
-  else
-  {
-    $("#phoneerror").hide();
-  }
-  
-  if(message == '')
-  {
-    $("#messerror").show();
-        // BADLAAV YAHAN
-    $("#message").css("border-bottom-color", "red");
-    isValid = false;
-  }
-  else
-  {
-    $("#messerror").hide();
-  }
-  
-  if(isValid == false) {
-      e.preventDefault(); // Form ko submit hone se rokein
-      return false;
-  }
-  // Agar sab aacha hai, toh form submit ho jaayega
- });
- 
- // Keyup events (Jab user type karega)
- $("#name").keyup(function(){
-  $("#nameerror").hide();
-    // BADLAAV YAHAN: Border color ko normal karein
-  $("#name").css("border-bottom-color", "#626466");
- });
- $("#email").keyup(function(){
-  $("#emailerror").hide();
-    // BADLAAV YAHAN
-  $("#email").css("border-bottom-color", "#626466");
- });
- $("#phone").keyup(function(){
-  $("#phoneerror").hide();
-    // BADLAAV YAHAN
-  $("#phone").css("border-bottom-color", "#626466");
- });
- $("#message").keyup(function(){
-  $("#messerror").hide();
-    // BADLAAV YAHAN
-  $("#message").css("border-bottom-color", "#626466");
- });
+    $(document).ready(function() {
+        $("#enquirybtn").click(function(e) { // 'e' yahaan zaroori hai
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var phone = $("#phone").val();
+            var message = $("#message").val();
+            var isValid = true; // Form valid hai ya nahi, iska flag
 
-});
+            if (name == '') {
+                $("#nameerror").show();
+                // BADLAAV YAHAN: Sirf border-bottom-color badlein
+                $("#name").css("border-bottom-color", "red");
+                isValid = false;
+            } else {
+                $("#nameerror").hide();
+            }
+
+            if (email == '') {
+                $("#emailerror").show();
+                // BADLAAV YAHAN
+                $("#email").css("border-bottom-color", "red");
+                isValid = false;
+            } else {
+                $("#emailerror").hide();
+            }
+
+            if (phone == '') {
+                $("#phoneerror").show();
+                // BADLAAV YAHAN
+                $("#phone").css("border-bottom-color", "red");
+                isValid = false;
+            } else {
+                $("#phoneerror").hide();
+            }
+
+            if (message == '') {
+                $("#messerror").show();
+                // BADLAAV YAHAN
+                $("#message").css("border-bottom-color", "red");
+                isValid = false;
+            } else {
+                $("#messerror").hide();
+            }
+
+            if (isValid == false) {
+                e.preventDefault(); // Form ko submit hone se rokein
+                return false;
+            }
+            // Agar sab aacha hai, toh form submit ho jaayega
+        });
+
+        // Keyup events (Jab user type karega)
+        $("#name").keyup(function() {
+            $("#nameerror").hide();
+            // BADLAAV YAHAN: Border color ko normal karein
+            $("#name").css("border-bottom-color", "#626466");
+        });
+        $("#email").keyup(function() {
+            $("#emailerror").hide();
+            // BADLAAV YAHAN
+            $("#email").css("border-bottom-color", "#626466");
+        });
+        $("#phone").keyup(function() {
+            $("#phoneerror").hide();
+            // BADLAAV YAHAN
+            $("#phone").css("border-bottom-color", "#626466");
+        });
+        $("#message").keyup(function() {
+            $("#messerror").hide();
+            // BADLAAV YAHAN
+            $("#message").css("border-bottom-color", "#626466");
+        });
+
+    });
 </script>
+<style>
+    .modal {
+        display: none;
+        /* display: none; show the modal */
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+    }
 
+  
+
+    .modal-content {
+        background: #fff;
+        padding: 32px 24px;
+        margin: 120px auto;
+        border-radius: 12px;
+        max-width: 410px;
+        text-align: center;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal-content h2 {
+        color: #553d2b;
+        font-size: 1.5rem;
+        margin: 12px 0 16px 0;
+    }
+
+    .modal-content p {
+        color: #454545;
+        font-size: 1rem;
+        margin-bottom: 22px;
+        line-height: 1.5;
+    }
+
+    .modal-btn {
+        background: #232c3d;
+        color: #fff;
+        padding: 10px 32px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+
+    .modal-btn:hover {
+        background: #284664;
+    }
+</style>
 <!-- <script>
 $(document).ready(function(){
   $("#enquirybtn").click(function(){
@@ -412,47 +461,71 @@ $(document).ready(function(){
   }
 });
 </script> -->
-<style>.form-login .form-control {
-    border: none; /* Saare default borders hata dein */
-    border-radius: 0; /* Corners ko flat rakhein */
-    border-bottom: 2px solid maroon; /* Sirf bottom border rakhein */
-    outline: none; /* Click karne par aane waali outline hata dein */
-    box-shadow: none; /* Default shadow hata dein */
-}
+<script>
+    function showSuccessModal() {
+        document.getElementById('successModal').style.display = 'block';
+    }
+</script>
+<script> function closeModal() { document.getElementById('successModal').style.display = 'none'; } </script>
 
-/* Optional: Jab user type kar raha ho tab border ka color badalna */
-.form-login .form-control:focus {
-    border-bottom-color: maroon; /* Aap yahaan apna primary color daal sakte hain */
-    box-shadow: none;
-}</style>
+<style>
+    .form-login .form-control {
+        border: none;
+        /* Saare default borders hata dein */
+        border-radius: 0;
+        /* Corners ko flat rakhein */
+        border-bottom: 2px solid maroon;
+        /* Sirf bottom border rakhein */
+        outline: none;
+        /* Click karne par aane waali outline hata dein */
+        box-shadow: none;
+        /* Default shadow hata dein */
+    }
+
+    /* Optional: Jab user type kar raha ho tab border ka color badalna */
+    .form-login .form-control:focus {
+        border-bottom-color: maroon;
+        /* Aap yahaan apna primary color daal sakte hain */
+        box-shadow: none;
+    }
+</style>
 <style>
     .terms-container {
-        display: flex; /* Checkbox aur text ko ek line mein laata hai */
-        align-items: center; /* Unhein vertically center karta hai */
+        display: flex;
+        /* Checkbox aur text ko ek line mein laata hai */
+        align-items: center;
+        /* Unhein vertically center karta hai */
         font-family: Arial, sans-serif;
-        font-size: 16px; /* Font size aap adjust kar sakte hain */
+        font-size: 16px;
+        /* Font size aap adjust kar sakte hain */
     }
 
     /* Checkbox ko blue karne ke liye */
     .terms-container input[type="checkbox"] {
         width: 18px;
         height: 18px;
-        accent-color: #0d6efd; /* Yeh modern browsers mein checkbox ka color badalta hai */
+        accent-color: #0d6efd;
+        /* Yeh modern browsers mein checkbox ka color badalta hai */
     }
 
     .terms-container p {
-        margin-left: 8px; /* Checkbox aur text ke beech thodi space */
-        margin-bottom: 0; /* Default <p> margin hatane ke liye */
+        margin-left: 8px;
+        /* Checkbox aur text ke beech thodi space */
+        margin-bottom: 0;
+        /* Default <p> margin hatane ke liye */
     }
 
     /* Links ko red aur bold karne ke liye */
     .terms-container a {
-        color: #E60023; /* Aapka red color */
+        color: #E60023;
+        /* Aapka red color */
         font-weight: bold;
-        text-decoration: none; /* Underline hatane ke liye */
+        text-decoration: none;
+        /* Underline hatane ke liye */
     }
-    
+
     .terms-container a:hover {
-        text-decoration: underline; /* Hover par underline dikhana acha rehta hai */
+        text-decoration: underline;
+        /* Hover par underline dikhana acha rehta hai */
     }
 </style>

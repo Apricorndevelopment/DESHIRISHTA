@@ -57,6 +57,14 @@ include 'config.php';
                             <?php
                             }
                             ?>
+                            <?php
+                            if($_GET['idstatus'] == 'yes')
+                            {
+                            ?>
+                                <p class="text-center text-info">ID Verification Status Updated Successfully</p>
+                            <?php
+                            }
+                            ?>
                             <div class="table-responsive col-md-12">
                                 <table class="table table-striped file-export" id="dt"> 
                                     <thead>
@@ -67,9 +75,12 @@ include 'config.php';
                                             <th>Phone & Email</th>
                                             <th>Join Date</th>
                                             <th>Profile Status</th>
+                                            <th>ID Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
+                                  
+
                                     <tbody>
                                         <?php
                                         $i = 1;
@@ -83,33 +94,84 @@ include 'config.php';
                                             <td><?php echo $row['userid']; ?></td>
                                             <td><?php echo $row['name']; ?></td>
                                             <td><?php echo $row['phone'].'<br>'.$row['email']; ?></td>
+                                            
+                                            <!-- SWAPPED COLUMN 1: Join Date -->
+                                            <td><?php echo date('d M Y', strtotime($row['entrydate'])); ?></td>
+                                       
+                                            <!-- SWAPPED COLUMN 2: Profile Status -->
                                             <td>
                                                 <?php 
                                                 if($row['profilestatus'] == '0')
                                                 {
                                                     echo "<span class='text-danger'>Pending</span>";
                                                 }
-                                                else
+                                                elseif($row['profilestatus'] == '1')
                                                 {
                                                     echo "<span class='text-success'>Approved</span>";
                                                 }
+                                                elseif($row['profilestatus'] == '2')
+                                                {
+                                                    echo "<span class='text-warning'>Deactivated</span>"; 
+                                                }
+                                                elseif($row['profilestatus'] == '3')
+                                                {
+                                                    echo "<span class='text-dark'>Deleted</span>"; 
+                                                }
                                                 ?>
                                             </td>
-                                            <td><?php echo date('d M Y', strtotime($row['entrydate'])); ?></td>
+                                                   <td>
+                                                <?php
+                                                if($row['verificationinfo'] == '1')
+                                                {
+                                                    echo "<span class='text-primary'>Verified</span>";
+                                                }
+                                                else
+                                                {
+                                                    echo "<span class='text-muted'>Not Verified</span>";
+                                                }
+                                                ?>
+                                            </td>
+                                            <!-- COLUMN 3: Actions -->
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                                                         Action
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item text-success" href="userprofile-view.php?uid=<?php echo $row['userid']; ?>">
+                                                        <!-- View Profile Link -->
+                                                        <a class="dropdown-item" href="userprofile-view.php?uid=<?php echo $row['userid']; ?>">
                                                             <i data-feather="eye" class="mr-50"></i>
-                                                            <span>View</span>
+                                                            <span>View Profile</span>
                                                         </a>
+                                                        
+                                                        <!-- Approve Profile Link -->
+                                                        <?php if($row['profilestatus'] != '1'): ?>
+                                                        <a class="dropdown-item text-success" href="userprofile-update.php?uid=<?php echo $row['userid']; ?>&status=1">
+                                                            <i data-feather="check-circle" class="mr-50"></i>
+                                                            <span>Approve Profile</span>
+                                                        </a>
+                                                        <?php endif; ?>
+                                                        
+                                                        <!-- Approve ID Link (Assumes you will create this page) -->
+                                                        <a class="dropdown-item text-info" href="userprofile-approve-id.php?uid=<?php echo $row['userid']; ?>">
+                                                            <i data-feather="shield" class="mr-50"></i>
+                                                            <span>Approve ID</span>
+                                                        </a>
+
+                                                        <!-- Deactivate Link -->
+                                                        <?php if($row['profilestatus'] != '2'): ?>
+                                                        <a class="dropdown-item text-warning" href="userprofile-update.php?uid=<?php echo $row['userid']; ?>&status=2">
+                                                            <i data-feather="user-x" class="mr-50"></i>
+                                                            <span>Deactivate</span>
+                                                        </a>
+                                                        <?php endif; ?>
+
+                                                        <!-- Delete Link -->
                                                         <a class="dropdown-item text-danger" href="userprofile-delete.php?uid=<?php echo $row['userid']; ?>">
                                                             <i data-feather="trash" class="mr-50"></i>
                                                             <span>Delete</span>
                                                         </a>
+
                                                     </div>
                                                 </div>
                                             </td>

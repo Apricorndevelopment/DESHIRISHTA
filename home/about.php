@@ -175,6 +175,8 @@ $team_result = mysqli_query($con, $team_sql);
                 </div>
                 <div class="wedd-shap">
                     <span class="abo-shap-1"></span>
+                     <span class="abo-shap-2"></span>
+                      <span class="abo-shap-4"></span>
                     <span class="abo-shap-3"></span>
                 </div>
 

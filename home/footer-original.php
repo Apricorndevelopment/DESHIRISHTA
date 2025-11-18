@@ -1,215 +1,3 @@
-<?php 
-
-include "header.php";
-include "config.php";
-$sql_testimonials = "SELECT * FROM tbl_testimonials WHERE status = 'Active' ORDER BY date_added DESC";
-$result_testimonials = mysqli_query($con, $sql_testimonials);
-?>
-    <!-- END MOBILE MENU POPUP -->    <!-- START -->
-
-    <style>
-        
-    </style>
-
-
-<section>
-        <div class="wedd pg-wedd-vid m-tp">
-            <div class="container">
-                <div class="row">
-                    <div class="ban-wedd">
-                        <!-- <h2>Michael <span>& Jessica</span></h2>
-                        <p>Lakhs of peoples have found their life partner with Desi Rishta!</p> -->
-                        <!--<a href="make-reservation.html" class="cta-dark">Make reservation</a>-->
-                        <div class="wedd-info">
-                            <!-- <ul>
-                                <li><i class="fa fa-calendar-o" aria-hidden="true"></i><span>12 June | 9:00 AM</span>
-                                </li>
-                                <li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="#!">Direction</a></li>
-                            </ul> -->
-                        </div>
-                        <div class="wedd-vid">
-                            <!-- <img src="images/couples/20.jpg" alt="">
-                            <iframe src="https://www.youtube.com/embed/P9iKATG9BW4" title="Wedding marriage: Wedding marriage"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                            <span class="vid-play" data-video="https://www.youtube.com/embed/P9iKATG9BW4?autoplay=1"><i
-                                    class="fa fa-play" aria-hidden="true"></i></span> -->
-       <div class="hom-partners abo-partners" id="testimonials">
-        <div class="container">
-            <div class="row">
-                <div class="sub-tit-caps">
-                    <h2>Customer <span class="animate animate__animated" data-ani="animate__flipInX" data-dely="0.1">Testimonials</span></h2>
-                    <p>What our clients say about us</p>
-                </div>
-                <div class="wedd-shap">
-                    <span class="abo-shap-1"></span>
-                     <span class="abo-shap-2"></span>
-                      <span class="abo-shap-4"></span>
-                    <span class="abo-shap-3"></span>
-                </div>
-
-                <div class="cus-revi">
-                    <ul class="testimonial-slider">
-                        
-                        <?php
-                        // Check karein ki testimonials hain ya nahi
-                        if ($result_testimonials && mysqli_num_rows($result_testimonials) > 0) {
-                            while ($testimonial = mysqli_fetch_assoc($result_testimonials)) {
-                        ?>
-
-                        <li>
-                            <div class="ab-testmo">
-                                <div class="ab-test-rat" style="height:300px; width: 350px; overflow: hidden; background-color: #FFE6DF; color:#E74974;">
-                                    <div class="ab-test-star">
-                                        <?php
-                                        // Rating ke liye stars ka loop
-                                        for ($i = 1; $i <= 5; $i++) {
-                                            if ($i <= $testimonial['rating']) {
-                                                echo '<i class="fa fa-star" aria-hidden="true"></i>';
-                                            } else {
-                                                echo '<i class="fa fa-star-o" aria-hidden="true"></i>'; // Khali star
-                                            }
-                                        }
-                                        ?>
-                                        </div>
-                                    <div class="ab-test-conte">
-                                        <p><?php echo htmlspecialchars($testimonial['content']); ?></p>
-                                    </div>
-                                </div>
-                                <div class="ab-rat-user">
-                                    <img src="images/profiles/<?php echo htmlspecialchars($testimonial['user_image']); ?>" alt="User" style="height: 50px ; width: 50px; border-radius: 50px; border:none;">
-                                    <div>
-                                        <h4><?php echo htmlspecialchars($testimonial['user_name']); ?></h4>
-                                        <span><?php echo htmlspecialchars($testimonial['user_designation']); ?></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <?php
-                            } // while loop yahan khatm
-                        } else {
-                            // Agar DB mein koi testimonial nahi hai
-                            // echo "<li><div class='ab-testmo'><p>No testimonials to display yet.</p></div></li>";
-                        }
-                        ?>
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-                        </div>
-                        <div class="wedd-vid-tree">
-                            <span class="wedd-vid-tre-1"></span>
-                            <span class="wedd-vid-tre-2"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</section>
-    <!-- END -->
-
-    <!-- START -->
-    <section>
-        <div class="wedd-dat wedd-vid-dat wedd-gall wedd-vid-gall">
-            <div class="">
-                <div class="gall-inn">
-                    <div class="home-tit">
-                        <p>collections</p>
-                        <h2><span>Photo gallery</span></h2>
-                        <span class="leaf1"></span>
-                        <span class="tit-ani-"></span>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="gal-im animate animate__animated animate__slow" data-ani="animate__flipInX">
-                            <img src="images/gallery/1.jpg" class="gal-siz-1" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/gallery/9.jpg" class="gal-siz-2" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/gallery/3.jpg" class="gal-siz-2" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/gallery/4.jpg" class="gal-siz-1" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/gallery/5.jpg" class="gal-siz-1" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/gallery/6.jpg" class="gal-siz-2" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/gallery/7.jpg" class="gal-siz-2" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/gallery/8.jpg" class="gal-siz-1" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/couples/9.jpg" class="gal-siz-2" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
-                            <img src="images/couples/11.jpg" class="gal-siz-1" alt="">
-                            <div class="txt">
-                                <span>Wedding</span>
-                                <h4>Bride & Groom</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- END -->
-
-
     <!-- FOOTER -->
     <section class="wed-hom-footer">
         <div class="container">
@@ -218,11 +6,15 @@ $result_testimonials = mysqli_query($con, $sql_testimonials);
                     <h4>Get In Touch</h4>
                     <p>Location: New Delhi, India</p>
                     <p>Phone: <a href="tel:+918377053041">+91-8377053041</a></p>
-                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com</a></p>
+                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com.</a></p>
                 </div>
                 <div class="col-md-4">
                     <h4>HELP &amp; SUPPORT</h4>
-                                        <ul>
+                    <?php
+                    if($useractive == '0')
+                    {
+                    ?>
+                    <ul>
                         <li><a href="contact.php">Contact us</a>
                         </li>
                         <li><a href="contact.php?#support">Business Enquiries</a>
@@ -231,16 +23,36 @@ $result_testimonials = mysqli_query($con, $sql_testimonials);
                         </li>
                         <li><a href="faq.php">FAQ's</a>
                         </li>
-                        <li><a href="faqterms.php">Terms and Conditions</a>
+                           <li><a href="faqterms.php">Terms and Conditions </a>
                         </li>
-                        <li><a href="faqprivacy.php">Privacy policy </a>
+                         <li><a href="faqprivacy.php">Privacy policy</a>
                         </li>
-                        <li><a href="faqcookies.php">Cookies policy  </a>
+                         <li><a href="faqcookies.php"> Cookies policy </a>
                         </li>
                         <li><a href="faqgravience.php">Graviences</a>
                         </li>
                     </ul>
-                                    </div>
+                    <?php
+                    }
+                    else
+                    {
+                    ?>
+                    <ul>
+                        <li><a href="contact.php">Contact us</a>
+                        </li>
+                        <li><a href="submitrequest.php">Submit A Request</a>
+                        </li>
+                        <li><a href="https://wa.me/918377053041?text=Hello i am having some queries" target="_blank">Chat Support</a>
+                        </li>
+                        <li><a href="faq.php">FAQ's</a>
+                        </li>
+                     
+                       
+                    </ul>
+                    <?php
+                    }
+                    ?>
+                </div>
                 <div class="col-md-4 fot-soc">
                     <h4>SOCIAL MEDIA</h4>
                     <ul>
@@ -255,8 +67,18 @@ $result_testimonials = mysqli_query($con, $sql_testimonials);
             <div class="row foot-count">
                 <!--<p>Desi Rishta - Trusted by over thousands of Boys & Girls for successfull marriage.</p>-->
                 <p>This website is strictly for matrimonial purpose only and not a dating website</p>
-                                <p><a href="sign-up.php" class="btn btn-primary btn-sm">Join us today !</a></p>
-                            </div>
+                <?php
+                // if($_COOKIE['dr_userid'] == '')
+
+if($useractive == '0') 
+
+                {
+                ?>
+                <p><a href="sign-up.php" class="btn btn-primary btn-sm">Join us today !</a></p>
+                <?php
+                }
+                ?>
+            </div>
         </div>
     </section>
     <!-- END -->
@@ -266,7 +88,7 @@ $result_testimonials = mysqli_query($con, $sql_testimonials);
         <div class="cr">
             <div class="container">
                 <div class="row">
-                    <p class="pb-0">Copyright © <span>2025</span> <a href="#!" target="_blank">Desi-Rishta.com</a> All
+                    <p class="pb-0">Copyright © <span><?php echo date('Y'); ?></span> <a href="#!" target="_blank">Desi-Rishta.com</a> All
                         rights reserved.</p>
                     <p class="pt-0">Crafted with
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart text-danger"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" style="color:rgb(200, 4, 108);"></path></svg> in Gurugram, India</p>
@@ -279,7 +101,7 @@ $result_testimonials = mysqli_query($con, $sql_testimonials);
     <!-- link copy-->
     <div class="container copybox" style="display:none">
         <div class="alert alert-success">
-            <strong>Link Copied!</strong>.
+            <strong>Copied!</strong> link has been copied.
         </div>
     </div>
     <!-- link copy-->
@@ -781,7 +603,25 @@ var xValues = "0";
     });
     </script>
     
-        
+    <?php
+    if(isset($_GET['tab']) && $_GET['tab'] != '')
+    // if($_GET['tab'] != '')
+    {
+    ?>
+    <script>
+        $(document).ready(function() {
+            $(".profiletabs li a").removeClass("active"); 
+            $(".tab-content .tab-pane").removeClass("active");
+            $("#<?php echo $_GET['tab']; ?>").addClass("active"); 
+            $("#<?php echo $_GET['tab'].'tab'; ?>").addClass("active"); 
+            $("#<?php echo $_GET['tab'].'tab'; ?>").addClass("show"); 
+            $("#<?php echo $_GET['tab'].'tab'; ?>").removeClass("fade");
+        });
+    </script>
+    <?php
+    }
+    ?>
+    
     <script>
         $(document).ready(function(){
             //setup before functions
@@ -838,257 +678,19 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
-      $(".collapse1").click(function(){
-    $("#collapse1").toggle();
-    $(".collapse1").toggleClass("collapse");
-    $(".collapse1").toggleClass("collapsed");
+    <?php
+    for($i=1; $i<=50; $i++)
+    {
+    ?>
+  $(".collapse<?php echo $i; ?>").click(function(){
+    $("#collapse<?php echo $i; ?>").toggle();
+    $(".collapse<?php echo $i; ?>").toggleClass("collapse");
+    $(".collapse<?php echo $i; ?>").toggleClass("collapsed");
   });
-    $(".collapse2").click(function(){
-    $("#collapse2").toggle();
-    $(".collapse2").toggleClass("collapse");
-    $(".collapse2").toggleClass("collapsed");
-  });
-    $(".collapse3").click(function(){
-    $("#collapse3").toggle();
-    $(".collapse3").toggleClass("collapse");
-    $(".collapse3").toggleClass("collapsed");
-  });
-    $(".collapse4").click(function(){
-    $("#collapse4").toggle();
-    $(".collapse4").toggleClass("collapse");
-    $(".collapse4").toggleClass("collapsed");
-  });
-    $(".collapse5").click(function(){
-    $("#collapse5").toggle();
-    $(".collapse5").toggleClass("collapse");
-    $(".collapse5").toggleClass("collapsed");
-  });
-    $(".collapse6").click(function(){
-    $("#collapse6").toggle();
-    $(".collapse6").toggleClass("collapse");
-    $(".collapse6").toggleClass("collapsed");
-  });
-    $(".collapse7").click(function(){
-    $("#collapse7").toggle();
-    $(".collapse7").toggleClass("collapse");
-    $(".collapse7").toggleClass("collapsed");
-  });
-    $(".collapse8").click(function(){
-    $("#collapse8").toggle();
-    $(".collapse8").toggleClass("collapse");
-    $(".collapse8").toggleClass("collapsed");
-  });
-    $(".collapse9").click(function(){
-    $("#collapse9").toggle();
-    $(".collapse9").toggleClass("collapse");
-    $(".collapse9").toggleClass("collapsed");
-  });
-    $(".collapse10").click(function(){
-    $("#collapse10").toggle();
-    $(".collapse10").toggleClass("collapse");
-    $(".collapse10").toggleClass("collapsed");
-  });
-    $(".collapse11").click(function(){
-    $("#collapse11").toggle();
-    $(".collapse11").toggleClass("collapse");
-    $(".collapse11").toggleClass("collapsed");
-  });
-    $(".collapse12").click(function(){
-    $("#collapse12").toggle();
-    $(".collapse12").toggleClass("collapse");
-    $(".collapse12").toggleClass("collapsed");
-  });
-    $(".collapse13").click(function(){
-    $("#collapse13").toggle();
-    $(".collapse13").toggleClass("collapse");
-    $(".collapse13").toggleClass("collapsed");
-  });
-    $(".collapse14").click(function(){
-    $("#collapse14").toggle();
-    $(".collapse14").toggleClass("collapse");
-    $(".collapse14").toggleClass("collapsed");
-  });
-    $(".collapse15").click(function(){
-    $("#collapse15").toggle();
-    $(".collapse15").toggleClass("collapse");
-    $(".collapse15").toggleClass("collapsed");
-  });
-    $(".collapse16").click(function(){
-    $("#collapse16").toggle();
-    $(".collapse16").toggleClass("collapse");
-    $(".collapse16").toggleClass("collapsed");
-  });
-    $(".collapse17").click(function(){
-    $("#collapse17").toggle();
-    $(".collapse17").toggleClass("collapse");
-    $(".collapse17").toggleClass("collapsed");
-  });
-    $(".collapse18").click(function(){
-    $("#collapse18").toggle();
-    $(".collapse18").toggleClass("collapse");
-    $(".collapse18").toggleClass("collapsed");
-  });
-    $(".collapse19").click(function(){
-    $("#collapse19").toggle();
-    $(".collapse19").toggleClass("collapse");
-    $(".collapse19").toggleClass("collapsed");
-  });
-    $(".collapse20").click(function(){
-    $("#collapse20").toggle();
-    $(".collapse20").toggleClass("collapse");
-    $(".collapse20").toggleClass("collapsed");
-  });
-    $(".collapse21").click(function(){
-    $("#collapse21").toggle();
-    $(".collapse21").toggleClass("collapse");
-    $(".collapse21").toggleClass("collapsed");
-  });
-    $(".collapse22").click(function(){
-    $("#collapse22").toggle();
-    $(".collapse22").toggleClass("collapse");
-    $(".collapse22").toggleClass("collapsed");
-  });
-    $(".collapse23").click(function(){
-    $("#collapse23").toggle();
-    $(".collapse23").toggleClass("collapse");
-    $(".collapse23").toggleClass("collapsed");
-  });
-    $(".collapse24").click(function(){
-    $("#collapse24").toggle();
-    $(".collapse24").toggleClass("collapse");
-    $(".collapse24").toggleClass("collapsed");
-  });
-    $(".collapse25").click(function(){
-    $("#collapse25").toggle();
-    $(".collapse25").toggleClass("collapse");
-    $(".collapse25").toggleClass("collapsed");
-  });
-    $(".collapse26").click(function(){
-    $("#collapse26").toggle();
-    $(".collapse26").toggleClass("collapse");
-    $(".collapse26").toggleClass("collapsed");
-  });
-    $(".collapse27").click(function(){
-    $("#collapse27").toggle();
-    $(".collapse27").toggleClass("collapse");
-    $(".collapse27").toggleClass("collapsed");
-  });
-    $(".collapse28").click(function(){
-    $("#collapse28").toggle();
-    $(".collapse28").toggleClass("collapse");
-    $(".collapse28").toggleClass("collapsed");
-  });
-    $(".collapse29").click(function(){
-    $("#collapse29").toggle();
-    $(".collapse29").toggleClass("collapse");
-    $(".collapse29").toggleClass("collapsed");
-  });
-    $(".collapse30").click(function(){
-    $("#collapse30").toggle();
-    $(".collapse30").toggleClass("collapse");
-    $(".collapse30").toggleClass("collapsed");
-  });
-    $(".collapse31").click(function(){
-    $("#collapse31").toggle();
-    $(".collapse31").toggleClass("collapse");
-    $(".collapse31").toggleClass("collapsed");
-  });
-    $(".collapse32").click(function(){
-    $("#collapse32").toggle();
-    $(".collapse32").toggleClass("collapse");
-    $(".collapse32").toggleClass("collapsed");
-  });
-    $(".collapse33").click(function(){
-    $("#collapse33").toggle();
-    $(".collapse33").toggleClass("collapse");
-    $(".collapse33").toggleClass("collapsed");
-  });
-    $(".collapse34").click(function(){
-    $("#collapse34").toggle();
-    $(".collapse34").toggleClass("collapse");
-    $(".collapse34").toggleClass("collapsed");
-  });
-    $(".collapse35").click(function(){
-    $("#collapse35").toggle();
-    $(".collapse35").toggleClass("collapse");
-    $(".collapse35").toggleClass("collapsed");
-  });
-    $(".collapse36").click(function(){
-    $("#collapse36").toggle();
-    $(".collapse36").toggleClass("collapse");
-    $(".collapse36").toggleClass("collapsed");
-  });
-    $(".collapse37").click(function(){
-    $("#collapse37").toggle();
-    $(".collapse37").toggleClass("collapse");
-    $(".collapse37").toggleClass("collapsed");
-  });
-    $(".collapse38").click(function(){
-    $("#collapse38").toggle();
-    $(".collapse38").toggleClass("collapse");
-    $(".collapse38").toggleClass("collapsed");
-  });
-    $(".collapse39").click(function(){
-    $("#collapse39").toggle();
-    $(".collapse39").toggleClass("collapse");
-    $(".collapse39").toggleClass("collapsed");
-  });
-    $(".collapse40").click(function(){
-    $("#collapse40").toggle();
-    $(".collapse40").toggleClass("collapse");
-    $(".collapse40").toggleClass("collapsed");
-  });
-    $(".collapse41").click(function(){
-    $("#collapse41").toggle();
-    $(".collapse41").toggleClass("collapse");
-    $(".collapse41").toggleClass("collapsed");
-  });
-    $(".collapse42").click(function(){
-    $("#collapse42").toggle();
-    $(".collapse42").toggleClass("collapse");
-    $(".collapse42").toggleClass("collapsed");
-  });
-    $(".collapse43").click(function(){
-    $("#collapse43").toggle();
-    $(".collapse43").toggleClass("collapse");
-    $(".collapse43").toggleClass("collapsed");
-  });
-    $(".collapse44").click(function(){
-    $("#collapse44").toggle();
-    $(".collapse44").toggleClass("collapse");
-    $(".collapse44").toggleClass("collapsed");
-  });
-    $(".collapse45").click(function(){
-    $("#collapse45").toggle();
-    $(".collapse45").toggleClass("collapse");
-    $(".collapse45").toggleClass("collapsed");
-  });
-    $(".collapse46").click(function(){
-    $("#collapse46").toggle();
-    $(".collapse46").toggleClass("collapse");
-    $(".collapse46").toggleClass("collapsed");
-  });
-    $(".collapse47").click(function(){
-    $("#collapse47").toggle();
-    $(".collapse47").toggleClass("collapse");
-    $(".collapse47").toggleClass("collapsed");
-  });
-    $(".collapse48").click(function(){
-    $("#collapse48").toggle();
-    $(".collapse48").toggleClass("collapse");
-    $(".collapse48").toggleClass("collapsed");
-  });
-    $(".collapse49").click(function(){
-    $("#collapse49").toggle();
-    $(".collapse49").toggleClass("collapse");
-    $(".collapse49").toggleClass("collapsed");
-  });
-    $(".collapse50").click(function(){
-    $("#collapse50").toggle();
-    $(".collapse50").toggleClass("collapse");
-    $(".collapse50").toggleClass("collapsed");
-  });
-  });
+  <?php
+    }
+  ?>
+});
 </script>
 
 <script>
@@ -1202,5 +804,32 @@ $(document).ready(function(){
     });
 </script>
 
+<script>
+$(document).ready(function () {
+   
+    $("#banner-search-form").submit(function (event) {
+        
+        // Saari values check karein
+        var lookingFor = $('#looking_for').val();
+        var ageFrom = $('#age_from').val();
+        var ageTo = $('#age_to').val();
+        var religion = $('#religion').val();
+        var city = $('#city').val();
+
+        
+        if (lookingFor === "" && ageFrom === "" && ageTo === "" && religion === "" && city === "") {
+            
+          
+            event.preventDefault(); 
+            
+          
+            $("#search-alert").show();
+        } else {
+           
+            $("#search-alert").hide();
+        }
+    });
+});
+</script>
 </body>
 </html>

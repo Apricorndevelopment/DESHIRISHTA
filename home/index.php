@@ -333,6 +333,56 @@ $team_result = mysqli_query($con, $team_sql);
         </div>
     </div>
 </section>
+
+<!-- Cookie Policy Popup -->
+<div id="cookie-popup" style="
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #b16421ff;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0, 0.15);
+    padding: 28px 32px;
+    color: #fff;
+    max-width: 360px;
+    z-index: 2000;
+    left: 25px;
+    font-family: Arial, sans-serif;
+">
+    <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">We value your privacy</div>
+    <div style="font-size: 15px; margin-bottom: 24px;">
+        We use cookies and tracking technologies to enhance your browsing experience, deliver personalized ads, and analyse traffic.
+        By clicking "Accept all cookies", you consent to our use of cookies.
+        For more details, visit our <a href="cookie-policy.html" style="color: #fff; text-decoration:underline;" target="_blank">Cookie Policy</a>.
+    </div>
+    <div style="display: flex; gap: 14px;">
+        <button id="accept-cookies" style="background:#fff;color:#985b24;border:none;padding:10px 21px;border-radius:8px;font-weight:bold;cursor:pointer;transition:background 0.2s;">
+            Accept all
+        </button>
+        <button id="reject-cookies" style="background:transparent;color:#fff;border:1px solid #fff;padding:10px 21px;border-radius:8px;font-weight:bold;cursor:pointer;transition:background 0.2s;">
+            Reject all
+        </button>
+    </div>
+</div>
+<script>
+    // Show the popup only if not yet chosen
+    if (!localStorage.getItem("cookiesChoice")) {
+        document.getElementById('cookie-popup').style.display = 'flex';
+    } else {
+        document.getElementById('cookie-popup').style.display = 'none';
+    }
+    document.getElementById('accept-cookies').onclick = function() {
+        localStorage.setItem("cookiesChoice", "accepted");
+        document.getElementById('cookie-popup').style.display = 'none';
+    };
+    document.getElementById('reject-cookies').onclick = function() {
+        localStorage.setItem("cookiesChoice", "rejected");
+        document.getElementById('cookie-popup').style.display = 'none';
+    };
+</script>
+
 <style> 
 .ab-cont ul li .ab-cont-po div span {
     text-transform: uppercase;

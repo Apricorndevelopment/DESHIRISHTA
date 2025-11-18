@@ -1,6 +1,84 @@
 <?php
 include 'header.php';
 ?>
+
+     <style>
+        /* FORM INPUTS (INPUT + TEXTAREA + SELECT) */
+.form-login .form-control,
+.form-login select.form-select,
+.form-login textarea.form-control {
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 2px solid maroon !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* FOCUS EFFECT */
+.form-login .form-control:focus,
+.form-login select.form-select:focus,
+.form-login textarea.form-control:focus {
+    border-bottom-color: maroon !important;
+    box-shadow: none !important;
+}
+
+/* ICONBOX */
+.iconbox {
+    position: relative;
+}
+
+.iconbox .icon,
+.iconbox .iconright {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: maroon;
+}
+
+/* Left padding for inputs */
+.leftspace {
+    padding-left: 50px !important;
+}
+
+/* Right-side icon */
+.iconright {
+    right: 10px;
+}
+
+/* SELECT DROPDOWN DESIGN */
+/* FIX SELECT DESIGN FULLY */
+.form-login select.form-select {
+    border: none !important;
+    border-bottom: 2px solid maroon !important;
+    border-radius: 0 !important;
+
+    background-color: transparent !important;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='maroon' height='24' width='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") !important;
+
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 18px !important;
+
+    height: 45px !important;
+    padding-left: 50px !important; /* because of left icon */
+    padding-right: 35px !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Focus */
+.form-login select.form-select:focus {
+    border-bottom-color: maroon !important;
+    box-shadow: none !important;
+}
+
+    </style> 
     <!-- LOGIN -->
     <section>
         <div class="login">

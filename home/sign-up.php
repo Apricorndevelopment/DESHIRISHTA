@@ -2,7 +2,54 @@
 include 'header.php';
 ?>
 
-    <!-- REGISTER -->
+  <style>
+        /* FORM INPUTS (INPUT + TEXTAREA + SELECT) */
+.form-login .form-control,
+.form-login select.form-select,
+.form-login textarea.form-control {
+    border: none !important;
+    border-radius: 0 !important;
+    border-bottom: 2px solid maroon !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+/* FOCUS EFFECT */
+.form-login .form-control:focus,
+.form-login select.form-select:focus,
+.form-login textarea.form-control:focus {
+    border-bottom-color: maroon !important;
+    box-shadow: none !important;
+}
+
+/* ICONBOX */
+.iconbox {
+    position: relative;
+}
+
+.iconbox .icon,
+.iconbox .iconright {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: maroon;
+}
+
+/* Left padding for inputs */
+.leftspace {
+    padding-left: 50px !important;
+}
+
+/* Right-side icon */
+.iconright {
+    right: 10px;
+}
+
+
+
+    </style> 
+
     <section>
         <div class="login">
             <div class="container">
@@ -73,7 +120,7 @@ include 'header.php';
                                                     <input class="form-check-input" type="checkbox" name="agree" value="yes" checked> By creating an account, I agree to the <a href="/desirishta/faqterms.php" class="faqlink-text pink"><b>T&C</b></a> and <a href="/desirishta/faqprivacy.php" class="faqlink-text pink"><b>Privacy Policy</b></a>
                                                 </label>
                                             </div>
-                                            <button type="button" id="mobileverifybtn" class="btn btn-primary">Register Free &nbsp;<i class="fa fa-arrow-right"></i></button>
+                                            <button type="button" id="mobileverifybtn" class="btn btn-primary" style="">Register Free &nbsp;<i class="fa fa-arrow-right"></i></button>
                                             <div class="form-tit" style="border:0px">
                                             <p class="text-center mt-5">Already have an account? <a href="login.php" class="linkbold pink">Sign In</a></p>
                                             </div>
@@ -2245,3 +2292,4 @@ $('#profilepicback').click(function() {
         
     });
 </script>
+

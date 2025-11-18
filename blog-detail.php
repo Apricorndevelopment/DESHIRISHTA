@@ -85,7 +85,7 @@ $rowblog = mysqli_fetch_assoc($resultblog)
                             <!--END BIG POST START-->
 
                             <!--START-->
-                            <div class="blog-nav">
+                            <!-- <div class="blog-nav">
                                 <div class="com lhs">
                                     <?php
                                     $sqlprevious = "select * from blogs where id < '$tableid' order by id desc limit 1";
@@ -124,8 +124,122 @@ $rowblog = mysqli_fetch_assoc($resultblog)
                                     }
                                     ?>
                                 </div>
-                            </div>
+                            </div> -->
                             <!--END-->
+                            <div class="blog-nav-new">
+    
+    <!-- PREVIOUS -->
+    <div class="nav-box">
+        <?php if($previousid != '') { ?>
+            <a href="blog-detail.php?url=<?php echo $rowprevious['url'].'_'.$rowprevious['id']; ?>" class="nav-link left">
+                <i class="fa fa-long-arrow-left"></i>
+                <span>Previous Post</span>
+            </a>
+        <?php } else { ?>
+            <div class="nav-link disabled">
+                <i class="fa fa-long-arrow-left"></i>
+                <span>No Previous Post</span>
+            </div>
+        <?php } ?>
+    </div>
+
+    <!-- NEXT -->
+    <div class="nav-box">
+        <?php if($nextid != '') { ?>
+            <a href="blog-detail.php?url=<?php echo $rownext['url'].'_'.$rownext['id']; ?>" class="nav-link right">
+                <span>Next Post</span>
+                <i class="fa fa-long-arrow-right"></i>
+            </a>
+        <?php } else { ?>
+            <div class="nav-link disabled">
+                <span>No Next Post</span>
+                <i class="fa fa-long-arrow-right"></i>
+            </div>
+        <?php } ?>
+    </div>
+
+</div>
+<style>
+    /* MAIN CONTAINER */
+.blog-nav-new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin: 40px 0;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    /* background: #fafafa; */
+}
+
+/* BOX */
+.blog-nav-new .nav-box {
+    flex: 1;
+}
+
+/* LINKS */
+.blog-nav-new .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #702525ff; /* premium maroon shade */
+    padding: 12px 18px;
+    border-radius: 8px;
+    /* background: #fff; */
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.05); */
+    transition: 0.3s;
+    justify-content: center;
+    text-decoration: none;
+}
+
+/* LEFT ARROW LEFT SIDE */
+.blog-nav-new .left i {
+    margin-right: 8px;
+}
+
+/* RIGHT ARROW RIGHT SIDE */
+.blog-nav-new .right i {
+    margin-left: 8px;
+}
+.blog-nav-new .right i:hover{
+  color:black;
+}
+
+/* HOVER EFFECT */
+.blog-nav-new .nav-link:hover {
+    /* background: maroon; */
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+/* DISABLED STATE */
+.blog-nav-new .disabled {
+    /* background: #eaeaea; */
+    color: #777;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    .blog-nav-new {
+        flex-direction: row;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .blog-nav-new .nav-link {
+        width: 100%;
+        justify-content: center;
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+</style>
 
                         </div>
                       <div class="rhs">

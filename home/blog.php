@@ -2,6 +2,8 @@
 include 'header.php';
 include 'config.php';
 
+
+
 $page = $_GET['page'];
 
 if($page == '')
@@ -15,7 +17,10 @@ else
 
 $lower_limit = $lower_page * 3;
 ?>
-
+<head>
+     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
     <!-- START -->
     <section>
         <div class="inn-ban">
@@ -46,28 +51,42 @@ $lower_limit = $lower_page * 3;
                             {
                             ?>
                             <!--BIG POST START-->
-                            <div class="blog-home-box w-30">
-                                <div class="im">
-                                    <img src="controller/blogimages/<?php echo $rowblog['blogimages']; ?>" alt="" loading="lazy">
-                                    <span class="blog-date"><?php echo date('d, M Y', strtotime($rowblog['postdate'])); ?></span>
-                                    <input type="text" name="bloglink" value="https://myptetest.com/desirishta/blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id']?>" id="myInput<?php echo $rowblog['id']; ?>" style="display:none">
-                                    <div class="shar-1">
-                                        <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                        <ul>
-                                            <li><a href="https://api.whatsapp.com/send?text=https://myptetest.com/desirishta/blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id']?>" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                                            <li><span><i class="fa fa-link" aria-hidden="true" onclick="myFunction<?php echo $rowblog['id']; ?>()"></i></span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="txt">
-                                    <span class="blog-cate"><?php echo $rowblog['category']; ?></span>
-                                    <h2 class="text-justify"><?php echo $rowblog['heading']; ?></h2>
-                                    <p class="text-justify"><?php echo $rowblog['shortcontent']; ?></p>
-                                    <a href="blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id'];?>" class="fclick"></a>
-                                </div>
-                                
-                            </div>
-                            <!--END BIG POST START-->
+                           
+<!--BIG POST START-->
+<div class="blog-home-box w-30">
+    <div class="im">
+        <img src="controller/blogimages/<?php echo $rowblog['blogimages']; ?>" alt="" loading="lazy" style="height:400px; width:100%; object-fit:cover;">
+        <span class="blog-date"><?php echo date('d, M Y', strtotime($rowblog['postdate'])); ?></span>
+        <input type="text" name="bloglink" value="https://myptetest.com/desirishta/blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id']?>" id="myInput<?php echo $rowblog['id']; ?>" style="display:none">
+        <div class="shar-1">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+           <ul>
+    <li><a href="https://api.whatsapp.com/send?text=<?= $link ?>" target="_blank"><i class="fa-brands fa-whatsapp"></i></a></li>
+    <li><a href="https://www.facebook.com/sharer/sharer.php?u=<?= $link ?>" target="_blank"><i class="fa-brands fa-facebook"></i></a></li>
+    <li><a href="https://www.instagram.com/?url=<?= $link ?>" target="_blank"><i class="fa-brands fa-instagram"></i></a></li>
+    <li><a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= $link ?>" target="_blank"><i class="fa-brands fa-linkedin"></i></a></li>
+    <li><a href="https://twitter.com/intent/tweet?url=<?= $link ?>" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>
+
+    <!-- FIXED COPY BUTTON -->
+    <li>
+        <a href="javascript:void(0)" onclick="copyLink(<?= $rowblog['id']; ?>)">
+            <i class="fa fa-link" id="copyIcon<?= $rowblog['id']; ?>"></i>
+        </a>
+    </li>
+</ul>
+
+        </div>
+    </div>
+    <div class="txt">
+        <span class="blog-cate"><?php echo $rowblog['category']; ?></span>
+        <h2 class="text-justify"><?php echo $rowblog['heading']; ?></h2>
+        <p class="text-justify"><?php echo $rowblog['shortcontent']; ?></p>
+        <a href="blog-detail.php?url=<?php echo $rowblog['url'].'_'.$rowblog['id'];?>" class="fclick"></a>
+    </div>
+</div>
+<!--END BIG POST START-->
+
+
                             <?php
                             }
                             ?>
@@ -132,6 +151,7 @@ $lower_limit = $lower_page * 3;
                                 <div class="col-md-4"></div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -140,34 +160,37 @@ $lower_limit = $lower_page * 3;
     <!-- END -->
 
 
+<script>
+function copyLink(id) {
+    var copyText = document.getElementById("myInput" + id);
+
+    // Select text
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+
+    // Copy
+    navigator.clipboard.writeText(copyText.value).then(() => {
+
+        // Find icon inside share list
+        let icon = document.querySelector("#copyIcon" + id);
+
+        icon.classList.remove("fa-link");
+        icon.classList.add("fa-chain-broken");
+
+        setTimeout(() => {
+            icon.classList.remove("fa-chain-broken");
+            icon.classList.add("fa-link");
+        }, 1500);
+    });
+}
+</script>
+
 <?php
 include 'footer.php';
 
 $sqlblog1 = "select * from blogs order by id desc";
                             $resultblog1 = mysqli_query($con,$sqlblog1);
                             while($rowblog1 = mysqli_fetch_assoc($resultblog1))
-                            {
 ?>
-
-<script>
-                                    function myFunction<?php echo $rowblog1['id']; ?>() {
-                                      // Get the text field
-                                      var copyText = document.getElementById("myInput<?php echo $rowblog1['id']; ?>");
-                                      
-                                      // Select the text field
-                                      copyText.select();
-                                      copyText.setSelectionRange(0, 99999); // For mobile devices
-                                    
-                                      // Copy the text inside the text field
-                                      navigator.clipboard.writeText(copyText.value);
-                                      
-                                      // Alert the copied text
-                                      //alert("Copied the text: " + copyText.value);
-                                      
-                                      $('.copybox').css('display', 'block');
-                                    }
-                                    </script>
-<?php
-}
-?>
+                                   
 

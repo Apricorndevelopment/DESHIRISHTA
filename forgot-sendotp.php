@@ -1,7 +1,10 @@
 <?php
 include 'config.php';
 
-if($_GET['phone'] != '')
+// --- Masking Logic Start ---
+$display_message = '';
+
+if(isset($_GET['phone']) && $_GET['phone'] != '')
 {
     $phone = $_GET['phone'];
     $phattempt = ($_GET['attempt'] - 1);
@@ -20,7 +23,7 @@ else
     $phone = $_POST['phone'];
 }
 
-if($_GET['email'] != '')
+if(isset($_GET['email']) && $_GET['email'] != '')
 {
     $email = $_GET['email'];
     $emattempt = ($_GET['attempt'] - 1);
@@ -42,6 +45,10 @@ else
 
 if($phone != '')
 {
+    // Masking: Show last 4 digits
+    $masked_phone = str_repeat('X', strlen($phone) - 4) . substr($phone, -4);
+    $display_message = "Aapke number $masked_phone par ek OTP bheja gaya hai.";
+    
     $sqlphblock = "select * from block_otp where phone = '$phone'";
     $resultphblock = mysqli_query($con,$sqlphblock);
     $checkphblock = mysqli_num_rows($resultphblock);
@@ -52,6 +59,7 @@ if($phone != '')
         <form action="forgot-verifyotp.php" method="post" id="myForm1">
             <input type="hidden" name="validphone" value="<?php echo $phone; ?>">
             <input type="hidden" name="attempt" value="<?php echo "-1"; ?>">
+            <input type="hidden" name="display_contact" value="<?php echo $masked_phone; ?>">
         </form>
         <script>
             document.getElementById("myForm1").submit();
@@ -77,26 +85,27 @@ if($phone != '')
             
             $curl = curl_init();
         
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => 'http://sms.primeclick.in/api/mt/SendSMS?user=Skdgtech&password=Skdg%40123&senderid=SKDGTE&channel=trans&DCS=0&flashsms=0&number='.$phone.'&text=Dear%20User%2C%20Your%20one%20time%20authentication%20is%20'.$otp.'%2C%20Regards%20SKDG%20Websoft%20Technologies%20(OPC)%20Pvt.%20Ltd.&route=15&DLTTemplateId=1707169572357217271&PEID=1701169547177152621',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-        ));
-        
-        $response = curl_exec($curl);
-        
-        curl_close($curl);
-        //echo $response;
-        //header('location:forgot-verifyotp.php');
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => 'http://sms.primeclick.in/api/mt/SendSMS?user=Skdgtech&password=Skdg%40123&senderid=SKDGTE&channel=trans&DCS=0&flashsms=0&number='.$phone.'&text=Dear%20User%2C%20Your%20one%20time%20authentication%20is%20'.$otp.'%2C%20Regards%20SKDG%20Websoft%20Technologies%20(OPC)%20Pvt.%20Ltd.&route=15&DLTTemplateId=1707169572357217271&PEID=1701169547177152621',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
+            
+            $response = curl_exec($curl);
+            
+            curl_close($curl);
+            //echo $response;
+            //header('location:forgot-verifyotp.php');
         ?>
             <form action="forgot-verifyotp.php" method="post" id="myForm2">
                 <input type="hidden" name="validphone" value="<?php echo $phone; ?>">
                 <input type="hidden" name="attempt" value="<?php if($phattempt != '') { echo $phattempt; } else { echo "2"; } ?>">
+                <input type="hidden" name="display_contact" value="<?php echo $masked_phone; ?>">
             </form>
             <script>
                 document.getElementById("myForm2").submit();
@@ -120,6 +129,10 @@ if($phone != '')
 
 if($email != '')
 {
+    // Masking: ex*****@gmail.com
+    list($username, $domain) = explode('@', $email);
+    $masked_email = substr($username, 0, 2) . '*****@' . $domain;
+    
     $sqlemblock = "select * from block_otp where email = '$email'";
     $resultemblock = mysqli_query($con,$sqlemblock);
     $checkemblock = mysqli_num_rows($resultemblock);
@@ -130,6 +143,7 @@ if($email != '')
         <form action="forgot-verifyotp.php" method="post" id="myForm4">
             <input type="hidden" name="validemail" value="<?php echo $email; ?>">
             <input type="hidden" name="attempt" value="<?php echo "-1"; ?>">
+            <input type="hidden" name="display_contact" value="<?php echo $masked_email; ?>">
         </form>
         <script>
             document.getElementById("myForm4").submit();
@@ -180,6 +194,7 @@ if($email != '')
                 <form action="forgot-verifyotp.php" method="post" id="myForm5">
                     <input type="hidden" name="validemail" value="<?php echo $email; ?>">
                     <input type="hidden" name="attempt" value="<?php if($emattempt != '') { echo $emattempt; } else { echo "2"; } ?>">
+                    <input type="hidden" name="display_contact" value="<?php echo $masked_email; ?>">
                 </form>
                 <script>
                     document.getElementById("myForm5").submit();

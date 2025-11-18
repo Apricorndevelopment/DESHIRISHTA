@@ -1130,7 +1130,105 @@ $rowphotosinfo = mysqli_fetch_assoc($resultphotosinfo);
                             </div>
                         </div>
                     </div>
+
+                    <!--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_-->
+                    <!--_--_--_--_--_     PROFILE ACTION BUTTONS     _--_--_--_--_-->
+                    <!--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_-->
                     <?php
+                    // Fetch the profile status from the registration table query
+                    $current_status = $rowformfill['profilestatus'];
+                    
+                    // --- DEFAULT (PENDING) STATE ---
+                    // Default links for the buttons
+                    $approve_link = "userprofile-update.php?uid=" . $userid . "&status=1";
+                    $deactivate_link = "userprofile-update.php?uid=" . $userid . "&status=2";
+                    $delete_link = "userprofile-update.php?uid=" . $userid . "&status=3";
+                    
+                    // Default classes for the buttons
+                    $approve_class = "btn-success";
+                    $deactivate_class = "btn-warning";
+                    $delete_class = "btn-danger";
+                    
+                    // Default text for the buttons
+                    $approve_text = "Approve";
+                    $deactivate_text = "Deactivate";
+                    $delete_text = "Delete";
+                    
+                    // Default disabled state
+                    $approve_disabled = "";
+                    $deactivate_disabled = "";
+                    $delete_disabled = "";
+                    
+                    // --- LOGIC FOR DIFFERENT STATUSES ---
+                    
+                    if ($current_status == '1') {
+                        // B) If Profile is LIVE (Approved)
+                        $approve_text = "Approved";
+                        $approve_class = "btn-dark"; // Use btn-dark for inactive
+                        $approve_disabled = "disabled"; // Make button inactive
+                    
+                    } elseif ($current_status == '2') {
+                        // C) If Profile is DEACTIVATED
+                        $deactivate_text = "Deactivated";
+                        $deactivate_class = "btn-dark"; // Use btn-dark for inactive
+                        $deactivate_disabled = "disabled"; // Make button inactive
+                    
+                    } elseif ($current_status == '3') {
+                        // D) If Profile is DELETED
+                        $approve_text = "Approved";
+                        $approve_class = "btn-dark";
+                        $approve_disabled = "disabled";
+                        
+                        $deactivate_text = "Deactivated";
+                        $deactivate_class = "btn-dark";
+                        $deactivate_disabled = "disabled";
+                        
+                        $delete_text = "Deleted";
+                        $delete_class = "btn-dark";
+                        $delete_disabled = "disabled";
+                    }
+                    // Note: If status is '0' (Pending), the default active buttons will be used.
+                    
+                    ?>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Manage Profile Status</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 text-center mt-2 mb-2">
+                                        
+                                            <!-- APPROVE BUTTON -->
+                                            <a href="<?php echo $approve_link; ?>" 
+                                               class="btn <?php echo $approve_class; ?> mr-1" 
+                                               <?php echo $approve_disabled; ?>>
+                                               <?php echo $approve_text; ?>
+                                            </a>
+                                            
+                                            <!-- DEACTIVATE BUTTON -->
+                                            <a href="<?php echo $deactivate_link; ?>" 
+                                               class="btn <?php echo $deactivate_class; ?> mr-1" 
+                                               <?php echo $deactivate_disabled; ?>>
+                                               <?php echo $deactivate_text; ?>
+                                            </a>
+                                            
+                                            <!-- DELETE BUTTON -->
+                                            <a href="<?php echo $delete_link; ?>" 
+                                               class="btn <?php echo $delete_class; ?>" 
+                                               <?php echo $delete_disabled; ?>>
+                                               <?php echo $delete_text; ?>
+                                            </a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <?php
                     if($rowformfill['profilestatus'] == '0')
                     {
                     ?>
@@ -1149,7 +1247,7 @@ $rowphotosinfo = mysqli_fetch_assoc($resultphotosinfo);
                     </div>
                     <?php
                     }
-                    ?>
+                    ?> -->
                 </section>
                 <!-- Basic Floating Label Form section end -->
             </div>

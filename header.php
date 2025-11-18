@@ -270,7 +270,7 @@ if(isset($_COOKIE['dr_userid'])) {
                         <ul>
                             <li><a href="index.php">Home</a></li>
                             <li><a href="about.php">About Us</a></li> 
-                            <li><a href="plans.php">Plans</a></li>
+                            <li><a href="plans.php">Pricing Plans </a></li>
                             <li><a href="blog.php">Blogs</a></li>
                             <li class="smenu-pare">
                                 <span class="smenu">Help & Support</span>
@@ -355,7 +355,13 @@ if(isset($_COOKIE['dr_userid'])) {
                             if($useractive == '0')
                             {
                             ?>
-                            <a href="login.php">Sign In</a> / <a href="sign-up.php">Sign Up</a>
+                           
+                           
+                           <h4 class="loginregister">
+    <a href="login.php" data-text="Sign In">Sign In</a> /
+    <a href="sign-up.php" data-text="Sign Up">Sign Up</a>
+</h4>
+
                             <?php
                             }
                             else
@@ -367,6 +373,46 @@ if(isset($_COOKIE['dr_userid'])) {
                             ?>
                         </h4>
                     </div>
+                  <!-- <style>
+                    .loginregister a {
+    position: relative;
+    font-weight: 600;
+    color: #ffffff;
+    display: inline-block;
+    overflow: hidden;
+}
+
+/* TEXT SHINE EFFECT */
+.loginregister a::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: transparent;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        #ffdb8eff 50%,
+        transparent 100%
+    );
+    background-size: 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: goldShine 1s linear infinite;
+}
+
+@keyframes goldShine {
+    0% {
+        background-position: -100%;
+    }
+    100% {
+        background-position: 200%;
+    }
+}
+
+                  </style> -->
 
                     <!--MOBILE MENU-->
                    <div class="mob-menu">
@@ -446,7 +492,7 @@ if(isset($_COOKIE['dr_userid'])) {
                 <ul>
                     <li><a href="index.php">Home</a></li>
                     <li><a href="about.php">About Us</a></li> 
-                    <li><a href="plans.php">Plans</a></li>
+                    <li><a href="plans.php">Pricing Plans </a></li>
                     <li><a href="blog.php">Blogs</a></li>
                 </ul>
                 <h4><i class="fa fa-question-circle" aria-hidden="true"></i> Help & Support</h4>
@@ -481,9 +527,9 @@ if(isset($_COOKIE['dr_userid'])) {
                     <li><a href="basic-search.php">Basic Search </a></li>
                     <li><a href="#" class="ser-open">Member ID Search</a></li>
                 </ul>
-                <h4><i class="fa fa-list" aria-hidden="true"></i> Plans</h4>
+                <h4><i class="fa fa-list" aria-hidden="true"></i>Plans </h4>
                 <ul>
-                    <li><a href="user-plan.php">Plans</a></li>
+                    <li><a href="user-plan.php">Pricing Plans </a></li>
                 </ul>
                 <h4><i class="fa fa-question-circle" aria-hidden="true"></i> Help & Support</h4>
                 <ul>

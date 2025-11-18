@@ -1,232 +1,105 @@
+<?php 
 
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Desi Rishta | True Matchmaking</title>
-    <!--== META TAGS ==-->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="theme-color" content="#f6af04">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <!--== FAV ICON(BROWSER TAB ICON) ==-->
-    <link rel="shortcut icon" href="images/ring.jpeg" type="image/x-icon">
-    <!--== CSS FILES ==-->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.min.js"></script>
-      <script src="js/respond.min.js"></script>
-      <![endif]-->
-      
-      <script language=Javascript>
-      
-      function isNumberKey(evt)
-      {
-         var charCode = (evt.which) ? evt.which : event.keyCode
-         if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-
-         return true;
-      }
-   </script>
-   <script>
-       function numberMobile(e){
-            e.target.value = e.target.value.replace(/[^\d]/g,'');
-            return false;
-        }
-   </script>
-   
-   
-</head>
-
-<body>
-    <!-- PRELOADER -->
-    <div id="preloader">
-        <div class="plod">
-            <span class="lod1"><img src="images/preload.gif" alt="" loading="lazy"></span>
-        </div>
-    </div>
-    <div class="pop-bg"></div>
-    <!-- END PRELOADER -->
-    
-     <!-- POPUP SEARCH -->
-    <div class="pop-search">
-        <span class="ser-clo">+</span>
-        <div class="inn">
-            <form action="user-profile-details.php" method="get">
-                <input type="text" name="uid" placeholder="Enter Member ID...">
-            </form>
-            <div class="rel-sear">
-                <h4>Example:</h4>
-                <a href="#">DR123456789012</a>
-            </div>
-        </div>
-    </div>
-    <!-- END -->
-    
-    <!-- TOP MENU -->
-    <div class="head-top">
-        <div class="container">
-            <div class="row">
-                <div class="lhs">
-                    <ul>
-                        <li><a href="tel:+9704462944"><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;+91-8377053041</a></li>
-                        <li><a href="mailto:info@example.com"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp; support@desi-rishta.com</a></li>
-                    </ul>
-                </div>
-                <div class="rhs">
-                    <ul>
-                        <li><a href="faq.php">FAQ's</a></li>
-                        <li><a href="#!"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="#!"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        <li><a href="https://wa.me/918377053041?text=Hello i am having some queries" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END -->
-
-    <!-- CONTACT EXPERT -->
-    <div class="menu-pop menu-pop2">
-        <span class="menu-pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
-        <div class="inn">
-            <div class="menu-pop-help">
-                <h4>Welcome To Desi Rishta</h4>
-                <div class="user-pro">
-                    <img src="images/gif/meetup.gif" alt="" loading="lazy">
-                </div>
-                <div class="user-bio mt-3">
-                    <h5>"Unlock countless profiles” </h5>
-                    <span>Register for free now!</span>
-                    <br>
-                    <a href="sign-up.php" class="btn btn-primary btn-sm">Register Now</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END -->
-    
-    
-    <!-- MAIN MENU -->
-    <div class="hom-top">
-        <div class="container">
-            <div class="row">
-                <div class="hom-nav">
-                    <!-- LOGO -->
-                    <div class="logo">
-                        <a href="index.php" class="logo-brand"><img src="images/desirishtalogo.png" alt="" loading="lazy" class="ic-logo"></a>
-                    </div>
-                    
-                                        <!-- EXPLORE MENU -->
-                    <div class="bl">
-                                                <ul>
-                            <li><a href="index.php">Home</a></li>
-                            <li><a href="about.php">About Us</a></li> 
-                            <li><a href="plans.php">Plans</a></li>
-                            <li><a href="blog.php">Blogs</a></li>
-                            <li class="smenu-pare">
-                                <span class="smenu">Help & Support</span>
-                                <div class="smenu-open smenu-single">
-                                    <ul>
-                                        <li><a href="contact.php">Contact Us</a></li>
-                                        <li><a href="contact.php?#support">Business Enquiries</a></li>
-                                        <li><a href="https://wa.me/918377053041?text=Hi There, I have some queries to ask. Thanks" target="_blank">Chat Support</a></li>
-                                        <li><a href="faq.php">FAQ's</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                                            </div>
-
-                    <!-- USER PROFILE -->
-                    <div class="al">
-                        <div class="head-pro">
-                            <span class="menu desk-menu">
-                                <i></i><i></i><i></i>
-                            </span>
-                        </div>
-                        <h4 class="loginregister">
-                                                        <a href="login.php">Sign In</a> / <a href="sign-up.php">Sign Up</a>
-                                                    </h4>
-                    </div>
-
-                    <!--MOBILE MENU-->
-                    <div class="mob-menu">
-                        <div class="mob-me-ic">
-                                                        <span class="mobile-exprt">
-                                <a href="login.php"><img src="images/icon/loginuser.svg" alt=""></a>
-                            </span>
-                                                        <span class="mobile-menu" data-mob="mobile">
-                                <img src="images/icon/nav.svg" alt="">
-                            </span>
-                        </div>
-                    </div>
-                    <!--END MOBILE MENU-->
-                </div>
-            </div>
-        </div>
-        <!-- TOP MENU -->
-                <!-- END -->
-    </div>
-    <!-- END -->
-
-    
-    <!-- EXPLORE MENU POPUP -->
-    <div class="mob-me-all mobile_menu pt-2">
-        <div class="mob-me-clo"><img src="images/icon/close.svg" alt=""></div>
-        <div class="logo mb-4">
-            <a href="index.php" class="logo-brand"><img src="images/tlogo.png" alt="" loading="lazy" class="ic-logo"></a>
-        </div>
-        <div class="mv-bus">
-                            <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="about.php">About Us</a></li> 
-                    <li><a href="plans.php">Plans</a></li>
-                    <li><a href="blog.php">Blogs</a></li>
-                </ul>
-                <h4><i class="fa fa-question-circle" aria-hidden="true"></i> Help & Support</h4>
-                <ul>
-                    <li><a href="contact.php">Contact Us</a></li>
-                    <li><a href="contact.php?#support">Business Enquiries</a></li>
-                    <li><a href="https://wa.me/918377053041?text=Hello i am having some queries" target="_blank">Chat Support</a></li>
-                    <li><a href="faq.php">FAQ's</a></li>
-                </ul>
-                        
-        </div>
-    </div>
+include "header.php";
+include "config.php";
+$sql_testimonials = "SELECT * FROM tbl_testimonials WHERE status = 'Active' ORDER BY date_added DESC";
+$result_testimonials = mysqli_query($con, $sql_testimonials);
+?>
     <!-- END MOBILE MENU POPUP -->    <!-- START -->
-    <section>
+
+    <style>
+        
+    </style>
+
+
+<section>
         <div class="wedd pg-wedd-vid m-tp">
             <div class="container">
                 <div class="row">
                     <div class="ban-wedd">
-                        <h2>Michael <span>& Jessica</span></h2>
-                        <p>Lakhs of peoples have found their life partner with Desi Rishta!</p>
+                        <!-- <h2>Michael <span>& Jessica</span></h2>
+                        <p>Lakhs of peoples have found their life partner with Desi Rishta!</p> -->
                         <!--<a href="make-reservation.html" class="cta-dark">Make reservation</a>-->
                         <div class="wedd-info">
-                            <ul>
+                            <!-- <ul>
                                 <li><i class="fa fa-calendar-o" aria-hidden="true"></i><span>12 June | 9:00 AM</span>
                                 </li>
                                 <li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="#!">Direction</a></li>
-                            </ul>
+                            </ul> -->
                         </div>
                         <div class="wedd-vid">
-                            <img src="images/couples/20.jpg" alt="">
+                            <!-- <img src="images/couples/20.jpg" alt="">
                             <iframe src="https://www.youtube.com/embed/P9iKATG9BW4" title="Wedding marriage: Wedding marriage"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
                             <span class="vid-play" data-video="https://www.youtube.com/embed/P9iKATG9BW4?autoplay=1"><i
-                                    class="fa fa-play" aria-hidden="true"></i></span>
+                                    class="fa fa-play" aria-hidden="true"></i></span> -->
+       <div class="hom-partners abo-partners" id="testimonials">
+        <div class="container">
+            <div class="row">
+                <div class="sub-tit-caps">
+                    <h2>Customer <span class="animate animate__animated" data-ani="animate__flipInX" data-dely="0.1">Testimonials</span></h2>
+                    <p>What our clients say about us</p>
+                </div>
+                <div class="wedd-shap">
+                    <span class="abo-shap-1"></span>
+                     <span class="abo-shap-2"></span>
+                      <span class="abo-shap-4"></span>
+                    <span class="abo-shap-3"></span>
+                </div>
+
+                <div class="cus-revi">
+                    <ul class="testimonial-slider">
+                        
+                        <?php
+                        // Check karein ki testimonials hain ya nahi
+                        if ($result_testimonials && mysqli_num_rows($result_testimonials) > 0) {
+                            while ($testimonial = mysqli_fetch_assoc($result_testimonials)) {
+                        ?>
+
+                        <li>
+                            <div class="ab-testmo">
+                                <div class="ab-test-rat" style="height:300px; width: 350px; overflow: hidden; background-color: #FFE6DF; color:#E74974;">
+                                    <div class="ab-test-star">
+                                        <?php
+                                        // Rating ke liye stars ka loop
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $testimonial['rating']) {
+                                                echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                            } else {
+                                                echo '<i class="fa fa-star-o" aria-hidden="true"></i>'; // Khali star
+                                            }
+                                        }
+                                        ?>
+                                        </div>
+                                    <div class="ab-test-conte">
+                                        <p><?php echo htmlspecialchars($testimonial['content']); ?></p>
+                                    </div>
+                                </div>
+                                <div class="ab-rat-user">
+                                    <img src="images/profiles/<?php echo htmlspecialchars($testimonial['user_image']); ?>" alt="User" style="height: 50px ; width: 50px; border-radius: 50px; border:none;">
+                                    <div>
+                                        <h4><?php echo htmlspecialchars($testimonial['user_name']); ?></h4>
+                                        <span><?php echo htmlspecialchars($testimonial['user_designation']); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <?php
+                            } // while loop yahan khatm
+                        } else {
+                            // Agar DB mein koi testimonial nahi hai
+                            // echo "<li><div class='ab-testmo'><p>No testimonials to display yet.</p></div></li>";
+                        }
+                        ?>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
                         </div>
                         <div class="wedd-vid-tree">
                             <span class="wedd-vid-tre-1"></span>
@@ -236,7 +109,7 @@
                 </div>
             </div>
         </div>
-    </section>
+</section>
     <!-- END -->
 
     <!-- START -->
