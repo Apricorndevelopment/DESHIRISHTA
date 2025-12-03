@@ -9,7 +9,7 @@ include 'header.php';
 .form-login textarea.form-control {
     border: none !important;
     border-radius: 0 !important;
-    border-bottom: 2px solid maroon !important;
+    border-bottom: 3px solid maroon !important;
     outline: none !important;
     box-shadow: none !important;
     background-color: transparent !important;
@@ -205,7 +205,7 @@ include 'header.php';
                                                 </span>
                                                 <p class="text-danger errorstatement" id="nameerror" style="display:none">Please Enter Name</p>
                                             </div>
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label class="lb">Gender</label>
                                                 <span class="iconbox">
                                                     <select class="form-select chosen-select" name="gender" id="gender">
@@ -217,7 +217,49 @@ include 'header.php';
                                                     <span class="material-icons icon">transgender</span>
                                                 </span>
                                                 <p class="text-danger errorstatement" id="gendererror" style="display:none">Please Select Gender</p>
-                                            </div>
+                                            </div> -->
+                                            <style>
+                                                /* Gender Button Styles */
+.gender-btn {
+    border: 2px solid maroon;
+    color: maroon;
+    background-color: transparent;
+    padding: 10px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+/* Active State (When selected) */
+.gender-btn.active {
+    background-color: maroon;
+    color: white;
+    box-shadow: 0 4px 8px rgba(128, 0, 0, 0.3);
+}
+
+.gender-btn:hover {
+    background-color: #fcebeb; /* Light maroon hover */
+}
+                                            </style>
+
+                                            <div class="form-group">
+    <label class="lb" style="display:block; margin-bottom: 10px;">Gender</label>
+    
+    <div class="d-flex" style="gap: 15px;">
+        <button type="button" class="btn gender-btn w-50" data-value="Male">
+            <i class="fa fa-male"></i> Male
+        </button>
+        
+        <button type="button" class="btn gender-btn w-50" data-value="Female">
+            <i class="fa fa-female"></i> Female
+        </button>
+    </div>
+
+    <input type="hidden" name="gender" id="gender" value="">
+    
+    <p class="text-danger errorstatement" id="gendererror" style="display:none; margin-top: 10px;">Please Select Gender</p>
+</div>
+
                                             <div class="form-group">
                                                 <label class="lb">Marital Status</label>
                                                 <span class="iconbox">
@@ -1996,22 +2038,57 @@ $('#profilepicback').click(function() {
             $('.personname').text($('#fullname').val());
         });
         
-        $('#gender').change(function() {
-            var gender = $('#gender').val();
+        // $('#gender').change(function() {
+        //     var gender = $('#gender').val();
             
-            if(gender == 'Male')
-            {
-                $('.personintial').text('He');
-                $('.personintial1').text('His');
-            }
+        //     if(gender == 'Male')
+        //     {
+        //         $('.personintial').text('He');
+        //         $('.personintial1').text('His');
+        //     }
             
-            if(gender == 'Female')
-            {
-                $('.personintial').text('She');
-                $('.personintial1').text('Her');
-            }
+        //     if(gender == 'Female')
+        //     {
+        //         $('.personintial').text('She');
+        //         $('.personintial1').text('Her');
+        //     }
+        // });
+        $('.gender-btn').click(function(){
+        // 1. Visual: Handle Button Active State
+        $('.gender-btn').removeClass('active'); // Remove active from all
+        $(this).addClass('active'); // Add active to clicked button
+
+        // 2. Data: Get value (Male/Female) and put it in hidden input
+        var genderVal = $(this).data('value');
+        $('#gender').val(genderVal);
+
+        // 3. Validation: Hide error message
+        $('#gendererror').hide();
+
+        // 4. Logic: Toggle Groom/Bride Views & Text (From your original code)
+        if(genderVal == 'Male')
+        {
+            $('#groom').show(); 
+            $('#bride').hide();
+            $('#groom1').show(); 
+            $('#bride1').hide();
+            
+            // Update Auto-text pronouns
+            $('.personintial').text('He');
+            $('.personintial1').text('His');
+        }
+        else if(genderVal == 'Female')
+        {
+            $('#groom').hide(); 
+            $('#bride').show();
+            $('#groom1').hide(); 
+            $('#bride1').show();
+
+            // Update Auto-text pronouns
+            $('.personintial').text('She');
+            $('.personintial1').text('Her');
+        }
         });
-        
         
         $('#marital').change(function() {
             $('#personmarital').text($('#marital').val());
@@ -2291,5 +2368,5 @@ $('#profilepicback').click(function() {
         });
         
     });
-</script>
+ </script>
 

@@ -28,7 +28,7 @@ $rowplan = mysqli_fetch_assoc($resultplan);
         <div class="db pb-0">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4 col-lg-3">
+                    <div class="col-md-3 col-lg-3">
                         <?php
                         include 'user-sidebar.php';
                         ?>
@@ -92,6 +92,9 @@ $rowplan = mysqli_fetch_assoc($resultplan);
                                                               <option value="visited_members">Visible to members visited my profile</option>
                                                               <option value="hide">Hide from all members</option>
                                                             </select>
+
+                                                            
+    
                                                         </div>
                                                     </div>
                                                 </li>
@@ -102,14 +105,81 @@ $rowplan = mysqli_fetch_assoc($resultplan);
                                                             <p>You can set-up who can able to view your phone no.</p>
                                                         </div>
                                                     </div>
+                                                    
+                                                    <?php
+include 'config.php';
+
+$userid = $_COOKIE['dr_userid'];
+
+if(isset($_POST['action']) && $userid != '') {
+    
+    $action = $_POST['action'];
+    
+    if($action == 'set_privacy_show') {
+        // User chose to Keep "Show to All"
+        // Privacy remains default, set first_login to 0
+        $sql = "UPDATE registration SET contact_privacy = 'Show to All', first_login = 0 WHERE userid = '$userid'";
+        if(mysqli_query($con, $sql)) {
+            echo "success";
+        } else {
+            echo "error";
+        }
+    }
+    
+    if($action == 'set_privacy_hide') {
+        // User chose "Hide from All"
+        // Update privacy AND set first_login to 0
+        $sql = "UPDATE registration SET contact_privacy = 'Hide from All', first_login = 0 WHERE userid = '$userid'";
+        if(mysqli_query($con, $sql)) {
+            echo "success";
+        } else {
+            echo "error";
+        }
+    }
+}
+?>
+                                                    
                                                     <div class="sett-rig">
                                                         <div class="sett-select-drop">
-                                                            <select>
-                                                              <option value="all_members">Show to all members including visitors</option>
-                                                              <option value="registered_members">Show to registered members only</option>
-                                                              <option value="visited_members">Show to members visited my profile</option>
-                                                              <option value="hide">Hide from all members</option>
-                                                            </select>
+                                                                                                               <select id="contact_privacy">
+    <option value="Show to All" <?php if($rowprofile['contact_privacy']=="Show to All") echo "selected"; ?>>
+        Show to all members including visitors
+    </option>
+
+    <option value="Hide from All" <?php if($rowprofile['contact_privacy']=="Hide from All") echo "selected"; ?>>
+        Hide from all members
+    </option>
+</select>
+
+<p id="privacy-message" style="color: green; font-size: 14px; display:none;">Updated!</p>
+<script>
+    document.getElementById('contact_privacy').addEventListener('change', function () {
+
+    let selectedValue = this.value;
+    let action = (selectedValue === 'Show to All') ? 'set_privacy_show' : 'set_privacy_hide';
+
+    let formData = new FormData();
+    formData.append('action', action);
+
+    fetch("set_privacy.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.text())
+    .then(data => {
+        if(data.trim() === "success") {
+            document.getElementById("privacy-message").style.display = "block";
+            setTimeout(() => {
+                document.getElementById("privacy-message").style.display = "none";
+            }, 1500);
+        } else {
+            alert("Something went wrong!");
+        }
+    });
+});
+
+</script>
+
                                                         </div>
                                                     </div>
                                                 </li>

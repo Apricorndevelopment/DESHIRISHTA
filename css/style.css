@@ -657,7 +657,7 @@ img{
     font-size: 25px;
     text-align: center;
     border-radius: 50px;
-    z-index: 2;
+    z-index: -1;
     font-weight: 300;
     width: 40px;
     height: 40px;
@@ -2692,7 +2692,7 @@ table td{}
 /*-------------------------------------------------------*/
 .form-tit {
     padding-bottom: 7.5px;
-    border-bottom: 2px solid rgb(0 0 0);
+    border-bottom: 2px solid maroon;
     margin-bottom: 25px;
     color: rgb(52, 64, 85);
 }
@@ -2741,7 +2741,7 @@ table td{}
     padding-left:42px;
 }
 .form-login .form-group select.chosen-select {
-    border-bottom: 2px solid #331924;
+    border-bottom: 3px solid maroon; #331924;
     /* border-radius: 5px; */
     height: 42px;
 }
@@ -2753,17 +2753,17 @@ table td{}
 .form-login .form-group .chosen-container {
     display: block;
     width: 100%;
-    height: calc(1.5em + 0.75rem + 10px);
+    height: calc(1.6em + 0.75rem + 10px);
     padding: 0;
     background-color: #fff;
     background-clip: padding-box;
-     border-bottom: 2px solid #331924;
+     border-bottom: 3px solid maroon;
  
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .form-login .form-group .chosen-container a.chosen-single {
-    height: 38px;
+    height: 40.8px;
     padding-top: 2px;
 }
 
@@ -3814,15 +3814,16 @@ span.mail::before {
     padding-top: 2%;
     border: 0px;
     width: 100%;
+    display: flex;
 }
 
-.links a,
-.links span {
-    background: rgb(255, 255, 255);
+
+   .links a, .links span {
+    /* background: rgb(149 58 58); */
     border: 1.5px solid rgb(51, 51, 51);
-    color: rgb(51, 51, 51);
+    color: rgb(0, 0, 0);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 400;
     padding: 5px 10px;
     border-radius: 30px;
     float: left;
@@ -4263,7 +4264,7 @@ span.mail::before {
     white-space: nowrap;
     font-weight: 500;
     font-size: 14px;
-    color:#000;
+    color:#313131;
 }
 
 .chosen-container-single .chosen-single abbr {
@@ -5268,7 +5269,7 @@ color: #fff !important;
     color: rgb(89, 89, 93);
 }
 .edit-pro-parti{
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid maroon;
     padding-bottom: 0px;
     margin-bottom: 0px;
     border-top-right-radius: 10px;
@@ -8293,7 +8294,7 @@ color: #fff !important;
     width: 100%;
     padding: 40px 40px 30px 40px;
     position: relative;
-    background: #fff;
+    background:#835c5c;
 }
 
 .blog-home-box .txt:hover h2 {
@@ -8848,6 +8849,7 @@ color: #fff !important;
     float: left;
     width: 100%;
     margin: 50px 0;
+    padding-left:155px ;
 }
 
 .page-nation ul {}
@@ -9818,8 +9820,8 @@ h2.db-tit{
 }
 .db-int-pro-3{width: 120px;}
 .db-int-pro-3 button{
-    padding: 0px 6px;
-    border-radius: 15px;
+    padding: 12px 6px;
+    /* border-radius: 15px; */
     font-size: 12px;
     line-height: 20px;
     font-weight: 500;
@@ -10445,6 +10447,9 @@ h2.db-tit{
     .links span {
         padding: 4px 7px;
         margin: 0 5px 5px 0;
+        display:flex;
+        align-items: center;
+         /* background: #AD6665 !important; */
     }
 
     .blog-soci ul li a b {
@@ -10559,10 +10564,22 @@ h2.db-tit{
 /*-------------------------------------------------------*/
 @media screen and (max-width:1024px) {
 
+
+    .links {
+margin-left: -10px;
+    }
+
     .links a,
     .allpro-conct .links span {
         font-size: 12px;
-        padding: 4px 8px;
+        padding:5px 10px;
+        display: flex;
+        align-items: center;
+
+       
+    /* background: #AD6665 !important; */
+
+
     }
 
     .gal-im .txt {
@@ -10961,6 +10978,7 @@ h2.db-tit{
     .links {
         border-top: 1px solid #dadada;
         padding-top: 15px;
+        margin-left:5px;
     }
 
     .pg-pro-big-im .s1 img {
@@ -11110,7 +11128,7 @@ h2.db-tit{
 
     .blog-nav {
         padding-bottom: 40px;
-        border-bottom: 2px dashed #d3c1ab;
+        border-bottom: 3px dashed #d3c1ab;
         margin-bottom: 40px;
     }
 
@@ -12571,7 +12589,7 @@ h2.db-tit{
  .loginregister {
     color: #fff;
     font-size: 15px;
-    padding-top: 4%;
+    padding-top: 13%;
     padding-left: 42%;
     width: 200px;
     text-transform: uppercase;
@@ -12582,6 +12600,7 @@ h2.db-tit{
     font-weight:500;
     font-size:16px;
 }
+
 
 .profileform .db-pro-stat {
     background: #fff;
@@ -12597,7 +12616,7 @@ h2.db-tit{
 
 .w-100 {
     width:100%;
-    text-align:left;
+    /* text-align:left; */
 }
 
 .text-left {
@@ -12988,8 +13007,8 @@ list-style: disc !important;
     background: rgb(255, 255, 255);
     border: 1.5px solid rgb(51, 51, 51);
     color: rgb(51, 51, 51);
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 400;
     padding: 5px 10px;
     border-radius: 30px;
     float: left;
@@ -13135,7 +13154,7 @@ background: #fff;
 
 .conborder{
     width: 55%;
-    border: 2px solid rgb(104,72,52);
+    /* border: 2px solid rgb(104,72,52); */
 }
 
 .notebox{
@@ -13143,6 +13162,7 @@ background: #fff;
     padding: 0.5%;
     font-size:13px;
     border-radius: 5px;
+    margin:0px 10px;
 }
 
 @keyframes blink {

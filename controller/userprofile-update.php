@@ -75,7 +75,8 @@ if (isset($_GET['uid']) && isset($_GET['status'])) {
     } elseif ($new_status == '2') {
         // --- DEACTIVATE ---
         // This query just updates the status to '2'
-        $sql = "UPDATE `registration` SET `profilestatus`='2' WHERE `userid`='$userid'";
+        // $sql = "UPDATE `registration` SET `profilestatus`='2' WHERE `userid`='$userid'";
+        $sql = "UPDATE `registration` SET `profilestatus`='2', `verificationinfo`='0', `document_verification_status`='Pending' WHERE `userid`='$userid'";
     
     } elseif ($new_status == '3') {
         // --- DELETE ---

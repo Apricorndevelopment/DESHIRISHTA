@@ -14,7 +14,7 @@ if($userid == '')
             <div class="db">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4 col-lg-3">
+                        <div class="col-md-3 col-lg-3">
                             <?php
                             include 'user-sidebar.php';
                             ?>

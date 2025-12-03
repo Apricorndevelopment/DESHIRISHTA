@@ -4,7 +4,24 @@ include 'config.php';
 
 $userid = $_COOKIE['dr_userid'];
 
+$sql_check_auth = "SELECT verificationinfo FROM registration WHERE userid = '$userid'";
+$result_check_auth = mysqli_query($con, $sql_check_auth);
+$row_check_auth = mysqli_fetch_assoc($result_check_auth);
+
+if($row_check_auth['verificationinfo'] != '1') {
+    // Agar Approved nahi hai, to alert dikha kar Dashboard par bhej dein
+    echo "<script>
+            alert('Access Denied! Please wait for Admin to approve your ID.');
+            window.location.href='user-dashboard.php';
+          </script>";
+    exit(); // Code yahin rok dein
+}
+
+
 $page = $_GET['page'];
+
+
+
 
 if($page == '')
 {

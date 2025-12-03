@@ -2,49 +2,46 @@
 include 'config.php';
 
 $userid = $_COOKIE['dr_userid'];
-$aboutme = str_replace("'", "\'", $_POST['aboutme']);
 
+// Better security sanitization
+$aboutme = mysqli_real_escape_string($con, $_POST['aboutme']);
 
-$sqlcheck = "select * from basic_info where userid = '$userid'";
-$resultcheck = mysqli_query($con,$sqlcheck);
+// ----------------------------------------------------------------
+// APPROVAL WORKFLOW LOGIC (Temp Table)
+// ----------------------------------------------------------------
+
+// 1. Check if data exists in temporary table
+$sqlcheck = "SELECT * FROM temp_basic_info WHERE userid = '$userid'";
+$resultcheck = mysqli_query($con, $sqlcheck);
 $countcheck = mysqli_num_rows($resultcheck);
 
-if($countcheck == '0')
-{
-    $sqlinsert = "INSERT INTO `basic_info`(`userid`, `aboutme`) VALUES ('$userid', '$aboutme')";
-    $resultinsert = mysqli_query($con,$sqlinsert);
-    
-    if($aboutme != '')
-    {
-        $updatebasicinfo1 = "UPDATE `registration` SET `aboutme`='Done', `profilestatus`='0' WHERE `userid`='$userid'";
-        $resultbasicinfo1 = mysqli_query($con,$updatebasicinfo1);
-    }
-    else
-    {
-        $updatebasicinfo2 = "UPDATE `registration` SET `aboutme`='', `profilestatus`='0' WHERE `userid`='$userid'";
-        $resultbasicinfo2 = mysqli_query($con,$updatebasicinfo2);
-    }
-}
-else
-{
-    $sqlupdate = "UPDATE `basic_info` SET `aboutme`='$aboutme' WHERE `userid`='$userid'";
-    $resultupdate = mysqli_query($con,$sqlupdate);
-    
-    if($aboutme != '')
-    {
-        $updatebasicinfo3 = "UPDATE `registration` SET `aboutme`='Done', `profilestatus`='0' WHERE `userid`='$userid'";
-        $resultbasicinfo3 = mysqli_query($con,$updatebasicinfo3);
-    }
-    else
-    {
-        $updatebasicinfo4 = "UPDATE `registration` SET `aboutme`='', `profilestatus`='0' WHERE `userid`='$userid'";
-        $resultbasicinfo4 = mysqli_query($con,$updatebasicinfo4);
-    }
+if ($countcheck > 0) {
+    // Update existing pending request
+    $sql = "UPDATE `temp_basic_info` SET `aboutme`='$aboutme' WHERE `userid`='$userid'";
+} else {
+    // Insert new pending request
+    $sql = "INSERT INTO `temp_basic_info` (`userid`, `aboutme`) VALUES ('$userid', '$aboutme')";
 }
 
+$result = mysqli_query($con, $sql);
+
+if ($result) {
+    // 2. Set Approval Status to 'Pending' in registration table
+    // Note: We do NOT update the live 'aboutme' column status to 'Done' yet, 
+    // or update 'profilestatus', until Admin approves.
+    $update_status = "UPDATE `registration` SET `aboutme_approval_status`='Pending' WHERE `userid`='$userid'";
+    mysqli_query($con, $update_status);
+} else {
+    echo "Error updating profile: " . mysqli_error($con);
+    exit;
+}
+
+// ----------------------------------------------------------------
+// EMAIL NOTIFICATION
+// ----------------------------------------------------------------
 $email = $_COOKIE['dr_email'];
 $fullname =  $_COOKIE['dr_name'];
-$subject = "Profile under screening";
+$subject = "Profile Update - About Me Under Screening";
 $mailContent = "
     <div style='width:90%; margin:2% auto; padding:3%;'>
         <div style='text-align:center'>
@@ -53,8 +50,8 @@ $mailContent = "
         <div style='width:100%; margin:0 auto'>
             <div style='color:#000; width:90%; margin:0 auto;'>
                 <p style='font-size:15px;'>Dear $fullname,</p>
-                <p style='font-size:15px;'>Your profile is currently under screening. Once we determine that your profile meets our terms and conditions, your account will be made live. You will be notified once this process is complete. In the meantime, please continue your partner search on Desi Rishta.</p>
-                <p style='font-size:15px;'>If you have any questions or need assistance, our support team is here to help.</p>
+                <p style='font-size:15px;'>You have recently updated your 'About Me' description. These changes are currently under screening.</p>
+                <p style='font-size:15px;'>Once approved by our team, the new details will be visible on your live profile.</p>
                 <br>
                 <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
                 <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
@@ -79,8 +76,10 @@ curl_setopt_array($curl, array(
 ));
 
 $response = curl_exec($curl);
-
 curl_close($curl);
-//echo $response;
-header('location:user-profile-edit.php?tab=aboutme&aboutme_update=yes');
+
+// ----------------------------------------------------------------
+// REDIRECT
+// ----------------------------------------------------------------
+header('location:user-profile-edit.php?tab=aboutme&aboutme_update=pending');
 ?>

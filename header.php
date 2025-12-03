@@ -48,6 +48,33 @@ if(isset($_COOKIE['dr_userid'])) {
         $id_profilestatus_popup = $rowregistration['profilestatus_popup'];
     }
 }
+
+// --- New PHP Logic for Request Counts (Start) ---
+$incoming_pending_count = 0;
+$outgoing_pending_count = 0;
+$total_new_requests = 0;
+
+if ($useractive != '0' && isset($userid)) {
+ 
+    $sql_incoming_count = "SELECT COUNT(*) FROM expressinterest WHERE ei_receiver = '$userid' AND ei_status = 'pending'";
+    $result_incoming_count = mysqli_query($con, $sql_incoming_count);
+    if ($result_incoming_count) {
+        $row_incoming_count = mysqli_fetch_array($result_incoming_count);
+        $incoming_pending_count = (int)$row_incoming_count[0];
+    }
+    
+    
+    $sql_outgoing_count = "SELECT COUNT(*) FROM expressinterest WHERE ei_sender = '$userid' AND ei_status = 'pending'";
+    $result_outgoing_count = mysqli_query($con, $sql_outgoing_count);
+    if ($result_outgoing_count) {
+        $row_outgoing_count = mysqli_fetch_array($result_outgoing_count);
+        $outgoing_pending_count = (int)$row_outgoing_count[0];
+    }
+    
+  
+    $total_new_requests = $incoming_pending_count + $outgoing_pending_count;
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -74,6 +101,36 @@ if(isset($_COOKIE['dr_userid'])) {
 
 
 <style>
+    /* === FLIPPER / BLINKING DOT CSS === */
+    .notif-flipper {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: #ff0000; /* Red Color for Alert */
+        border-radius: 50%;
+        margin-left: 8px;
+        vertical-align: middle;
+        position: relative;
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 1);
+        animation: pulse-red 1.5s infinite;
+    }
+
+    @keyframes pulse-red {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+        }
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 6px rgba(255, 0, 0, 0);
+        }
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+        }
+    }
+    /* === END FLIPPER CSS === */
+
     /* === Mobile Menu Link Slide-Up Effect (Slower: 4 Sec) === */
 
 /* 1. Har link ko hide karein aur animation speed 0.5s set karein */
@@ -121,8 +178,6 @@ if(isset($_COOKIE['dr_userid'])) {
 .mob-me-all.act .mv-bus ul:nth-of-type(2) li:nth-child(6) { transition-delay: 1.8s; }
 .mob-me-all.act .mv-bus ul:nth-of-type(2) li:nth-child(7) { transition-delay: 2.0s; }
 .mob-me-all.act .mv-bus ul:nth-of-type(2) li:nth-child(8) { transition-delay: 2.2s; }
-
-.mob-me-all.act .mv-bus h4:nth-of-type
 
 /* === Team Member Text Left-Align Fix (Final) === */
 
@@ -291,39 +346,41 @@ if(isset($_COOKIE['dr_userid'])) {
                         ?>
                         <ul>
                             <li><a href="user-dashboard.php">My Dashboard</a></li>
-                            <!--<li class="smenu-pare">
-                                <span class="smenu">My Activities</span>
-                                <div class="smenu-open smenu-single">
-                                    <ul>
-                                        <li><a href="user-interests.php">Incoming Requests </a></li>
-                                        <li><a href="user-interests.php">Outgoing Requests</a></li>
-                                    </ul>
-                                </div>
-                            </li>-->
-                            <li class="smenu-pare">
-                                <span class="smenu">Matches</span>
-                                <div class="smenu-open smenu-single">
-                                    <ul>
-                                        <li><a href="matches-allprofiles.php">All Profiles </a></li>
-                                        <li><a href="matches-newlyjoined.php">Newly Joined</a></li>
-                                        <li><a href="matches-newmatches.php">New Matches</a></li>
-                                        <li><a href="matches-mymatches.php">My Matches</a></li>
-                                        <li><a href="matches-nearby.php">Near By Matches</a></li>
-                                        <li><a href="matches-viewed.php">Recently Viewed</a></li>
-                                        <li><a href="matches-visitors.php">Recent Visitors</a></li>
-                                        <li><a href="matches-shortlisted.php">Shortlisted Profiles</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="smenu-pare">
-                                <span class="smenu">Search</span>
-                                <div class="smenu-open smenu-single">
-                                    <ul>
-                                        <li><a href="basic-search.php">Basic Search </a></li>
-                                        <li><a href="#" class="ser-open">Member ID Search</a></li>
-                                    </ul>
-                                </div>
-                            </li>
+                            
+                            <?php 
+if($id_verification == '1') { 
+?>
+    <li class="smenu-pare">
+        <span class="smenu">Matches</span>
+        <div class="smenu-open smenu-single">
+            <ul>
+                <li><a href="matches-allprofiles.php">All Profiles </a></li>
+                <li><a href="matches-newlyjoined.php">Newly Joined</a></li>
+                <li><a href="matches-newmatches.php">New Matches</a></li>
+                <li><a href="matches-mymatches.php">My Matches</a></li>
+                <li><a href="matches-nearby.php">Near By Matches</a></li>
+                <li><a href="matches-viewed.php">Recently Viewed</a></li>
+                <li><a href="matches-visitors.php">Recent Visitors</a></li>
+                <li><a href="matches-shortlisted.php">Shortlisted Profiles</a></li>
+            </ul>
+        </div>
+    </li>
+<!-- // ... after Matches menu -->
+  
+<!-- // ... before Search menu -->
+    <li class="smenu-pare">
+        <span class="smenu">Search</span>
+        <div class="smenu-open smenu-single">
+            <ul>
+                <li><a href="basic-search.php">Basic Search </a></li>
+                <li><a href="#" class="ser-open">Member ID Search</a></li>
+            </ul>
+        </div>
+  
+<?php 
+} 
+?>
+                            
                             <li><a href="user-plan.php">Plans</a></li>
                             <li class="smenu-pare">
                                 <span class="smenu">Help & Support</span>
@@ -337,10 +394,65 @@ if(isset($_COOKIE['dr_userid'])) {
                                     </ul>
                                 </div>
                             </li>
-                        </ul>
+                        
                         <?php
                         }
                         ?>
+
+                                                    <?php 
+                                                  
+
+
+$incoming_sql = "SELECT COUNT(*) AS total FROM expressinterest WHERE ei_receiver='$userid' AND ei_status='Pending'";
+$incoming_res = mysqli_query($con, $incoming_sql);
+$incoming_row = mysqli_fetch_assoc($incoming_res);
+$incoming_count = $incoming_row['total'];
+
+
+if($id_verification == '1') { 
+?>
+  </li>
+      <li class="smenu-pare">
+        <span class="smenu"><i class="fab fa-facebook-messenger" aria-hidden="true"></i>
+</i> <?php if($total_new_requests > 0) { echo '('.$total_new_requests.')'; } ?></span>
+        <div class="smenu-open smenu-single">
+            <ul>
+               
+           <li>
+    <a href="user-incoming-interests.php">
+        Incoming Request
+        <?php if($incoming_pending_count > 0) { ?>
+            <span class="notif-flipper"></span>
+        <?php } ?>
+    </a>
+</li>
+
+                <li><a href="user-outgoing-interests.php">Outgoing Requests <?php if($outgoing_pending_count > 0) { echo '('.$outgoing_pending_count.')'; } ?></a></li>
+            </ul>
+        </div>
+    </li>
+    </ul>
+<?php 
+} 
+?>
+<style>
+.notif-dot{
+    width:10px;
+    height:10px;
+    background:red;
+    border-radius:50%;
+    display:inline-block;
+    margin-left:6px;
+    animation: flip 1s infinite;
+}
+
+@keyframes flip{
+    0%{ transform: rotateY(0deg); }
+    50%{ transform: rotateY(180deg); }
+    100%{ transform: rotateY(360deg); }
+}
+</style>
+
                     </div>
 
                     <!-- USER PROFILE -->
@@ -357,63 +469,23 @@ if(isset($_COOKIE['dr_userid'])) {
                             ?>
                            
                            
-                           <h4 class="loginregister">
+                          
     <a href="login.php" data-text="Sign In">Sign In</a> /
     <a href="sign-up.php" data-text="Sign Up">Sign Up</a>
-</h4>
+
 
                             <?php
                             }
                             else
                             {
                             ?>
-                            <a href="logout.php">Log Out</a>
+                            <a href="logout.php" id="logout">Log Out</a>
                             <?php 
                             }
                             ?>
                         </h4>
                     </div>
-                  <!-- <style>
-                    .loginregister a {
-    position: relative;
-    font-weight: 600;
-    color: #ffffff;
-    display: inline-block;
-    overflow: hidden;
-}
-
-/* TEXT SHINE EFFECT */
-.loginregister a::before {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    color: transparent;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        #ffdb8eff 50%,
-        transparent 100%
-    );
-    background-size: 200%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    animation: goldShine 1s linear infinite;
-}
-
-@keyframes goldShine {
-    0% {
-        background-position: -100%;
-    }
-    100% {
-        background-position: 200%;
-    }
-}
-
-                  </style> -->
-
+                  
                     <!--MOBILE MENU-->
                    <div class="mob-menu">
     <div class="mob-me-ic">
@@ -431,7 +503,7 @@ if(isset($_COOKIE['dr_userid'])) {
         ?>
             <!-- User logged in → LOGOUT icon -->
             <span class="mobile-exprt">
-                <a href="logout.php" style="margin-right:10px;">
+                <a href="logout.php" >
                     <i class="bi bi-power"></i>
                 </a>
             </span>
@@ -495,6 +567,9 @@ if(isset($_COOKIE['dr_userid'])) {
                     <li><a href="plans.php">Pricing Plans </a></li>
                     <li><a href="blog.php">Blogs</a></li>
                 </ul>
+                <!-- // ... after Matches menu -->
+              
+                <!-- // ... before Search menu -->
                 <h4><i class="fa fa-question-circle" aria-hidden="true"></i> Help & Support</h4>
                 <ul>
                     <li><a href="contact.php">Contact Us</a></li>
@@ -507,6 +582,21 @@ if(isset($_COOKIE['dr_userid'])) {
             else
             {
             ?>
+              <h4><i class="fa fa-envelope" aria-hidden="true"></i> Inbox <?php if($total_new_requests > 0) { echo '('.$total_new_requests.')'; } ?></h4>
+                <ul>
+                    <!-- ADDED FLIPPER DOT LOGIC HERE (MOBILE) -->
+                    <li>
+                        <a href="user-incoming-interests.php">
+                            Incoming Requests 
+                            <?php if($incoming_pending_count > 0) { 
+                                echo '('.$incoming_pending_count.')'; 
+                                echo '<span class="notif-flipper"></span>';
+                            } ?>
+                        </a>
+                    </li>
+                    <li><a href="user-outgoing-interests.php">Outgoing Requests <?php if($outgoing_pending_count > 0) { echo '('.$outgoing_pending_count.')'; } ?></a></li>
+                </ul>
+
                 <h4><i class="fa fa-dashboard" aria-hidden="true"></i> Dashbord</h4>
                 <ul>
                     <li><a href="user-dashboard.php">My Dashboard</a></li>

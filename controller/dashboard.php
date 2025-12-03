@@ -1,8 +1,56 @@
 <?php
 include 'header.php';
-?>
+include 'config.php'; // Database connection: $con
 
-    <!-- BEGIN: Content-->
+// --- DYNAMIC DATA FETCH ---
+
+
+// 1. Total Registered Users
+$sql_users = "SELECT COUNT(id) AS total_users FROM registration";
+$res_users = mysqli_query($con, $sql_users);
+$total_users = mysqli_fetch_assoc($res_users)['total_users'];
+
+// 2. Pending Profiles (profilestatus = '0')
+$sql_pending = "SELECT COUNT(id) AS total_pending FROM registration WHERE profilestatus = '0'";
+$res_pending = mysqli_query($con, $sql_pending);
+$total_pending = mysqli_fetch_assoc($res_pending)['total_pending'];
+
+// 3. Approved Profiles (profilestatus = '1')
+$sql_approved = "SELECT COUNT(id) AS total_approved FROM registration WHERE profilestatus = '1'";
+$res_approved = mysqli_query($con, $sql_approved);
+$total_approved = mysqli_fetch_assoc($res_approved)['total_approved'];
+
+// 4. Total Blogs
+$sql_blogs = "SELECT COUNT(id) AS total_blogs FROM blogs";
+$res_blogs = mysqli_query($con, $sql_blogs);
+$total_blogs = mysqli_fetch_assoc($res_blogs)['total_blogs'];
+
+// 5. Total Couples (from tbl_recent_couples)
+$sql_couples = "SELECT COUNT(id) AS total_couples FROM tbl_recent_couples";
+$res_couples = mysqli_query($con, $sql_couples);
+$total_couples = mysqli_fetch_assoc($res_couples)['total_couples'];
+
+$browserData = [];
+$sql = mysqli_query($con, "SELECT browser, COUNT(*) AS total FROM registration GROUP BY browser");
+
+$totalUsers = 0;
+while ($row = mysqli_fetch_assoc($sql)) {
+    $browserData[$row['browser']] = $row['total'];
+    $totalUsers += $row['total'];
+}
+
+function percent($value, $total) {
+    if ($total == 0) return 0;
+    return round(($value / $total) * 100, 1);
+}
+
+// --- END DYNAMIC DATA FETCH ---
+?>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+</head>
+
     <div class="app-content content ">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
@@ -10,32 +58,27 @@ include 'header.php';
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <!-- Dashboard Ecommerce Starts -->
                 <section id="dashboard-ecommerce">
                     <div class="row match-height">
-                        <!-- Medal Card -->
                         <div class="col-xl-4 col-md-6 col-12">
                             <div class="card card-congratulation-medal">
                                 <div class="card-body">
-                                    <h5>Congratulations Admin!</h5>
-                                    <p class="card-text font-small-3">You have won gold medal</p>
+                                    <h5><?php echo $total_pending; ?> Pending Profiles!</h5>
+                                    <p class="card-text font-small-3">Review these new registrations quickly.</p>
                                     <h3 class="mb-75 mt-2 pt-50">
-                                        <a href="javascript:void(0);">₹ 48.9k</a>
+                                        <a href="userprofiles-pending.php"><?php echo $total_pending; ?></a>
                                     </h3>
-                                    <button type="button" class="btn btn-primary">View Sales</button>
+                                    <a href="userprofiles-pending.php" class="btn btn-primary">Review Profiles</a>
                                     <img src="app-assets/images/illustration/badge.svg" class="congratulation-medal" alt="Medal Pic" />
                                 </div>
                             </div>
                         </div>
-                        <!--/ Medal Card -->
-
-                        <!-- Statistics Card -->
                         <div class="col-xl-8 col-md-6 col-12">
                             <div class="card card-statistics">
                                 <div class="card-header">
                                     <h4 class="card-title">Statistics</h4>
                                     <div class="d-flex align-items-center">
-                                        <p class="card-text font-small-2 mr-25 mb-0">Updated 1 month ago</p>
+                                        <p class="card-text font-small-2 mr-25 mb-0">Updated Now</p>
                                     </div>
                                 </div>
                                 <div class="card-body statistics-body">
@@ -44,12 +87,12 @@ include 'header.php';
                                             <div class="media">
                                                 <div class="avatar bg-light-primary mr-2">
                                                     <div class="avatar-content">
-                                                        <i data-feather="trending-up" class="avatar-icon"></i>
+                                                        <i data-feather="user-check" class="avatar-icon"></i>
                                                     </div>
                                                 </div>
                                                 <div class="media-body my-auto">
-                                                    <h4 class="font-weight-bolder mb-0">230k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Sales</p>
+                                                    <h4 class="font-weight-bolder mb-0"><?php echo $total_approved; ?></h4>
+                                                    <p class="card-text font-small-3 mb-0">Approved Users</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,12 +100,12 @@ include 'header.php';
                                             <div class="media">
                                                 <div class="avatar bg-light-info mr-2">
                                                     <div class="avatar-content">
-                                                        <i data-feather="user" class="avatar-icon"></i>
+                                                        <i data-feather="users" class="avatar-icon"></i>
                                                     </div>
                                                 </div>
                                                 <div class="media-body my-auto">
-                                                    <h4 class="font-weight-bolder mb-0">8.549k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Customers</p>
+                                                    <h4 class="font-weight-bolder mb-0"><?php echo $total_users; ?></h4>
+                                                    <p class="card-text font-small-3 mb-0">Total Registrants</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,12 +113,12 @@ include 'header.php';
                                             <div class="media">
                                                 <div class="avatar bg-light-danger mr-2">
                                                     <div class="avatar-content">
-                                                        <i data-feather="box" class="avatar-icon"></i>
+                                                        <i data-feather="file-text" class="avatar-icon"></i>
                                                     </div>
                                                 </div>
                                                 <div class="media-body my-auto">
-                                                    <h4 class="font-weight-bolder mb-0">1.423k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Products</p>
+                                                    <h4 class="font-weight-bolder mb-0"><?php echo $total_blogs; ?></h4>
+                                                    <p class="card-text font-small-3 mb-0">Total Blogs</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,12 +126,12 @@ include 'header.php';
                                             <div class="media">
                                                 <div class="avatar bg-light-success mr-2">
                                                     <div class="avatar-content">
-                                                        <i data-feather="dollar-sign" class="avatar-icon"></i>
+                                                        <i data-feather="heart" class="avatar-icon"></i>
                                                     </div>
                                                 </div>
                                                 <div class="media-body my-auto">
-                                                    <h4 class="font-weight-bolder mb-0">₹ 9745</h4>
-                                                    <p class="card-text font-small-3 mb-0">Revenue</p>
+                                                    <h4 class="font-weight-bolder mb-0"><?php echo $total_couples; ?></h4>
+                                                    <p class="card-text font-small-3 mb-0">Recent Couples</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -96,13 +139,11 @@ include 'header.php';
                                 </div>
                             </div>
                         </div>
-                        <!--/ Statistics Card -->
-                    </div>
+                        </div>
 
                     <div class="row match-height">
                         <div class="col-lg-4 col-12">
                             <div class="row match-height">
-                                <!-- Bar Chart - Orders -->
                                 <div class="col-lg-6 col-md-3 col-6">
                                     <div class="card">
                                         <div class="card-body pb-50">
@@ -112,9 +153,6 @@ include 'header.php';
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ Bar Chart - Orders -->
-
-                                <!-- Line Chart - Profit -->
                                 <div class="col-lg-6 col-md-3 col-6">
                                     <div class="card card-tiny-line-stats">
                                         <div class="card-body pb-50">
@@ -124,9 +162,6 @@ include 'header.php';
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ Line Chart - Profit -->
-
-                                <!-- Earnings Card -->
                                 <div class="col-lg-12 col-md-6 col-12">
                                     <div class="card earnings-card">
                                         <div class="card-body">
@@ -146,11 +181,9 @@ include 'header.php';
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ Earnings Card -->
-                            </div>
+                                </div>
                         </div>
 
-                        <!-- Revenue Report Card -->
                         <div class="col-lg-8 col-12">
                             <div class="card card-revenue-budget">
                                 <div class="row mx-0">
@@ -192,11 +225,9 @@ include 'header.php';
                                 </div>
                             </div>
                         </div>
-                        <!--/ Revenue Report Card -->
-                    </div>
+                        </div>
 
                     <div class="row match-height">
-                        <!-- Company Table Card -->
                         <div class="col-lg-8 col-12">
                             <div class="card card-company-table">
                                 <div class="card-body p-0">
@@ -484,9 +515,6 @@ include 'header.php';
                                 </div>
                             </div>
                         </div>
-                        <!--/ Company Table Card -->
-
-                        <!-- Developer Meetup Card -->
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="card card-developer-meetup">
                                 <div class="meetup-img-wrapper rounded-top text-center">
@@ -546,9 +574,6 @@ include 'header.php';
                                 </div>
                             </div>
                         </div>
-                        <!--/ Developer Meetup Card -->
-
-                        <!-- Browser States Card -->
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="card card-browser-states">
                                 <div class="card-header">
@@ -565,63 +590,47 @@ include 'header.php';
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="browser-states">
-                                        <div class="media">
-                                            <img src="app-assets/images/icons/google-chrome.png" class="rounded mr-1" height="30" alt="Google Chrome" />
-                                            <h6 class="align-self-center mb-0">Google Chrome</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="font-weight-bold text-body-heading mr-1">54.4%</div>
-                                            <div id="browser-state-chart-primary"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="media">
-                                            <img src="app-assets/images/icons/mozila-firefox.png" class="rounded mr-1" height="30" alt="Mozila Firefox" />
-                                            <h6 class="align-self-center mb-0">Mozila Firefox</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="font-weight-bold text-body-heading mr-1">6.1%</div>
-                                            <div id="browser-state-chart-warning"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="media">
-                                            <img src="app-assets/images/icons/apple-safari.png" class="rounded mr-1" height="30" alt="Apple Safari" />
-                                            <h6 class="align-self-center mb-0">Apple Safari</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="font-weight-bold text-body-heading mr-1">14.6%</div>
-                                            <div id="browser-state-chart-secondary"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="media">
-                                            <img src="app-assets/images/icons/internet-explorer.png" class="rounded mr-1" height="30" alt="Internet Explorer" />
-                                            <h6 class="align-self-center mb-0">Internet Explorer</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="font-weight-bold text-body-heading mr-1">4.2%</div>
-                                            <div id="browser-state-chart-info"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="media">
-                                            <img src="app-assets/images/icons/opera.png" class="rounded mr-1" height="30" alt="Opera Mini" />
-                                            <h6 class="align-self-center mb-0">Opera Mini</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="font-weight-bold text-body-heading mr-1">8.4%</div>
-                                            <div id="browser-state-chart-danger"></div>
-                                        </div>
-                                    </div>
-                                </div>
+<div class="card-body">
+
+<?php
+// Bootstrap Icons mapping
+$icons = [
+    "Chrome" => "bi-browser-edge",
+    "Firefox" => "bi-compass",
+    "Safari" => "bi-browser-safari",
+    "Opera" => "bi-circle",
+    "Edge" => "bi-browser-edge",
+    "Brave" => "bi-shield-lock",
+    "Samsung Internet" => "bi-phone",
+    "UC Browser" => "bi-bricks",
+    "Other" => "bi-question-circle"
+];
+
+foreach ($browserData as $browser => $count) {
+    $percent = percent($count, $totalUsers);
+
+    // pick bootstrap icon or fallback
+    $icon = isset($icons[$browser]) ? $icons[$browser] : $icons["Other"];
+?>
+
+    <div class="browser-states">
+        <div class="media">
+            <i class="<?php echo $icon; ?> mr-1"></i>
+            <h6 class="align-self-center mb-0"><?php echo $browser; ?></h6>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="font-weight-bold text-body-heading mr-1">
+                <?php echo $percent . "%"; ?>
+            </div>
+        </div>
+    </div>
+
+<?php } ?>
+
+</div>
+
                             </div>
                         </div>
-                        <!--/ Browser States Card -->
-
-                        <!-- Goal Overview Card -->
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -643,9 +652,6 @@ include 'header.php';
                                 </div>
                             </div>
                         </div>
-                        <!--/ Goal Overview Card -->
-
-                        <!-- Transaction Card -->
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="card card-transaction">
                                 <div class="card-header">
@@ -733,16 +739,11 @@ include 'header.php';
                                 </div>
                             </div>
                         </div>
-                        <!--/ Transaction Card -->
-                    </div>
+                        </div>
                 </section>
-                <!-- Dashboard Ecommerce ends -->
-
-            </div>
+                </div>
         </div>
     </div>
-    <!-- END: Content-->
-
-<?php
+    <?php
 include 'footer.php';
 ?>

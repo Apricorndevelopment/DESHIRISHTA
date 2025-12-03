@@ -68,11 +68,14 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
                 ?>
             </ul>
         </div>
-        <div class="">
+        <div class="" style="    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;">
             <div>
                 <h2 class="db-tit mt-4 text-center"><?php echo $rowbasicinfo['fullname']; ?></h2>
             </div>
-            <div>
+            <!-- <div>
                 <?php 
                 $uid = str_split($_COOKIE['dr_userid']); 
                 foreach($uid as $single_uid)
@@ -82,7 +85,57 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
                     echo "</span>";
                 }
                 ?>
-            </div>
+            </div> -->
+<style>
+ .numberplate {
+    background: #f5f5f5;
+    /* border: 2px solid #ccc; */
+    padding: 8px 14px;
+    display: inline-flex;
+    gap: 2px;
+    border-radius: 4px;
+    align-items: center;
+}
+
+/* Main character styling */
+.np-char {
+    font-size: 26px;
+    font-weight: 400;
+    font-family: 'Arial', sans-serif;
+    color: #222;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+
+/* RESPONSIVE for all mobile screens */
+@media (max-width: 480px) {
+    .np-char {
+        font-size: 22px;
+        letter-spacing: 0.5px;
+    }
+    .numberplate {
+        padding: 6px 10px;
+        gap: 3px;
+    }
+}
+
+@media (max-width: 360px) {
+    .np-char {
+        font-size: 20px;
+    }
+}
+
+</style>
+
+            <div class="numberplate">
+<?php 
+$uid = str_split($_COOKIE['dr_userid']); 
+foreach($uid as $single_uid) {
+    echo '<span class="np-char">'.$single_uid.'</span>';
+}
+?>
+</div>
+
         </div>
     </div>
     <div class="db-nav-list">

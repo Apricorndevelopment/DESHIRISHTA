@@ -713,7 +713,8 @@ progress {
   .container-md,
   .container-sm,
   .container-xl {
-    max-width: 95%;
+    max-width: 100%;
+  
   }
 }
 @media (min-width: 1400px) {
@@ -723,7 +724,7 @@ progress {
   .container-sm,
   .container-xl,
   .container-xxl {
-    max-width: 1320px;
+    max-width: 1380px;
   }
 }
 :root {
@@ -2007,7 +2008,8 @@ progress {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
   background-clip: padding-box;
-  border: 2px solid color(srgb 0.382 0.3924 0.4026);
+  /* border:  */
+  border-bottom:3px solid maroon;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

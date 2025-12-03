@@ -32,9 +32,54 @@ $team_sql = "SELECT * FROM tbl_team ORDER BY id ASC LIMIT 8";
 $team_result = mysqli_query($con, $team_sql);
 
 ?>
+<style>
+    /* Search Banner Dropdown Styling */
+.ban-search .chosen-container .chosen-single {
+    height: 48px !important;
+    line-height: 40px !important;
+    padding-left: 12px !important;
+    border-radius: 8px !important;
+    outline: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    text-align: left !important;
+}
 
+.ban-search .chosen-container .chosen-single span {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+/* Remove default huge padding of chosen dropdown */
+.ban-search .chosen-container .chosen-drop {
+    border-radius: 8px;
+    padding-left: 0 !important;
+}
+
+/* Dropdown list text left aligned */
+.ban-search .chosen-container .chosen-results li {
+    padding-left: 12px !important;
+    text-align: left !important;
+}
+
+/* Label ko bilkul neat rakhna */
+.ban-search .form-group label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff; /* You can change if needed */
+}
+
+/* Input boxes (Chosen wrapper) spacing fix */
+.ban-search .form-group {
+    margin-bottom: 12px;
+}
+
+</style>
     <!-- BANNER & SEARCH -->
-    <section>
+<section>
         <div class="str">
             <div class="hom-head">
                 <div class="container">
@@ -120,7 +165,7 @@ $team_result = mysqli_query($con, $team_sql);
                             </div> -->
                        
                        <div class="ban-search chosenini">
-    <form action="search-profile.php" method="post" id="banner-search-form">
+    <form action="search-profile1.php" method="post" id="banner-search-form">
         <ul>
             <li class="sr-look">
                 <div class="form-group">

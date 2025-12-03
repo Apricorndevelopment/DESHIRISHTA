@@ -90,6 +90,7 @@ if($userid == '')
                                 </div>
                                 <div class="form-login">
                                     <form class="cform fvali" method="post" action="insert-submitrequest.php">
+                                        <input type="hidden" name="category" value="User Support Request" required>
                                             <?php
                                             if($_GET['success'] == 'yes')
                                             {

@@ -135,6 +135,52 @@ else
     else
     {
         $userid = $rowselect['userid'];
+
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+if (preg_match('/mobile/i', $user_agent)) {
+    $device = "Mobile";
+} elseif (preg_match('/tablet/i', $user_agent)) {
+    $device = "Tablet";
+} else {
+    $device = "Desktop";
+}
+
+// PERFECT BROWSER DETECTION
+function detectBrowser($agent) {
+
+    if (strpos($agent, 'Edg') !== false) { return "Edge"; }
+    elseif (strpos($agent, 'OPR') !== false || strpos($agent, 'Opera') !== false) { return "Opera"; }
+    elseif (strpos($agent, 'Brave') !== false || strpos($agent, 'brave') !== false) { return "Brave"; }
+    elseif (strpos($agent, 'UCBrowser') !== false) { return "UC Browser"; }
+    elseif (strpos($agent, 'SamsungBrowser') !== false) { return "Samsung Internet"; }
+    elseif (strpos($agent, 'Firefox') !== false) { return "Firefox"; }
+    elseif (strpos($agent, 'Safari') !== false && strpos($agent, 'Chrome') === false) { return "Safari"; }
+    elseif (strpos($agent, 'Chrome') !== false) { return "Chrome"; }
+    else { return "Other"; }
+}
+
+$browser = detectBrowser($user_agent);
+
+// IP ADDRESS
+$ip = $_SERVER['REMOTE_ADDR'];
+
+// LOCATION FETCH
+$locationData = @json_decode(file_get_contents("http://ip-api.com/json/$ip"), true);
+$country = $locationData['country'] ?? '';
+$state   = $locationData['regionName'] ?? '';
+$city    = $locationData['city'] ?? '';
+
+// LOG THIS LOGIN IN THE DATABASE
+mysqli_query($con, "
+    INSERT INTO user_logs (userid, login_time, browser, device, ip_address, country, state, city)
+    VALUES ('$userid', NOW(), '$browser', '$device', '$ip', '$country', '$state', '$city')
+");
+
+
+mysqli_query($con, "UPDATE registration SET online='yes' WHERE userid='$userid'");
+
+
         setcookie("dr_userid", $userid, time() + (10 * 365 * 24 * 60 * 60));
         
         $email = $rowselect['email'];

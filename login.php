@@ -9,7 +9,7 @@ include 'header.php';
 .form-login textarea.form-control {
     border: none !important;
     border-radius: 0 !important;
-    border-bottom: 2px solid maroon !important;
+    border-bottom: 3px solid maroon !important;
     outline: none !important;
     box-shadow: none !important;
     background: transparent !important;

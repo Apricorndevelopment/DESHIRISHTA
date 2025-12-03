@@ -1,75 +1,79 @@
 <?php
+// File: upload-govtid.php
+
 include 'config.php';
 
-$userid = $_COOKIE['dr_userid'];
-$govtid = $_POST['govtid'];
-
-$s1=$_FILES["govtidphoto"]["name"];
-$s11=$_FILES["govtidphoto"]["tmp_name"];
-$sd1=move_uploaded_file($s11,"govtidphoto//".$s1);
-
-$sqlcheck = "select * from verification_info where userid = '$userid'";
-$resultcheck = mysqli_query($con,$sqlcheck);
-$countcheck = mysqli_fetch_assoc($resultcheck);
-
-if($countcheck == 0)
-{
-    $sqlinsert = "INSERT INTO `verification_info`(`userid`, `govtid`, `govpic`) VALUES ('$userid','$govtid','$s1')";
-    $resultinsert = mysqli_query($con,$sqlinsert);
+// Check if form is submitted via POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    $updatebasicinfo1 = "UPDATE `registration` SET `verificationinfo`='Done', `verification_popup`='0' WHERE `userid`='$userid'";
-    $resultbasicinfo1 = mysqli_query($con,$updatebasicinfo1);
+    // 1. Get User ID and Post Data (userid from cookie)
+    $userid = $_COOKIE['dr_userid'];
+    $govtid = mysqli_real_escape_string($con, $_POST['govtid']);
+    $new_filename = '';
+
+    if ($userid == '') {
+        // Redirect if user is not logged in
+        header('location:login.php');
+        exit;
+    }
+
+    // 2. File Upload Logic
+    if (isset($_FILES["govtidphoto"]) && $_FILES["govtidphoto"]["error"] == 0) {
+        
+        // Sanitize file name and create a unique name
+        $file_info = pathinfo($_FILES["govtidphoto"]["name"]);
+        $safe_filename = preg_replace("/[^a-zA-Z0-9._-]/", "", $file_info['filename']);
+        $new_filename = time() . '_' . $safe_filename . '.' . $file_info['extension'];
+        
+        // Destination directory is 'govtidphoto/' (relative to this script location)
+        $target_dir = "govtidphoto/"; 
+        $s11 = $_FILES["govtidphoto"]["tmp_name"];
+        $sd1 = move_uploaded_file($s11, $target_dir . $new_filename);
+        
+        if (!$sd1) {
+            // Handle file move failure
+            header('location:trust-badge.php?error=upload_failed'); 
+            exit;
+        }
+    } 
     
+    // Check if a file was actually uploaded or if user tried to submit without file
+    if (empty($new_filename)) {
+        // If the file upload failed or no file was selected, redirect with error
+        header('location:trust-badge.php?error=no_file_uploaded'); 
+        exit;
+    }
+
+    // 3. Check if a record exists in verification_info
+    $sqlcheck = "SELECT * FROM verification_info WHERE userid = '$userid'";
+    $resultcheck = mysqli_query($con, $sqlcheck);
+    
+    // Use mysqli_num_rows to check if a record exists
+    if (mysqli_num_rows($resultcheck) == 0) {
+        // --- INSERT New Record ---
+        $sqlinsert = "INSERT INTO `verification_info`(`userid`, `govtid`, `govpic`) VALUES ('$userid','$govtid','$new_filename')";
+        mysqli_query($con, $sqlinsert);
+        
+    } else {
+        // --- UPDATE Existing Record ---
+        $sqlupdate = "UPDATE `verification_info` SET `govtid`='$govtid', `govpic`='$new_filename' WHERE `userid`='$userid'";
+        mysqli_query($con, $sqlupdate);
+    }
+    
+    // 4. IMPORTANT: Reset registration status to PENDING for admin review
+    // 'Pending' status will ensure the admin panel shows the Verify/Decline buttons.
+    $update_reg_status = "UPDATE `registration` SET `verificationinfo`='Pending' WHERE `userid`='$userid'";
+    mysqli_query($con, $update_reg_status);
+
+    
+    // 5. Redirect to the verification page (User side)
+    // Removed automatic 'Verification Complete' email as status is now Pending
+    header('location:trust-badge.php?status=doc_updated_pending_review');
+    exit;
+
+} else {
+    // Handle non-POST request
+    header('location:trust-badge.php');
+    exit;
 }
-else
-{
-    $sqlupdate = "UPDATE `verification_info` SET `govtid`='$govtid',`govpic`='$s1' WHERE `userid`='$userid'";
-    $resultupdate = mysqli_query($con,$sqlupdate);
-    
-    $updatebasicinfo1 = "UPDATE `registration` SET `verificationinfo`='Done', `verification_popup`='0' WHERE `userid`='$userid'";
-    $resultbasicinfo1 = mysqli_query($con,$updatebasicinfo1);
-}
-
-$email = $_COOKIE['dr_email'];
-$fullname =  $_COOKIE['dr_name'];
-$subject = "Verification Complete: You've Earned Your Trust Badge!";
-$mailContent = "
-    <div style='width:90%; margin:2% auto; padding:3%;'>
-        <div style='text-align:center'>
-            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-        </div>
-        <div style='width:100%; margin:0 auto'>
-            <div style='color:#000; width:90%; margin:0 auto;'>
-                <p style='font-size:15px;'>Dear $fullname,</p>
-                <p style='font-size:15px;'>We are pleased to inform you that your verification process has been successfully completed. As a result, your trust badge is now active on your profile.</p>
-                <p style='font-size:15px;'>We appreciate your cooperation in completing this important step.</p>
-                <br>
-                <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
-                <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
-                <p style='font-size:15px; margin:0px'>support@desi-rishta.com</p>
-            </div>
-        </div>    
-    </div>
-    ";
-    
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://app.smtpprovider.com/api/send-mail/',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS => array('to' => $email,'from' => 'info@noreplies.co.in','from_name' => 'Desi Rishta','subject' => $subject,'body' => $mailContent,'token' => '74765968c67007219b197f4d9aafb4e2'),
-));
-
-$response = curl_exec($curl);
-
-curl_close($curl);
-//echo $response;
-
-header('location:trust-badge.php');
 ?>

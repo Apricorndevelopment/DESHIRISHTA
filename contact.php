@@ -138,6 +138,17 @@ Thanks!
                                             </span>
                                             <p class="text-danger errorstatement" id="phoneerror" style="display:none">Please Enter Phone No.</p>
                                         </div>
+                                         <div class="form-group">
+                                        <label for="category">Select Issue Category <span class="text-danger">*</span></label>
+                                        <select class="form-control" id="category" name="category" required>
+                                            <option value="" disabled selected>--- Select ---</option>
+                                            <option value="General Query">General Query</option>
+                                            <option value="Technical Issue">Technical Issue</option>
+                                            <option value="Billing/Payment">Billing/Payment</option>
+                                            <option value="Profile Update">Profile Update</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
                                         <div class="form-group">
                                             <label class="lb">Message</label>
                                             <span class="iconbox">
@@ -226,7 +237,20 @@ Thanks!
                                                 <span class="material-symbols-outlined icon">call</span>
                                             </span>
                                         </div>
+
+
                                         <div class="form-group">
+                                        <label for="category">Select Issue Category <span class="text-danger">*</span></label>
+                                        <select class="form-control" id="category" name="category" required>
+                                            <option value="" disabled selected>--- Select ---</option>
+                                            <option value="General Query">General Query</option>
+                                            <option value="Technical Issue">Technical Issue</option>
+                                            <option value="Billing/Payment">Billing/Payment</option>
+                                            <option value="Profile Update">Profile Update</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                   <div class="form-group">
                                             <label class="lb">Message</label>
                                             <span class="iconbox">
                                                 <textarea name="message" class="form-control leftspace" id="message" placeholder="Enter Message" required></textarea>
