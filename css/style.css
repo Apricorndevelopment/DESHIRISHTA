@@ -8294,7 +8294,7 @@ color: #fff !important;
     width: 100%;
     padding: 40px 40px 30px 40px;
     position: relative;
-    background:#835c5c;
+    /* background:#835c5c; */
 }
 
 .blog-home-box .txt:hover h2 {

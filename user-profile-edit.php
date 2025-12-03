@@ -3204,7 +3204,7 @@ foreach($uid as $single_uid) {
                                                 </form>
                                             </div>
                                         </div>
-<div id="photostab" class=" tab-pane fade p-0">
+ <div id="photostab" class=" tab-pane fade p-0">
     <div class="form-login">
         
         <?php
@@ -3245,7 +3245,7 @@ foreach($uid as $single_uid) {
                 <?php
                 }
                 ?>
-                <div class="row p-4">
+<!-- <div class="row p-4">
     <?php
     // Fetch Live Data
     $sqlphotosinfo = "select * from photos_info where userid = '$userid'";
@@ -3378,8 +3378,91 @@ foreach($uid as $single_uid) {
         <input type="file" class="form-control" id="addphoto4input" name="photo3" style="display:none;" onchange="previewImage4(event)" accept="image/png, image/jpg, image/jpeg">
     </div>
 
-</div>
+</div> -->
+   <div class="row p-4">
+                    <?php
+                    // Fetch Live Data
+                    $sqlphotosinfo = "select * from photos_info where userid = '$userid'";
+                    $resultphotosinfo = mysqli_query($con, $sqlphotosinfo);
+                    $rowphotosinfo = mysqli_fetch_assoc($resultphotosinfo);
 
+                    // Array configuration to loop through fields easily
+                    // Format: [Field Name, Label, File Input ID, Preview ID]
+                    $photoFields = [
+                        ['col' => 'profilepic', 'label' => 'Profile Picture', 'id' => 'profilepic', 'preview' => 'prev_profile'],
+                        ['col' => 'photo1',     'label' => 'Picture 1',       'id' => 'photo1',     'preview' => 'prev_1'],
+                        ['col' => 'photo2',     'label' => 'Picture 2',       'id' => 'photo2',     'preview' => 'prev_2'],
+                        ['col' => 'photo3',     'label' => 'Picture 3',       'id' => 'photo3',     'preview' => 'prev_3'],
+                    ];
+
+                    foreach ($photoFields as $field) {
+                        $imgSrc = $rowphotosinfo[$field['col']];
+                        $hasImage = !empty($imgSrc);
+                        $imagePath = "userphoto/" . $imgSrc;
+                    ?>
+                    
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="form-group text-center">
+                            <label class="lb font-weight-bold mb-2"><?php echo $field['label']; ?> <?php if($field['col']=='profilepic') echo '<span class="text-danger">*</span>'; ?></label>
+                            
+                            <div class="photo-slot">
+                                <!-- Hidden File Input -->
+                                <input type="file" 
+                                       id="<?php echo $field['id']; ?>" 
+                                       name="<?php echo $field['col']; ?>" 
+                                       class="d-none" 
+                                       accept="image/png, image/jpg, image/jpeg"
+                                       onchange="previewImage(this, '<?php echo $field['preview']; ?>', 'box_<?php echo $field['id']; ?>')">
+
+                                <!-- Hidden input for old photo -->
+                                <?php if($hasImage): ?>
+                                    <input type="hidden" name="old<?php echo $field['col']; ?>" value="<?php echo $imgSrc; ?>">
+                                <?php endif; ?>
+
+                                <!-- Container Box -->
+                                <div id="box_<?php echo $field['id']; ?>" class="photo-box <?php echo $hasImage ? 'filled' : 'empty'; ?>">
+                                    
+                                    <!-- Image Preview -->
+                                    <img id="<?php echo $field['preview']; ?>" 
+                                         src="<?php echo $hasImage ? $imagePath : ''; ?>" 
+                                         style="display: <?php echo $hasImage ? 'block' : 'none'; ?>;">
+
+                                    <!-- Empty State Placeholder -->
+                                    <div class="empty-text" id="placeholder_<?php echo $field['preview']; ?>" style="display: <?php echo $hasImage ? 'none' : 'block'; ?>;">
+                                        <i class="fa fa-image"></i>
+                                        <span>Upload</span>
+                                    </div>
+
+                                    <!-- ACTIONS -->
+                                    <?php if ($hasImage): ?>
+                                        <!-- DELETE Button (X) - Bottom Right -->
+                                        <?php if ($rowformfill['verificationinfo'] == '1') { ?>
+                                            <a href="delete-managephoto.php?uid=<?php echo $userid; ?>&coloum=<?php echo $field['col']; ?>" 
+                                               class="float-btn btn-delete" 
+                                               onclick="return confirm('Are you sure you want to delete this photo?');"
+                                               title="Delete">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        <?php } ?>
+
+                                        <!-- CHANGE Button (Pencil) - Top Right -->
+                                        <label for="<?php echo $field['id']; ?>" class="float-btn btn-change" title="Change Photo">
+                                            <i class="fa fa-pencil"></i>
+                                        </label>
+                                    <?php else: ?>
+                                        <!-- ADD Button (+) - Bottom Right -->
+                                        <label for="<?php echo $field['id']; ?>" class="float-btn btn-add" title="Add Photo">
+                                            <i class="fa fa-plus"></i>
+                                        </label>
+                                    <?php endif; ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
+
+                </div>
 <div class="row">
     <div class="col-md-12 form-group">
         <p class="mt-4 m-0"><span class="text-danger">Supports:</span> PNG, JPG and JPEG</p>
@@ -3480,6 +3563,148 @@ foreach($uid as $single_uid) {
         </form>
     </div>
 </div>
+<style>
+    /* Container for the photo slot */
+    .photo-slot {
+        position: relative;
+        width: 100%;
+        max-width: 200px; /* Adjust based on preference */
+        margin: 0 auto;
+    }
+
+    /* The square box foundation */
+    .photo-box {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* Makes it a perfect square */
+        border-radius: 15px;
+        background-color: #f0f2f5;
+        overflow: visible; /* Allows buttons to hang outside */
+        transition: all 0.3s ease;
+     
+    }
+
+    /* Style for Empty State (Dashed Border) */
+    .photo-box.empty {
+        border: 2px dashed #cbd5e0;
+        background-color: #f8f9fa;
+    }
+
+    /* Style for Filled State (Solid, Shadow) */
+    .photo-box.filled {
+        border: none;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* The Image Itself */
+    .photo-box img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 15px;
+           /* border:3px dashed black; */
+    }
+
+    /* Common Floating Button Style */
+    .float-btn {
+        position: absolute;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        z-index: 10;
+        transition: transform 0.2s;
+        text-decoration: none !important;
+    }
+
+    .float-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .float-btn i {
+        font-size: 16px;
+    }
+
+    /* Specific Button Colors & Positions */
+    
+    /* ADD Button (+) - Bottom Right */
+    .btn-add {
+        bottom: -10px;
+        right: -10px;
+        background: #ff4757; /* Pink/Red from reference */
+        color: white;
+        border: 2px solid #fff;
+    }
+
+    /* DELETE Button (X) - Bottom Right */
+    .btn-delete {
+        bottom: -10px;
+        right: -10px;
+        background: #ffffff;
+        color: #7f8c8d;
+        border: 1px solid #e2e8f0;
+    }
+    
+    /* CHANGE Button (Pencil) - Top Right (New Feature) */
+    .btn-change {
+        top: -10px;
+        right: -10px;
+        background: #3498db;
+        color: white;
+        border: 2px solid #fff;
+    }
+
+    /* Centered Text for Empty State */
+    .empty-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #a0aec0;
+        width: 100%;
+    }
+    .empty-text i { font-size: 30px; display: block; margin-bottom: 5px; }
+    .empty-text span { font-size: 12px; font-weight: 600; }
+
+</style>
+
+
+
+<script>
+function previewImage(input, imgId, boxId) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function(e) {
+            // Show the image
+            var img = document.getElementById(imgId);
+            img.src = e.target.result;
+            img.style.display = 'block';
+            
+            // Hide the placeholder text
+            document.getElementById('placeholder_' + imgId).style.display = 'none';
+            
+            // Change box style from dashed (empty) to solid (filled)
+            var box = document.getElementById(boxId);
+            box.classList.remove('empty');
+            box.classList.add('filled');
+            
+            // Note: In a real dynamic scenario, you might want to switch the '+' button 
+            // to a 'Change' button via JS here, but submitting the form updates the state cleanly.
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
                                     </div>
                                 </div>
                             </div>
