@@ -256,7 +256,7 @@ $rowblog = mysqli_fetch_assoc($resultblog)
                                             <li><input type="text" name="news_newsletter_subscribe_name"
                                                     placeholder="Enter Email Id*" class="form-control" required="">
                                             </li>
-                                            <li><input type="submit" id="news_newsletter_subscribe_submit"
+                                            <li><input type="submit" style="border-color: BLACK;" id="news_newsletter_subscribe_submit"
                                                     name="news_newsletter_subscribe_submit" class="form-control"></li>
                                         </ul>
                                     </form>
@@ -313,7 +313,87 @@ $rowblog = mysqli_fetch_assoc($resultblog)
         </div>
     </section>
     <!-- END -->
+<div id="newsletterModal" class="custom-modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <!-- <img src="img/" alt="Success"> -->
+        
+        <h3>Thank You!</h3>
+        <p>You have successfully subscribed to our newsletter.</p>
+    </div>
+</div>
+<style>
+    /* --- Newsletter Modal CSS --- */
+.custom-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 10000; /* Sabse upar */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Background dim */
+    backdrop-filter: blur(2px); /* Thoda blur effect */
+    justify-content: center;
+    align-items: center;
+}
 
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(214, 51, 132, 0.3); /* Pink Shadow */
+    animation: popUp 0.4s ease-out;
+    border: 2px solid #ffebf0; /* Light pink border */
+}
+
+/* Animation for popup */
+@keyframes popUp {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content img {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+.modal-content h3 {
+    color: #d63384; /* Deep Pink */
+    font-family: sans-serif;
+    margin: 10px 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.modal-content p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Close Button (Cross) */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #d63384;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    line-height: 20px;
+}
+
+.close-btn:hover {
+    color: #a61e4d;
+    transform: rotate(90deg);
+}
+</style>
 
 <?php
 include 'footer.php';
@@ -323,7 +403,7 @@ $resultblog1 = mysqli_query($con,$sqlblog1);
 while($rowblog1 = mysqli_fetch_assoc($resultblog1))
 {
 ?>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function myFunction<?php echo $rowblog1['id']; ?>() {
             // Get the text field
@@ -369,3 +449,91 @@ function copyLink(id) {
 <?php
 }
 ?>
+<script>
+$(document).ready(function() {
+    
+    // Modal Close Logic (Cross button click)
+    $('.close-btn').click(function() {
+        $('#newsletterModal').fadeOut();
+    });
+
+    // Modal Close Logic (Outside click)
+    $(window).click(function(e) {
+        if ($(e.target).is('#newsletterModal')) {
+            $('#newsletterModal').fadeOut();
+        }
+    });
+
+    // Form Submit Logic
+    $('#news_newsletter_subscribe_form').submit(function(e) {
+        e.preventDefault(); 
+
+        var email = $('input[name="news_newsletter_subscribe_name"]').val();
+        var submitBtn = $('#news_newsletter_subscribe_submit');
+
+        if(email == '') {
+            alert("Please enter a valid email.");
+            return;
+        }
+
+        submitBtn.val('Subscribing...'); 
+
+        $.ajax({
+            url: 'insert-newsletter.php',
+            type: 'POST',
+            data: { email: email },
+            success: function(response) {
+                if(response.trim() == "success") {
+                    
+                    // --- YAHAN CHANGE HUA HAI ---
+                    // Alert hata diya, Modal show kiya
+                    $('#newsletterModal').css('display', 'flex').hide().fadeIn();
+                    
+                    $('#news_newsletter_subscribe_form')[0].reset(); // Form clear
+                
+                } else if(response.trim() == "exist") {
+                    alert("You have already subscribed!");
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+                submitBtn.val('Subscribe'); 
+            }
+        });
+    });
+});
+</script>
+<!-- <script>
+
+$(document).ready(function() {
+    $('#news_newsletter_subscribe_form').submit(function(e) {
+        e.preventDefault(); // Page refresh rokein
+
+        var email = $('input[name="news_newsletter_subscribe_name"]').val();
+        var submitBtn = $('#news_newsletter_subscribe_submit');
+
+        if(email == '') {
+            alert("Please enter a valid email.");
+            return;
+        }
+
+        submitBtn.val('Subscribing...'); // Button text change
+
+        $.ajax({
+            url: 'insert-newsletter.php',
+            type: 'POST',
+            data: { email: email },
+            success: function(response) {
+                if(response.trim() == "success") {
+                    alert("Thank you for subscribing to our newsletter!");
+                    $('#news_newsletter_subscribe_form')[0].reset(); // Form clear karein
+                } else if(response.trim() == "exist") {
+                    alert("You have already subscribed!");
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+                submitBtn.val('Subscribe'); // Button text reset
+            }
+        });
+    });
+});
+</script> -->

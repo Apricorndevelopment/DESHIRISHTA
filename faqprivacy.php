@@ -53,7 +53,7 @@ include 'config.php';
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8 col-lg-9">
+                    <div class="col-md-8 col-lg-8">
                         <div class="row">
                             <div class="col-md-12 db-sec-com profileform">
                                 <div class="p-0">

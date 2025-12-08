@@ -119,8 +119,45 @@ $team_result = mysqli_query($con, $team_sql);
                     <div class="sub-tit-caps">
                         <h2>Membership <span class="animate animate__animated" data-ani="animate__flipInX" data-dely="0.1">Analytics</span></h2>
                     </div>
-                    
-                    <ul>
+                       <ul>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $couples_paired; ?>">0</h4>
+                                    <span>Couples paired</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $total_registrants; ?>">0</h4>
+                                    <span>Registerents</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa fa-male" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $total_men; ?>">0</h4>
+                                    <span>Mens</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa fa-female" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $total_women; ?>">0</h4>
+                                    <span>Womens</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <ul>
                         <li>
                             <div class="ab-cont-po">
                                <i class="fa-regular fa-heart"></i>
@@ -158,11 +195,63 @@ $team_result = mysqli_query($con, $team_sql);
                                 </div>
                             </div>
                         </li>
-                    </ul>
+                    </ul> -->
                     </div>
             </div>
         </div>
 
+    </section>
+    <section>
+        <div class="ab-team">
+            <div class="container" style="overflow: hidden;">
+                <div class="row">
+                    <div class="home-tit">
+                        <p>OUR PROFESSIONALS</p>
+                        <h2><span>Meet Our Team</span></h2>
+                        <span class="leaf1"></span>
+                    </div>
+
+                    <div class="ab-team-test"> 
+                        <ul class="team-slider">
+
+                            <?php
+                            if ($team_result && mysqli_num_rows($team_result) > 0) {
+                                while ($member = mysqli_fetch_assoc($team_result)) {
+                                    $image_path = 'images/profiles/' . $member['image'];
+                            ?>
+
+                            <li>
+                                <div>
+                                    <img src="<?php echo $image_path; ?>" alt="<?php echo htmlspecialchars($member['name']); ?>" loading="lazy">
+                                    <h4><?php echo htmlspecialchars($member['name']); ?></h4>
+                                    <p><?php echo htmlspecialchars($member['designation']); ?></p>
+                                   <ul class="social-light">
+                                        <?php if(!empty($member['facebook'])) { ?>
+                                            <li><a href="<?php echo htmlspecialchars($member['facebook']); ?>" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li> <?php } ?>
+                                        <?php if(!empty($member['twitter'])) { ?>
+                                            <li><a href="<?php echo htmlspecialchars($member['twitter']); ?>" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a></li> <?php } ?>
+                                        <?php if(!empty($member['whatsapp'])) { ?>
+                                            <li><a href="<?php echo htmlspecialchars($member['whatsapp']); ?>" target="_blank"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li> <?php } ?>
+                                        <?php if(!empty($member['linkedin'])) { ?>
+                                            <li><a href="<?php echo htmlspecialchars($member['linkedin']); ?>" target="_blank"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li> <?php } ?>
+                                        <?php if(!empty($member['instagram'])) { ?>
+                                            <li><a href="<?php echo htmlspecialchars($member['instagram']); ?>" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a></li> <?php } ?>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <?php
+                                } // while loop ends
+                            } else {
+                                echo "<li><div><p>No team members found.</p></div></li>";
+                            }
+                            ?>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- END -->
 <section>
@@ -179,6 +268,7 @@ $team_result = mysqli_query($con, $team_sql);
                       <span class="abo-shap-4"></span>
                     <span class="abo-shap-3"></span>
                 </div>
+                
 
                 <div class="cus-revi">
                     <ul class="testimonial-slider">
@@ -232,58 +322,7 @@ $team_result = mysqli_query($con, $team_sql);
         </div>
     </div>
 </section>
-<section>
-        <div class="ab-team">
-            <div class="container">
-                <div class="row">
-                    <div class="home-tit">
-                        <p>OUR PROFESSIONALS</p>
-                        <h2><span>Meet Our Team</span></h2>
-                        <span class="leaf1"></span>
-                    </div>
 
-                    <div class="ab-team-test"> 
-                        <ul class="team-slider">
-
-                            <?php
-                            if ($team_result && mysqli_num_rows($team_result) > 0) {
-                                while ($member = mysqli_fetch_assoc($team_result)) {
-                                    $image_path = 'images/profiles/' . $member['image'];
-                            ?>
-
-                            <li>
-                                <div>
-                                    <img src="<?php echo $image_path; ?>" alt="<?php echo htmlspecialchars($member['name']); ?>" loading="lazy">
-                                    <h4><?php echo htmlspecialchars($member['name']); ?></h4>
-                                    <p><?php echo htmlspecialchars($member['designation']); ?></p>
-                                   <ul class="social-light">
-                                        <?php if(!empty($member['facebook'])) { ?>
-                                            <li><a href="<?php echo htmlspecialchars($member['facebook']); ?>" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li> <?php } ?>
-                                        <?php if(!empty($member['twitter'])) { ?>
-                                            <li><a href="<?php echo htmlspecialchars($member['twitter']); ?>" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a></li> <?php } ?>
-                                        <?php if(!empty($member['whatsapp'])) { ?>
-                                            <li><a href="<?php echo htmlspecialchars($member['whatsapp']); ?>" target="_blank"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li> <?php } ?>
-                                        <?php if(!empty($member['linkedin'])) { ?>
-                                            <li><a href="<?php echo htmlspecialchars($member['linkedin']); ?>" target="_blank"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li> <?php } ?>
-                                        <?php if(!empty($member['instagram'])) { ?>
-                                            <li><a href="<?php echo htmlspecialchars($member['instagram']); ?>" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a></li> <?php } ?>
-                                    </ul>
-                                </div>
-                            </li>
-
-                            <?php
-                                } // while loop ends
-                            } else {
-                                echo "<li><div><p>No team members found.</p></div></li>";
-                            }
-                            ?>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
 
 
@@ -291,7 +330,76 @@ $team_result = mysqli_query($con, $team_sql);
 <?php
 include 'footer.php';
 ?>
+
+<style>
+    /* === Team Slider Styling === */
+.team-slider .slick-slide {
+    padding: 0 10px; /* Cards ke beech 10px ka gap */
+    height: auto;
+}
+
+/* Dots ki styling same Testimonials jaisi */
+.team-slider .slick-dots {
+    bottom: -5px;
+    position: relative;
+    padding-top: 20px;
+    text-align: center; /* Dots ko center mein dikhane ke liye */
+    padding-left: 270PX;
+}
+
+.team-slider .slick-dots li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.team-slider .slick-dots li button {
+    color: transparent;
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+    border-radius: 50%;
+    border: 0;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.team-slider .slick-dots li.slick-active button {
+    background: #66451c; /* Active dot color */
+    width: 12px;
+    height: 12px;
+}
+</style>
+
 <script>
+    // Team Slider Initialization
+$('.team-slider').slick({
+    slidesToShow: 4,      // Laptop/PC par 4 members dikhenge
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    dots: true,           // Niche dots dikhenge
+    arrows: false,        // Arrows band
+    responsive: [
+        {
+            breakpoint: 1024, // Tablet Landscape
+            settings: {
+                slidesToShow: 3,
+            }
+        },
+        {
+            breakpoint: 768, // Tablet Portrait / Large Mobile
+            settings: {
+                slidesToShow: 2,
+            }
+        },
+        {
+            breakpoint: 480, // Chote Mobile
+            settings: {
+                slidesToShow: 1,
+            }
+        }
+    ]
+});
   // Testimonial Slider
 $('.testimonial-slider').slick({
     slidesToShow: 3,      // Ek baar mein 3 dikhaye
@@ -360,7 +468,7 @@ $(document).ready(function() {
 <style>
     /* === Testimonial Slider Fix (About Page) === */
 .testimonial-slider .slick-slide {
-    padding: 0 15px; /* Cards ke beech gap */
+    padding: 0 0px; /* Cards ke beech gap */
     height: auto;
 }
 .testimonial-slider .slick-slide > div,
@@ -374,10 +482,10 @@ $(document).ready(function() {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 25px;
-    border: 1px solid #f0f0f0;
+    padding: 5px;
+    /* border: 1px solid #f0f0f0; */
     border-radius: 8px;
-    box-shadow: 0 2px 7px -1px #625c472b;
+    /* box-shadow: 0 2px 7px -1px #625c472b; */
 }
 .testimonial-slider .ab-test-rat {
     flex-grow: 1; /* Content ko expand karega */
@@ -388,6 +496,7 @@ $(document).ready(function() {
     bottom: -15px; /* Dots ko slider se thoda neeche karein */
     position: relative;
     padding-top: 30px;
+    margin-left: 240px;
 }
 .testimonial-slider .slick-dots li button {
     color: #0000;

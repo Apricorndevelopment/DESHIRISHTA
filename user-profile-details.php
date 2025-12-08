@@ -157,115 +157,10 @@ if($loginid == $profileid) {
     }
 }
 ?>
-<div class="watermark-overlay">
-    <?php 
-    // Viewer ka ID aur Date repeat karenge taaki screenshot ganda dikhe
-    $watermark_text = "Viewed by " . $loginid . " (" . date('d-M-Y') . ")";
-    for($i=0; $i<15; $i++) {
-        echo "";
-    }
-    ?>
-</div>
 
-<style>
-/* 1. PRINT PROTECTION: Print karne par page blank ho jayega */
-@media print {
-    body { display: none !important; }
-    html::after {
-        content: "Screenshots and Printing are Disabled for Privacy!";
-        display: block;
-        font-size: 24px;
-        text-align: center;
-        padding-top: 50px;
-    }
-}
 
-/* 2. USER SELECT DISABLE: Text copy nahi kar payenge */
-body {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-}
 
-/* 3. WATERMARK STYLING */
-.watermark-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none; /* Click pass-through (user click kar payega) */
-    z-index: 999999; /* Sabse upar */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: space-around;
-    overflow: hidden;
-    opacity: 0.15; /* Halka sa dikhega */
-}
 
-.watermark-overlay span {
-    transform: rotate(-45deg);
-    font-size: 18px;
-    color: #000;
-    font-weight: bold;
-    white-space: nowrap;
-    margin: 50px;
-}
-</style>
-
-<script>
-// 4. DISABLE RIGHT CLICK
-document.addEventListener('contextmenu', event => event.preventDefault());
-
-// 5. DISABLE SCREENSHOT SHORTCUTS (Keyboard)
-document.addEventListener('keydown', function(e) {
-    // Disable Print Screen Button
-    if (e.key === 'PrintScreen') {
-        navigator.clipboard.writeText(''); // Clipboard clear kar do
-        alert('Screenshots are disabled for privacy reasons!');
-        e.preventDefault();
-        
-        // Optional: Screen ko white kar do temporarily
-        document.body.style.visibility = 'hidden';
-        setTimeout(() => { document.body.style.visibility = 'visible'; }, 1000);
-    }
-
-    // Disable Ctrl+P (Print)
-    if (e.ctrlKey && (e.key === 'p' || e.key === 'P')) {
-        alert('Printing is disabled!');
-        e.preventDefault();
-    }
-
-    // Disable Ctrl+S (Save)
-    if (e.ctrlKey && (e.key === 's' || e.key === 'S')) {
-        e.preventDefault();
-    }
-    
-    // Disable Ctrl+Shift+I (Inspect Element)
-    if (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) {
-        e.preventDefault();
-    }
-
-    // Disable Snipping Tool Shortcut (Windows+Shift+S - Browser rarely allows blocking this, but try)
-    if (e.metaKey && e.shiftKey && (e.key === 's' || e.key === 'S')) {
-        e.preventDefault();
-    }
-});
-
-// 6. DETECT MOBILE SCREENSHOT (Experimental)
-// Jab mobile user screenshot leta hai, browser ka focus change hota hai.
-// Hum content blur kar sakte hain.
-document.addEventListener("visibilitychange", function() {
-    if (document.hidden) {
-        document.body.style.filter = "blur(10px)";
-    } else {
-        setTimeout(()=>{
-            document.body.style.filter = "none";
-        }, 500);
-    }
-});
-</script>
 <!-- CSS FOR CONTACT SECTION -->
 <style>
 
@@ -361,7 +256,7 @@ document.addEventListener("visibilitychange", function() {
                 <div class="">
                    
                    
-<div class="profile">
+<div class="profile" style="background: white;">
                     
               
                     <div class="premium-profile-wrapper">

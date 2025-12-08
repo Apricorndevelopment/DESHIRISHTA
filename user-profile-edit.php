@@ -171,6 +171,9 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
     .chosen-container-single .chosen-single span {
         color: #6c757d !important;
     }
+    .material-symbols{
+        color:white;
+    }
 </style>
 
 <section>
@@ -191,108 +194,258 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
             <div class="row">
                 <div class="col-md-3 col-lg-3">
                     <div class="col-md-12 db-sec-com">
-                        <div class="db-nav">
-                            <div class="db-nav-pro text-center mb-2"><img src="images/open-enrollment.gif" class="img-fluid" alt="" style="width:50%"></div>
-                            <div class="text-center mb-3">
-                                <!-- <b>
-                                    <?php
-                                    // $uid = str_split($_COOKIE['dr_userid']);
-                                    // foreach ($uid as $single_uid) {
-                                    //     echo '<span class="rounduid">';
-                                    //     echo $single_uid;
-                                    //     echo "</span>";
-                                    // }
-                                    ?>
-                                    </span>
-                                    
-                                </b> -->
-<style>
- .numberplate {
-    background: #f5f5f5;
-    /* border: 2px solid #ccc; */
-    padding: 8px 12px;
-    /* display: inline-flex; */
-    /* gap: 2px; */
-    border-radius: 4px;
-    align-items: center;
-}
+                       
 
-/* Main character styling */
-.np-char {
-    font-size: 26px;
-    font-weight: 400;
-    font-family: 'Arial', sans-serif;
-    color: #222;
-    letter-spacing: 1px;
-    display: inline-block;
-}
 
-/* RESPONSIVE for all mobile screens */
-@media (max-width: 480px) {
-    .np-char {
-        font-size: 22px;
-        letter-spacing: 0.5px;
-    }
-    .numberplate {
-        padding: 6px 10px;
-        gap: 3px;
-    }
-}
-
-@media (max-width: 360px) {
-    .np-char {
-        font-size: 20px;
-    }
-}
-
-</style>
-
-            <div class="numberplate">
-<?php 
-$uid = str_split($_COOKIE['dr_userid']); 
-foreach($uid as $single_uid) {
-    echo '<span class="np-char">'.$single_uid.'</span>';
-}
-?>
+                        <div class="mobile-menu-trigger" onclick="toggleSidebar()">
+    <span class="material-symbols" style="color:#fff">Edit menu</span>
 </div>
 
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-                            </div>
-                            <div class="db-nav-list">
-                                <?php
-                                $sqlformfill = "select * from registration where userid = '$userid'";
-                                $resultformfill = mysqli_query($con, $sqlformfill);
-                                $rowformfill = mysqli_fetch_assoc($resultformfill);
-                                ?>
-                                <ul class="nav nav-tabs profiletabs" role="tablist">
-                                    <li><a class="nav-link active border-0" id="basic" data-bs-toggle="tab" href="#basictab"><span class="material-symbols-outlined">contacts</span>&nbsp;&nbsp;Basic Information <?php if ($rowformfill['basicinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="aboutme" data-bs-toggle="tab" href="#aboutmetab"><span class="material-symbols-outlined">person</span>&nbsp;&nbsp;About <?php if ($rowformfill['gender'] == 'Male') {
-                                                                                                                                                                                                        echo "Groom";
-                                                                                                                                                                                                    }
-                                                                                                                                                                                                    if ($rowformfill['gender'] == 'Female') {
-                                                                                                                                                                                                        echo "Bride";
-                                                                                                                                                                                                    } ?> <?php if ($rowformfill['aboutme'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="astro" data-bs-toggle="tab" href="#astrotab"><span class="material-symbols-outlined">brightness_auto</span>&nbsp;&nbsp;Astro Details <?php if ($rowformfill['astroinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="religious" data-bs-toggle="tab" href="#religioustab"><span class="material-symbols-outlined">temple_hindu</span>&nbsp;&nbsp;Religious Background <?php if ($rowformfill['religiousinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="educationcareer" data-bs-toggle="tab" href="#educationcareertab"><span class="material-symbols-outlined">school</span>&nbsp;&nbsp;Education & Career <?php if ($rowformfill['educationinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="groom" data-bs-toggle="tab" href="#groomtab"><?php if ($rowformfill['gender'] == 'Male') {
-                                                                                                                            echo "<span class='material-symbols-outlined'>man</span>&nbsp;&nbsp;Groom";
-                                                                                                                        }
-                                                                                                                        if ($rowformfill['gender'] == 'Female') {
-                                                                                                                            echo "<span class='material-symbols-outlined'>woman</span>&nbsp;&nbsp;Bride";
-                                                                                                                        } ?> Location <?php if ($rowformfill['groomlocation'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php }
-                                                                                                                                                                                                                                                    if ($rowformfill['bridelocation'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php }
-                                                                                                                                                                                                                                                                                                                                                            if ($rowformfill['bridelocation'] == '' && $rowformfill['groomlocation'] == '') { ?><i class="fa fa-times-circle text-danger formfill"></i> <?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="family" data-bs-toggle="tab" href="#familytab"><span class="material-symbols-outlined">family_restroom</span>&nbsp;&nbsp;Family Details <?php if ($rowformfill['familyinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="hobbies" data-bs-toggle="tab" href="#hobbiestab"><span class="material-symbols-outlined">interests</span>&nbsp;&nbsp;Hobbies & Interest <?php if ($rowformfill['hobbiesinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="partner" data-bs-toggle="tab" href="#partnertab"><span class="material-symbols-outlined">diversity_2</span>&nbsp;&nbsp;Partner Preferences <?php if ($rowformfill['partnerinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="contact" data-bs-toggle="tab" href="#contacttab"><span class="material-symbols-outlined">call</span>&nbsp;&nbsp;Contact Details <?php if ($rowformfill['contactinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <li><a class="nav-link border-0" id="photos" data-bs-toggle="tab" href="#photostab"><span class="material-symbols-outlined">photo_camera</span>&nbsp;&nbsp;Manage Photos <?php if ($rowformfill['photosinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } else { ?><i class="fa fa-times-circle text-danger formfill"></i><?php } ?></a></li>
-                                    <!--<li><a class="nav-link border-0" id="verification" data-bs-toggle="tab" href="#verificationtab"><i class="fa fa-check-circle"></i>&nbsp;&nbsp;Verification <?php if ($rowformfill['verificationinfo'] == 'Done') { ?><i class="fa fa-check-circle text-success formfill"></i> <?php } ?></a></li>-->
-                                    <li style="display:none"><a class="nav-link border-0" id="thankyou" data-bs-toggle="tab" href="#thankyoutab"></a></li>
-                                </ul>
-                            </div>
-                        </div>
+<div class="db-nav" id="sidebarMenu">
+    
+    <div class="close-sidebar-btn" onclick="toggleSidebar()">
+        <span class="material-symbols-outlined">close</span>
+    </div>
+
+    <div class="db-nav-pro text-center mb-2">
+        <img src="images/open-enrollment.gif" class="img-fluid" alt="" style="width:50%">
+    </div>
+    
+    <div class="text-center mb-3">
+        
+        <style>
+            .numberplate {
+                background: #f5f5f5; /* Light background box */
+                padding: 8px 12px;
+                border-radius: 4px;
+                align-items: center;
+                display: inline-block;
+                border: 1px solid #ccc;
+            }
+            
+            /* Main character styling - OLD GOLD COLOR RESTORED */
+            .np-char {
+                font-size: 26px;
+                font-weight: 500;
+                font-family: 'Playfair Display', serif; /* Agar font available ho */
+                color: #ffc532ff; /* OLD GOLD COLOR */
+                letter-spacing: 1px;
+                display: inline-block;
+                text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+            }
+
+            /* Responsive tweaks */
+            @media (max-width: 480px) {
+                .np-char { font-size: 22px; letter-spacing: 0.5px; }
+                .numberplate { padding: 6px 10px; gap: 3px; }
+            }
+        </style>
+
+        <div class="numberplate">
+            <?php 
+            $uid = str_split($_COOKIE['dr_userid']); 
+            foreach($uid as $single_uid) {
+                echo '<span class="np-char">'.$single_uid.'</span>';
+            }
+            ?>
+        </div>
+    </div>
+
+    <div class="db-nav-list">
+        <?php
+        // Fetch latest status
+        $sqlformfill = "select * from registration where userid = '$userid'";
+        $resultformfill = mysqli_query($con, $sqlformfill);
+        $rowformfill = mysqli_fetch_assoc($resultformfill);
+
+        $gender = ucfirst(strtolower(trim($rowformfill['gender']))); 
+        $loc_label = "Location Details"; $loc_icon = "map"; $loc_status = "";
+
+        if ($gender == 'Male') {
+            $loc_label = "Groom Location"; $loc_icon = "man"; $loc_status = $rowformfill['groomlocation'];
+        } elseif ($gender == 'Female') {
+            $loc_label = "Bride Location"; $loc_icon = "woman"; $loc_status = $rowformfill['bridelocation'];
+        }
+        ?>
+
+        <ul class="nav nav-tabs profiletabs" role="tablist">
+            <li>
+                <a class="nav-link active border-0" id="basic" data-bs-toggle="tab" href="#basictab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">contacts</span>&nbsp;&nbsp;Basic Information 
+                    <?php if ($rowformfill['basicinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="aboutme" data-bs-toggle="tab" href="#aboutmetab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">person</span>&nbsp;&nbsp;About <?php echo (strcasecmp($gender, 'Male') == 0) ? "Groom" : "Bride"; ?>
+                    <?php if ($rowformfill['aboutme'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="astro" data-bs-toggle="tab" href="#astrotab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">brightness_auto</span>&nbsp;&nbsp;Astro Details 
+                    <?php if ($rowformfill['astroinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="religious" data-bs-toggle="tab" href="#religioustab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">temple_hindu</span>&nbsp;&nbsp;Religious Background 
+                    <?php if ($rowformfill['religiousinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="educationcareer" data-bs-toggle="tab" href="#educationcareertab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">school</span>&nbsp;&nbsp;Education & Career 
+                    <?php if ($rowformfill['educationinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="groom" data-bs-toggle="tab" href="#groomtab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined"><?php echo $loc_icon; ?></span>&nbsp;&nbsp;<?php echo $loc_label; ?>
+                    <?php if ($loc_status == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="family" data-bs-toggle="tab" href="#familytab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">family_restroom</span>&nbsp;&nbsp;Family Details 
+                    <?php if ($rowformfill['familyinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="hobbies" data-bs-toggle="tab" href="#hobbiestab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">interests</span>&nbsp;&nbsp;Hobbies & Interest 
+                    <?php if ($rowformfill['hobbiesinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="partner" data-bs-toggle="tab" href="#partnertab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">diversity_2</span>&nbsp;&nbsp;Partner Preferences 
+                    <?php if ($rowformfill['partnerinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="contact" data-bs-toggle="tab" href="#contacttab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">call</span>&nbsp;&nbsp;Contact Details 
+                    <?php if ($rowformfill['contactinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link border-0" id="photos" data-bs-toggle="tab" href="#photostab" onclick="closeSidebarMobile()">
+                    <span class="material-symbols-outlined">photo_camera</span>&nbsp;&nbsp;Manage Photos 
+                    <?php if ($rowformfill['photosinfo'] == 'Done') { echo '<i class="fa fa-check-circle text-success formfill"></i>'; } else { echo '<i class="fa fa-times-circle text-danger formfill"></i>'; } ?>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    /* Default Hidden Elements (Desktop) */
+    .mobile-menu-trigger, .close-sidebar-btn, .sidebar-overlay {
+        display: none;
+    }
+
+    /* --- SIDEBAR COLOR THEME (Desktop & Mobile) --- */
+    /* Dark Maroon Background */
+    .db-nav {
+        background-color: #fffefeff !important;
+        border-right: 1px solid #fffefeff;
+    }
+    
+    /* Text Color */
+    .db-nav-list ul li a {
+        color: #050505ff !important; 
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    }
+
+    /* Active Tab Background */
+    .db-nav-list ul li a.active {
+        background: rgba(255, 193, 7, 0.15) !important;
+        border-left: 4px solid #417dffff !important;
+        color: #ffc107 !important;
+    }
+
+    /* Golden Icons */
+    .db-nav-list ul li a span.material-symbols-outlined,
+    .db-nav-list ul li a i.fa {
+        color: #000000ff !important; /* Gold */
+        font-weight: normal;
+    }
+
+    /* Form Fill Status Icons (Check/Times) preserve their own colors */
+    .db-nav-list ul li a i.formfill {
+        /* let success/danger classes handle color */
+    }
+
+    /* --- MOBILE RESPONSIVE STYLES (Max Width 991px) --- */
+    @media (max-width: 991px) {
+        
+        /* 1. Hamburger Button (Top Left Fixed) */
+        .mobile-menu-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 95px; /* Adjust if header covers it */
+            left: 10px;
+            z-index: 999;
+            background: #2c0505; /* Maroon */
+            color: #ffc107; /* Gold */
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            cursor: pointer;
+            border: 1px solid #ffc107;
+        }
+
+        /* 2. Sidebar Container (Off-Canvas) */
+        .db-nav {
+            position: fixed;
+            top: 0;
+            left: -320px; /* Initially hidden */
+            height: 100vh;
+            width: 280px;
+            z-index: 10000;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            padding-top: 20px;
+            padding-bottom: 50px;
+        }
+
+        /* Active State (Visible) */
+        .db-nav.active {
+            left: 0;
+        }
+
+        /* 3. Close Button inside Sidebar */
+        .close-sidebar-btn {
+            display: block;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #ffc107;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 10001;
+        }
+
+        /* 4. Overlay (Dim Background) */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9998;
+            display: none;
+            backdrop-filter: blur(3px);
+        }
+        .sidebar-overlay.active
+         { display: block;
+         }
+    }
+</style>
                     </div>
                 </div>
                 <div class="col-md-8 col-lg-9">
@@ -3581,7 +3734,7 @@ foreach($uid as $single_uid) {
         background-color: #f0f2f5;
         overflow: visible; /* Allows buttons to hang outside */
         transition: all 0.3s ease;
-     
+        border:3px dashed black;
     }
 
     /* Style for Empty State (Dashed Border) */
@@ -3605,7 +3758,6 @@ foreach($uid as $single_uid) {
         height: 100%;
         object-fit: cover;
         border-radius: 15px;
-           /* border:3px dashed black; */
     }
 
     /* Common Floating Button Style */
@@ -4454,30 +4606,48 @@ include 'footer.php';
         $("#addphoto4input").trigger('click');
     });
 </script>
-<script>
-$(document).ready(function(){
-    // URL se 'tab' parameter padhein
+<script>$(document).ready(function(){
+    // 1. URL से 'tab' पैरामीटर निकालें
     const urlParams = new URLSearchParams(window.location.search);
     const tabName = urlParams.get('tab');
 
+    // 2. अगर URL में tab का नाम है
     if(tabName){
-        // Sabhi tabs se 'active' class hatayein
-        $('.nav-tabs a').removeClass('active');
-        $('.tab-pane').removeClass('active show'); // Bootstrap 4/5 syntax check karein
+        // A. सारे टैब्स से active class हटाएं
+        $('.nav-tabs .nav-link').removeClass('active');
+        $('.tab-pane').removeClass('active show');
 
-        // Sahi tab ko activate karein
-        if(tabName === 'aboutme'){
-            $('#aboutme').addClass('active'); // Tab Link
-            $('#aboutmetab').addClass('active show'); // Tab Content
-        }
-        else if(tabName === 'photos'){
-            $('#photos').addClass('active');
-            $('#photostab').addClass('active show');
-        }
-        else if(tabName === 'groom'){
-            $('#groom').addClass('active');
-            $('#groomtab').addClass('active show');
-        }
+        // B. Sidebar बटन को Active करें (जिसका ID tabName जैसा है)
+        // जैसे: #basic, #astro, #photos
+        $('#' + tabName).addClass('active');
+
+        // C. Form वाले हिस्से (Tab Pane) को Active करें (ID + "tab")
+        // जैसे: #basictab, #astrotab, #photostab
+        $('#' + tabName + 'tab').addClass('active show');
+        
+        // Optional: मोबाइल पर पेज को थोड़ा स्क्रॉल करें ताकि यूजर को पता चले
+        $('html, body').animate({
+            scrollTop: $(".db-nav").offset().top - 50
+        }, 500);
     }
 });
+</script>
+<script>
+    // Sidebar Open/Close karne ke liye function
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebarMenu");
+        var overlay = document.querySelector(".sidebar-overlay");
+        
+        // 'active' class toggle karein (CSS mein left: 0 karne ke liye)
+        sidebar.classList.toggle("active");
+        overlay.classList.toggle("active");
+    }
+
+    // Jab user kisi tab link par click kare, toh menu apne aap band ho jaye
+    function closeSidebarMobile() {
+        // Check karein ki screen mobile size hai ya nahi (991px)
+        if (window.innerWidth <= 991) {
+            toggleSidebar();
+        }
+    }
 </script>

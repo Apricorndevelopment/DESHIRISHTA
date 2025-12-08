@@ -240,6 +240,48 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
                 </ul>
                 
             </li>
+            
+
+
+
+ <li class="nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="users"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">Dummy Profiles</span>
+                </a>
+                <ul class="menu-content">
+                    <li>
+                        <a class="d-flex align-items-center" href="view-dummy.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">All Users</span>
+                        </a>
+                    </li>
+           
+ 
+                
+        <!-- <li>
+                        <a class="d-flex align-items-center" href="x.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">All x Users</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a class="d-flex align-items-center" href="add-dummy.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">Add profile </span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a class="d-flex align-items-center" href="userprofiles-approved.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">Approved Profiles</span>
+                        </a>
+                    </li> -->
+                    
+                </ul>
+                
+            </li>
+
       <li class="nav-item">
                <a class="d-flex align-items-center" href="#">
                 <i data-feather="tool"></i> 
@@ -247,7 +289,7 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
             </a>
                         
            
-        
+   
 
                 <ul class="menu-content">
                     <li>
@@ -280,6 +322,12 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
     <a class="d-flex align-items-center" href="pending-approvals.php">
         <i data-feather="clock"></i>
         <span class="menu-title text-truncate" data-i18n="Pending Approvals">Pending Approvals</span>
+    </a>
+</li>
+     <li class="nav-item">
+    <a class="d-flex align-items-center" href="view-subscribers.php">
+        <i data-feather="mail"></i>
+        <span class="menu-title text-truncate">Subscribers List</span>
     </a>
 </li>
            <!-- <li class=" nav-item">

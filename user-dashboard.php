@@ -315,7 +315,7 @@ $json_popup_queue = json_encode($popup_queue);
 
 <!-- STANDARD NOTIFICATION POPUP (EXISTING) -->
 <div class="menu-pop menu-pop1" id="dynamic-popup">
-    <span class="menu-pop-clo" id="close-popup-btn"><i class="fa fa-times" aria-hidden="true"></i></span>
+    <span class="menu-pop-clo" id="close-popup-btn"><i class=" fa bi bi-x" aria-hidden="true"></i></span>
     <div class="inn">
         <div class="menu-pop-help">
             <h4 id="pop-subject">Notification</h4>
@@ -794,12 +794,13 @@ $json_popup_queue = json_encode($popup_queue);
             </div>
         </div>
     </section>
-  <style>.couple-sli .slick-prev, .couple-sli .slick-next {
+    <style>
+ .couple-sli .slick-prev, .couple-sli .slick-next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
-    background:#825b5b;
+    z-index: 2;
+    background:#f6af04;
     color: white;
     border: none;
     height: 45px;

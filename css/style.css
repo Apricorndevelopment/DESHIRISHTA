@@ -516,7 +516,7 @@ img{
     float: left;
     transition: all 0.4s ease;
     position: absolute;
-    z-index: 3;
+    z-index: 27;
 }
 
 .hom-top.head-trans {
@@ -769,6 +769,7 @@ img{
     transform: translateY(0px);
     display: block;
 }
+
 
 @keyframes growOut {
     0% {
@@ -1082,8 +1083,9 @@ img{
 }
 
 .menu-pop2.act {
-    right: 0px;
+    /* right: 0px; */
     left:0px;
+    top:500px;
 }
 
 .menu-pop-clo {
@@ -1839,7 +1841,14 @@ i.fa-instagram:hover {
     border-radius: 20px;
     margin: 0px 5px 5px 0px;
 }
-
+.np-char {
+    font-size: 26px;
+    font-weight: 400;
+    color: #ba9d51;
+    letter-spacing: 1px;
+    display: inline-block;
+    FONT-FAMILY: Playfair Display, serif;
+}
 /*-------------------------------------------------------*/
 /* ABOUT HOME
 /*-------------------------------------------------------*/
@@ -1855,7 +1864,7 @@ i.fa-instagram:hover {
     text-align: center;
     width: 100%;
     margin-bottom: 50px;
-    padding-top: 80px;
+    padding-top: 30px;
 }
 
 .home-tit h2 {
@@ -2094,7 +2103,7 @@ table td{}
 }
 
 .cta-line-lig-md {
-    border: 1px solid rgb(102, 69, 28);
+    border: 1px solid rgb(3, 3, 3);
     font-family: var(--tit-font);
     margin-top: 40px;
     background: rgb(0, 0, 0);
@@ -2692,7 +2701,7 @@ table td{}
 /*-------------------------------------------------------*/
 .form-tit {
     padding-bottom: 7.5px;
-    border-bottom: 2px solid maroon;
+    border-bottom: 2px solid rgb(0, 0, 0);
     margin-bottom: 25px;
     color: rgb(52, 64, 85);
 }
@@ -5269,7 +5278,7 @@ color: #fff !important;
     color: rgb(89, 89, 93);
 }
 .edit-pro-parti{
-    border-bottom: 2px solid maroon;
+    border-bottom: 2px solid rgb(0, 0, 0);
     padding-bottom: 0px;
     margin-bottom: 0px;
     border-top-right-radius: 10px;
@@ -5493,7 +5502,7 @@ color: #fff !important;
     position: absolute;
     left: 0px;
     top: 1px;
-    background: rgb(76, 175, 80);
+    /* background: rgb(76, 175, 80); */
     color: rgb(255, 255, 255);
     border-radius: 50px;
     padding: 6px 2px 5px 0px;
@@ -5869,7 +5878,7 @@ color: #fff !important;
 
 .abo-partners {
     position: relative;
-    padding-top: 0px;
+    padding-top: 30px;
 }
 
 .abo-partners .home-tit h2 span {
@@ -6015,7 +6024,7 @@ color: #fff !important;
 .ab-team {
     float: left;
     width: 100%;
-    padding: 80px 0px;
+    padding: 30px 0px;
 }
 
 .pg-abo-ab-team {
@@ -6025,6 +6034,7 @@ color: #fff !important;
 .ab-team ul li {
     float: left;
     width: 25%;
+     overflow: hidden;
 }
 
 .ab-team ul li div {
@@ -6039,6 +6049,7 @@ color: #fff !important;
     display: table;
     padding-bottom: 15px;
     overflow: hidden;
+    width: 300px;
 }
 
 .ab-team ul li div * {
@@ -6737,7 +6748,7 @@ color: #fff !important;
     margin: 10px 0px 50px;
     position: relative;
     overflow: hidden;
-    padding: 90px 10px 5px;
+    padding: 0px 10px 5px;
 }
 
 .cus-revi ul {}
@@ -12638,8 +12649,8 @@ margin-left: -10px;
 .profiletabs .nav-link.active:before {
     content: '';
     position: absolute;
-    width: 4px;
-    height: 22px;
+    width: 0px;
+    height: 26px;
     background: #03A9F4;
     margin: 0px 0px 0px -14px;
     transition: all 0.5s ease;

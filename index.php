@@ -6,6 +6,7 @@ if(isset($_COOKIE['dr_userid']) && $_COOKIE['dr_userid'] != '')
 header('location:user-dashboard.php');
     exit;
 }
+
 // 1. Default (static) values set karein
 $couples_paired = 200;
 $total_registrants = 1500;
@@ -336,7 +337,7 @@ $team_result = mysqli_query($con, $team_sql);
                 <div class="sub-tit-caps">
                     <h2>Membership <span class="animate animate__animated" data-ani="animate__flipInX" data-dely="0.1">Analytics</span></h2>
                 </div>
-                <ul>
+                <!-- <ul>
                     <li>
                         <div class="ab-cont-po">
                             <i class="fa-regular fa-heart" aria-hidden="true"></i> 
@@ -373,7 +374,46 @@ $team_result = mysqli_query($con, $team_sql);
                             </div>
                         </div>
                     </li>
-                </ul>
+                </ul> -->
+            
+             <ul>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $couples_paired; ?>">0</h4>
+                                    <span>Couples paired</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $total_registrants; ?>">0</h4>
+                                    <span>Registerents</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa fa-male" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $total_men; ?>">0</h4>
+                                    <span>Mens</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ab-cont-po">
+                                <i class="fa fa-female" aria-hidden="true"></i>
+                                <div>
+                                    <h4 class="counter" data-count="<?php echo $total_women; ?>">0</h4>
+                                    <span>Womens</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
             </div>
         </div>
     </div>
@@ -400,7 +440,7 @@ $team_result = mysqli_query($con, $team_sql);
     <div style="font-size: 15px; margin-bottom: 24px;">
         We use cookies and tracking technologies to enhance your browsing experience, deliver personalized ads, and analyse traffic.
         By clicking "Accept all cookies", you consent to our use of cookies.
-        For more details, visit our <a href="cookie-policy.html" style="color: #fff; text-decoration:underline;" target="_blank">Cookie Policy</a>.
+        For more details, visit our <a href="faqcookies.php" style="color: #fff; text-decoration:underline;" target="_blank">Cookie Policy</a>.
     </div>
     <div style="display: flex; gap: 14px;">
         <button id="accept-cookies" style="background:#fff;color:#985b24;border:none;padding:10px 21px;border-radius:8px;font-weight:bold;cursor:pointer;transition:background 0.2s;">
@@ -446,15 +486,12 @@ $team_result = mysqli_query($con, $team_sql);
 }
 
 /* 2. Arrows ko style karein (Prev aur Next) */
-.couple-sli .slick-prev,
-.couple-sli .slick-next {
+.couple-sli .slick-prev, .couple-sli .slick-next {
     position: absolute;
-    top: 50%; /* Vertical center */
+    top: 50%;
     transform: translateY(-50%);
-    z-index: 10; /* Taaki yeh images ke upar dikhe */
-    
-    /* Button styling */
-    background: rgba(110, 218, 60, 0.4);
+    z-index: 2;
+    background:#f6af04;
     color: white;
     border: none;
     height: 45px;
@@ -462,7 +499,8 @@ $team_result = mysqli_query($con, $team_sql);
     font-size: 0px;
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s 
+ease;
 }
 
 .couple-sli .slick-prev:hover,
@@ -740,9 +778,9 @@ $team_result = mysqli_query($con, $team_sql);
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
+    z-index: 2;
     
-    background: rgba(0, 0, 0, 0.4);
+    background: #f6af04;
     color: white;
     border: none;
     height: 45px;
@@ -777,7 +815,7 @@ $team_result = mysqli_query($con, $team_sql);
 </style>
 <section>
     <div class="ab-team">
-        <div class="container">
+        <div class="container" style="overflow:hidden ;">
             <div class="row">
                 <div class="home-tit">
                     <p>OUR PROFESSIONALS</p>
@@ -909,7 +947,7 @@ ul.slider4 .slick-slide li {
 .blog-box span {
     padding: 0 15px;
     margin-top: 15px;
-    color: #888;
+    /* color: #fffbfbff; */
     font-size: 0.9rem;
 }
 .blog-box h2 {
@@ -925,7 +963,7 @@ ul.slider4 .slick-slide li {
     padding: 0 15px;
     margin-top: 0px; /* h2 se margin le liya hai */
     margin-bottom: 20px;
-    color: #666;
+    color: #66451c;
     flex-grow: 1; /* Button ko neeche push karne ke liye */
 
     /* === Line clamp code === */
@@ -949,13 +987,12 @@ ul.slider4 .slick-slide li {
 }
 
 /* === SLIDER ARROW FIX (CUT-OFF PROBLEM) === */
-.slid-inn .slick-prev,
-.slid-inn .slick-next {
+.slid-inn .slick-prev, .slid-inn .slick-next {
     position: absolute;
     top: 55%;
     transform: translateY(-50%);
-    z-index: 10; /* Arrows ko upar laane ke liye */
-    background: rgba(81, 83, 228, 0.5);
+    z-index: 2;
+    background: #f6af04;
     color: white;
     border: none;
     height: 40px;
@@ -964,6 +1001,7 @@ ul.slider4 .slick-slide li {
     font-size: 0;
     cursor: pointer;
 }
+
 .slid-inn .slick-prev:hover,
 .slid-inn .slick-next:hover {
     background: rgba(0, 0, 0, 0.8);

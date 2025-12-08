@@ -157,7 +157,7 @@ if ($useractive != '0' && isset($userid)) {
 .mob-me-all.act .mv-bus ul:nth-of-type(1) li:nth-child(3) { transition-delay: 0.6s; }
 .mob-me-all.act .mv-bus ul:nth-of-type(1) li:nth-child(4) { transition-delay: 0.8s; }
 
-.mob-me-all.act .mv-bus h4:nth-of-type(1) { transition-delay: 1.0s; } /* "Help & Support" title */
+.mob-me-all.act .mv-bus h4:nth-of-type(1) { transition-delay: 1.0s; } /* "HELP" title */
 
 .mob-me-all.act .mv-bus ul:nth-of-type(2) li:nth-child(1) { transition-delay: 1.2s; }
 .mob-me-all.act .mv-bus ul:nth-of-type(2) li:nth-child(2) { transition-delay: 1.4s; }
@@ -327,8 +327,17 @@ if ($useractive != '0' && isset($userid)) {
                             <li><a href="about.php">About Us</a></li> 
                             <li><a href="plans.php">Pricing Plans </a></li>
                             <li><a href="blog.php">Blogs</a></li>
+                              <li class="smenu-pare">
+                                <span class="smenu">SERVICES</span>
+                                <div class="smenu-open smenu-single">
+                                    <ul>
+                                        <li><a href="contact.php">Wedding E-Card</a></li>
+                                        
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="smenu-pare">
-                                <span class="smenu">Help & Support</span>
+                                <span class="smenu">HELP</span>
                                 <div class="smenu-open smenu-single">
                                     <ul>
                                         <li><a href="contact.php">Contact Us</a></li>
@@ -345,7 +354,7 @@ if ($useractive != '0' && isset($userid)) {
                         {
                         ?>
                         <ul>
-                            <li><a href="user-dashboard.php">My Dashboard</a></li>
+                            <li><a href="user-dashboard.php">Dashboard</a></li>
                             
                             <?php 
 if($id_verification == '1') { 
@@ -381,9 +390,17 @@ if($id_verification == '1') {
 } 
 ?>
                             
-                            <li><a href="user-plan.php">Plans</a></li>
+                            
+                                <li class="smenu-pare">
+                                <span class="smenu">SERVICES</span>
+                                <div class="smenu-open smenu-single">
+                                    <ul>
+                                        <li><a href="contact.php">Wedding E-Card</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li class="smenu-pare">
-                                <span class="smenu">Help & Support</span>
+                                <span class="smenu">HELP</span>
                                 <div class="smenu-open smenu-single">
                                     <ul>
                                         <li><a href="contact.php">Contact Us</a></li>
@@ -413,7 +430,7 @@ if($id_verification == '1') {
 ?>
   </li>
       <li class="smenu-pare">
-        <span class="smenu"><i class="fab fa-facebook-messenger" aria-hidden="true"></i>
+        <span class="smenu">INBOX</i>
 </i> <?php if($total_new_requests > 0) { echo '('.$total_new_requests.')'; } ?></span>
         <div class="smenu-open smenu-single">
             <ul>
@@ -568,9 +585,13 @@ if($id_verification == '1') {
                     <li><a href="blog.php">Blogs</a></li>
                 </ul>
                 <!-- // ... after Matches menu -->
-              
+                  <h4><i class="fa fa-question-circle" aria-hidden="true"></i> SERVICES</h4>
+                <ul>
+                    <li><a href="contact.php">Wedding E-Card</a></li>
+                  
+                </ul>
                 <!-- // ... before Search menu -->
-                <h4><i class="fa fa-question-circle" aria-hidden="true"></i> Help & Support</h4>
+                <h4><i class="fa fa-question-circle" aria-hidden="true"></i>HELP</h4>
                 <ul>
                     <li><a href="contact.php">Contact Us</a></li>
                     <li><a href="contact.php?#support">Business Enquiries</a></li>
@@ -599,7 +620,7 @@ if($id_verification == '1') {
 
                 <h4><i class="fa fa-dashboard" aria-hidden="true"></i> Dashbord</h4>
                 <ul>
-                    <li><a href="user-dashboard.php">My Dashboard</a></li>
+                    <li><a href="user-dashboard.php">Dashboard</a></li>
                 </ul>
                 <h4><i class="fa fa-users" aria-hidden="true"></i> Matches</h4>
                 <ul>
@@ -621,7 +642,12 @@ if($id_verification == '1') {
                 <ul>
                     <li><a href="user-plan.php">Pricing Plans </a></li>
                 </ul>
-                <h4><i class="fa fa-question-circle" aria-hidden="true"></i> Help & Support</h4>
+                  <h4><i class="fa fa-service" aria-hidden="true"></i>SERVICES</h4>
+                <ul>
+                    <li><a href="basic-search.php">Wedding E-card</a></li>
+                    <!-- <li><a href="#" class="ser-open">Member ID Search</a></li> -->
+                </ul>
+                <h4><i class="fa fa-question-circle" aria-hidden="true"></i>HELP</h4>
                 <ul>
                     <li><a href="contact.php">Contact Us</a></li>
                     <li><a href="submitrequest.php?#support">Submit a Request</a></li>
