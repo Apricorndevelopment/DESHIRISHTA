@@ -219,10 +219,29 @@ if(isset($_POST['action']) && $userid != '') {
                                                     <div>Desi Rishta ID</div>
                                                     <div><?php echo $userid; ?></div>
                                                 </li>
-                                                <li>
+                                                <!-- <li>
                                                     <div>Mobile</div>
                                                     <div><?php echo $rowprofile['phone']; ?></div>
-                                                </li>
+                                                </li> -->
+                                                <li>
+    <div>Mobile</div>
+    <?php
+    // Case 1: Verified Hai
+    if($rowprofile['mobileverify'] == '1')
+    {
+    ?>
+        <div><?php echo $rowprofile['phone']; ?><a href="#" style="float:right" class="sett-acc-edit-eve sett-edit-btn3"> Verified</a></div>
+    <?php
+    }
+    // Case 2: Verified Nahi Hai (0 ya Empty)
+    else
+    {
+    ?>
+        <div><?php echo $rowprofile['phone']; ?><a href="verifymobile_otp.php" style="float:right" class="sett-acc-edit-eve sett-edit-btn2"> Verify</a></div>
+    <?php
+    }
+    ?>
+</li>
                                                 <li>
                                                     <div>Email id</div>
                                                     <?php

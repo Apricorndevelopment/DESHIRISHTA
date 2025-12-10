@@ -3,44 +3,95 @@ include 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $uid = $_POST['uid'];
-    $type = $_POST['type'];     // 'groom', 'photos', or 'aboutme'
+    $type = $_POST['type'];     // 'groom', 'photos', 'aboutme', or 'all_pending'
     $action = $_POST['action']; // 'approve' or 'reject'
 
-    // ================= ABOUT ME =================
-    if ($type == 'aboutme') {
-        if ($action == 'approve') {
-            // 1. Fetch Temp Data
-            $temp_res = mysqli_query($con, "SELECT * FROM temp_basic_info WHERE userid='$uid'");
-            $temp_row = mysqli_fetch_assoc($temp_res);
-            $new_about = mysqli_real_escape_string($con, $temp_row['aboutme']);
+    // ======================================================
+    // 1. BULK ACTION LOGIC (Check what is pending & Process)
+    // ======================================================
+    if ($type == 'all_pending') {
+        
+        // Fetch current status of the user
+        $check = mysqli_query($con, "SELECT * FROM registration WHERE userid='$uid'");
+        $row = mysqli_fetch_assoc($check);
 
-            // 2. Check if row exists in Main Table
-            $check = mysqli_query($con, "SELECT * FROM basic_info WHERE userid='$uid'");
-            if(mysqli_num_rows($check) > 0) {
-                // Update
-                mysqli_query($con, "UPDATE basic_info SET aboutme='$new_about' WHERE userid='$uid'");
-            } else {
-                // Insert
-                mysqli_query($con, "INSERT INTO basic_info (userid, aboutme) VALUES ('$uid', '$new_about')");
-            }
-
-            // 3. Update Registration Status & Live Column
-            mysqli_query($con, "UPDATE registration SET aboutme_approval_status='Approved', aboutme='Done' WHERE userid='$uid'");
-        } else {
-            // Reject: Just revert status (User will have to submit again)
-            mysqli_query($con, "UPDATE registration SET aboutme_approval_status='Rejected' WHERE userid='$uid'");
+        // A. Process About Me (if pending)
+        if($row['aboutme_approval_status'] == 'Pending') {
+            processAboutMe($con, $uid, $action);
         }
-        // Clear Temp Data
-        mysqli_query($con, "DELETE FROM temp_basic_info WHERE userid='$uid'");
+
+        // B. Process Groom/Location (if pending)
+        if($row['groom_approval_status'] == 'Pending') {
+            processGroom($con, $uid, $action);
+        }
+
+        // C. Process Photos (if pending)
+        if($row['photos_approval_status'] == 'Pending') {
+            processPhotos($con, $uid, $action);
+        }
+
+    } 
+    // ======================================================
+    // 2. INDIVIDUAL ACTION LOGIC
+    // ======================================================
+    else {
+        if ($type == 'aboutme') {
+            processAboutMe($con, $uid, $action);
+        }
+        elseif ($type == 'groom') {
+            processGroom($con, $uid, $action);
+        }
+        elseif ($type == 'photos') {
+            processPhotos($con, $uid, $action);
+        }
     }
 
-    // ================= GROOM/BRIDE LOCATION =================
-    if ($type == 'groom') {
-        if ($action == 'approve') {
-            $temp_res = mysqli_query($con, "SELECT * FROM temp_groom_location WHERE userid='$uid'");
-            $t = mysqli_fetch_assoc($temp_res);
+    // Redirect back to the Pending List
+    header("Location: pending-approvals.php?msg=processed");
+    exit();
+}
 
-            // Check main table
+// =================================================================================
+//                               HELPER FUNCTIONS
+// =================================================================================
+
+// --- FUNCTION: Process About Me ---
+function processAboutMe($con, $uid, $action) {
+    if ($action == 'approve') {
+        // 1. Fetch Temp Data
+        $temp_res = mysqli_query($con, "SELECT * FROM temp_basic_info WHERE userid='$uid'");
+        $temp_row = mysqli_fetch_assoc($temp_res);
+        
+        if($temp_row) {
+            $new_about = mysqli_real_escape_string($con, $temp_row['aboutme']);
+
+            // 2. Update/Insert Main Table
+            $check = mysqli_query($con, "SELECT * FROM basic_info WHERE userid='$uid'");
+            if(mysqli_num_rows($check) > 0) {
+                mysqli_query($con, "UPDATE basic_info SET aboutme='$new_about' WHERE userid='$uid'");
+            } else {
+                mysqli_query($con, "INSERT INTO basic_info (userid, aboutme) VALUES ('$uid', '$new_about')");
+            }
+            
+            // 3. Update Status
+            mysqli_query($con, "UPDATE registration SET aboutme_approval_status='Approved', aboutme='Done' WHERE userid='$uid'");
+        }
+    } else {
+        // Reject
+        mysqli_query($con, "UPDATE registration SET aboutme_approval_status='Rejected' WHERE userid='$uid'");
+    }
+    // Clear Temp
+    mysqli_query($con, "DELETE FROM temp_basic_info WHERE userid='$uid'");
+}
+
+// --- FUNCTION: Process Groom/Bride Location ---
+function processGroom($con, $uid, $action) {
+    if ($action == 'approve') {
+        $temp_res = mysqli_query($con, "SELECT * FROM temp_groom_location WHERE userid='$uid'");
+        $t = mysqli_fetch_assoc($temp_res);
+
+        if($t) {
+            // Update/Insert Main Table
             $check = mysqli_query($con, "SELECT * FROM groom_location WHERE userid='$uid'");
             if(mysqli_num_rows($check) > 0) {
                 $sql = "UPDATE groom_location SET 
@@ -55,24 +106,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // Update Status
-            // Note: Logic for gender specific 'Done' status update is simplified here.
+            // Note: For gender specific 'Done' status (bridelocation vs groomlocation), 
+            // you might want to fetch gender from registration here if needed, but 'Approved' status is sufficient for Admin tracking.
             mysqli_query($con, "UPDATE registration SET groom_approval_status='Approved' WHERE userid='$uid'");
-        } else {
-            mysqli_query($con, "UPDATE registration SET groom_approval_status='Rejected' WHERE userid='$uid'");
         }
-        mysqli_query($con, "DELETE FROM temp_groom_location WHERE userid='$uid'");
+    } else {
+        // Reject
+        mysqli_query($con, "UPDATE registration SET groom_approval_status='Rejected' WHERE userid='$uid'");
     }
+    // Clear Temp
+    mysqli_query($con, "DELETE FROM temp_groom_location WHERE userid='$uid'");
+}
 
-    // ================= PHOTOS =================
-    if ($type == 'photos') {
-        if ($action == 'approve') {
-            $temp_res = mysqli_query($con, "SELECT * FROM temp_photos_info WHERE userid='$uid'");
-            $t = mysqli_fetch_assoc($temp_res);
+// --- FUNCTION: Process Photos ---
+function processPhotos($con, $uid, $action) {
+    if ($action == 'approve') {
+        $temp_res = mysqli_query($con, "SELECT * FROM temp_photos_info WHERE userid='$uid'");
+        $t = mysqli_fetch_assoc($temp_res);
 
+        if($t) {
+            // Update/Insert Main Table
             $check = mysqli_query($con, "SELECT * FROM photos_info WHERE userid='$uid'");
             if(mysqli_num_rows($check) > 0) {
-                // Update only if fields are not empty in temp (simplified logic)
-                // Ideally temp holds the full final state.
                 $sql = "UPDATE photos_info SET 
                         profilepic='{$t['profilepic']}', photo1='{$t['photo1']}', photo2='{$t['photo2']}', 
                         photo3='{$t['photo3']}', photo4='{$t['photo4']}', photo5='{$t['photo5']}'
@@ -84,14 +139,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 mysqli_query($con, $sql);
             }
 
+            // Update Status
             mysqli_query($con, "UPDATE registration SET photos_approval_status='Approved', photosinfo='Done' WHERE userid='$uid'");
-        } else {
-            mysqli_query($con, "UPDATE registration SET photos_approval_status='Rejected' WHERE userid='$uid'");
         }
-        mysqli_query($con, "DELETE FROM temp_photos_info WHERE userid='$uid'");
+    } else {
+        // Reject
+        mysqli_query($con, "UPDATE registration SET photos_approval_status='Rejected' WHERE userid='$uid'");
     }
-
-    // Redirect back to list
-    header("Location: pending-approvals.php?msg=processed");
+    // Clear Temp
+    mysqli_query($con, "DELETE FROM temp_photos_info WHERE userid='$uid'");
 }
 ?>

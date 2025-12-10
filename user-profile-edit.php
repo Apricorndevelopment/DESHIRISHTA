@@ -8,7 +8,14 @@ if ($userid == '') {
     header('location:login.php');
 }
 
+// --- 1. FETCH USER DATA (Moved to Top) ---
+// We need this data immediately to check for approval status
+$sqlformfill = "select * from registration where userid = '$userid'";
+$resultformfill = mysqli_query($con, $sqlformfill);
+$rowformfill = mysqli_fetch_assoc($resultformfill);
 
+
+// --- 2. GENDER LOGIC ---
 $sql_check_gender = "SELECT gender FROM registration WHERE userid = '$userid'";
 $result_check_gender = mysqli_query($con, $sql_check_gender);
 $row_check_gender = mysqli_fetch_assoc($result_check_gender);
@@ -17,124 +24,88 @@ if($row_check_gender['gender'] == 'Male') {
     // If Male, update 'groomlocation'
     $sql_status_update = "UPDATE registration SET groomlocation = 'Done' WHERE userid = '$userid'";
 } else {
-  
     $sql_status_update = "UPDATE registration SET bridelocation = 'Done' WHERE userid = '$userid'";
 }
-
 mysqli_query($con, $sql_status_update);
 
-// header('location: user-profile-edit.php?groom_update=yes&tab=groom');
+
+// --- 3. REJECTION POPUP LOGIC (Fixed Variables) ---
+$rejection_popups = [];
+
+// 1. Groom Rejection
+if($rowformfill['groom_approval_status'] == 'Rejected') {
+    $rejection_popups[] = [
+        'title' => 'Location Update Rejected',
+        'body' => 'Your request to update Groom/Bride Location was declined by Admin. Please check details and try again.',
+        'image' => 'images/gif/rejected.gif'
+    ];
+    // Optional: Reset status to 'Seen'
+    // mysqli_query($con, "UPDATE registration SET groom_approval_status='Seen' WHERE userid='$userid'");
+}
+
+// 2. Photos Rejection
+if($rowformfill['photos_approval_status'] == 'Rejected') {
+    $rejection_popups[] = [
+        'title' => 'Photos Rejected',
+        'body' => 'Your uploaded photos were rejected as they did not meet our guidelines. Please upload clear photos.',
+        'image' => 'images/gif/rejected.gif'
+    ];
+    // Optional: Reset status
+    // mysqli_query($con, "UPDATE registration SET photos_approval_status='Seen' WHERE userid='$userid'");
+}
+
+// 3. About Me Rejection
+if($rowformfill['aboutme_approval_status'] == 'Rejected') {
+    $rejection_popups[] = [
+        'title' => 'About Me Rejected',
+        'body' => 'Your "About Me" description was declined. Please remove any contact info or inappropriate content.',
+        'image' => 'images/gif/rejected.gif'
+    ];
+}
+
+// JSON encode for JS
+$json_rejections = json_encode($rejection_popups);
+
+
+// --- 4. HELPER FUNCTIONS ---
 
 function render_dropdown_options($con, $dropdownName, $selectedValue)
 {
     echo '<option value="">Select</option>';
-
     $sql = "SELECT option_value FROM master_dropdown_options WHERE dropdown_name = '$dropdownName' ORDER BY sort_order ASC, option_value ASC";
     $result = mysqli_query($con, $sql);
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
             $value = htmlspecialchars($row['option_value']);
-            // If the selected value matches, set the 'selected' attribute
             $selected = ($selectedValue == $value) ? 'selected' : '';
             echo "<option value=\"$value\" $selected>$value</option>";
         }
-        // Free the result set
-        if (is_object($result)) {
-            mysqli_free_result($result);
-        }
+        if (is_object($result)) { mysqli_free_result($result); }
     }
 }
-
 
 function render_multiselect_options($con, $dropdownName, $selectedValues)
 {
     echo '<option value="">Select</option>';
-
     $sql = "SELECT option_value FROM master_dropdown_options WHERE dropdown_name = '$dropdownName' ORDER BY sort_order ASC, option_value ASC";
     $result = mysqli_query($con, $sql);
 
     if ($result) {
-        // Ensure selected values are in a usable array format
-        if (!is_array($selectedValues)) {
-            $selectedValues = [];
-        }
+        if (!is_array($selectedValues)) { $selectedValues = []; }
 
         while ($row = mysqli_fetch_assoc($result)) {
             $value = htmlspecialchars($row['option_value']);
-            // Check if this option is present in the array of selected values
             $selected = in_array($value, $selectedValues) ? 'selected' : '';
             echo "<option value=\"$value\" $selected>$value</option>";
         }
-        // Free the result set
-        if (is_object($result)) {
-            mysqli_free_result($result);
-        }
+        if (is_object($result)) { mysqli_free_result($result); }
     }
 }
-
-
-
-
-
 ?>
-<script type="text/javascript">
-    function previewImage1(event) {
-        var input1 = document.getElementById('addphoto1input');
-        var image1 = document.getElementById('preview1');
-        if (addphoto1input.files && addphoto1input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                image1.src = e.target.result;
-            }
-            reader.readAsDataURL(addphoto1input.files[0]);
-        }
-        $("#addicon1").hide();
-        $("#addbtn1").hide();
-    }
 
-    function previewImage2(event) {
-        var input2 = document.getElementById('addphoto2input');
-        var image2 = document.getElementById('preview2');
-        if (addphoto2input.files && addphoto2input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                image2.src = e.target.result;
-            }
-            reader.readAsDataURL(addphoto2input.files[0]);
-        }
-        $("#addicon2").hide();
-        $("#addbtn2").hide();
-    }
 
-    function previewImage3(event) {
-        var input3 = document.getElementById('addphoto3input');
-        var image3 = document.getElementById('preview3');
-        if (addphoto3input.files && addphoto3input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                image3.src = e.target.result;
-            }
-            reader.readAsDataURL(addphoto3input.files[0]);
-        }
-        $("#addicon3").hide();
-        $("#addbtn3").hide();
-    }
 
-    function previewImage4(event) {
-        var input4 = document.getElementById('addphoto4input');
-        var image4 = document.getElementById('preview4');
-        if (addphoto4input.files && addphoto4input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                image4.src = e.target.result;
-            }
-            reader.readAsDataURL(addphoto4input.files[0]);
-        }
-        $("#addicon4").hide();
-        $("#addbtn4").hide();
-    }
-</script>
 <!-- START -->
 
 
@@ -149,7 +120,25 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         border-bottom: 3px solid maroon;
         opacity: 1 !important;
     }
-
+    .menu-pop1.act {
+    left: 406px;
+    right: 0px;
+    top: 454px;
+}
+.menu-pop.act {
+        display: block !important; 
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    /* Simple backdrop if needed */
+    .pop-bg.act {
+        display: block; 
+        position: fixed; 
+        top: 400; left: 400; width: 100%; height: 100%; 
+        background: rgba(0,0,0,0.7); 
+        z-index: 8;
+    }
     .chosen-disabled .chosen-single {
         cursor: default;
         background-color: #e9ecef !important;
@@ -175,7 +164,21 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         color:white;
     }
 </style>
-
+<div class="menu-pop menu-pop1" id="rejection-popup">
+    <span class="menu-pop-clo" onclick="closeRejectionPopup()"><i class="fa fa-times"></i></span>
+    <div class="inn">
+        <div class="menu-pop-help">
+            <h4 id="rej-title" class="text-danger">Action Required</h4>
+            <div class="user-pro">
+                <img id="rej-img" src="images/gif/rejected.gif" alt="Rejected" style="width:100px;">
+            </div>
+            <div class="user-bio">
+                <h5 id="rej-body"></h5>
+                <a href="#" onclick="closeRejectionPopup()" class="btn btn-primary btn-sm mt-3">Okay, I will fix it</a>
+            </div>
+        </div>
+    </div>
+</div>
 <section>
     <div class="inn-ban">
         <div class="container">
@@ -1030,7 +1033,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                     <?php if($_GET['aboutme_update'] == 'yes') { ?>
                         <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
                     <?php } elseif($_GET['aboutme_update'] == 'pending') { ?>
-                        <p class="text-center text-warning" id="invalidpop"><b>Update sent for approval</b></p>
+                        <p class="text-center text-warning" id="invalidpop"><b></b></p>
                     <?php } ?>
                 <?php } ?>
 
@@ -3385,7 +3388,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                 <?php 
                     } elseif($_GET['photos_update'] == 'pending') { 
                 ?>
-                     <p class="text-center text-warning" id="invalidpop"><b>Photos submitted for approval</b></p>
+                     <p class="text-center text-warning" id="invalidpop"><b></b></p>
                 <?php 
                     } 
                 } 
@@ -3793,6 +3796,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         background: #ff4757; /* Pink/Red from reference */
         color: white;
         border: 2px solid #fff;
+        z-index:2;
     }
 
     /* DELETE Button (X) - Bottom Right */
@@ -3802,6 +3806,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         background: #ffffff;
         color: #7f8c8d;
         border: 1px solid #e2e8f0;
+         z-index:2;
     }
     
     /* CHANGE Button (Pencil) - Top Right (New Feature) */
@@ -3811,6 +3816,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         background: #3498db;
         color: white;
         border: 2px solid #fff;
+         z-index:2;
     }
 
     /* Centered Text for Empty State */
@@ -3829,7 +3835,53 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
 </style>
 
 
-
+<script type="text/javascript">
+    function previewImage1(event) {
+        var input1 = document.getElementById('addphoto1input');
+        var image1 = document.getElementById('preview1');
+        if (addphoto1input.files && addphoto1input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) { image1.src = e.target.result; }
+            reader.readAsDataURL(addphoto1input.files[0]);
+        }
+        $("#addicon1").hide();
+        $("#addbtn1").hide();
+    }
+    // ... (Keep your existing preview functions here: previewImage2, previewImage3, previewImage4) ...
+    function previewImage2(event) {
+        var input2 = document.getElementById('addphoto2input');
+        var image2 = document.getElementById('preview2');
+        if (addphoto2input.files && addphoto2input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) { image2.src = e.target.result; }
+            reader.readAsDataURL(addphoto2input.files[0]);
+        }
+        $("#addicon2").hide();
+        $("#addbtn2").hide();
+    }
+    function previewImage3(event) {
+        var input3 = document.getElementById('addphoto3input');
+        var image3 = document.getElementById('preview3');
+        if (addphoto3input.files && addphoto3input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) { image3.src = e.target.result; }
+            reader.readAsDataURL(addphoto3input.files[0]);
+        }
+        $("#addicon3").hide();
+        $("#addbtn3").hide();
+    }
+    function previewImage4(event) {
+        var input4 = document.getElementById('addphoto4input');
+        var image4 = document.getElementById('preview4');
+        if (addphoto4input.files && addphoto4input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) { image4.src = e.target.result; }
+            reader.readAsDataURL(addphoto4input.files[0]);
+        }
+        $("#addicon4").hide();
+        $("#addbtn4").hide();
+    }
+</script>
 <script>
 function previewImage(input, imgId, boxId) {
     if (input.files && input.files[0]) {
@@ -4605,6 +4657,38 @@ include 'footer.php';
     $('#addphoto4').click(function() {
         $("#addphoto4input").trigger('click');
     });
+</script>
+
+<script>
+    $(document).ready(function(){
+        // Get the PHP array into JavaScript
+        var rejections = <?php echo $json_rejections; ?>;
+        
+        // If there are any rejections in the array
+        if(rejections.length > 0) {
+            // Get the first one
+            var alertData = rejections[0];
+            
+            // Set text
+            $('#rej-title').text(alertData.title);
+            $('#rej-body').text(alertData.body);
+            
+            // Set Image if exists
+            if(alertData.image) {
+                $('#rej-img').attr('src', alertData.image);
+            }
+            
+            // Show Popup (Apply the 'act' class you use in your CSS)
+            $('#rejection-popup').addClass('act');
+            // Assuming you have a background div with class 'pop-bg'
+            $('.pop-bg').addClass('act'); 
+        }
+    });
+
+    function closeRejectionPopup() {
+        $('#rejection-popup').removeClass('act');
+        $('.pop-bg').removeClass('act');
+    }
 </script>
 <script>$(document).ready(function(){
     // 1. URL से 'tab' पैरामीटर निकालें

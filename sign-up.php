@@ -115,11 +115,20 @@ include 'header.php';
                                                 <p class="text-success errorstatement" id="passaccept" style="display:none"><i class="fa fa-check"></i>&nbsp;Password Accepted</p>
                                                 <p class="text-danger errorstatement" id="criterianotmatch" style="display:none">Password criteria do not match</p>
                                             </div>
-                                            <div class="form-group form-check">
+                                            <!-- <div class="form-group form-check">
                                                 <label class="form-check-label">
                                                     <input class="form-check-input" type="checkbox" name="agree" value="yes" checked> By creating an account, I agree to the <a href="/desirishta/faqterms.php" class="faqlink-text pink"><b>T&C</b></a> and <a href="/desirishta/faqprivacy.php" class="faqlink-text pink"><b>Privacy Policy</b></a>
                                                 </label>
-                                            </div>
+                                            </div> -->
+                                            <div class="form-group form-check">
+    <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="agree" id="agree" value="yes" checked> 
+        By creating an account, I agree to the <a href="/desirishta/faqterms.php" class="faqlink-text pink"><b>T&C</b></a> and <a href="/desirishta/faqprivacy.php" class="faqlink-text pink"><b>Privacy Policy</b></a>
+    </label>
+    <p class="text-danger errorstatement" id="agreeerror" style="display:none">
+        <i class="fa fa-exclamation-circle"></i> Please agree to the Terms & Conditions
+    </p>
+</div>
                                             <button type="button" id="mobileverifybtn" class="btn btn-primary" style="">Register Free &nbsp;<i class="fa fa-arrow-right"></i></button>
                                             <div class="form-tit" style="border:0px">
                                             <p class="text-center mt-5">Already have an account? <a href="login.php" class="linkbold pink">Sign In</a></p>
@@ -1182,66 +1191,68 @@ $('#closeeye').click(function() {
 });
 
 $('#mobileverifybtn').click(function() {
-    var phonecheck = $('#phonecheck').val();
-    var emailcheck = $('#emailcheck').val();
+    // Existing variables
+    var phonecheck = $('#phonecheck').val(); // Make sure ye hidden field aapke form me ho
+    var emailcheck = $('#emailcheck').val(); // Make sure ye hidden field aapke form me ho
     var phone = $('#phone').val();
     var email = $('#email').val();
     var pwd = $('#pwd').val();
     
+    // NEW: Checkbox ki value check karne ke liye
+    var agree = $('#agree').is(":checked"); 
+
     var pwdlen1 = $('#pwd').val().length;
     var regex1 = /\d+/g;
     
-    if(phone == '')
-    {
+    // Phone Validation
+    if(phone == '') {
         $('#phoneerror').show();
         $('#phone').css("border", "2px solid red");
-    }
-    else
-    {
+    } else {
         $('#phoneerror').hide();
     }
-    if(email == '')
-    {
+
+    // Email Validation
+    if(email == '') {
         $('#emailerror').show();
         $('#email').css("border", "2px solid red");
-    }
-    else
-    {
+    } else {
         $('#emailerror').hide(); 
     }
-    if(pwd == '')
-    {
+
+    // Password Validation
+    if(pwd == '') {
         $('#passworderror').show();
         $('#pwd').css("border", "2px solid red");
-    }
-    else
-    {
+    } else {
         $('#passworderror').hide();
     }
+
+    // NEW: T&C Checkbox Validation
+    if(!agree) {
+        $('#agreeerror').show(); // Agar tick nahi hai to error dikhaye
+    } else {
+        $('#agreeerror').hide(); // Agar tick hai to error chhupaye
+    }
     
-    if(pwdlen1 >= '6' && regex1.test(pwd))
-    {
+    // Password Logic
+    if(pwdlen1 >= '6' && regex1.test(pwd)) {
         $("#pwd").css('border', "2px solid green");
         $("#criterianotmatch").hide();
-    }
-    else
-    {
-        if(pwdlen1 == '0')
-        {
+    } else {
+        if(pwdlen1 == '0') {
             $("#criterianotmatch").hide();
-        }
-        else
-        {
+        } else {
             $("#charlen").hide();
             $("#charnum").hide();
             $("#criterianotmatch").show();
             $("#pwd").css('border', "2px solid red");
-            
             return false;
         }
     }
     
-    if(phone != '' && email != '' && pwd != '' && phonecheck == 'checked' && emailcheck == 'checked')
+    // Final Condition: Ab isme 'agree' variable bhi check hoga
+    if(phone != '' && email != '' && pwd != '' && phonecheck == 'checked' && emailcheck == 'checked' && agree == true)
     {
         $('#registration').hide();
         $('#mobileverify').show();
@@ -1261,12 +1272,99 @@ $('#mobileverifybtn').click(function() {
             url: "aj-sendotp.php",
             type: "POST",
             data: {phonenum : phone}
-            }).done(function(data){
-                //$("#city").html(data);
+        }).done(function(data){
+            //$("#city").html(data);
         });
     }
-    
 });
+
+
+// $('#mobileverifybtn').click(function() {
+//     var phonecheck = $('#phonecheck').val();
+//     var emailcheck = $('#emailcheck').val();
+//     var phone = $('#phone').val();
+//     var email = $('#email').val();
+//     var pwd = $('#pwd').val();
+    
+//     var pwdlen1 = $('#pwd').val().length;
+//     var regex1 = /\d+/g;
+    
+//     if(phone == '')
+//     {
+//         $('#phoneerror').show();
+//         $('#phone').css("border", "2px solid red");
+//     }
+//     else
+//     {
+//         $('#phoneerror').hide();
+//     }
+//     if(email == '')
+//     {
+//         $('#emailerror').show();
+//         $('#email').css("border", "2px solid red");
+//     }
+//     else
+//     {
+//         $('#emailerror').hide(); 
+//     }
+//     if(pwd == '')
+//     {
+//         $('#passworderror').show();
+//         $('#pwd').css("border", "2px solid red");
+//     }
+//     else
+//     {
+//         $('#passworderror').hide();
+//     }
+    
+//     if(pwdlen1 >= '6' && regex1.test(pwd))
+//     {
+//         $("#pwd").css('border', "2px solid green");
+//         $("#criterianotmatch").hide();
+//     }
+//     else
+//     {
+//         if(pwdlen1 == '0')
+//         {
+//             $("#criterianotmatch").hide();
+//         }
+//         else
+//         {
+//             $("#charlen").hide();
+//             $("#charnum").hide();
+//             $("#criterianotmatch").show();
+//             $("#pwd").css('border', "2px solid red");
+            
+//             return false;
+//         }
+//     }
+    
+//     if(phone != '' && email != '' && pwd != '' && phonecheck == 'checked' && emailcheck == 'checked')
+//     {
+//         $('#registration').hide();
+//         $('#mobileverify').show();
+//         $('#basicinfo').hide();
+//         $('#astrodetails').hide();
+//         $('#religiousbackground').hide();
+//         $('#educationcareer').hide();
+//         $('#familydetails').hide();
+//         $('#groomlocation').hide();
+//         $('#aboutme').hide();
+//         $('#profilepic').hide();
+        
+//         $('#otpphone').html($('#phone').val());
+//         $('#phoneno').val($('#phone').val());
+        
+//         $.ajax({
+//             url: "aj-sendotp.php",
+//             type: "POST",
+//             data: {phonenum : phone}
+//             }).done(function(data){
+//                 //$("#city").html(data);
+//         });
+//     }
+    
+// });
 
 $('#basicinfobtn').click(function() {
     var otp = $('#otp').val();

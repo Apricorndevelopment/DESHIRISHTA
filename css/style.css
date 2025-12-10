@@ -1268,6 +1268,7 @@ img{
 .menu-pop1 .menu-pop-help .user-pro {
     width: 100%;
     position: relative;
+    display: flex;
 }
 
 .menu-pop1 .menu-pop-help .user-pro::before,
@@ -1340,7 +1341,7 @@ img{
 .menu-pop2 .menu-pop-soci {}
 
 
-.menu-pop1 .menu-pop-help .user-pro img {
+/* .menu-pop1 .menu-pop-help .user-pro img {
     width: 225px;
     border-radius: 5px;
     height: 225px;
@@ -1348,7 +1349,18 @@ img{
     display: table;
     float: initial;
     position: relative;
+} */
+ .menu-pop1 .menu-pop-help .user-pro img {
+    width: 100%;
+    max-width: 225px;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
 }
+
 
 .menu-pop1 .menu-pop-help .user-bio {
     width: 100%;
