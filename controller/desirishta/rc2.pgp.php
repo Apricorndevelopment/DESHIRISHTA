@@ -1,144 +1,115 @@
-<?php
-include 'config.php'; // Ensure DB connection is available
+<?php 
 
-// 1. Get ID from URL
-if(isset($_GET['id']) && !empty($_GET['id'])) {
-    $id = mysqli_real_escape_string($con, $_GET['id']);
-    
-    // 2. Fetch Couple Details
-    $sql = "SELECT * FROM tbl_recent_couples WHERE id = '$id'";
-    $result = mysqli_query($con, $sql);
-    $row = mysqli_fetch_assoc($result);
-    
-    // 3. Fetch Gallery Images (Limit 4)
-    $gallery_sql = "SELECT * FROM tbl_couple_gallery WHERE couple_id = '$id' LIMIT 4";
-    $gallery_result = mysqli_query($con, $gallery_sql);
-} else {
-    // Redirect if no ID provided (Optional security)
-    echo "<script>alert('No couple selected'); window.location.href='index.php';</script>";
-    exit();
-}
+include "header.php";
+include "config.php";
+$sql_testimonials = "SELECT * FROM tbl_testimonials WHERE status = 'Active' ORDER BY date_added DESC";
+$result_testimonials = mysqli_query($con, $sql_testimonials);
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-    <title><?php echo isset($row['couple_name']) ? $row['couple_name'] : 'Couple Details'; ?> | Desi Rishta</title>
-    <!--== META TAGS ==-->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="theme-color" content="#f6af04">
-    <meta name="description" content="">
-    <meta name="keyword" content="">
-    <!--== FAV ICON(BROWSER TAB ICON) ==-->
-    <link rel="shortcut icon" href="images/ring.jpeg" type="image/x-icon">
-    <!--== CSS FILES ==-->
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/animate.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.min.js"></script>
-      <script src="js/respond.min.js"></script>
-      <![endif]-->
-      
-      <script language=Javascript>
-      
-      function isNumberKey(evt)
-      {
-         var charCode = (evt.which) ? evt.which : event.keyCode
-         if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-
-         return true;
-      }
-   </script>
-   <script>
-       function numberMobile(e){
-            e.target.value = e.target.value.replace(/[^\d]/g,'');
-            return false;
-        }
-   </script>
-   
-   
-</head>
-
-<body>
-    <!-- PRELOADER -->
- <?php 
- include "header.php";
- ?>
     <!-- END MOBILE MENU POPUP -->    <!-- START -->
-    <section>
+
+    <style>
+        
+    </style>
+
+
+<section>
         <div class="wedd pg-wedd-vid m-tp">
             <div class="container">
                 <div class="row">
                     <div class="ban-wedd">
-                        <!-- DYNAMIC NAME -->
-                        <h2><?php echo isset($row['couple_name']) ? $row['couple_name'] : ''; ?></h2>
-                        <!-- DYNAMIC LOCATION -->
-                        <p><?php echo isset($row['location']) ? $row['location'] : ''; ?></p>
-                        
+                        <!-- <h2>Michael <span>& Jessica</span></h2>
+                        <p>Lakhs of peoples have found their life partner with Desi Rishta!</p> -->
+                        <!--<a href="make-reservation.html" class="cta-dark">Make reservation</a>-->
                         <div class="wedd-info">
-                            <ul>
-                                <!-- DYNAMIC DATE AND TIME -->
-                                <li>
-                                    <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                                    <span>
-                                        <?php 
-                                        if(isset($row['event_date']) && $row['event_date'] != '0000-00-00') {
-                                            echo date('d F Y', strtotime($row['event_date'])); 
-                                        } else {
-                                            echo "Date: N/A";
-                                        }
-                                        ?> 
-                                        | 
-                                        <?php echo isset($row['event_time']) ? $row['event_time'] : ''; ?>
-                                    </span>
+                            <!-- <ul>
+                                <li><i class="fa fa-calendar-o" aria-hidden="true"></i><span>12 June | 9:00 AM</span>
                                 </li>
-                                <li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="#!"><?php echo isset($row['location']) ? $row['location'] : 'Location'; ?></a></li>
-                            </ul>
+                                <li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="#!">Direction</a></li>
+                            </ul> -->
                         </div>
+                        <div class="wedd-vid">
+                            <!-- <img src="images/couples/20.jpg" alt="">
+                            <iframe src="https://www.youtube.com/embed/P9iKATG9BW4" title="Wedding marriage: Wedding marriage"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                            <span class="vid-play" data-video="https://www.youtube.com/embed/P9iKATG9BW4?autoplay=1"><i
+                                    class="fa fa-play" aria-hidden="true"></i></span> -->
+       <div class="hom-partners abo-partners" id="testimonials">
+        <div class="container">
+            <div class="row">
+                <div class="sub-tit-caps">
+                    <h2>Customer <span class="animate animate__animated" data-ani="animate__flipInX" data-dely="0.1">Testimonials</span></h2>
+                    <p>What our clients say about us</p>
+                </div>
+                <div class="wedd-shap">
+                    <span class="abo-shap-1"></span>
+                     <span class="abo-shap-2"></span>
+                      <span class="abo-shap-4"></span>
+                    <span class="abo-shap-3"></span>
+                </div>
+
+                <div class="cus-revi">
+                    <ul class="testimonial-slider">
                         
-                        <!-- DYNAMIC DESCRIPTION INSIDE wedd-vid CLASS -->
-                        <div class="wedd-vid" style="display: block; width: 100%; text-align: center;">
-                             <!-- Inline styling to make text readable inside the existing container -->
-                        <!-- Bootstrap Icons CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+                        <?php
+                        // Check karein ki testimonials hain ya nahi
+                        if ($result_testimonials && mysqli_num_rows($result_testimonials) > 0) {
+                            while ($testimonial = mysqli_fetch_assoc($result_testimonials)) {
+                        ?>
 
-<div style="position: relative; max-width: 900px; margin: 0 auto; padding: 45px 40px; background: #ffffffff; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: justify; color:#7e5656; font-family: 'Playfair Display', serif; line-height: 1.8; border: 30px outset #ffc9c9ff;">
+                        <li>
+                            <div class="ab-testmo">
+                                <div class="ab-test-rat" style="height:300px; width: 350px; overflow: hidden; background-color: #FFE6DF; color:#E74974;">
+                                    <div class="ab-test-star">
+                                        <?php
+                                        // Rating ke liye stars ka loop
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $testimonial['rating']) {
+                                                echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                                            } else {
+                                                echo '<i class="fa fa-star-o" aria-hidden="true"></i>'; // Khali star
+                                            }
+                                        }
+                                        ?>
+                                        </div>
+                                    <div class="ab-test-conte">
+                                        <p><?php echo htmlspecialchars($testimonial['content']); ?></p>
+                                    </div>
+                                </div>
+                                <div class="ab-rat-user">
+                                    <img src="images/profiles/<?php echo htmlspecialchars($testimonial['user_image']); ?>" alt="User" style="height: 50px ; width: 50px; border-radius: 50px; border:none;">
+                                    <div>
+                                        <h4><?php echo htmlspecialchars($testimonial['user_name']); ?></h4>
+                                        <span><?php echo htmlspecialchars($testimonial['user_designation']); ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
 
-    <!-- Opening Quote -->
-    <i class="bi bi-quote" style="font-size: 50px; position: absolute; top: -10px; left: 10px; color: #fa2626ff;"></i>
+                        <?php
+                            } // while loop yahan khatm
+                        } else {
+                            // Agar DB mein koi testimonial nahi hai
+                            // echo "<li><div class='ab-testmo'><p>No testimonials to display yet.</p></div></li>";
+                        }
+                        ?>
 
-    <?php 
-        if(isset($row['description']) && !empty($row['description'])) {
-            echo nl2br($row['description']); 
-        } else {
-            echo "No description available for this couple.";
-        }
-    ?>
-
-    <!-- Closing Quote -->
-    <i class="bi bi-quote" style="font-size: 40px; position: absolute; bottom: -20px; right: 10px; transform: rotate(180deg); color: #f84242ff;"></i>
-</div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
                         </div>
-                        
                         <div class="wedd-vid-tree">
-                            <span class="wedd-vid-tre-1" ></span>
+                            <span class="wedd-vid-tre-1"></span>
                             <span class="wedd-vid-tre-2"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+</section>
     <!-- END -->
 
     <!-- START -->
@@ -152,28 +123,86 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
                         <span class="leaf1"></span>
                         <span class="tit-ani-"></span>
                     </div>
-                    
-                    <!-- DYNAMIC GALLERY SECTION -->
-                    <div class="container">
-                        <div class="row" style="margin-top: 30px;">
-                            <?php
-                            if(mysqli_num_rows($gallery_result) > 0) {
-                                while($gal = mysqli_fetch_assoc($gallery_result)) {
-                            ?>
-                                <div class="col-md-3 col-sm-6" style="margin-bottom: 20px;">
-                                    <div class="gallery-item" style="overflow: hidden; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                                        <img src="images/couples/gallery/<?php echo $gal['image_name']; ?>" alt="Gallery Image" style="width: 100%; height: 250px; object-fit: cover; transition: transform 0.3s;">
-                                    </div>
-                                </div>
-                            <?php 
-                                }
-                            } else {
-                                echo '<div class="col-12 text-center"><p style="color: #fff;">No photos uploaded for this gallery.</p></div>';
-                            }
-                            ?>
+                    <div class="col-md-2">
+                        <div class="gal-im animate animate__animated animate__slow" data-ani="animate__flipInX">
+                            <img src="images/gallery/1.jpg" class="gal-siz-1" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/gallery/9.jpg" class="gal-siz-2" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
                         </div>
                     </div>
-                  
+                    <div class="col-md-3">
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/gallery/3.jpg" class="gal-siz-2" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/gallery/4.jpg" class="gal-siz-1" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/gallery/5.jpg" class="gal-siz-1" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/gallery/6.jpg" class="gal-siz-2" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/gallery/7.jpg" class="gal-siz-2" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/gallery/8.jpg" class="gal-siz-1" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/couples/9.jpg" class="gal-siz-2" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                        <div class="gal-im animate animate__animated animate__slower" data-ani="animate__flipInX">
+                            <img src="images/couples/11.jpg" class="gal-siz-1" alt="">
+                            <div class="txt">
+                                <span>Wedding</span>
+                                <h4>Bride & Groom</h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -181,8 +210,190 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
     <!-- END -->
 
 
-    <?php include "footer.php";?>
-   
+    <!-- FOOTER -->
+    <section class="wed-hom-footer">
+        <div class="container">
+            <div class="row wed-foot-link wed-foot-link-1">
+                <div class="col-md-4">
+                    <h4>Get In Touch</h4>
+                    <p>Location: New Delhi, India</p>
+                    <p>Phone: <a href="tel:+918377053041">+91-8377053041</a></p>
+                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h4>HELP &amp; SUPPORT</h4>
+                                        <ul>
+                        <li><a href="contact.php">Contact us</a>
+                        </li>
+                        <li><a href="contact.php?#support">Business Enquiries</a>
+                        </li>
+                        <li><a href="https://wa.me/918377053041?text=Hello i am having some queries" target="_blank">Chat Support</a>
+                        </li>
+                        <li><a href="faq.php">FAQ's</a>
+                        </li>
+                        <li><a href="faqterms.php">Terms and Conditions</a>
+                        </li>
+                        <li><a href="faqprivacy.php">Privacy policy </a>
+                        </li>
+                        <li><a href="faqcookies.php">Cookies policy  </a>
+                        </li>
+                        <li><a href="faqgravience.php">Graviences</a>
+                        </li>
+                    </ul>
+                                    </div>
+                <div class="col-md-4 fot-soc">
+                    <h4>SOCIAL MEDIA</h4>
+                    <ul>
+                        <li><a href="#!"><img src="images/social/facebook.jpeg" alt="" loading="lazy"></a></li>
+                        <li><a href="#!"><img src="images/social/instagram.png" alt="" loading="lazy"></a></li>
+                        <li><a href="#!"><img src="images/social/linkedin.jpeg" alt="" loading="lazy"></a></li>
+                        <li><a href="#!"><img src="images/social/twitter.jpeg" alt="" loading="lazy"></a></li>
+                        <li><a href="#!"><img src="images/social/youtube.jpeg" alt="" loading="lazy"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row foot-count">
+                <!--<p>Desi Rishta - Trusted by over thousands of Boys & Girls for successfull marriage.</p>-->
+                <p>This website is strictly for matrimonial purpose only and not a dating website</p>
+                                <p><a href="sign-up.php" class="btn btn-primary btn-sm">Join us today !</a></p>
+                            </div>
+        </div>
+    </section>
+    <!-- END -->
+
+    <!-- COPYRIGHTS -->
+    <section>
+        <div class="cr">
+            <div class="container">
+                <div class="row">
+                    <p class="pb-0">Copyright © <span>2025</span> <a href="#!" target="_blank">Desi-Rishta.com</a> All
+                        rights reserved.</p>
+                    <p class="pt-0">Crafted with
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart text-danger"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" style="color:rgb(200, 4, 108);"></path></svg> in Gurugram, India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END -->
+
+    <!-- link copy-->
+    <div class="container copybox" style="display:none">
+        <div class="alert alert-success">
+            <strong>Link Copied!</strong>.
+        </div>
+    </div>
+    <!-- link copy-->
+    
+    
+    <!-- INTEREST POPUP -->
+    <div class="modal fade plncanl-pop" id="plancancel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title seninter-tit">Plan cancellation</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body seninter chosenini">
+                    <div class="row">
+                        <div class="col-md-6 lhs-poli">
+                            <h5>Cancellation policy</h5>
+                            <ul>
+                                <li>Your refund amount calculated day basis</li>
+                                <li>As per your plan, your perday cost:10$</li>
+                                <li>After 3 months only you can able to join</li>
+                                <li>Fair ipsum dummy content ipsum jenuane ai</li>
+                                <li>Rairt ipsum dummy content ipsum jenuane ai</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 rhs-form">
+                            <div class="form-login">
+                                <form>
+                                    <div class="form-group">
+                                        <label class="lb">Reason for the cancellation: *</label>
+                                        <select class="chosen-select">
+                                            <option value="">I joint my pare</option>
+                                            <option value="">Profile match not good</option>
+                                            <option value="">Support not good</option>
+                                            <option value="">My reason not in the list</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="lb">Message: *</label>
+                                        <textarea placeholder="Enter your message" class="form-control" id="" cols="20" rows="5"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                      <th>Plan type</th>
+                                      <th>Duration</th>
+                                      <th>Cost paid</th>
+                                      <th>Perday cost</th>
+                                      <th>Plan active days</th>
+                                      <th>Remaining days</th>
+                                      <th>Cancellation charges</th>
+                                      <th>Cost saved</th>
+                                    </tr>
+                                  </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>Platinum</td>
+                                    <td>365 days(12 months)</td>
+                                    <td>$1000</td>
+                                    <td>$2.73</td>
+                                    <td>190 days</td>
+                                    <td>175 days</td>
+                                    <td>$100</td>
+                                    <td>$377.75</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END INTEREST POPUP -->
+    
+     <!-- CHAT CONVERSATION BOX START -->
+    <div class="chatbox">
+        <span class="comm-msg-pop-clo"><i class="fa fa-times" aria-hidden="true"></i></span>
+
+        <div class="inn">
+            <form name="new_chat_form" method="post">
+                <div class="s1">
+                    <img src="images/user/2.jpg" class="intephoto2" alt="">
+                    <h4><b class="intename2">Julia</b>,</h4>
+                    <span class="avlsta avilyes">Available online</span>
+                </div>
+                <div class="s2 chat-box-messages">
+                    <span class="chat-wel">Start a new chat!!! now</span>
+                    <div class="chat-con">
+                        <div class="chat-lhs">Hi</div>
+                        <div class="chat-rhs">Hi</div>
+                    </div>
+                    <!--<span>Start A New Chat!!! Now</span>-->
+                </div>
+                <div class="s3">
+                    <input type="text" name="chat_message" placeholder="Type a message here.." required="">
+                    <button id="chat_send1" name="chat_send" type="submit">Send <i class="fa fa-paper-plane-o"
+                            aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- END -->
     
     
     <!-- Optional JavaScript -->

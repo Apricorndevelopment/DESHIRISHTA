@@ -22,6 +22,125 @@ $sqlplan = "select * from plan_info where userid = '$userid'";
 $resultplan = mysqli_query($con,$sqlplan);
 $rowplan = mysqli_fetch_assoc($resultplan);
 ?>
+<?php if(isset($_GET['action']) && $_GET['action'] == 'mailsent') { ?>
+<div id="emailSentModal" class="custom-modal">
+    <div class="custom-modal-content">
+
+        <span class="close-modal-btn">&times;</span>
+
+        <div class="modal-body">
+            <img src="images/gif/update.gif" alt="Email Sent" class="success-gif">
+            <h3 class="modal-title">Verification Link Sent</h3>
+            <p class="modal-desc">A verification link has been sent to your email address.  
+                Please check your inbox.
+            </p>
+            <a href="user-setting.php" class="ok-btn">OK</a>
+        </div>
+
+    </div>
+</div>
+<?php } ?>
+
+<style>
+    /* BACKDROP */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    animation: fadeIn 0.3s ease;
+}
+
+/* POPUP BOX */
+.custom-modal-content {
+    background: #fff;
+    width: 350px;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    text-align: center;
+    animation: popUp 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+}
+
+/* CLOSE BUTTON */
+.close-modal-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 26px;
+    cursor: pointer;
+    color: #444;
+    transition: 0.3s ease;
+}
+
+/* CLOSE HOVER PINK + ROTATE */
+.close-modal-btn:hover {
+    color: hotpink;
+    transform: rotate(180deg);
+}
+
+/* IMAGE */
+.success-gif {
+    width: 110px;
+    margin-bottom: 10px;
+}
+
+/* TITLE */
+.modal-title {
+    font-size: 22px;
+    margin: 10px 0;
+    color: #222;
+}
+
+/* DESCRIPTION */
+.modal-desc {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 22px;
+}
+
+/* OK BUTTON */
+.ok-btn {
+    background: #333;
+    padding: 10px 22px;
+    color: #fff;
+    display: inline-block;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.ok-btn:hover {
+    background: hotpink;
+    transform: translateY(-2px);
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popUp {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+</style>
+<script>
+document.querySelector(".close-modal-btn").onclick = function() {
+    document.getElementById("emailSentModal").style.display = "none";
+};
+</script>
 
     <!-- LOGIN -->
     <section>

@@ -8,7 +8,6 @@ if($userid == '')
     header('location:login.php');
 }
 ?>
-    <!-- BANNER -->
     <section>
         <div class="str">
             <div class="ban-inn ab-ban pg-cont">
@@ -26,9 +25,6 @@ if($userid == '')
             </div>
         </div>
     </section>
-    <!-- END -->
-
-    <!-- START -->
     <section>
         <div class="ab-sec2 pg-cont">
             <div class="container">
@@ -64,9 +60,6 @@ if($userid == '')
             </div>
         </div>
     </section>
-    <!-- END -->
-
-    <!-- REGISTER -->
     <section>
         <div class="login pg-cont" id="support">
             <div class="container">
@@ -91,14 +84,15 @@ if($userid == '')
                                 <div class="form-login">
                                     <form class="cform fvali" method="post" action="insert-submitrequest.php">
                                         <input type="hidden" name="category" value="User Support Request" required>
-                                            <?php
-                                            if($_GET['success'] == 'yes')
-                                            {
-                                            ?>
-                                            <p class="text-success text-center" id="invalidpop">Your message was sent successfully.</p>
-                                            <?php
-                                            }
-                                            ?>
+                                        
+                                        <?php if(isset($_GET['success']) && $_GET['success'] == 'yes') { ?>
+                                            <script>
+                                                document.addEventListener("DOMContentLoaded", function() {
+                                                    document.getElementById('successModal').style.display = 'block';
+                                                });
+                                            </script>
+                                        <?php } ?>
+
                                         <div class="form-group">
                                             <label class="lb">Name</label>
                                             <span class="iconbox">
@@ -139,13 +133,87 @@ if($userid == '')
             </div>
         </div>
     </section>
-    <!-- END -->
+    
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-body-content">
+                <img src="images/gif/sent.gif" alt="Success" class="modal-gif">
+                <h2>Message Sent!</h2>
+                <p>Your request has been submitted successfully. We will get back to you shortly.</p>
+                <button onclick="closeModal()" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto; 
+            padding: 30px; 
+            border-radius: 12px;
+            width: 90%; 
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #aaa;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: #000; }
+        .modal-gif {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        .modal-content h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        .modal-content p {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 
 <?php
 include 'footer.php';
 ?>
 
 <script>
+function closeModal() {
+    document.getElementById('successModal').style.display = 'none';
+    // Remove query param to prevent showing again on reload
+    const url = new URL(window.location.href);
+    url.searchParams.delete('success');
+    window.history.replaceState(null, null, url);
+}
+
 $(document).ready(function(){
   $("#enquirybtn").click(function(){
     var message = $("#message").val();

@@ -281,7 +281,7 @@ $team_result = mysqli_query($con, $team_sql);
                         <span class="leaf1"></span>
                         <span class="tit-ani-"></span>
                     </div>
-                    <div class="slid-inn cus-revi">
+                    <div class="slid-inn cus-revi " style="overflow: visible !important;">
                         <ul class="slider4">
                             <li>
                                 <div class="cus-revi-box">
@@ -674,7 +674,8 @@ ease;
                         <img src="<?php echo $image_path; ?>" alt="<?php echo htmlspecialchars($couple['couple_name']); ?>" loading="lazy">
                         <div class="bx">
                             <h4><?php echo htmlspecialchars($couple['couple_name']); ?> <span><?php echo htmlspecialchars($couple['location']); ?></span></h4>
-                            <a href="recent-couples.php" class="sml-cta cta-dark">View more</a>
+                            <!-- <a href="recent-couples.php" class="sml-cta cta-dark">View more</a> -->
+                            <a href="recent-couples.php?id=<?php echo $couple['id']; ?>" class="sml-cta cta-dark">View more</a>
                         </div>
                     </div>
                 </li>
@@ -1004,7 +1005,7 @@ ul.slider4 .slick-slide li {
 
 .slid-inn .slick-prev:hover,
 .slid-inn .slick-next:hover {
-    background: rgba(0, 0, 0, 0.8);
+    /* background: rgba(0, 0, 0, 0.8); */
 }
 
 /* Arrows ko container ke andar rakha */

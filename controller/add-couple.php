@@ -54,12 +54,48 @@ include 'header.php'; // Header include karega
                                                     <input type="text" id="location" class="form-control" placeholder="New York" name="location">
                                                 </div>
                                             </div>
+
+                                            <!-- NEW DYNAMIC FIELDS START -->
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="event_date"><b>Event Date</b></label>
+                                                    <input type="date" id="event_date" class="form-control" name="event_date">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="event_time"><b>Event Time</b></label>
+                                                    <input type="text" id="event_time" class="form-control" placeholder="e.g. 9:00 AM" name="event_time">
+                                                </div>
+                                            </div>
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
-                                                    <label for="image"><b>Couple Image</b></label>
+<label for="description" style="font-weight:600; font-size:16px;">
+  Couple Description / Bio 
+  <span style="color:#d9534f; font-weight:bold;">(Max 100 words only)</span>
+</label>
+
+                                                    <textarea id="description" class="form-control" name="description" rows="4" placeholder="Enter details about the couple's story..."></textarea>
+                                                </div>
+                                            </div>
+                                            <!-- NEW DYNAMIC FIELDS END -->
+
+                                            <div class="col-md-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="image"><b>Main Profile Image</b></label>
                                                     <input type="file" id="image" class="form-control" name="image" required>
                                                 </div>
                                             </div>
+
+                                            <!-- GALLERY UPLOAD FIELD -->
+                                            <div class="col-md-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="gallery"><b>Gallery Images (Max 4)</b></label>
+                                                    <input type="file" id="gallery" class="form-control" name="gallery_images[]" multiple>
+                                                    <small class="text-muted">Select up to 4 images for the photo gallery.</small>
+                                                </div>
+                                            </div>
+
                                             <div class="col-12 text-center mt-2 mb-2">
                                                 <button type="submit" name="submit" class="btn btn-primary">Add Couple</button>
                                             </div>

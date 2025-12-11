@@ -45,6 +45,6 @@ curl_close($curl);
 
 $sqlupdate = "UPDATE `registration` SET `emailverify`='0' WHERE `userid`='$userid'";
 $resultupdate = mysqli_query($con,$sqlupdate);
-
-header('location:user-setting.php');
+header('location:user-setting.php?action=mailsent');
+// header('location:user-setting.php');
 ?>

@@ -151,6 +151,34 @@ if(isset($id_verification) && $id_verification == 'Done' && $id_verification_pop
     mysqli_query($con, "UPDATE `registration` SET `verification_popup`='1' WHERE `userid`='$userid'");
 }
 
+
+$popup_queue = []; 
+
+// A. Birthday Check (New Implementation)
+$sql_dob_check = "SELECT dob FROM astro_info WHERE userid = '$userid'";
+$result_dob_check = mysqli_query($con, $sql_dob_check);
+if($result_dob_check && mysqli_num_rows($result_dob_check) > 0) {
+    $row_dob = mysqli_fetch_assoc($result_dob_check);
+    if(!empty($row_dob['dob']) && $row_dob['dob'] != '0000-00-00') {
+        $user_dob_md = date('m-d', strtotime($row_dob['dob']));
+        $today_md = date('m-d');
+        
+        if($user_dob_md == $today_md) {
+            // Check cookie to prevent showing multiple times in one session if desired
+            // For now, we show it on dashboard load if it's their birthday
+            $popup_queue[] = [
+                'id' => 'birthday_'.date('Y'),
+                'type' => 'status',
+                'subject' => 'Happy Birthday, ' . $my_name . '! 🎂',
+                'media_file' => 'images/gif/birthday1.gif', // Ensure this GIF exists
+                'body_content' => 'Wishing you a wonderful birthday filled with love and joy from the Desi Rishta Team! 🎉',
+                'is_local_img' => true,
+                'btn_link' => '',
+                'btn_text' => 'Thank You'
+            ];
+        }
+    }
+}
 // Encode queue data to JSON for JavaScript
 $json_popup_queue = json_encode($popup_queue);
 ?>
@@ -812,29 +840,65 @@ $json_popup_queue = json_encode($popup_queue);
 ease;
 }</style>
 <?php include 'footer.php'; ?>
+<div id="reconnectModal" class="custom-modal" style="display: none;">
+    <div class="custom-modal-content">
+        <span class="close-modal-btn" onclick="closeReconnect()">&times;</span>
+        <div class="modal-body">
+            <img src="images/gif/reconnect.gif" alt="Welcome Back" class="success-gif" style="width:150px;">
+            <h3 class="modal-title" style="color:#b16421;">It’s been a while!</h3>
+            <p class="modal-desc">Let’s reconnect on Desi Rishta. We missed you!</p>
+            <button class="ok-btn" onclick="closeReconnect()">OK</button>
+        </div>
+    </div>
+</div>
 
+<script>
+    function closeReconnect() {
+        document.getElementById('reconnectModal').style.display = 'none';
+        // Remove cookie via JS so it doesn't show again in this session
+        document.cookie = "show_reconnect_popup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    // Check PHP set cookie via JS
+    function getCookie(name) {
+        let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) return match[2];
+    }
+
+    window.onload = function() {
+        // ... your existing onload scripts ...
+        if(getCookie('show_reconnect_popup') === 'yes') {
+            document.getElementById('reconnectModal').style.display = 'flex';
+        }
+    };
+</script>
 <!-- SCRIPTS FOR POPUPS, CLOCK, AND BATTERY -->
 <script>
 $(document).ready(function(){
-    // 1. STANDARD POPUP QUEUE (Banners/Status)
+
     var popupQueue = <?php echo !empty($json_popup_queue) ? $json_popup_queue : '[]'; ?>;
     var currentPopup = null;
+
+    // FILTER POPUP: Birthday repeat ना हो
+    popupQueue = popupQueue.filter(function(p){
+        if(p.id.includes("birthday_")){
+            return !localStorage.getItem(p.id);
+        }
+        return true;
+    });
 
     function showNextPopup() {
         if (popupQueue.length === 0) {
             $('.menu-pop1, .pop-bg').removeClass('act');
             return;
         }
-        currentPopup = popupQueue.shift();
-        
-        $('#pop-subject').text(currentPopup.subject || 'Notification');
-        if(currentPopup.body_content) {
-            $('#pop-body').html(currentPopup.body_content);
-        } else {
-            $('#pop-body').text("");
-        }
 
-        if (currentPopup.media_file && currentPopup.media_file !== '') {
+        currentPopup = popupQueue.shift();
+
+        $('#pop-subject').text(currentPopup.subject || 'Notification');
+        $('#pop-body').html(currentPopup.body_content || "");
+
+        if(currentPopup.media_file){
             var imgSrc = currentPopup.is_local_img ? currentPopup.media_file : 'uploads/' + currentPopup.media_file;
             $('#pop-img').attr('src', imgSrc);
             $('#pop-img-container').show();
@@ -842,31 +906,94 @@ $(document).ready(function(){
             $('#pop-img-container').hide();
         }
 
-        if(currentPopup.btn_text && currentPopup.btn_text !== '') {
-            $('#pop-btn').text(currentPopup.btn_text);
-            $('#pop-btn').attr('href', currentPopup.btn_link);
-            $('#pop-btn').show();
+        if(currentPopup.btn_text){
+            $('#pop-btn').text(currentPopup.btn_text).attr('href', currentPopup.btn_link).show();
         } else {
             $('#pop-btn').hide();
         }
+
         $('.menu-pop1, .pop-bg').addClass('act');
     }
 
-    // Only start standard popups if First Login Popup is NOT showing
-    if(popupQueue.length > 0 && $('#firstLoginModal').length == 0) {
-        setTimeout(function(){ showNextPopup(); }, 1000); 
+    if(popupQueue.length > 0 && $('#firstLoginModal').length == 0){
+        setTimeout(showNextPopup, 1000);
     }
 
-    $('#close-popup-btn').on('click', function() {
-        if(currentPopup && currentPopup.type === 'banner') {
+    // Close button logic
+    $('#close-popup-btn, #pop-btn').on('click', function() {
+
+        // Birthday popup clicked -> Save in localStorage
+        if(currentPopup && currentPopup.id.includes("birthday_")){
+            localStorage.setItem(currentPopup.id, "done");
+        }
+
+        if(currentPopup && currentPopup.type === 'banner'){
             $.post('aj-log-banner-view.php', { banner_ids: currentPopup.id });
         }
+
         $('.menu-pop1, .pop-bg').removeClass('act');
-        setTimeout(function(){ showNextPopup(); }, 500);
+
+        setTimeout(showNextPopup, 500);
     });
+
 });
 
+
+// $(document).ready(function(){
+//     // 1. STANDARD POPUP QUEUE (Banners/Status)
+//     var popupQueue = <?php echo !empty($json_popup_queue) ? $json_popup_queue : '[]'; ?>;
+//     var currentPopup = null;
+
+//     function showNextPopup() {
+//         if (popupQueue.length === 0) {
+//             $('.menu-pop1, .pop-bg').removeClass('act');
+//             return;
+//         }
+//         currentPopup = popupQueue.shift();
+        
+//         $('#pop-subject').text(currentPopup.subject || 'Notification');
+//         if(currentPopup.body_content) {
+//             $('#pop-body').html(currentPopup.body_content);
+//         } else {
+//             $('#pop-body').text("");
+//         }
+
+//         if (currentPopup.media_file && currentPopup.media_file !== '') {
+//             var imgSrc = currentPopup.is_local_img ? currentPopup.media_file : 'uploads/' + currentPopup.media_file;
+//             $('#pop-img').attr('src', imgSrc);
+//             $('#pop-img-container').show();
+//         } else {
+//             $('#pop-img-container').hide();
+//         }
+
+//         if(currentPopup.btn_text && currentPopup.btn_text !== '') {
+//             $('#pop-btn').text(currentPopup.btn_text);
+//             $('#pop-btn').attr('href', currentPopup.btn_link);
+//             $('#pop-btn').show();
+//         } else {
+//             $('#pop-btn').hide();
+//         }
+//         $('.menu-pop1, .pop-bg').addClass('act');
+//     }
+
+//     // Only start standard popups if First Login Popup is NOT showing
+//     if(popupQueue.length > 0 && $('#firstLoginModal').length == 0) {
+//         setTimeout(function(){ showNextPopup(); }, 1000); 
+//     }
+
+//     $('#close-popup-btn').on('click', function() {
+//         if(currentPopup && currentPopup.type === 'banner') {
+//             $.post('aj-log-banner-view.php', { banner_ids: currentPopup.id });
+//         }
+//         $('.menu-pop1, .pop-bg').removeClass('act');
+//         setTimeout(function(){ showNextPopup(); }, 500);
+//     });
+// });
+
 // 2. FIRST LOGIN PRIVACY POPUP LOGIC
+
+
+
 function closePrivacyModal() {
     document.getElementById('firstLoginModal').style.display = 'none';
     // If you want, you can trigger standard popups here if the queue exists

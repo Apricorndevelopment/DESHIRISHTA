@@ -118,6 +118,37 @@ else
             </script>
         <?php
         }
+      else
+{
+    $sqlcheckblock = "select * from loginblock_otp where phone_email = '$phone'";
+    $resultcheckblock = mysqli_query($con,$sqlcheckblock);
+    $rowcheckblock = mysqli_fetch_assoc($resultcheckblock);
+    $checkblock = mysqli_num_rows($resultcheckblock);
+    
+    if($checkblock >= 1)
+    {
+        $current_time = date("Y-m-d H:i:s");
+        $ct = strtotime($current_time);
+        $store_time = $rowcheckblock['date_time'];
+        $st = strtotime($store_time);
+        $add_mins = "1800";
+        $block_till = $st + $add_mins;
+        $bt = date('M d, Y H:i:s', $block_till);
+        
+        if($block_till > $ct)
+        {
+        ?>
+            <form action="login.php" method="post" id="myForm4">
+                <input type="hidden" name="credential" value="blocked">
+                <input type="hidden" name="attempt" value="0">
+                <input type="hidden" name="seconds_left" value="<?php echo $bt; ?>">
+                <input type="hidden" name="userinput" value="<?php echo $phone; ?>">
+            </form>
+            <script>
+                document.getElementById("myForm4").submit();
+            </script>
+        <?php
+        }
         else
         {
             $sqldeleteblock = "delete from `loginblock_otp` where `phone_email` = '$phone'";
@@ -134,80 +165,88 @@ else
     }
     else
     {
+        // -----------------------------
+        // SUCCESS LOGIN START
+        // -----------------------------
         $userid = $rowselect['userid'];
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-$user_agent = $_SERVER['HTTP_USER_AGENT'];
+        /*------------------------------------------
+            NEW INACTIVITY CHECK (MERGED SUCCESSFULLY)
+        -------------------------------------------*/
+        $sql_last_login = "SELECT login_time FROM user_logs WHERE userid = '$userid' ORDER BY id DESC LIMIT 1";
+        $res_last_login = mysqli_query($con, $sql_last_login);
+        
+        if ($res_last_login && mysqli_num_rows($res_last_login) > 0) {
+            $row_last = mysqli_fetch_assoc($res_last_login);
+            $last_login_time = strtotime($row_last['login_time']);
+            $current_time_str = time();
+            $days_diff = round(($current_time_str - $last_login_time) / (60 * 60 * 24));
 
-if (preg_match('/mobile/i', $user_agent)) {
-    $device = "Mobile";
-} elseif (preg_match('/tablet/i', $user_agent)) {
-    $device = "Tablet";
-} else {
-    $device = "Desktop";
-}
+            // If inactivity > 15 days, set a cookie to show popup on dashboard
+            if ($days_diff > 15) {
+                setcookie("show_reconnect_popup", "yes", time() + 3600, "/"); 
+            }
+        }
 
-// PERFECT BROWSER DETECTION
-function detectBrowser($agent) {
+        /*------------------------------------------
+             BROWSER + DEVICE DETECTION CODE
+        -------------------------------------------*/
+        if (preg_match('/mobile/i', $user_agent)) {
+            $device = "Mobile";
+        } elseif (preg_match('/tablet/i', $user_agent)) {
+            $device = "Tablet";
+        } else {
+            $device = "Desktop";
+        }
 
-    if (strpos($agent, 'Edg') !== false) { return "Edge"; }
-    elseif (strpos($agent, 'OPR') !== false || strpos($agent, 'Opera') !== false) { return "Opera"; }
-    elseif (strpos($agent, 'Brave') !== false || strpos($agent, 'brave') !== false) { return "Brave"; }
-    elseif (strpos($agent, 'UCBrowser') !== false) { return "UC Browser"; }
-    elseif (strpos($agent, 'SamsungBrowser') !== false) { return "Samsung Internet"; }
-    elseif (strpos($agent, 'Firefox') !== false) { return "Firefox"; }
-    elseif (strpos($agent, 'Safari') !== false && strpos($agent, 'Chrome') === false) { return "Safari"; }
-    elseif (strpos($agent, 'Chrome') !== false) { return "Chrome"; }
-    else { return "Other"; }
-}
+        function detectBrowser($agent) {
+            if (strpos($agent, 'Edg') !== false) { return "Edge"; }
+            elseif (strpos($agent, 'OPR') !== false || strpos($agent, 'Opera') !== false) { return "Opera"; }
+            elseif (strpos($agent, 'Brave') !== false || strpos($agent, 'brave') !== false) { return "Brave"; }
+            elseif (strpos($agent, 'UCBrowser') !== false) { return "UC Browser"; }
+            elseif (strpos($agent, 'SamsungBrowser') !== false) { return "Samsung Internet"; }
+            elseif (strpos($agent, 'Firefox') !== false) { return "Firefox"; }
+            elseif (strpos($agent, 'Safari') !== false && strpos($agent, 'Chrome') === false) { return "Safari"; }
+            elseif (strpos($agent, 'Chrome') !== false) { return "Chrome"; }
+            else { return "Other"; }
+        }
 
-$browser = detectBrowser($user_agent);
+        $browser = detectBrowser($user_agent);
 
-// IP ADDRESS
-$ip = $_SERVER['REMOTE_ADDR'];
+        // IP
+        $ip = $_SERVER['REMOTE_ADDR'];
 
-// LOCATION FETCH
-$locationData = @json_decode(file_get_contents("http://ip-api.com/json/$ip"), true);
-$country = $locationData['country'] ?? '';
-$state   = $locationData['regionName'] ?? '';
-$city    = $locationData['city'] ?? '';
+        // LOCATION
+        $locationData = @json_decode(file_get_contents("http://ip-api.com/json/$ip"), true);
+        $country = $locationData['country'] ?? '';
+        $state   = $locationData['regionName'] ?? '';
+        $city    = $locationData['city'] ?? '';
 
-// LOG THIS LOGIN IN THE DATABASE
-mysqli_query($con, "
-    INSERT INTO user_logs (userid, login_time, browser, device, ip_address, country, state, city)
-    VALUES ('$userid', NOW(), '$browser', '$device', '$ip', '$country', '$state', '$city')
-");
+        // INSERT LOG
+        mysqli_query($con, "
+            INSERT INTO user_logs (userid, login_time, browser, device, ip_address, country, state, city)
+            VALUES ('$userid', NOW(), '$browser', '$device', '$ip', '$country', '$state', '$city')
+        ");
 
+        // UPDATE LOGIN STATUS
+        mysqli_query($con, "UPDATE registration SET online='yes', last_login_date=NOW() WHERE userid='$userid'");
 
-mysqli_query($con, "UPDATE registration SET online='yes' WHERE userid='$userid'");
-
-
+        // SET COOKIES
         setcookie("dr_userid", $userid, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $email = $rowselect['email'];
-        setcookie("dr_email", $email, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $phone = $rowselect['phone'];
-        setcookie("dr_phone", $phone, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $fullname = $rowselect['name'];
-        setcookie("dr_name", $fullname, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $state = $rowselect['state'];
-        setcookie("dr_state", $state, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $gender = $rowselect['gender'];
-        setcookie("dr_gender", $gender, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $country = $rowselect['country'];
-        setcookie("dr_country", $country, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $city = $rowselect['city'];
-        setcookie("dr_city", $city, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $sqlonline = "UPDATE `registration` SET `online`='yes' WHERE `userid`='$userid'";
-        $resultonline = mysqli_query($con,$sqlonline);
-        
-         header('location:user-dashboard.php');
+        setcookie("dr_email", $rowselect['email'], time() + (10 * 365 * 24 * 60 * 60));
+        setcookie("dr_phone", $rowselect['phone'], time() + (10 * 365 * 24 * 60 * 60));
+        setcookie("dr_name", $rowselect['name'], time() + (10 * 365 * 24 * 60 * 60));
+        setcookie("dr_state", $rowselect['state'], time() + (10 * 365 * 24 * 60 * 60));
+        setcookie("dr_gender", $rowselect['gender'], time() + (10 * 365 * 24 * 60 * 60));
+        setcookie("dr_country", $rowselect['country'], time() + (10 * 365 * 24 * 60 * 60));
+        setcookie("dr_city", $rowselect['city'], time() + (10 * 365 * 24 * 60 * 60));
+
+        // REDIRECT
+        header('location:user-dashboard.php');
+        // -----------------------------
+        // SUCCESS LOGIN END
+        // -----------------------------
     }
 }
-?>
+ }} ?>

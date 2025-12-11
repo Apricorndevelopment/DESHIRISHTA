@@ -75,14 +75,48 @@ $row = mysqli_fetch_assoc($result);
                                                            value="<?php echo htmlspecialchars($row['location']); ?>">
                                                 </div>
                                             </div>
+
+                                            <!-- NEW DYNAMIC FIELDS START -->
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="event_date"><b>Event Date</b></label>
+                                                    <input type="date" id="event_date" class="form-control" name="event_date" 
+                                                           value="<?php echo $row['event_date']; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="event_time"><b>Event Time</b></label>
+                                                    <input type="text" id="event_time" class="form-control" name="event_time" 
+                                                           value="<?php echo htmlspecialchars($row['event_time']); ?>">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="description"><b>Couple Description / Bio</b></label>
+                                                    <textarea id="description" class="form-control" name="description" rows="4"><?php echo htmlspecialchars($row['description']); ?></textarea>
+                                                </div>
+                                            </div>
+                                            <!-- NEW DYNAMIC FIELDS END -->
+
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
                                                     <label for="image"><b>Change Couple Image</b> (Optional)</label>
                                                     <input type="file" id="image" class="form-control" name="image">
                                                     <small class="form-text text-muted">Aapki current image:</small>
-                                                    <img src="../images/couples/<?php echo $row['image']; ?>" alt="Current Image" style="width: 100px; margin-top: 10px;">
+                                                    <br>
+                                                    <img src="../images/couples/<?php echo $row['image']; ?>" alt="Current Image" style="width: 100px; margin-top: 10px; border-radius: 5px;">
                                                 </div>
                                             </div>
+                                            
+                                            <div class="col-md-12 col-12">
+                                                <div class="form-group">
+                                                    <label for="gallery"><b>Add More Gallery Images</b></label>
+                                                    <input type="file" id="gallery" class="form-control" name="gallery_images[]" multiple>
+                                                    <small class="text-muted">Select new images to ADD to the existing gallery.</small>
+                                                </div>
+                                            </div>
+
                                             <div class="col-12 text-center mt-2 mb-2">
                                                 <button type="submit" name="submit" class="btn btn-primary">Update Couple</button>
                                             </div>

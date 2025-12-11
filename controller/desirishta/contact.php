@@ -157,7 +157,7 @@ Thanks!
                                             </span>
                                             <p class="text-danger errorstatement" id="messerror" style="display:none">Please Enter Message</p>
                                         </div>
-                                        <div class="terms-container">
+                                        <!-- <div class="terms-container">
                                             <input type="checkbox" id="terms" name="terms" checked>
 
                                             <p>
@@ -165,8 +165,8 @@ Thanks!
                                                 <a href="terms.php">T&C</a> and
                                                 <a href="privacy.php">Privacy Policy</a>
                                             </p>
-                                        </div>
-                                        <button type="submit" id="enquirybtn" class="btn btn-primary">Send Enquiry</button>
+                                        </div> -->
+                                        <button type="submit" id="enquirybtn" class="btn btn-primary">Send Message</button>
                                     </form>
                                 </div>
                             </div>
@@ -259,7 +259,7 @@ Thanks!
                                             <p class="text-danger errorstatement" id="messerror" style="display:none">Please Enter Messagess</p>
                                         </div>
 
-                                        <button type="submit" id="enquirybtn" class="btn btn-primary">Send Enquiry</button>
+                                        <button type="submit" id="enquirybtn" class="btn btn-primary">Send Message</button>
                                     </form>
                                 </div>
                             </div>
