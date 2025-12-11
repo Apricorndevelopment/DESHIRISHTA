@@ -3621,8 +3621,19 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                 </div>
 <div class="row">
     <div class="col-md-12 form-group">
-        <p class="mt-4 m-0"><span class="text-danger">Supports:</span> PNG, JPG and JPEG</p>
-        <p class="text-white mt-0 notebox"><b>Note:</b> Photos will be reviewed before going live.</p>
+        <div class="alert alert-light mt-2" style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px;">
+            <h6 class="font-weight-bold text-dark mb-2"><i class="fa fa-info-circle text-info"></i> Do's and Don'ts:</h6>
+            <ul class="pl-3 mb-0" style="list-style-type: disc; color: #555; font-size: 14px; line-height: 1.6;">
+                <li>Do upload a clear picture with your face clearly visible.</li>
+                <li>Do not upload blurred or unclear pictures.</li>
+                <li>Do not upload pictures of others.</li>
+                <li>Do not upload watermarked, morphed, or obscene pictures.</li>
+                <li>Do not add any personal content to your picture, such as your address, phone number, or any messages.</li>
+                <li>Supported formats are only PNG, JPG, and JPEG.</li>
+                <li>The combined maximum file size allowed for upload is 5MB.</li>
+            </ul>
+        </div>
+        <p class="text-white mt-2 notebox"><b>Note:</b> Photos will be reviewed before going live.</p>
     </div>
 </div>
                 <!-- <div class="row p-4">
