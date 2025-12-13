@@ -1,10 +1,16 @@
 <?php
 include 'config.php';
 
+// Check if user is logged in
+if(!isset($_COOKIE['dr_userid'])) {
+    header('location:login.php');
+    exit;
+}
+
 $userid = $_COOKIE['dr_userid'];
 
 // --- 1. FILE UPLOAD LOGIC ---
-// Check if new file uploaded, otherwise use old file name
+// We check if a new file is uploaded; otherwise, we keep the old filename passed from the form.
 
 // Profile Pic
 $oldprofilepic = $_POST['oldprofilepic'];
@@ -13,7 +19,7 @@ if ($s1 == '') {
     $s1 = $oldprofilepic;
 } else {
     $s11 = $_FILES["profilepic"]["tmp_name"];
-    move_uploaded_file($s11, "userphoto//" . $s1);
+    move_uploaded_file($s11, "userphoto/" . $s1);
 }
 
 // Photo 1
@@ -23,7 +29,7 @@ if ($s2 == '') {
     $s2 = $oldphoto1;
 } else {
     $s22 = $_FILES["photo1"]["tmp_name"];
-    move_uploaded_file($s22, "userphoto//" . $s2);
+    move_uploaded_file($s22, "userphoto/" . $s2);
 }
 
 // Photo 2
@@ -33,7 +39,7 @@ if ($s3 == '') {
     $s3 = $oldphoto2;
 } else {
     $s33 = $_FILES["photo2"]["tmp_name"];
-    move_uploaded_file($s33, "userphoto//" . $s3);
+    move_uploaded_file($s33, "userphoto/" . $s3);
 }
 
 // Photo 3
@@ -43,7 +49,7 @@ if ($s4 == '') {
     $s4 = $oldphoto3;
 } else {
     $s44 = $_FILES["photo3"]["tmp_name"];
-    move_uploaded_file($s44, "userphoto//" . $s4);
+    move_uploaded_file($s44, "userphoto/" . $s4);
 }
 
 // Photo 4
@@ -53,7 +59,7 @@ if ($s5 == '') {
     $s5 = $oldphoto4;
 } else {
     $s55 = $_FILES["photo4"]["tmp_name"];
-    move_uploaded_file($s55, "userphoto//" . $s5);
+    move_uploaded_file($s55, "userphoto/" . $s5);
 }
 
 // Photo 5
@@ -63,12 +69,12 @@ if ($s6 == '') {
     $s6 = $oldphoto5;
 } else {
     $s66 = $_FILES["photo5"]["tmp_name"];
-    move_uploaded_file($s66, "userphoto//" . $s6);
+    move_uploaded_file($s66, "userphoto/" . $s6);
 }
 
-// --- 2. APPROVAL WORKFLOW LOGIC (Temp Table) ---
+// --- 2. APPROVAL WORKFLOW LOGIC (Save to Temp Table) ---
 
-// Check if data exists in temporary table
+// Check if data already exists in temporary table for this user
 $sqlcheck = "SELECT * FROM temp_photos_info WHERE userid = '$userid'";
 $resultcheck = mysqli_query($con, $sqlcheck);
 $countcheck = mysqli_num_rows($resultcheck);
@@ -94,7 +100,8 @@ if ($countcheck > 0) {
 $result = mysqli_query($con, $sql);
 
 if ($result) {
-    // Set Approval Status to 'Pending'
+    // Set Approval Status to 'Pending' in main registration table
+    // Note: We also set 'photosinfo'='Done' so the progress bar updates, but 'photos_approval_status' restricts visibility if you add that check on frontend.
     $update_status = "UPDATE `registration` SET `photos_approval_status`='Pending', `photosinfo`='Done' WHERE `userid`='$userid'";
     mysqli_query($con, $update_status);
 } else {
@@ -102,24 +109,24 @@ if ($result) {
     exit;
 }
 
-// --- 3. EMAIL NOTIFICATION (Optional: Notify user that changes are under review) ---
+// --- 3. EMAIL NOTIFICATION ---
 $email = $_COOKIE['dr_email'];
-$fullname =  $_COOKIE['dr_name'];
+$fullname = $_COOKIE['dr_name'];
 $subject = "Photos updated - Under Screening";
 $mailContent = "
-    <div style='width:90%; margin:2% auto; padding:3%;'>
+    <div style='width:90%; margin:2% auto; padding:3%; font-family: Arial, sans-serif;'>
         <div style='text-align:center'>
-            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
+            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:200px'>
         </div>
-        <div style='width:100%; margin:0 auto'>
-            <div style='color:#000; width:90%; margin:0 auto;'>
-                <p style='font-size:15px;'>Dear $fullname,</p>
-                <p style='font-size:15px;'>You have recently updated your profile photos. These changes are currently under screening.</p>
-                <p style='font-size:15px;'>Once approved by our team, the new photos will be visible on your live profile.</p>
+        <div style='width:100%; margin:20px auto'>
+            <div style='color:#333; width:95%; margin:0 auto;'>
+                <p>Dear <b>$fullname</b>,</p>
+                <p>You have recently updated your profile photos. These changes are currently <b>Under Screening</b>.</p>
+                <p>Once approved by our team, the new photos will be visible on your live profile.</p>
                 <br>
-                <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
-                <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
-                <p style='font-size:15px; margin:0px'>support@desi-rishta.com</p>
+                <p style='margin:0px'>Thanks & Regards,</p>
+                <p style='margin:0px'><b>Team Desi Rishta</b></p>
+                <p style='margin:0px'><a href='mailto:support@desi-rishta.com'>support@desi-rishta.com</a></p>
             </div>
         </div>    
     </div>
@@ -135,11 +142,19 @@ curl_setopt_array($curl, array(
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS => array('to' => $email, 'from' => 'info@noreplies.co.in', 'from_name' => 'Desi Rishta', 'subject' => $subject, 'body' => $mailContent, 'token' => '74765968c67007219b197f4d9aafb4e2'),
+    CURLOPT_POSTFIELDS => array(
+        'to' => $email, 
+        'from' => 'info@noreplies.co.in', 
+        'from_name' => 'Desi Rishta', 
+        'subject' => $subject, 
+        'body' => $mailContent, 
+        'token' => '74765968c67007219b197f4d9aafb4e2'
+    ),
 ));
 $response = curl_exec($curl);
 curl_close($curl);
 
 // --- 4. REDIRECT TO EDIT PAGE ---
+// Added a query parameter 'photos_update=pending' so you can show a specific message on the UI if needed
 header('location:user-profile-edit.php?tab=photos&photos_update=pending');
 ?>

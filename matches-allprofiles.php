@@ -63,14 +63,13 @@ if(isset($_GET['sort']) && $_GET['sort'] == 'asc') {
     $sort = 'ASC';
 }
 
-// Count Total Profiles
-$sqlcountregis = "SELECT * FROM registration WHERE userid != '$userid' AND gender != '$gender' AND delete_status != 'delete' AND firstapprove = '1'";
+// Count Total Profiles (UPDATED: Added profilestatus check)
+$sqlcountregis = "SELECT * FROM registration WHERE userid != '$userid' AND gender != '$gender' AND delete_status != 'delete' AND firstapprove = '1' AND profilestatus = '1'";
 $resultcountregis = mysqli_query($con,$sqlcountregis);
 $countregis = mysqli_num_rows($resultcountregis);
 
 ?>
 
-<!-- CSS FOR BUTTONS -->
 <style>
     /* Custom Send Interest Button */
     .btn-send-interest {
@@ -113,7 +112,6 @@ $countregis = mysqli_num_rows($resultcountregis);
     displya:flex;}
 </style>
 
-<!-- HTML START -->
 <section>
     <div class="all-pro-head">
         <div class="container">
@@ -194,6 +192,7 @@ $countregis = mysqli_num_rows($resultcountregis);
                                     AND r.gender != '$gender' 
                                     AND r.delete_status != 'delete' 
                                     AND r.firstapprove = '1'
+                                    AND r.profilestatus = '1'  -- UPDATED: Yeh line add ki hai
                                 ORDER BY r.id $sort 
                                 LIMIT $lower_limit, 4
                             ";
@@ -210,7 +209,6 @@ $countregis = mysqli_num_rows($resultcountregis);
                                     <li>
                                         <div class="all-pro-box user-avil-onli">
                                             
-                                            <!-- IMAGES SLIDER -->
                                             <div class="pro-img">
                                                 <div class="slid-inn pr-bio-c wedd-rel-pro sliderarrow m-0">
                                                     <ul class="slider5">
@@ -221,7 +219,6 @@ $countregis = mysqli_num_rows($resultcountregis);
                                                 </div>
                                             </div>
 
-                                            <!-- DETAILS -->
                                             <div class="pro-detail">
                                                 <h4><a href="user-profile-details.php?uid=<?php echo $profileid; ?>"><?php echo $rowinfo['fullname']; ?></a></h4>
                                                 <div>
@@ -247,9 +244,6 @@ $countregis = mysqli_num_rows($resultcountregis);
                                                     <span><?php echo $rowinfo['city'] . ', ' . $rowinfo['state']; ?></span>
                                                 </div>
 
-                                                <!-- ========================== -->
-                                                <!-- DYNAMIC ACTION BUTTONS -->
-                                                <!-- ========================== -->
                                                 <div class="links" >
                                                     <a href="user-profile-details.php?uid=<?php echo $profileid; ?>">Profile</a>
                                                     
@@ -277,19 +271,18 @@ $countregis = mysqli_num_rows($resultcountregis);
                                                         }
                                                     } else {
                                                               if ($rowinfo['contact_privacy'] == 'Hide from All') {
-                                                                        ?>
-                                                                        <form method="POST">
-                                                                            <input type="hidden" name="receiver_id" value="<?php echo $profileid; ?>">
-                                                                            <input type="hidden" name="action" value="send_interest">
-                                                                            <button class="btn-send-interest">Send</button>
-                                                                        </form>
-                                                                        <?php
-                                                                    }                                                              
-                                                                }
+                                                                    ?>
+                                                                    <form method="POST">
+                                                                        <input type="hidden" name="receiver_id" value="<?php echo $profileid; ?>">
+                                                                        <input type="hidden" name="action" value="send_interest">
+                                                                        <button class="btn-send-interest">Send</button>
+                                                                    </form>
+                                                                    <?php
+                                                                }                                                           
+                                                            }
 
                                                     ?>
                                                     
-                                                    <!-- Shortlist Button -->
                                                     <?php if($rowinfo['is_shortlisted']) { ?>
                                                         <a href="#" class="bg-success text-white shortlist">Shortlisted</a>
                                                     <?php } else { ?>
@@ -298,7 +291,6 @@ $countregis = mysqli_num_rows($resultcountregis);
 
                                                     <a href="https://api.whatsapp.com/send?text=Check out this profile: https://myptetest.com/desirishta/user-profile-details.php?uid=<?php echo $profileid; ?>" target="_blank">WhatsApp</a>
                                                     
-                                                    <!-- Dropdown for Block/Report -->
                                                     <div class="dropdown">
                                                         <button type="button" class="btn btn-outline-secondary blockreport" data-bs-toggle="dropdown">
                                                             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -324,7 +316,6 @@ $countregis = mysqli_num_rows($resultcountregis);
                         </ul>
                     </div>
 
-                    <!-- PAGINATION -->
                     <div class="page-nation">
                         <ul class="pagination pagination-sm">
                             <?php

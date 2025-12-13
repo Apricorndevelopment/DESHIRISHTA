@@ -1,23 +1,109 @@
 <?php
+// include 'header.php';
+// include 'config.php';
+
+// $username = $_COOKIE['dr_name'];
+// $userid = $_COOKIE['dr_userid'];
+
+// if($userid == '')
+// {
+//     header('location:login.php');
+// }
+
+// $sqlphotoinfo = "select * from photos_info where userid = '$userid'";
+// $resultphotoinfo = mysqli_query($con,$sqlphotoinfo);
+// $rowphotoinfo = mysqli_fetch_assoc($resultphotoinfo);
+
+// $sqlprofile = "select * from registration where userid = '$userid'";
+// $resultprofile = mysqli_query($con,$sqlprofile);
+// $rowprofile = mysqli_fetch_assoc($resultprofile);
+
+// $sqlplan = "select * from plan_info where userid = '$userid'";
+// $resultplan = mysqli_query($con,$sqlplan);
+// $rowplan = mysqli_fetch_assoc($resultplan);
+?>
+
+<?php
 include 'header.php';
 include 'config.php';
 
 $username = $_COOKIE['dr_name'];
 $userid = $_COOKIE['dr_userid'];
 
-if($userid == '')
-{
+if($userid == '') {
     header('location:login.php');
+    exit();
 }
 
-$sqlphotoinfo = "select * from photos_info where userid = '$userid'";
-$resultphotoinfo = mysqli_query($con,$sqlphotoinfo);
-$rowphotoinfo = mysqli_fetch_assoc($resultphotoinfo);
+// --- HANDLE USER ACTIVATION/DEACTIVATION ACTIONS ---
+// if(isset($_POST['user_action'])) {
+//     if($_POST['user_action'] == 'deactivate') {
+//         // User deactivates self
+//         mysqli_query($con, "UPDATE registration SET profilestatus='2', deactivated_by='user', profilestatus_popup='1' WHERE userid='$userid'");
+//         header("Location: user-setting.php?msg=deactivated");
+//         exit();
+//     }
+    
+//     if($_POST['user_action'] == 'activate') {
+//         // User tries to activate
+//         // Security Check: Only allow if NOT deactivated by admin
+//         $check = mysqli_query($con, "SELECT deactivated_by FROM registration WHERE userid='$userid'");
+//         $statusRow = mysqli_fetch_assoc($check);
+        
+//         if($statusRow['deactivated_by'] == 'user') {
+//             mysqli_query($con, "UPDATE registration SET profilestatus='1', deactivated_by=NULL, profilestatus_popup='1' WHERE userid='$userid'");
+//             header("Location: user-setting.php?msg=activated");
+//             exit();
+//         }
+//     }
+// }
 
+// --- LOGIC: Handle User Activation/Deactivation ---
+if(isset($_POST['user_action'])) {
+    
+    // 1. User wants to Deactivate
+    if($_POST['user_action'] == 'deactivate') {
+        // Set profilestatus='2' and mark deactivated_by='user'
+        mysqli_query($con, "UPDATE registration SET profilestatus='2', deactivated_by='user', profilestatus_popup='1' WHERE userid='$userid'");
+        header("Location: user-setting.php?msg=deactivated");
+        exit();
+    }
+    
+    // 2. User wants to Activate
+    if($_POST['user_action'] == 'activate') {
+        
+        // Security Check: Pata lagayein kisne deactivate kiya tha
+        $check_sql = mysqli_query($con, "SELECT deactivated_by, firstapprove FROM registration WHERE userid='$userid'");
+        $row_check = mysqli_fetch_assoc($check_sql);
+        
+        // Condition: Agar Admin ne deactivate kiya hai ('admin'), toh user activate nahi kar sakta
+        if($row_check['deactivated_by'] == 'admin') {
+            echo "<script>alert('Your profile has been Deactivated by Administrator. Please contact support.'); window.location.href='user-setting.php';</script>";
+            exit();
+        } else {
+            // Agar User ne khud kiya tha (ya NULL hai), toh Activate kar do
+            mysqli_query($con, "UPDATE registration SET profilestatus='1', deactivated_by=NULL, profilestatus_popup='1' WHERE userid='$userid'");
+            
+            // Success Message
+            if($row_check['firstapprove'] == '1') {
+                echo "<script>alert('Profile Activated Successfully! You are now Live.'); window.location.href='user-setting.php';</script>";
+            } else {
+                echo "<script>alert('Account Activated! But your profile is still Pending Admin Approval.'); window.location.href='user-setting.php';</script>";
+            }
+            exit();
+        }
+    }
+}
+
+// Fetch user data
 $sqlprofile = "select * from registration where userid = '$userid'";
 $resultprofile = mysqli_query($con,$sqlprofile);
 $rowprofile = mysqli_fetch_assoc($resultprofile);
 
+// ... (Keep existing photo/plan queries) ...
+$sqlphotoinfo = "select * from photos_info where userid = '$userid'";
+$resultphotoinfo = mysqli_query($con,$sqlphotoinfo);
+$rowphotoinfo = mysqli_fetch_assoc($resultphotoinfo);
 $sqlplan = "select * from plan_info where userid = '$userid'";
 $resultplan = mysqli_query($con,$sqlplan);
 $rowplan = mysqli_fetch_assoc($resultplan);
@@ -461,7 +547,7 @@ if(isset($_POST['action']) && $userid != '') {
                                         </div>
                                         <div class="fol-sett-box">
                                             <ul>
-                                                <li>
+                                                <!-- <li>
                                                     <div class="sett-lef">
                                                         <div class="sett-rad-left">
                                                             <h5>Deactivate Profile</h5>
@@ -478,8 +564,99 @@ if(isset($_POST['action']) && $userid != '') {
                                                             </select>
                                                         </div>
                                                     </div>
-                                                </li>
-                                                <li>
+                                                </li> -->
+<!-- <li>
+    <div class="sett-lef">
+        <div class="sett-rad-left">
+            <h5>Profile Status</h5>
+            <?php if($rowprofile['profilestatus'] == '2') { ?>
+                <p class="text-danger">
+                    <strong>Currently Deactivated</strong><br>
+                    <?php if($rowprofile['deactivated_by'] == 'admin') { 
+                        echo "Deactivated by Administrator. Please contact support.";
+                    } else {
+                        echo "You have temporarily deactivated your profile.";
+                    } ?>
+                </p>
+            <?php } else { ?>
+                <p>You can temporarily hide your profile from all members.</p>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="sett-rig">
+        <div class="sett-select-drop">
+            <?php if($rowprofile['profilestatus'] == '2') { ?>
+                <form method="post">
+                    <input type="hidden" name="user_action" value="activate">
+                    <?php if($rowprofile['deactivated_by'] == 'admin') { ?>
+                        <button type="button" class="btn btn-secondary" disabled style="cursor: not-allowed; opacity: 0.6;">Activate Profile</button>
+                    <?php } else { ?>
+                        <button type="submit" class="btn btn-success">Activate Profile</button>
+                    <?php } ?>
+                </form>
+            <?php } else { ?>
+                <form method="post" id="deactivateForm">
+                    <input type="hidden" name="user_action" value="deactivate">
+                    <select name="duration" onchange="if(confirm('Are you sure you want to deactivate?')){ document.getElementById('deactivateForm').submit(); } else { this.value=''; }">
+                        <option value="">Select Duration to Deactivate</option>
+                        <option value="1_week">1 Week</option>
+                        <option value="2_week">2 Week</option>
+                        <option value="1_month">1 Month</option>
+                        <option value="indefinite">Indefinitely</option>
+                    </select>
+                </form>
+            <?php } ?>
+        </div>
+    </div>
+</li> -->
+                                               
+
+<li>
+    <div class="sett-lef">
+        <div class="sett-rad-left">
+            <h5>Profile Status</h5>
+            <?php if($rowprofile['profilestatus'] == '2') { ?>
+                <p class="text-danger">
+                    <strong>Currently Deactivated</strong><br>
+                    <?php if($rowprofile['deactivated_by'] == 'admin') { 
+                        echo "Action blocked by Administrator.";
+                    } else {
+                        echo "You have temporarily deactivated your profile.";
+                    } ?>
+                </p>
+            <?php } else { ?>
+                <p>You can temporarily hide your profile from all members.</p>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="sett-rig">
+        <div class="sett-select-drop">
+            <?php if($rowprofile['profilestatus'] == '2') { ?>
+                
+                <form method="post">
+                    <input type="hidden" name="user_action" value="activate">
+                    <?php if($rowprofile['deactivated_by'] == 'admin') { ?>
+                        <button type="button" class="btn btn-secondary" disabled style="cursor: not-allowed; opacity: 0.6;" title="Contact Admin to Activate">Activate Profile</button>
+                    <?php } else { ?>
+                        <button type="submit" class="btn btn-success">Activate Profile</button>
+                    <?php } ?>
+                </form>
+
+            <?php } else { ?>
+
+                <form method="post" id="deactivateForm">
+                    <input type="hidden" name="user_action" value="deactivate">
+                    <select name="duration" class="form-control" onchange="if(confirm('Are you sure you want to deactivate?')){ document.getElementById('deactivateForm').submit(); }">
+                        <option value="">Select Action</option>
+                        <option value="temp">Deactivate Profile</option>
+                    </select>
+                </form>
+
+            <?php } ?>
+        </div>
+    </div>
+</li>
+<li>
                                                     <div class="sett-lef">
                                                         <div class="sett-rad-left">
                                                             <h5>Delete Profile</h5>

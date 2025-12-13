@@ -1,6 +1,13 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include 'header.php';
 ?>
+<?php
+$attempt = isset($_POST['attempt']) ? $_POST['attempt'] : 3; 
+?>
+
 <!-- LOGIN -->
 <style>
     /* FORM INPUTS (INPUT + TEXTAREA + SELECT) */
@@ -121,72 +128,97 @@ include 'header.php';
                                 <h4>Welcome Back!</h4>
                                 <h1>Sign in to Desi Rishta Matrimony</h1>
                             </div>
-                            <div class="form-login">
-                                <?php
-                                if ($_POST['credential'] == 'invalid') {
-                                ?>
-                                    <p class="text-danger text-center invalid" id="invalidpop"><i class="fa fa-exclamation-circle"></i>&nbsp;Invalid credentials. <?php echo $_POST['attempt']; ?> attempt left</p>
-                                <?php
-                                }
-                                if ($_POST['credential'] == 'blocked') {
-                                ?>
-                                    <p class="text-danger text-center invalid" id="invalidpop"><i class="fa fa-exclamation-circle"></i>&nbsp;For security reasons, the account has been blocked for 30 minutes. Please try again later.</p>
-                                <?php
-                                }
-                                if ($_POST['user'] == 'update') {
-                                ?>
-                                    <p class="text-success text-center">Password Updated Successfully</p>
-                                <?php
-                                }
-                                ?>
-                                <form action="check-login.php" method="post" autocomplete="off">
-                                    <div class="form-group">
-                                        <label class="lb">Phone No. / Email ID</label>
-                                        <span class="iconbox">
-                                            <input type="text" class="form-control leftspace" id="email" placeholder="Enter Phone No. / Email ID" name="phone" required>
-                                            <input type="hidden" class="form-control leftspace" value="<?php if ($_POST['attempt'] == '') {
-                                                                                                            echo "3";
-                                                                                                        } else {
-                                                                                                            echo $_POST['attempt'];
-                                                                                                        } ?>" name="attempt" required>
-                                            <span class="material-symbols-outlined icon">account_circle</span>
-                                        </span>
-                                        <p class="text-danger errorstatement" id="phoneemail" style="display:none">Please Enter Phone No. or Email ID</p>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="lb">Password</label><a href="forgot-password.php" class="forgotpassword">Forgot Password ?&nbsp;&nbsp;</a>
-                                        <span class="iconbox">
-                                            <input type="password" class="form-control leftspace" id="pwd" placeholder="Enter Password" name="password" required>
-                                            <span class="material-symbols-outlined icon">lock</span>
-                                            <!-- <span class="material-symbols-outlined iconright" id="openid">visibility</span>
-                                                <span class="material-symbols-outlined iconright" id="closeeye" style="display:none;">visibility_off</span> -->
-                                            <span class="material-symbols-outlined iconright" id="openid">visibility</span>
-                                            <span class="material-symbols-outlined iconright" style="" id="closeeye" style="display:none;">visibility_off</span>
 
-                                        </span>
-                                        <p class="text-danger errorstatement" id="password" style="display:none">Please Enter Password</p>
-                                    </div>
-                                    <div class="form-group form-check">
-                                        <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" name="agree" checked> Keep me Signed In
-                                        </label>
-                                    </div>
-                                    <?php
-                                    if ($_POST['attempt'] > 0 || $_POST['attempt'] == '') {
-                                    ?>
-                                        <button type="submit" class="btn btn-primary" id="signin">Sign In</button>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <span type="button" class="btn btn-primary" id="signin_block">30:00</span>
-                                    <?php
-                                    }
-                                    ?>
-                                    <div class="form-tit" style="border:0px">
-                                        <p class="text-center mt-5">Don't have an account? <a href="sign-up.php" class="linkbold pink">Sign Up Now</a></p>
-                                    </div>
-                                </form>
-                            </div>
+                        
+                        <div class="form-login">
+
+    <?php
+    if (isset($_POST['credential']) && $_POST['credential'] == 'invalid') {
+    ?>
+        <p class="text-danger text-center invalid" id="invalidpop">
+            <i class="fa fa-exclamation-circle"></i>&nbsp;
+            Invalid credentials. <?php echo $_POST['attempt']; ?> attempt left
+        </p>
+    <?php
+    }
+    ?>
+
+    <?php
+    if (isset($_POST['credential']) && $_POST['credential'] == 'blocked') {
+    ?>
+        <p class="text-danger text-center invalid" id="invalidpop">
+            <i class="fa fa-exclamation-circle"></i>&nbsp;
+            For security reasons, the account has been blocked for 30 minutes. Please try again later.
+        </p>
+    <?php
+    }
+    ?>
+
+    <?php
+    if (isset($_POST['user']) && $_POST['user'] == 'update') {
+    ?>
+        <p class="text-success text-center">Password Updated Successfully</p>
+    <?php
+    }
+    ?>
+
+    <?php
+    // Attempt value
+    $attempt = isset($_POST['attempt']) ? $_POST['attempt'] : 3;
+    ?>
+
+    <form action="check-login.php" method="post" autocomplete="off">
+        <div class="form-group">
+            <label class="lb">Phone No. / Email ID</label>
+            <span class="iconbox">
+                <input type="text" class="form-control leftspace" id="email"
+                    placeholder="Enter Phone No. / Email ID" name="phone" required>
+
+                <input type="hidden" name="attempt" value="<?php echo $attempt; ?>">
+
+                <span class="material-symbols-outlined icon">account_circle</span>
+            </span>
+            <p class="text-danger errorstatement" id="phoneemail" style="display:none">Please Enter Phone No. or Email ID</p>
+        </div>
+
+        <div class="form-group">
+            <label class="lb">Password</label>
+            <a href="forgot-password.php" class="forgotpassword">Forgot Password ?&nbsp;&nbsp;</a>
+
+            <span class="iconbox">
+                <input type="password" class="form-control leftspace" id="pwd"
+                    placeholder="Enter Password" name="password" required>
+                <span class="material-symbols-outlined icon">lock</span>
+
+                <span class="material-symbols-outlined iconright" id="openid">visibility</span>
+                <span class="material-symbols-outlined iconright" id="closeeye" style="display:none;">visibility_off</span>
+            </span>
+
+            <p class="text-danger errorstatement" id="password" style="display:none">Please Enter Password</p>
+        </div>
+
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="agree" checked>
+                Keep me Signed In
+            </label>
+        </div>
+
+        <?php if ($attempt > 0) { ?>
+            <button type="submit" class="btn btn-primary" id="signin">Sign In</button>
+        <?php } else { ?>
+            <span class="btn btn-primary" id="signin_block">30:00</span>
+        <?php } ?>
+
+        <div class="form-tit" style="border:0px">
+            <p class="text-center mt-5">Don't have an account?
+                <a href="sign-up.php" class="linkbold pink">Sign Up Now</a>
+            </p>
+        </div>
+    </form>
+
+</div>
+
                         </div>
                     </div>
                 </div>
@@ -249,7 +281,8 @@ include 'footer.php';
 
 <script>
     // Set the date we're counting down to
-    var countDownDate = new Date("<?php echo $_POST['seconds_left']; ?>").getTime();
+    // var countDownDate = new Date("<?php echo $_POST['seconds_left']; ?>").getTime();
+    var countDownDate = new Date("<?php echo isset($_POST['seconds_left']) ? $_POST['seconds_left'] : ''; ?>").getTime();
 
     // Update the count down every 1 second
     var x = setInterval(function() {
@@ -273,7 +306,7 @@ include 'footer.php';
         if (distance < 0) {
             clearInterval(x);
             document.getElementById("signin_block").innerHTML = "0m 0s";
-            window.location.href = "https://myptetest.com/desirishta/check-login.php?phone=<?php echo $_POST['userinput']; ?>";
+           window.location.href = "https://desi-rishta.com/check-login.php?phone=<?php echo isset($_POST['userinput']) ? $_POST['userinput'] : ''; ?>";
         }
     }, 1000);
 </script>

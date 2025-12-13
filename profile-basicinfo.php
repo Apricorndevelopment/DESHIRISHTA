@@ -59,5 +59,5 @@ else
     }
 }
 
-header('location:user-profile-edit.php');
+header('location:user-profile-edit.php?tab=basic&basic_update=yes');
 ?>

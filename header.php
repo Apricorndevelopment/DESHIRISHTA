@@ -17,7 +17,19 @@
 ob_start();
 
 include 'config.php';
+// Check Profile Status
+if(isset($_COOKIE['dr_userid'])) {
+    $h_userid = $_COOKIE['dr_userid'];
+    $h_sql = mysqli_query($con, "SELECT profilestatus FROM registration WHERE userid='$h_userid'");
+    $h_row = mysqli_fetch_assoc($h_sql);
 
+    // If profile is Deactivated (2) AND user is not on user-setting.php or logout.php
+    $currentPage = basename($_SERVER['PHP_SELF']);
+    if($h_row['profilestatus'] == '2' && $currentPage != 'user-setting.php' && $currentPage != 'logout.php' && $currentPage != 'contact.php') {
+        echo "<script>alert('Your profile is deactivated. Please activate it to browse matches.'); window.location.href='user-setting.php';</script>";
+        exit();
+    }
+}
 // --- START FIX ---
 // Sabhi variables ko default (null ya 0) par set karein
 $userid = null;
@@ -76,6 +88,23 @@ if ($useractive != '0' && isset($userid)) {
 }
 
 ?>
+<?php if($rowprofile['profilestatus_popup'] == '1') { ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        title: 'Profile Status Updated',
+        text: '<?php echo ($rowprofile['profilestatus'] == '1') ? "Your profile is now Active and visible to others." : "Your profile has been Deactivated and is hidden from others."; ?>',
+        icon: '<?php echo ($rowprofile['profilestatus'] == '1') ? "success" : "warning"; ?>',
+        confirmButtonColor: '#6f4efc'
+    }).then((result) => {
+        // Reset the popup flag via AJAX or simple redirect
+        window.location.href = "ajax-update-privacy.php?reset_popup=1"; // You might need to create this simple handler
+    });
+</script>
+<?php 
+// Reset popup flag immediately to avoid showing it again on refresh
+mysqli_query($con, "UPDATE registration SET profilestatus_popup='0' WHERE userid='$userid'");
+} ?>
 <!doctype html>
 <html lang="en">
 <head>

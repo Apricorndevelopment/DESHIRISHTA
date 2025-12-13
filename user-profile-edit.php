@@ -120,6 +120,42 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         border-bottom: 3px solid maroon;
         opacity: 1 !important;
     }
+    /* --- 1. Common Styles (Dono ke liye) --- */
+.menu-pop {
+    position: fixed !important;
+    z-index: 10000;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border-radius: 8px;
+    display: none; /* Initially hidden */
+}
+
+/* --- 2. DESKTOP/LAPTOP VIEW (Jab screen 992px se badi ho) --- */
+@media (min-width: 992px) {
+    .menu-pop1.act {
+        display: block !important;
+        /* Aapki purani settings sirf laptop ke liye */
+        left: 406px !important;
+        top: 454px !important;
+        width: 400px; /* Desktop par size limit karein */
+    }
+}
+
+/* --- 3. MOBILE VIEW (Jab screen 991px se choti ho) --- */
+@media (max-width: 991px) {
+    .menu-pop1.act {
+        display: block !important;
+        /* Mobile par center karne ka logic */
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        
+        /* Mobile Size Control */
+        width: 90% !important; /* Screen ka 90% area lega */
+        max-width: 350px;
+        right: auto !important;
+    }
+}
     .menu-pop1.act {
     left: 406px;
     right: 0px;
@@ -165,7 +201,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
     }
 </style>
 <div class="menu-pop menu-pop1" id="rejection-popup">
-    <span class="menu-pop-clo" onclick="closeRejectionPopup()"><i class="fa fa-times"></i></span>
+    <span class="menu-pop-clo" onclick="closeRejectionPopup()"><i class="fa bi bi-x fs-4" aria-hidden="true"></i></span>
     <div class="inn">
         <div class="menu-pop-help">
             <h4 id="rej-title" class="text-danger">Action Required</h4>
@@ -471,7 +507,8 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if ($_GET['basic_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png">
+                                                            </p>
                                                         <?php
                                                         }
                                                         ?>
@@ -1031,7 +1068,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                 <!-- Success / Pending Message -->
                 <?php if (isset($_GET['aboutme_update'])) { ?>
                     <?php if($_GET['aboutme_update'] == 'yes') { ?>
-                        <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                        <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                     <?php } elseif($_GET['aboutme_update'] == 'pending') { ?>
                         <p class="text-center text-warning" id="invalidpop"><b></b></p>
                     <?php } ?>
@@ -1104,7 +1141,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if ($_GET['astro_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php
                                                         }
                                                         ?>
@@ -1173,7 +1210,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if ($_GET['religious_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php
                                                         }
                                                         ?>
@@ -1275,7 +1312,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if ($_GET['education_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php
                                                         }
                                                         ?>
@@ -1468,7 +1505,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                             <a href="user-profile.php" class="sett-edit-btn sett-acc-edit-eve"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
                                                         </div>
                                                         <?php if ($_GET['groom_update'] == 'yes') { ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php } ?>
 
                                                         <div class="row p-4">
@@ -1657,7 +1694,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                     <a href="user-profile.php" class="sett-edit-btn sett-acc-edit-eve"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
                 </div>
                 <?php if ($_GET['groom_update'] == 'yes') { ?>
-                    <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                    <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                 <?php } ?>
                 
                 <div class="row p-4">
@@ -1816,7 +1853,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if ($_GET['family_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php
                                                         }
                                                         ?>
@@ -2220,7 +2257,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if (isset($_GET['hobbies_update']) && $_GET['hobbies_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php
                                                         }
                                                         ?>
@@ -2323,7 +2360,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if ($_GET['partner_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php
                                                         }
                                                         ?>
@@ -3281,7 +3318,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                         <?php
                                                         if ($_GET['contact_update'] == 'yes') {
                                                         ?>
-                                                            <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                                                            <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                                                         <?php
                                                         }
                                                         ?>
@@ -3384,7 +3421,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                 if (isset($_GET['photos_update'])) {
                     if($_GET['photos_update'] == 'yes') { 
                 ?>
-                    <p class="text-center text-success" id="invalidpop"><b>Your profile has been successfully updated</b></p>
+                    <p class="text-center text-success" id="invalidpop"><img src="images/success.png"></p>
                 <?php 
                     } elseif($_GET['photos_update'] == 'pending') { 
                 ?>

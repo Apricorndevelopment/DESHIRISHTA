@@ -149,7 +149,7 @@ if($check == '0')
     $resultplan = mysqli_query($con,$sqlplan);
     $sql_finalbio = "INSERT INTO `final_bio`(`userid`, `age`, `height`, `marital`, `religion`, `caste`, `stream`, `workingwith`, `gender`, `manglik`, `education`, `profession`, `income`, `state`, `country`) VALUES ('$userid', '$age', '$height', '$marital', '$religion', '$caste', '$stream', '$profession', '$gender', '$manglik', '$education', '$domain', '$annualincome', '$groomstate', '$groomcountry')";
     $result_finalbio = mysqli_query($con,$sql_finalbio);
-    $sqlpartnerinfo = "INSERT INTO `partner_info`(`userid`, `partnermarital`, `partnerage`, `partnerheight`, `partnerreligion`, `partnercaste`, `partnerstream`, `partnerprofession, `partnerdomain`, `partnerincome`, `partnerstate`,  `partnercountry`) VALUES ('$userid', '$marital', '$partnerage', '$partnerheight', '$religion', '$caste', '$stream', '$profession', '$domain', '$annualincome', '$groomstate', '$groomcountry')";
+    $sqlpartnerinfo = "INSERT INTO `partner_info`(`userid`, `partnermarital`, `partnerage`, `partnerheight`, `partnerreligion`, `partnercaste`, `partnerstream`, `partnerprofession`, `partnerdomain`, `partnerincome`, `partnerstate`,  `partnercountry`) VALUES ('$userid', '$marital', '$partnerage', '$partnerheight', '$religion', '$caste', '$stream', '$profession', '$domain', '$annualincome', '$groomstate', '$groomcountry')";
     $resultpartnerinfo = mysqli_query($con,$sqlpartnerinfo);
     
     header('location:signup-thankyou.php');
