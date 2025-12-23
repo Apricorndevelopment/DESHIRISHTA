@@ -5,6 +5,50 @@ include 'config.php';
 $userid = $_COOKIE['dr_userid'];
 $gender = $_COOKIE['dr_gender'];
 
+
+// --- SEARCH LOGGING START ---
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    // 1. Get current date/time
+    $log_date = date('Y-m-d');
+    $log_time = date('H:i:s');
+    
+    // 2. Collect all filters
+    $criteria_list = array();
+
+    foreach($_POST as $key => $value) {
+        // Submit button aur empty fields ko chhod do
+        if(!empty($value) && $key != 'submit') {
+            
+            // Agar value array hai (jaise multiple Caste), toh comma lagao
+            if(is_array($value)) {
+                $value = implode(", ", $value);
+            }
+            
+            // Key ka pehla letter bada karo (decoration)
+            $key_formatted = ucfirst($key);
+            
+            // List mein daalo
+            $criteria_list[] = "$key_formatted: $value";
+        }
+    }
+
+    // 3. String banao (Jisme " | " separator hoga)
+    $criteria_final = implode(" | ", $criteria_list);
+    
+    // SQL Injection se bachne ke liye safai
+    $criteria_final = mysqli_real_escape_string($con, $criteria_final);
+
+    // 4. Database mein save karo (Agar kuch search kiya hai toh)
+    if(!empty($criteria_final)) {
+        $sql_log = "INSERT INTO user_search_logs (userid, search_date, search_time, criteria) 
+                    VALUES ('$userid', '$log_date', '$log_time', '$criteria_final')";
+        
+        mysqli_query($con, $sql_log);
+    }
+}
+// --- SEARCH LOGGING END ---
+
 $page = $_GET['page'];
 
 if($page == '')

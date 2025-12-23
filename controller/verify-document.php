@@ -10,56 +10,91 @@ if (isset($_GET['uid']) && isset($_GET['action'])) {
     $userid = mysqli_real_escape_string($con, $_GET['uid']);
     $action = $_GET['action']; // 'verify' or 'decline'
     
-    $update_status_value = '';
     $redirect_message = '';
     
     // Determine the status value based on action
     if ($action == 'verify') {
-        $update_status_value = 'Done'; // Set ID verification status to Done (Verified)
+        
         $redirect_message = 'doc_verified';
-        $message_for_user = "Your uploaded Government ID has been **successfully verified** by the administration.";
         
+        // --- 1. PRIMARY UPDATE: Document Status (Ye Sabse Zaroori Hai) ---
+        $sql_doc = "UPDATE registration SET document_verification_status = 'Done' WHERE userid = '$userid'";
+        mysqli_query($con, $sql_doc);
+
+        // --- 2. SECONDARY UPDATE: Trust Badge (Verification Info) ---
+        // Ise alag query mein rakha hai taki error na aaye
+        $sql_badge = "UPDATE registration SET verificationinfo = 'Done' WHERE userid = '$userid'";
+        mysqli_query($con, $sql_badge);
+
+        // --- 3. TERTIARY UPDATE: Account Activation ---
+        // Agar account deactivate tha to use Active karein
+        // (Agar 'status' column nahi hua to bhi upar wale updates nahi rukenge)
+        $sql_active = "UPDATE registration SET status = 'Active' WHERE userid = '$userid'";
+        mysqli_query($con, $sql_active);
+
+        // --- 4. UPDATE VERIFICATION_INFO TABLE ---
+        $sql_verify_info = "UPDATE verification_info SET gov_status = 'Done' WHERE userid = '$userid'";
+        mysqli_query($con, $sql_verify_info);
+
+        // --- 5. SEND SUCCESS EMAIL ---
+        $sql_user = "SELECT email, name FROM registration WHERE userid = '$userid'";
+        $res_user = mysqli_query($con, $sql_user);
+        
+        if($res_user && mysqli_num_rows($res_user) > 0){
+            $row_user = mysqli_fetch_assoc($res_user);
+            $email = $row_user['email'];
+            $fullname = $row_user['name'];
+
+            $subject = "Government ID verification completed: You've Earned Your Trust Badge!";
+            $mailContent = "
+                <div style='width:90%; margin:2% auto; padding:3%;'>
+                    <div style='text-align:center'>
+                        <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
+                    </div>
+                    <div style='width:100%; margin:0 auto'>
+                        <div style='color:#000; width:90%; margin:0 auto;'>
+                            <p style='font-size:15px;'>Dear User,</p>
+                            <p style='font-size:15px;'>We are pleased to inform you that your verification process has been successfully completed. As a result, your trust badge is now active on your profile.</p>
+                            <p style='font-size:15px;'>We appreciate your cooperation in completing this important step.</p>
+                            <br>
+                            <p style='font-size:15px; margin:0px'>Thanks & Regards,<br>Team Desi Rishta<br>support@desi-rishta.com</p>
+                        </div>
+                    </div>    
+                </div>";
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://app.smtpprovider.com/api/send-mail/',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => array(
+                    'to'        => $email,
+                    'from'      => 'info@noreplies.co.in',
+                    'from_name' => 'Desi Rishta',
+                    'subject'   => $subject,
+                    'body'      => $mailContent,
+                    'token'     => '74765968c67007219b197f4d9aafb4e2'
+                )
+            ));
+            curl_exec($curl);
+            curl_close($curl);
+        }
+
     } elseif ($action == 'decline') {
-        $update_status_value = 'Declined'; // Set ID verification status to Declined
-        $redirect_message = 'doc_declined';
-        $message_for_user = "Your uploaded Government ID was **declined** due to insufficient clarity or mismatch. Please re-upload a clear document.";
         
-    } else {
-        // Handle invalid action
-        header('Location: userprofile-view.php?uid=' . $userid . '&status=error');
-        exit;
-    }
-    
-    // --- 1. Update the verification status in the registration table ---
-    // $sql_reg = "UPDATE registration SET verificationinfo = '$update_status_value' WHERE userid = '$userid'";
-   $sql_reg = "UPDATE registration SET document_verification_status = '$update_status_value' WHERE userid = '$userid'";
-mysqli_query($con, $sql_reg);
-   
-    mysqli_query($con, $sql_reg);
+        $redirect_message = 'doc_declined';
+        
+        // Decline Logic - Separate Queries for safety
+        mysqli_query($con, "UPDATE registration SET document_verification_status = 'Declined' WHERE userid = '$userid'");
+        mysqli_query($con, "UPDATE verification_info SET gov_status = 'Declined' WHERE userid = '$userid'");
+    } 
 
-    // --- 2. Update the status in the verification_info table ---
-    // Note: Assuming 'gov_status' column exists in verification_info table to track ID status separately
-    // If 'gov_status' does not exist, use the registration table status only.
-    $sql_verify = "UPDATE verification_info SET gov_status = '$update_status_value' WHERE userid = '$userid'";
-    mysqli_query($con, $sql_verify);
+    // --- 6. Add Admin Remark (Optional) ---
+    // Uncomment if table exists
+    // $remark_text = ($action == 'verify') ? "Govt. ID verified" : "Govt. ID declined";
+    // mysqli_query($con, "INSERT INTO admin_remarks (user_id, remark_text, created_at) VALUES ('$userid', '$remark_text', NOW())");
 
-    // --- 3. Add an Admin Remark (Optional but recommended) ---
-    // Assuming you have an admin session variable for username (e.g., $_SESSION['admin_user'])
-    $admin_username = "AdminUser"; // Replace with actual admin session variable
-    $remark_text = "Govt. ID status set to '$update_status_value' by $admin_username.";
-
-    $sql_remark = "INSERT INTO admin_remarks (user_id, admin_username, remark_text, created_at) VALUES (?, ?, ?, NOW())";
-    $stmt = mysqli_prepare($con, $sql_remark);
-    mysqli_stmt_bind_param($stmt, 'sss', $userid, $admin_username, $remark_text);
-    mysqli_stmt_execute($stmt);
-
-
-    // --- 4. Send Email Notification to User (Recommended) ---
-    // (You would need a separate function or cURL logic here, similar to profile approval)
-    // For simplicity, we just redirect. You should implement the actual mailing logic.
-    
-    
-    // --- 5. Redirect back to the profile view page ---
+    // Redirect
     header('Location: userprofile-view.php?uid=' . $userid . '&status=' . $redirect_message);
     exit;
 

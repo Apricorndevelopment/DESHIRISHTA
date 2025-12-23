@@ -305,8 +305,8 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                             <th>Phone & Email</th>
                                             <th>Join Date</th>
                                             <th>Profile Status</th>
-                                            <th>ID Status</th>
-                                            <th>Documents</th>
+                                            <th>Matches Visibility Status</th>
+                                            <th>ID Verification <br> Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -356,9 +356,9 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                         <td>
                                             <?php
                                             if($id_status_val == '1') {
-                                                echo "<span class='text-primary font-weight-bold'>Verified</span>";
+                                                echo "<span class='text-primary font-weight-bold'>Allowed</span>";
                                             } else {
-                                                echo "<span class='text-muted'>Not Verified</span>";
+                                                echo "<span class='text-muted'>Restricted</span>";
                                             }
                                             ?>
                                         </td>

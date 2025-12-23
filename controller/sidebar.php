@@ -295,7 +295,7 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
                     <li>
                         <a class="d-flex align-items-center" href="manage-basic-options.php">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate">basic Dropdown</span>
+                            <span class="menu-item text-truncate">Basic Dropdown</span>
                         </a>
                     </li>
                     <li>
@@ -321,7 +321,7 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
             <li class=" nav-item">
     <a class="d-flex align-items-center" href="pending-approvals.php">
         <i data-feather="clock"></i>
-        <span class="menu-title text-truncate" data-i18n="Pending Approvals">Pending Approvals</span>
+        <span class="menu-title text-truncate" data-i18n="Pending Approvals">Moderation Approvals</span>
     </a>
 </li>
      <li class="nav-item">

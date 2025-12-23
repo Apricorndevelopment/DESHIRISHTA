@@ -261,7 +261,17 @@ if($loginid == $profileid) {
               
                     <div class="premium-profile-wrapper">
                         <div class="premium-card">
-                            
+                            <?php if($loginid != $profileid) { ?>
+        <div class="dropdown" style="position: absolute; top: 15px; right: 15px; z-index: 10;">
+            <button class="btn btn-light btn-sm rounded-circle shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width: 35px; height: 35px;">
+                <i class="fa fa-ellipsis-v"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item text-danger" href="insert-blockprofile.php?uid=<?php echo $profileid; ?>"><i class="fa fa-ban me-2"></i> Block</a></li>
+                <li><a class="dropdown-item text-warning" href="matches-reportid.php?uid=<?php echo $profileid; ?>"><i class="fa fa-exclamation-triangle me-2"></i> Report</a></li>
+            </ul>
+        </div>
+    <?php } ?>
                             <!-- Profile Picture with Zoom On Click -->
                             <div class="premium-pic-box" onclick="openZoomModal(0)">
                                 <?php 
@@ -365,23 +375,49 @@ function copyCurrentURL() {
                     <!-- END PREMIUM MODULE -->
 
                 </div>
-                
+                <style>
+                    /* Reported Badge Style - Matches existing design pattern */
+.stat-5 {
+    color: #d39e00;             /* Dark Yellow Text */
+    background: rgba(255, 193, 7, 0.2); /* Light Yellow Background */
+    padding: 3px 10px;          /* Same padding as others */
+    border-radius: 30px;        /* Rounded corners */
+    font-size: 12px;
+    margin-right: 5px;
+    display: inline-block;
+}
+                </style>
                      <div class="profi-pg profi-bio">
                         <div class="lhs">
                             <div class="pro-pg-intro pr-bio-c">
                                 <h1><?php echo $rowbasicinfo['fullname']; ?></h1>
                                 <div class="mb-2 brown textcenter"><b><?php echo $rowbasicinfo['userid']; ?></b></div>
-                                <div class="pro-info-status">
-                                    <?php if($rowregistration['verificationinfo'] == '1') { ?>
-                                    <span class="stat-3"><b>ID Verified</b></span>
-                                    <?php } ?>
-                                    <span class="stat-1"><b><?php echo $countview;?></b> viewers</span>
-                                    <?php if($rowregistration['online'] == 'yes') { ?>
-                                    <span class="stat-2"><b>Available</b></span>
-                                    <?php } elseif($rowregistration['online'] == 'no') { ?>
-                                    <span class="stat-4"><b>Unavailable</b></span>
-                                    <?php } ?>
-                                </div>
+ <div class="pro-info-status">
+    <?php if($rowregistration['verificationinfo'] == '1') { ?>
+        <span class="stat-3"><b>ID Verified</b></span>
+    <?php } ?>
+
+    <?php
+    
+    if($loginid != $profileid) { 
+    
+        $chk_rpt = mysqli_query($con, "SELECT id FROM report_ids WHERE by_who = '$loginid' AND against = '$profileid'");
+        if(mysqli_num_rows($chk_rpt) > 0) { 
+    ?>
+        <span class="stat-5" style="padding: 0px 8px;"><b>Reported</b></span>
+    <?php 
+        } 
+    }
+    ?>
+
+    <span class="stat-1"><b><?php echo $countview;?></b> viewers</span>
+
+    <?php if($rowregistration['online'] == 'yes') { ?>
+        <span class="stat-2"><b>Available</b></span>
+    <?php } elseif($rowregistration['online'] == 'no') { ?>
+        <span class="stat-4"><b>Unavailable</b></span>
+    <?php } ?>
+</div>
                                 <ul class="mb-3">
                                     <li><div><img src="images/gif/age.gif" loading="lazy"><span> <strong><?php echo $rowbasicinfo['age'].' Yrs'; ?></strong></span></div></li>
                                     <li><div><img src="images/gif/height.gif" loading="lazy"><span> <strong><?php echo $rowbasicinfo['height']; ?></strong></span></div></li>
@@ -1424,6 +1460,29 @@ window.addEventListener("click", function(event) {
 </script>
 
 
+<script>
+function shareTo(platform) {
+
+    let url = window.location.href;
+
+    // 🔹 COUNT STORE
+    fetch('ajax-share-count.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'platform=' + platform + '&profileid=<?php echo $profileid; ?>'
+    });
+
+    // 🔹 SHARE LINKS
+    let links = {
+        whatsapp: "https://api.whatsapp.com/send?text=" + url,
+        facebook: "https://www.facebook.com/sharer/sharer.php?u=" + url,
+        instagram: "https://www.instagram.com/?url=" + url,
+        twitter: "https://twitter.com/intent/tweet?url=" + url
+    };
+
+    window.open(links[platform], "_blank");
+}
+</script>
 
 <?php
 include 'footer.php';

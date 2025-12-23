@@ -4215,121 +4215,240 @@ function drawBorder(ctx, vm, arc) {
 	ctx.stroke();
 }
 
+// var element_arc = core_element.extend({
+// 	_type: 'arc',
+
+// 	inLabelRange: function(mouseX) {
+// 		var vm = this._view;
+
+// 		if (vm) {
+// 			return (Math.pow(mouseX - vm.x, 2) < Math.pow(vm.radius + vm.hoverRadius, 2));
+// 		}
+// 		return false;
+// 	},
+
+// 	inRange: function(chartX, chartY) {
+// 		var vm = this._view;
+
+// 		if (vm) {
+// 			var pointRelativePosition = helpers$1.getAngleFromPoint(vm, {x: chartX, y: chartY});
+// 			var angle = pointRelativePosition.angle;
+// 			var distance = pointRelativePosition.distance;
+
+// 			// Sanitise angle range
+// 			var startAngle = vm.startAngle;
+// 			var endAngle = vm.endAngle;
+// 			while (endAngle < startAngle) {
+// 				endAngle += TAU;
+// 			}
+// 			while (angle > endAngle) {
+// 				angle -= TAU;
+// 			}
+// 			while (angle < startAngle) {
+// 				angle += TAU;
+// 			}
+
+// 			// Check if within the range of the open/close angle
+// 			var betweenAngles = (angle >= startAngle && angle <= endAngle);
+// 			var withinRadius = (distance >= vm.innerRadius && distance <= vm.outerRadius);
+
+// 			return (betweenAngles && withinRadius);
+// 		}
+// 		return false;
+// 	},
+
+// 	getCenterPoint: function() {
+// 		var vm = this._view;
+// 		var halfAngle = (vm.startAngle + vm.endAngle) / 2;
+// 		var halfRadius = (vm.innerRadius + vm.outerRadius) / 2;
+// 		return {
+// 			x: vm.x + Math.cos(halfAngle) * halfRadius,
+// 			y: vm.y + Math.sin(halfAngle) * halfRadius
+// 		};
+// 	},
+
+// 	getArea: function() {
+// 		var vm = this._view;
+// 		return Math.PI * ((vm.endAngle - vm.startAngle) / (2 * Math.PI)) * (Math.pow(vm.outerRadius, 2) - Math.pow(vm.innerRadius, 2));
+// 	},
+
+// 	tooltipPosition: function() {
+// 		var vm = this._view;
+// 		var centreAngle = vm.startAngle + ((vm.endAngle - vm.startAngle) / 2);
+// 		var rangeFromCentre = (vm.outerRadius - vm.innerRadius) / 2 + vm.innerRadius;
+
+// 		return {
+// 			x: vm.x + (Math.cos(centreAngle) * rangeFromCentre),
+// 			y: vm.y + (Math.sin(centreAngle) * rangeFromCentre)
+// 		};
+// 	},
+
+// 	draw: function() {
+// 		var ctx = this._chart.ctx;
+// 		var vm = this._view;
+// 		var pixelMargin = (vm.borderAlign === 'inner') ? 0.33 : 0;
+// 		var arc = {
+// 			x: vm.x,
+// 			y: vm.y,
+// 			innerRadius: vm.innerRadius,
+// 			outerRadius: Math.max(vm.outerRadius - pixelMargin, 0),
+// 			pixelMargin: pixelMargin,
+// 			startAngle: vm.startAngle,
+// 			endAngle: vm.endAngle,
+// 			fullCircles: Math.floor(vm.circumference / TAU)
+// 		};
+// 		var i;
+
+// 		ctx.save();
+
+// 		ctx.fillStyle = vm.backgroundColor;
+// 		ctx.strokeStyle = vm.borderColor;
+
+// 		if (arc.fullCircles) {
+// 			arc.endAngle = arc.startAngle + TAU;
+// 			ctx.beginPath();
+// 			ctx.arc(arc.x, arc.y, arc.outerRadius, arc.startAngle, arc.endAngle);
+// 			ctx.arc(arc.x, arc.y, arc.innerRadius, arc.endAngle, arc.startAngle, true);
+// 			ctx.closePath();
+// 			for (i = 0; i < arc.fullCircles; ++i) {
+// 				ctx.fill();
+// 			}
+// 			arc.endAngle = arc.startAngle + vm.circumference % TAU;
+// 		}
+
+// 		ctx.beginPath();
+// 		ctx.arc(arc.x, arc.y, arc.outerRadius, arc.startAngle, arc.endAngle);
+// 		ctx.arc(arc.x, arc.y, arc.innerRadius, arc.endAngle, arc.startAngle, true);
+// 		ctx.closePath();
+// 		ctx.fill();
+
+// 		if (vm.borderWidth) {
+// 			drawBorder(ctx, vm, arc);
+// 		}
+
+// 		ctx.restore();
+// 	}
+// });
 var element_arc = core_element.extend({
-	_type: 'arc',
+    _type: 'arc',
 
-	inLabelRange: function(mouseX) {
-		var vm = this._view;
+    inLabelRange: function(mouseX) {
+        var vm = this._view;
 
-		if (vm) {
-			return (Math.pow(mouseX - vm.x, 2) < Math.pow(vm.radius + vm.hoverRadius, 2));
-		}
-		return false;
-	},
+        if (vm) {
+            return (Math.pow(mouseX - vm.x, 2) < Math.pow(vm.radius + vm.hoverRadius, 2));
+        }
+        return false;
+    },
 
-	inRange: function(chartX, chartY) {
-		var vm = this._view;
+    inRange: function(chartX, chartY) {
+        var vm = this._view;
 
-		if (vm) {
-			var pointRelativePosition = helpers$1.getAngleFromPoint(vm, {x: chartX, y: chartY});
-			var angle = pointRelativePosition.angle;
-			var distance = pointRelativePosition.distance;
+        if (vm) {
+            var pointRelativePosition = helpers$1.getAngleFromPoint(vm, {x: chartX, y: chartY});
+            var angle = pointRelativePosition.angle;
+            var distance = pointRelativePosition.distance;
 
-			// Sanitise angle range
-			var startAngle = vm.startAngle;
-			var endAngle = vm.endAngle;
-			while (endAngle < startAngle) {
-				endAngle += TAU;
-			}
-			while (angle > endAngle) {
-				angle -= TAU;
-			}
-			while (angle < startAngle) {
-				angle += TAU;
-			}
+            // Sanitise angle range
+            var startAngle = vm.startAngle;
+            var endAngle = vm.endAngle;
+            while (endAngle < startAngle) {
+                endAngle += TAU;
+            }
+            while (angle > endAngle) {
+                angle -= TAU;
+            }
+            while (angle < startAngle) {
+                angle += TAU;
+            }
 
-			// Check if within the range of the open/close angle
-			var betweenAngles = (angle >= startAngle && angle <= endAngle);
-			var withinRadius = (distance >= vm.innerRadius && distance <= vm.outerRadius);
+            // Check if within the range of the open/close angle
+            var betweenAngles = (angle >= startAngle && angle <= endAngle);
+            var withinRadius = (distance >= vm.innerRadius && distance <= vm.outerRadius);
 
-			return (betweenAngles && withinRadius);
-		}
-		return false;
-	},
+            return (betweenAngles && withinRadius);
+        }
+        return false;
+    },
 
-	getCenterPoint: function() {
-		var vm = this._view;
-		var halfAngle = (vm.startAngle + vm.endAngle) / 2;
-		var halfRadius = (vm.innerRadius + vm.outerRadius) / 2;
-		return {
-			x: vm.x + Math.cos(halfAngle) * halfRadius,
-			y: vm.y + Math.sin(halfAngle) * halfRadius
-		};
-	},
+    getCenterPoint: function() {
+        var vm = this._view;
+        var halfAngle = (vm.startAngle + vm.endAngle) / 2;
+        var halfRadius = (vm.innerRadius + vm.outerRadius) / 2;
+        return {
+            x: vm.x + Math.cos(halfAngle) * halfRadius,
+            y: vm.y + Math.sin(halfAngle) * halfRadius
+        };
+    },
 
-	getArea: function() {
-		var vm = this._view;
-		return Math.PI * ((vm.endAngle - vm.startAngle) / (2 * Math.PI)) * (Math.pow(vm.outerRadius, 2) - Math.pow(vm.innerRadius, 2));
-	},
+    getArea: function() {
+        var vm = this._view;
+        return Math.PI * ((vm.endAngle - vm.startAngle) / (2 * Math.PI)) * (Math.pow(vm.outerRadius, 2) - Math.pow(vm.innerRadius, 2));
+    },
 
-	tooltipPosition: function() {
-		var vm = this._view;
-		var centreAngle = vm.startAngle + ((vm.endAngle - vm.startAngle) / 2);
-		var rangeFromCentre = (vm.outerRadius - vm.innerRadius) / 2 + vm.innerRadius;
+    tooltipPosition: function() {
+        var vm = this._view;
+        var centreAngle = vm.startAngle + ((vm.endAngle - vm.startAngle) / 2);
+        var rangeFromCentre = (vm.outerRadius - vm.innerRadius) / 2 + vm.innerRadius;
 
-		return {
-			x: vm.x + (Math.cos(centreAngle) * rangeFromCentre),
-			y: vm.y + (Math.sin(centreAngle) * rangeFromCentre)
-		};
-	},
+        return {
+            x: vm.x + (Math.cos(centreAngle) * rangeFromCentre),
+            y: vm.y + (Math.sin(centreAngle) * rangeFromCentre)
+        };
+    },
 
-	draw: function() {
-		var ctx = this._chart.ctx;
-		var vm = this._view;
-		var pixelMargin = (vm.borderAlign === 'inner') ? 0.33 : 0;
-		var arc = {
-			x: vm.x,
-			y: vm.y,
-			innerRadius: vm.innerRadius,
-			outerRadius: Math.max(vm.outerRadius - pixelMargin, 0),
-			pixelMargin: pixelMargin,
-			startAngle: vm.startAngle,
-			endAngle: vm.endAngle,
-			fullCircles: Math.floor(vm.circumference / TAU)
-		};
-		var i;
+    draw: function() {
+        // --- SAFETY CHECK ADDED HERE ---
+        if (!this._chart || !this._chart.ctx) {
+            return; // Agar context nahi mila to yahi ruk jao, crash mat karo
+        }
+        // -------------------------------
 
-		ctx.save();
+        var ctx = this._chart.ctx;
+        var vm = this._view;
+        var pixelMargin = (vm.borderAlign === 'inner') ? 0.33 : 0;
+        var arc = {
+            x: vm.x,
+            y: vm.y,
+            innerRadius: vm.innerRadius,
+            outerRadius: Math.max(vm.outerRadius - pixelMargin, 0),
+            pixelMargin: pixelMargin,
+            startAngle: vm.startAngle,
+            endAngle: vm.endAngle,
+            fullCircles: Math.floor(vm.circumference / TAU)
+        };
+        var i;
 
-		ctx.fillStyle = vm.backgroundColor;
-		ctx.strokeStyle = vm.borderColor;
+        ctx.save();
 
-		if (arc.fullCircles) {
-			arc.endAngle = arc.startAngle + TAU;
-			ctx.beginPath();
-			ctx.arc(arc.x, arc.y, arc.outerRadius, arc.startAngle, arc.endAngle);
-			ctx.arc(arc.x, arc.y, arc.innerRadius, arc.endAngle, arc.startAngle, true);
-			ctx.closePath();
-			for (i = 0; i < arc.fullCircles; ++i) {
-				ctx.fill();
-			}
-			arc.endAngle = arc.startAngle + vm.circumference % TAU;
-		}
+        ctx.fillStyle = vm.backgroundColor;
+        ctx.strokeStyle = vm.borderColor;
 
-		ctx.beginPath();
-		ctx.arc(arc.x, arc.y, arc.outerRadius, arc.startAngle, arc.endAngle);
-		ctx.arc(arc.x, arc.y, arc.innerRadius, arc.endAngle, arc.startAngle, true);
-		ctx.closePath();
-		ctx.fill();
+        if (arc.fullCircles) {
+            arc.endAngle = arc.startAngle + TAU;
+            ctx.beginPath();
+            ctx.arc(arc.x, arc.y, arc.outerRadius, arc.startAngle, arc.endAngle);
+            ctx.arc(arc.x, arc.y, arc.innerRadius, arc.endAngle, arc.startAngle, true);
+            ctx.closePath();
+            for (i = 0; i < arc.fullCircles; ++i) {
+                ctx.fill();
+            }
+            arc.endAngle = arc.startAngle + vm.circumference % TAU;
+        }
 
-		if (vm.borderWidth) {
-			drawBorder(ctx, vm, arc);
-		}
+        ctx.beginPath();
+        ctx.arc(arc.x, arc.y, arc.outerRadius, arc.startAngle, arc.endAngle);
+        ctx.arc(arc.x, arc.y, arc.innerRadius, arc.endAngle, arc.startAngle, true);
+        ctx.closePath();
+        ctx.fill();
 
-		ctx.restore();
-	}
+        if (vm.borderWidth) {
+            drawBorder(ctx, vm, arc);
+        }
+
+        ctx.restore();
+    }
 });
-
 var valueOrDefault$1 = helpers$1.valueOrDefault;
 
 var defaultColor = core_defaults.global.defaultColor;
