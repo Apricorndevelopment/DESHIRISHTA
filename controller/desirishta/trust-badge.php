@@ -240,6 +240,19 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
         background: #218838;
         transform: translateY(-2px);
     }
+    
+    /* List Style for Guidelines */
+    .guideline-list {
+        text-align: left;
+        margin-top: 15px;
+        font-size: 12px;
+        color: #555;
+        line-height: 1.5;
+        padding-left: 20px;
+    }
+    .guideline-list li {
+        margin-bottom: 5px;
+    }
 </style>
 
 <section>
@@ -251,7 +264,6 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
                 </div>
                 <div class="col-md-8 col-lg-9">
                     <div class="row">
-                        <!-- Content Area -->
                         <div class="col-md-12 db-sec-com db-pro-stat-pg">
                             <div class="form-login white-box p-0">
                                 <form action="upload-govtid.php" method="post" enctype="multipart/form-data">
@@ -264,14 +276,19 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
 
                                         <div class="p-4">
                                             
-                                            <!-- 1. Verification Status Banner (Always Visible) -->
                                             <?php 
                                             $statusClass = 'status-pending';
                                             $statusIcon = 'fa-clock-o';
                                             $statusTitle = 'Verification Pending';
                                             $statusDesc = 'Your document is under review by the admin.';
-
-                                            if($doc_verified_status == 'Done') { 
+                                            
+                                            // Logic to show "User Government ID under review" if pending
+                                            if($doc_verified_status == 'Pending') {
+                                                $statusClass = 'status-pending';
+                                                $statusIcon = 'fa-clock-o';
+                                                $statusTitle = 'Under Review';
+                                                $statusDesc = 'User Government ID under review.';
+                                            } elseif($doc_verified_status == 'Done') { 
                                                 $statusClass = 'status-success';
                                                 $statusIcon = 'fa-check-circle';
                                                 $statusTitle = 'Verified Successfully';
@@ -297,10 +314,8 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
                                                 <?php } ?>
                                             </div>
 
-                                            <!-- Form Row -->
                                             <div class="row">
                                                 
-                                                <!-- 2. Dropdown at the Top -->
                                                 <div class="col-md-12 form-group mb-4">
                                                     <label class="lb font-weight-bold">Select ID Type <span class="text-danger">*</span></label>
                                                     <div class="iconbox">
@@ -312,13 +327,9 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
                                                             <option value="Driving License" <?php if($rowverificationinfo['govtid'] == 'Driving License') { echo "selected"; }?>>Driving License</option>
                                                             <option value="Other" <?php if($rowverificationinfo['govtid'] == 'Other') { echo "selected"; }?>>Other</option>
                                                         </select>
-                                                        <!-- <i class="fa fa-caret-down icon" style="top: 15px;"></i> -->
-                                                    </div>
+                                                        </div>
                                                 </div>
 
-                                                <!-- 3. Side by Side Layout (Photo Left, Input Right) -->
-                                                
-                                                <!-- Left Side: Current Image (If exists) or Placeholder -->
                                                 <div class="col-md-6 mb-3">
                                                     <label class="lb mb-2">Document Preview</label>
                                                     <div class="current-id-preview">
@@ -336,22 +347,30 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
                                                     </div>
                                                 </div>
 
-                                                <!-- Right Side: Upload Input -->
                                                 <div class="col-md-6 mb-3">
                                                     <label class="lb mb-2">Upload / Update File</label>
                                                     <div class="upload-box">
                                                         <label class="upload-area">
                                                             <div class="upload-content">
-                                                                <!-- Icon only as requested -->
                                                                 <i class="fa fa-cloud-upload" style="font-size: 50px; color: #845d5d; margin-bottom: 10px;"></i>
                                                                 
                                                                 <p class="select-text">Click here to Upload File</p>
-                                                                <small class="text-muted">Supports: PNG, JPG, JPEG</small>
                                                                 
-                                                                <!-- No buttons here, handled by label click -->
+                                                                <div style="border-top: 1px solid #eee; margin-top: 10px; padding-top: 5px;">
+                                                                    <strong>Do's and Don'ts:</strong>
+                                                                    <ul class="guideline-list">
+                                                                        <li>Do upload a clear picture with your face clearly visible.</li>
+                                                                        <li>Do not upload blurred or unclear pictures.</li>
+                                                                        <li>Do not upload pictures of others.</li>
+                                                                        <li>Do not upload watermarked, morphed, or obscene pictures.</li>
+                                                                        <li>Do not add any personal content (address, phone) to your picture.</li>
+                                                                        <li>Supported formats: PNG, JPG, and JPEG only.</li>
+                                                                        <li>Combined max file size: 5MB.</li>
+                                                                    </ul>
+                                                                </div>
+
                                                                 <p id="file-name" style="margin-top:10px; font-size:13px; color:#28a745; font-weight:600; min-height: 20px;"></p>
                                                             </div>
-                                                            <!-- Hidden Input -->
                                                             <input type="file" name="govtidphoto" class="hidden-file" accept="image/png, image/jpg, image/jpeg" <?php if($rowverificationinfo['govpic'] == '') { echo "required"; } ?>>
                                                         </label>
 
@@ -359,9 +378,7 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
                                                     </div>
                                                 </div>
 
-                                            </div> <!-- End Row -->
-
-                                        </div>
+                                            </div> </div>
                                     </div>
                                 </form>
                             </div>
@@ -374,17 +391,13 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
     </div>
 </section>
 
-<!-- Success Modal -->
 <div id="successModal" class="custom-modal">
     <div class="custom-modal-content">
         <span class="close-modal-btn">&times;</span>
         <div class="modal-body">
-            <!-- Success GIF -->
-            <img src="https://media.giphy.com/media/7efs/giphy.gif" alt="Verified" class="success-gif">
-            <!-- Heading -->
+            <img src="images/gif/verifiedidentity.gif" alt="Verified" class="success-gif">
             <h3 class="modal-title">Verification Successful!</h3>
             <p class="modal-desc">Your Government ID has been verified successfully.</p>
-            <!-- OK Button -->
             <button class="ok-btn">OK</button>
         </div>
     </div>

@@ -160,43 +160,90 @@ $countregis = mysqli_num_rows($resultcountregis);
                             // ==========================================
                             // 5. RUN OPTIMIZED QUERY (Inside HTML)
                             // ==========================================
-                            $sqlinfo = "
-                                SELECT 
-                                    r.userid, r.verificationinfo,r.contact_privacy,
-                                    b.fullname, b.age, b.height, b.marital,
-                                    rel.religion, rel.caste,
-                                    edu.education, edu.designation,
-                                    loc.city, loc.state,
-                                    p.profilepic, p.photo1, p.photo2, p.photo3,
-                                    -- Check Outgoing (I Sent)
-                                    ei_out.ei_status as outgoing_status,
-                                    ei_out.id as outgoing_id,
-                                    -- Check Incoming (They Sent)
-                                    ei_in.ei_status as incoming_status,
-                                    ei_in.id as incoming_id,
-                                    -- Check Block/Shortlist
-                                    blk.id as is_blocked,
-                                    sh.id as is_shortlisted
-                                FROM registration r
-                                LEFT JOIN basic_info b ON r.userid = b.userid
-                                LEFT JOIN religious_info rel ON r.userid = rel.userid
-                                LEFT JOIN education_info edu ON r.userid = edu.userid
-                                LEFT JOIN groom_location loc ON r.userid = loc.userid
-                                LEFT JOIN photos_info p ON r.userid = p.userid
-                                LEFT JOIN expressinterest ei_out ON (ei_out.ei_sender = '$userid' AND ei_out.ei_receiver = r.userid)
-                                LEFT JOIN expressinterest ei_in ON (ei_in.ei_sender = r.userid AND ei_in.ei_receiver = '$userid')
-                                LEFT JOIN block_ids blk ON (blk.by_whom = '$userid' AND blk.for_who = r.userid)
-                                LEFT JOIN shortlist_ids sh ON (sh.by_whom = '$userid' AND sh.for_who = r.userid)
-                                WHERE 
-                                    r.userid != '$userid' 
-                                    AND r.gender != '$gender' 
-                                    AND r.delete_status != 'delete' 
-                                    AND r.firstapprove = '1'
-                                    AND r.profilestatus = '1'  -- UPDATED: Yeh line add ki hai
-                                ORDER BY r.id $sort 
-                                LIMIT $lower_limit, 4
-                            ";
-                            
+                            // $sqlinfo = "
+                            //     SELECT 
+                            //         r.userid, r.verificationinfo,r.contact_privacy,
+                            //         b.fullname, b.age, b.height, b.marital,
+                            //         rel.religion, rel.caste,
+                            //         edu.education, edu.designation,
+                            //         loc.city, loc.state,
+                            //         p.profilepic, p.photo1, p.photo2, p.photo3,
+                            //         -- Check Outgoing (I Sent)
+                            //         ei_out.ei_status as outgoing_status,
+                            //         ei_out.id as outgoing_id,
+                            //         -- Check Incoming (They Sent)
+                            //         ei_in.ei_status as incoming_status,
+                            //         ei_in.id as incoming_id,
+                            //         -- Check Block/Shortlist
+                            //         blk.id as is_blocked,
+                            //         sh.id as is_shortlisted
+                            //     FROM registration r
+                            //     LEFT JOIN basic_info b ON r.userid = b.userid
+                            //     LEFT JOIN religious_info rel ON r.userid = rel.userid
+                            //     LEFT JOIN education_info edu ON r.userid = edu.userid
+                            //     LEFT JOIN groom_location loc ON r.userid = loc.userid
+                            //     LEFT JOIN photos_info p ON r.userid = p.userid
+                            //     LEFT JOIN expressinterest ei_out ON (ei_out.ei_sender = '$userid' AND ei_out.ei_receiver = r.userid)
+                            //     LEFT JOIN expressinterest ei_in ON (ei_in.ei_sender = r.userid AND ei_in.ei_receiver = '$userid')
+                            //     LEFT JOIN block_ids blk ON (blk.by_whom = '$userid' AND blk.for_who = r.userid)
+                            //     LEFT JOIN shortlist_ids sh ON (sh.by_whom = '$userid' AND sh.for_who = r.userid)
+                            //     WHERE 
+                            //         r.userid != '$userid' 
+                            //         AND r.gender != '$gender' 
+                            //         AND r.delete_status != 'delete' 
+                            //         AND r.firstapprove = '1'
+                            //         AND r.profilestatus = '1'  -- UPDATED: Yeh line add ki hai
+                            //     ORDER BY r.id $sort 
+                            //     LIMIT $lower_limit, 4
+                            // ";
+                            // ==========================================
+// 5. RUN OPTIMIZED QUERY (Inside HTML)
+// ==========================================
+// ==========================================
+// 5. RUN OPTIMIZED QUERY (Inside HTML)
+// ==========================================
+$sqlinfo = "
+    SELECT 
+        r.userid, r.verificationinfo, r.contact_privacy,
+        b.fullname, b.age, b.height, b.marital,
+        rel.religion, rel.caste,
+        edu.education, edu.designation,
+        loc.city, loc.state,
+        p.profilepic, p.photo1, p.photo2, p.photo3,
+        -- Check Outgoing (I Sent)
+        ei_out.ei_status as outgoing_status,
+        ei_out.id as outgoing_id,
+        -- Check Incoming (They Sent)
+        ei_in.ei_status as incoming_status,
+        ei_in.id as incoming_id,
+        -- Check Block/Shortlist
+        blk.id as is_blocked,
+        sh.id as is_shortlisted,
+        -- Check Reported
+        rpt.id as is_reported
+    FROM registration r
+    LEFT JOIN basic_info b ON r.userid = b.userid
+    LEFT JOIN religious_info rel ON r.userid = rel.userid
+    LEFT JOIN education_info edu ON r.userid = edu.userid
+    LEFT JOIN groom_location loc ON r.userid = loc.userid
+    LEFT JOIN photos_info p ON r.userid = p.userid
+    LEFT JOIN expressinterest ei_out ON (ei_out.ei_sender = '$userid' AND ei_out.ei_receiver = r.userid)
+    LEFT JOIN expressinterest ei_in ON (ei_in.ei_sender = r.userid AND ei_in.ei_receiver = '$userid')
+    LEFT JOIN block_ids blk ON (blk.by_whom = '$userid' AND blk.for_who = r.userid)
+    LEFT JOIN shortlist_ids sh ON (sh.by_whom = '$userid' AND sh.for_who = r.userid)
+    
+    -- CORRECTED JOIN LINE (Based on Screenshot)
+    LEFT JOIN report_ids rpt ON (rpt.by_who = '$userid' AND rpt.against = r.userid)
+
+    WHERE 
+        r.userid != '$userid' 
+        AND r.gender != '$gender' 
+        AND r.delete_status != 'delete' 
+        AND r.firstapprove = '1'
+        AND r.profilestatus = '1'
+    ORDER BY r.id $sort 
+    LIMIT $lower_limit, 4
+";
                             $resultinfo = mysqli_query($con, $sqlinfo);
 
                             if(mysqli_num_rows($resultinfo) > 0) {
@@ -223,14 +270,94 @@ $countregis = mysqli_num_rows($resultcountregis);
                                                 <h4><a href="user-profile-details.php?uid=<?php echo $profileid; ?>"><?php echo $rowinfo['fullname']; ?></a></h4>
                                                 <div>
                                                     <?php echo $profileid; ?>
-                                                    <?php if($rowinfo['is_blocked']) { echo '<span class="text-danger desktop" style="float: right;">You blocked this member</span>'; } ?>
+                                                    <?php if($rowinfo['is_blocked']) { echo '<span class="text-danger desktop" style="float: right;"></span>'; } ?>
                                                 </div>
                                                 
-                                                <div class="pro-info-status  mb-2">
+                                                <!-- <div class="pro-info-status  mb-2">
                                                     <?php if($rowinfo['verificationinfo'] == '1') { ?>
                                                         <span class="stat-6 text-success"><i class="fa fa-shield text-success"></i> ID Verified</span>
                                                     <?php } ?>
-                                                </div>
+                                                    <?php if($rowinfo['is_blocked']) { ?>
+    <span class="text-danger block-desktop">You blocked this member</span>
+    <span class="text-danger block-mobile">You blocked this member</span>
+<?php } ?>
+
+                                                </div> -->
+                                  <div class="pro-info-status mb-2">
+    <?php if($rowinfo['verificationinfo'] == '1') { ?>
+        <span class="status-badge verified">
+            <i class="fa fa-check-circle"></i> ID Verified
+        </span>
+    <?php } ?>
+
+    <?php if($rowinfo['is_blocked']) { ?>
+        <span class="status-badge blocked">
+            <i class="fa fa-ban"></i> Blocked
+        </span>
+    <?php } ?>
+
+    <?php if($rowinfo['is_reported']) { ?>
+        <span class="status-badge reported">
+            <i class="fa fa-exclamation-triangle"></i> Reported
+        </span>
+    <?php } ?>
+</div>
+
+<style>
+    .pro-info-status{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+/* Existing styles... */
+
+/* Reported theme (Orange/Yellow Warning) */
+.status-badge.reported {
+    background: rgba(255, 193, 7, 0.15);   /* Warning yellow soft */
+    color: #d39e00;                        /* Darker yellow text */
+    padding-top: 5px;
+}
+/* Common badge style */
+.status-badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* Verified theme */
+.status-badge.verified{
+    background: rgba(40,167,69,0.15);   /* theme green soft */
+    color: #28a745;
+    padding-top: 5px;
+}
+
+/* Blocked theme */
+.status-badge.blocked{
+    background: rgba(220,53,69,0.15);   /* theme red soft */
+    color: #dc3545;
+      padding-top: 5px;
+}
+
+.status-badge i{
+    font-size: 13px;
+}
+
+/* Mobile adjustment */
+@media(max-width:576px){
+    .status-badge{
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+
+</style>
+
 
                                                 <div class="pro-bio m-0 b-0 pb-1">
                                                     <span><?php echo $rowinfo['age']; ?> Yrs</span>

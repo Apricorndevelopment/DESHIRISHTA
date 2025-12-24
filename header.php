@@ -412,21 +412,24 @@ if (isset($_COOKIE['dr_userid'])) {
                                                                     } ?></span>
                                         <div class="smenu-open smenu-single">
                                             <ul>
-                                                <li>
-                                                    <a href="user-incoming-interests.php">
-                                                        Incoming Request
-                                                        <?php if ($incoming_pending_count > 0) { ?>
-                                                            <span class="notif-flipper"></span>
-                                                        <?php } ?>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="user-outgoing-interests.php">
-                                                        Outgoing Requests <?php if ($outgoing_pending_count > 0) {
-                                                                                echo '(' . $outgoing_pending_count . ')';
-                                                                            } ?>
-                                                    </a>
-                                                </li>
+                                    <li>
+    <a href="user-incoming-interests.php" class="notif-link">
+        Incoming Request
+        <?php if ($incoming_pending_count > 0) { ?>
+            <div class="notif-dot"></div>
+        <?php } ?>
+    </a>
+</li>
+
+<li>
+    <a href="user-outgoing-interests.php" class="notif-link">
+        Outgoing Requests
+        <?php if ($outgoing_pending_count > 0) { ?>
+            <div class="notif-dot"></div>
+        <?php } ?>
+    </a>
+</li>
+
                                             </ul>
                                         </div>
                                     </li>
@@ -532,21 +535,63 @@ if (isset($_COOKIE['dr_userid'])) {
                     <h4><i class="fa fa-envelope" aria-hidden="true"></i> Inbox <?php if ($total_new_requests > 0) {
                                                                                     echo '(' . $total_new_requests . ')';
                                                                                 } ?></h4>
-                    <ul>
-                        <li>
-                            <a href="user-incoming-interests.php">
-                                Incoming Requests
-                                <?php if ($incoming_pending_count > 0) {
-                                    echo '(' . $incoming_pending_count . ')';
-                                    echo '<span class="notif-flipper"></span>';
-                                } ?>
-                            </a>
-                        </li>
-                        <li><a href="user-outgoing-interests.php">Outgoing Requests <?php if ($outgoing_pending_count > 0) {
-                                                                                        echo '(' . $outgoing_pending_count . ')';
-                                                                                    } ?></a></li>
-                    </ul>
+                <ul>
+    <li>
+        <a href="user-incoming-interests.php" class="notif-link">
+            Incoming Requests
+            <?php if ($incoming_pending_count > 0) { ?>
+                <div class="notif-dot"></div>
+            <?php } ?>
+        </a>
+    </li>
+
+    <li>
+        <a href="user-outgoing-interests.php" class="notif-link">
+            Outgoing Requests
+            <?php if ($outgoing_pending_count > 0) { ?>
+                <div class="notif-dot"></div>
+            <?php } ?>
+        </a>
+    </li>
+</ul>
+
                 <?php } ?>
+                <style>
+.notif-link {
+    position: relative;
+    display: inline-block;
+    padding-right: 20px; /* dot ke liye space */
+}
+
+.notif-dot {
+    width: 14px;
+    height: 14px;
+    background: #e74c3c;
+    border-radius: 50%;
+    position: absolute;
+    top: 13px;
+    right: 15px;
+    animation: pulse 1.4s infinite;
+}
+
+/* Smooth professional pulse */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.4;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+                </style>
 
                 <!-- DASHBOARD -->
                 <h4><i class="fa fa-dashboard" aria-hidden="true"></i> Dashbord</h4>

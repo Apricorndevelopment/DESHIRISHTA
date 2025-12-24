@@ -437,7 +437,7 @@ if($userid == '')
                             </div>
                             <div class="col-md-12">
                                 <!-- START -->
-                                <p class="text-danger">Required fields</p>
+                                <!-- <p class="text-danger">Required fields</p> -->
                                 <div class="filt-com lhs-cate">
                                     <button type="submit" class="cta-3 w-100 text-center">Search</button>
                                 </div>

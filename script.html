@@ -1,0 +1,259 @@
+<script>
+    function closeReconnect() {
+        document.getElementById('reconnectModal').style.display = 'none';
+        document.cookie = "show_reconnect_popup=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    function getCookie(name) {
+        let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) return match[2];
+    }
+    window.onload = function() {
+        if (getCookie('show_reconnect_popup') === 'yes') {
+            document.getElementById('reconnectModal').style.display = 'flex';
+        }
+    };
+</script>
+
+<!-- SCRIPTS FOR POPUPS, CLOCK, AND BATTERY -->
+<script>
+$(document).ready(function() {
+    // 1. Queue initialization
+    var popupQueue = <?php echo !empty($json_popup_queue) ? $json_popup_queue : '[]'; ?>;
+    var currentPopup = null;
+
+    // Birthday filter
+    popupQueue = popupQueue.filter(function(p) {
+        if (p.id.includes("birthday_")) {
+            return !localStorage.getItem(p.id);
+        }
+        return true;
+    });
+
+    // 2. Show next popup function
+    function showNextPopup() {
+        if (popupQueue.length === 0) {
+            $('.menu-pop1, .pop-bg').removeClass('act');
+            return;
+        }
+        currentPopup = popupQueue.shift();
+        
+        $('#pop-subject').text(currentPopup.subject || 'Notification');
+        $('#pop-body').html(currentPopup.body_content || "");
+
+        if (currentPopup.media_file) {
+            var imgSrc = currentPopup.is_local_img ? currentPopup.media_file : 'uploads/' + currentPopup.media_file;
+            $('#pop-img').attr('src', imgSrc);
+            $('#pop-img-container').show();
+        } else {
+            $('#pop-img-container').hide();
+        }
+
+        if (currentPopup.btn_text) {
+            $('#pop-btn').text(currentPopup.btn_text).attr('href', currentPopup.btn_link || '#').show();
+        } else {
+            $('#pop-btn').hide();
+        }
+        $('.menu-pop1, .pop-bg').addClass('act');
+    }
+
+    // Initial trigger
+    if (popupQueue.length > 0 && $('#firstLoginModal').length == 0) {
+        setTimeout(showNextPopup, 1000);
+    }
+
+    // 3. Centralized Closure Function (Helper)
+    function handlePopupClosure(url) {
+        $('.menu-pop1, .pop-bg').removeClass('act');
+        
+        // Agar link pe jana hai toh redirect karein, warna next popup dikhayein
+        if (url && url !== '#' && url !== '') {
+            window.location.href = url;
+        } else {
+            setTimeout(showNextPopup, 500);
+        }
+    }
+
+    // 4. THE UPDATED CLICK HANDLER (Single unified version)
+    $('#close-popup-btn, #pop-btn').on('click', function(e) {
+        e.preventDefault(); 
+
+        var targetUrl = $(this).attr('href');
+
+        if (!currentPopup) return;
+
+        // A. Birthday Logic
+        if (currentPopup.id.includes("birthday_")) {
+            localStorage.setItem(currentPopup.id, "done");
+        }
+
+        // B. Status Update (Database)
+        if (currentPopup.type === 'status') {
+            $.post('aj-update-popup-status.php', {
+                popup_type: currentPopup.id, // PHP file ke variable name se match kiya gaya
+                user_id: '<?php echo $userid; ?>'
+            }, function() {
+                handlePopupClosure(targetUrl);
+            });
+        } 
+        // C. Banner View Log
+        else if (currentPopup.type === 'banner') {
+            $.post('aj-log-banner-view.php', {
+                banner_ids: currentPopup.id
+            }, function() {
+                handlePopupClosure(targetUrl);
+            });
+        } 
+        // D. Simple Close
+        else {
+            handlePopupClosure(targetUrl);
+        }
+    });
+});
+// Popup band karne aur aage badhne ka function
+function handlePopupClosure(url) {
+    $('.menu-pop1, .pop-bg').removeClass('act');
+    
+    // Agar button ka koi link hai (e.g., Verify Now), toh wahan bhejein
+    if (url && url !== '#' && url !== '') {
+        window.location.href = url;
+    } else {
+        // Warna agla popup dikhayein (agar queue mein hai)
+        setTimeout(showNextPopup, 500);
+    }
+}
+    // PRIVACY MODAL JS
+    function closePrivacyModal() {
+        document.getElementById('firstLoginModal').style.display = 'none';
+        if (typeof showNextPopup === 'function' && popupQueue.length > 0) {
+            showNextPopup();
+        }
+    }
+
+    function updatePrivacy(type) {
+        var action = (type === 'hide') ? 'set_privacy_hide' : 'set_privacy_show';
+        $.ajax({
+            url: 'ajax-update-privacy.php',
+            type: 'POST',
+            data: {
+                action: action
+            },
+            success: function(response) {
+                if (response.trim() == 'success') {
+                    document.getElementById('firstLoginModal').style.display = 'none';
+                    if (type === 'hide') {
+                        alert('Privacy updated to "Hide from All".');
+                        location.reload();
+                    }
+                } else {
+                    alert('Error updating privacy. Please try again.');
+                }
+            },
+            error: function() {
+                alert('Network error.');
+            }
+        });
+    }
+
+    // WEATHER SCRIPT
+    $(document).ready(function() {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                $.ajax({
+                    url: `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`,
+                    success: function(data) {
+                        $('#weather-loc').text(data.city || data.locality || "Local Weather");
+                    },
+                    error: function() {
+                        $('#weather-loc').text("Local Weather");
+                    }
+                });
+                $.ajax({
+                    url: `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`,
+                    success: function(data) {
+                        var temp = Math.round(data.current_weather.temperature);
+                        var code = data.current_weather.weathercode;
+                        $('#weather-temp').text(temp + "°C");
+                        $('#weather-wrapper').show();
+                        var iconClass = "fa-sun-o";
+                        var iconColor = "#f39c12";
+                        if (code <= 3) {
+                            iconClass = "fa-sun-o";
+                            iconColor = "#f39c12";
+                        } else if (code <= 48) {
+                            iconClass = "fa-cloud";
+                            iconColor = "#bdc3c7";
+                        } else if (code <= 67) {
+                            iconClass = "fa-tint";
+                            iconColor = "#3498db";
+                        } else if (code <= 77) {
+                            iconClass = "fa-snowflake-o";
+                            iconColor = "#ecf0f1";
+                        } else if (code <= 82) {
+                            iconClass = "fa-tint";
+                            iconColor = "#3498db";
+                        } else if (code <= 99) {
+                            iconClass = "fa-bolt";
+                            iconColor = "#f1c40f";
+                        }
+                        $('#weather-icon').attr('class', 'fa ' + iconClass).css('color', iconColor);
+                    }
+                });
+            });
+        }
+    });
+
+    // CLOCK
+    function updateClock() {
+        const now = new Date();
+        let timeString = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+        const dateOptions = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
+        let dateString = now.toLocaleDateString('en-US', dateOptions);
+        document.getElementById('live-clock').innerText = timeString;
+        document.getElementById('live-date').innerText = dateString;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // GREETING
+    function updateGreeting() {
+        const now = new Date();
+        const hour = now.getHours();
+        const name = "<?php echo $my_name; ?>";
+        let greetingText = "Good Morning";
+        let emoji = "☕";
+        if (hour >= 5 && hour < 12) {
+            greetingText = "Good Morning";
+            emoji = "☕";
+        } else if (hour >= 12 && hour < 17) {
+            greetingText = "Good Afternoon";
+            emoji = "☀️";
+        } else if (hour >= 17 && hour < 21) {
+            greetingText = "Good Evening";
+            emoji = "🌆";
+        } else {
+            greetingText = "Good Night";
+            emoji = "🌙";
+        }
+        const display = document.getElementById('greeting-display');
+        if (display) {
+            display.innerHTML = `${greetingText} ${name} ${emoji}`;
+        }
+    }
+    updateGreeting();
+    setInterval(updateGreeting, 60000);
+</script>
+
+other working mai rhna chaiye proper give me complete script code proper working other functionality proper working mrko point m btana kya kya working mai hai 

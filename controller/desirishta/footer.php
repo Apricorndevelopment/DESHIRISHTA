@@ -302,10 +302,37 @@ if($useractive == '0')
     });
 });
 
-var xValues = "0";
-    var yValues = "50";
+// var xValues = "0";
+//     var yValues = "50";
 
-    new Chart("Chart_leads", {
+//     new Chart("Chart_leads", {
+//         type: "line",
+//         data: {
+//             labels: xValues,
+//             datasets: [{
+//                 fill: false,
+//                 lineTension: 0,
+//                 backgroundColor: "#f1bb51",
+//                 borderColor: "#fae9c8",
+//                 data: yValues
+//             }]
+//         },
+//         options: {
+//             responsive: true,
+//             legend: {display: false},
+//             scales: {
+//                 yAxes: [{ticks: {min: 0, max: 100}}]
+//             }
+//         }
+//     });
+//     var xValues = "0";
+// var yValues = "50";
+
+// --- FIX: Check if Chart Element Exists ---
+var chartCanvas = document.getElementById("Chart_leads");
+
+if (chartCanvas) { // Agar chart element mila, tabhi chart banao
+    new Chart(chartCanvas, {
         type: "line",
         data: {
             labels: xValues,
@@ -325,6 +352,8 @@ var xValues = "0";
             }
         }
     });
+}
+// ------------------------------------------
     </script>
     
     <script>
@@ -756,7 +785,7 @@ $(document).ready(function(){
     });
 </script>
 
-<script>
+<!-- <script>
 $(document).ready(function(){
     timeLeft = 60;
 
@@ -777,9 +806,39 @@ $(document).ready(function(){
     setTimeout(countdown, 1000);
 
 });
+</script> -->
+
+<script>
+$(document).ready(function(){
+    // Step 1: Check karein ki 'seconds' element page par hai ya nahi
+    var timerDisplay = document.getElementById("seconds");
+
+    if (timerDisplay) { // Agar element mil gaya, tabhi aage badho
+        
+        var timeLeft = 60;
+
+        function countdown() {
+            timeLeft--;
+            
+            // Safety check inside loop
+            if(document.getElementById("seconds")) {
+                document.getElementById("seconds").innerHTML = String( timeLeft );
+            }
+
+            if (timeLeft > 0) {
+                setTimeout(countdown, 1000);
+            }
+            else {
+                $('#resendbtn').css('display', 'block');
+                $('#timer').css('display', 'none');
+                $('#pwd').css('border', '2px solid red');
+            }
+        };
+
+        setTimeout(countdown, 1000);
+    } 
+});
 </script>
-
-
 <script>
     $(document).ready(function () {
         $("#sortby").change(function () {

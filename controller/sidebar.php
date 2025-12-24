@@ -3,8 +3,8 @@
 <?php
 include('config.php');
 
+// 1. Contact Us Count
 $new_messages_count = 0;
-
 $count_query = "SELECT COUNT(id) AS total FROM contact_us WHERE status = 'New'";
 $count_result = mysqli_query($con, $count_query);
 
@@ -12,6 +12,29 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
     $count_row = mysqli_fetch_assoc($count_result);
     $new_messages_count = $count_row['total'];
 }
+
+// 2. Pending User Profiles Count (for User Profiles badge)
+$pending_profiles_count = 0;
+$pp_query = "SELECT COUNT(id) AS total FROM registration WHERE profilestatus = '0'";
+$pp_result = mysqli_query($con, $pp_query);
+
+if ($pp_result && mysqli_num_rows($pp_result) > 0) {
+    $pp_row = mysqli_fetch_assoc($pp_result);
+    $pending_profiles_count = $pp_row['total'];
+}
+
+$pending_sql = "
+SELECT COUNT(*) AS total_pending
+FROM registration
+WHERE 
+    aboutme_approval_status = 'Pending'
+    OR groom_approval_status = 'Pending'
+    OR photos_approval_status = 'Pending'
+";
+
+$pending_result = mysqli_query($con, $pending_sql);
+$pending_row = mysqli_fetch_assoc($pending_result);
+$pending_count = $pending_row['total_pending'];
 ?>
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
@@ -207,6 +230,9 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="users"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">User Profiles</span>
+                    <?php if ($pending_profiles_count > 0): ?>
+                        <span class="badge badge-light-danger rounded-pill ms-auto"><?php echo $pending_profiles_count; ?></span>
+                    <?php endif; ?>
                 </a>
                 <ul class="menu-content">
                     <li>
@@ -318,12 +344,18 @@ if ($count_result && mysqli_num_rows($count_result) > 0) {
                     </li>
                 </ul>
             </li>
-            <li class=" nav-item">
+<li class="nav-item">
     <a class="d-flex align-items-center" href="pending-approvals.php">
-        <i data-feather="clock"></i>
-        <span class="menu-title text-truncate" data-i18n="Pending Approvals">Moderation Approvals</span>
+        <i data-feather="check-square"></i>
+        <span class="menu-title text-truncate">Moderative Approvals</span>
+
+      
+          <?php if ($pending_count > 0): ?>
+                        <span class="badge badge-light-danger rounded-pill ms-auto"><?php echo $pending_count ?></span>
+                    <?php endif; ?>
     </a>
 </li>
+
      <li class="nav-item">
     <a class="d-flex align-items-center" href="view-subscribers.php">
         <i data-feather="mail"></i>

@@ -8,6 +8,50 @@ if ($userid == '') {
     header('location:login.php');
 }
 
+
+// --- START: PROFILE EDIT LOGGING ---
+// Check karein agar URL mein koi update success message hai
+$section_edited = "";
+
+if (isset($_GET['basic_update']) && $_GET['basic_update'] == 'yes') {
+    $section_edited = "Basic Information";
+} elseif (isset($_GET['aboutme_update']) && ($_GET['aboutme_update'] == 'yes' || $_GET['aboutme_update'] == 'pending')) {
+    $section_edited = "About Me";
+} elseif (isset($_GET['astro_update']) && $_GET['astro_update'] == 'yes') {
+    $section_edited = "Astro Details";
+} elseif (isset($_GET['religious_update']) && $_GET['religious_update'] == 'yes') {
+    $section_edited = "Religious Info";
+} elseif (isset($_GET['education_update']) && $_GET['education_update'] == 'yes') {
+    $section_edited = "Education & Career";
+} elseif (isset($_GET['groom_update']) && $_GET['groom_update'] == 'yes') {
+    $section_edited = "Location Details";
+} elseif (isset($_GET['family_update']) && $_GET['family_update'] == 'yes') {
+    $section_edited = "Family Details";
+} elseif (isset($_GET['hobbies_update']) && $_GET['hobbies_update'] == 'yes') {
+    $section_edited = "Hobbies & Interest";
+} elseif (isset($_GET['partner_update']) && $_GET['partner_update'] == 'yes') {
+    $section_edited = "Partner Preference";
+} elseif (isset($_GET['contact_update']) && $_GET['contact_update'] == 'yes') {
+    $section_edited = "Contact Details";
+} elseif (isset($_GET['photos_update']) && ($_GET['photos_update'] == 'yes' || $_GET['photos_update'] == 'pending')) {
+    $section_edited = "Photos";
+}
+
+// Agar koi section edit hua hai, to DB mein log karein
+if ($section_edited != "") {
+    $log_date = date('Y-m-d');
+    
+    // Duplicate entry rokne ke liye check karein ki aaj is section ka log pehle se hai ya nahi
+    // (Optional: Agar aap chahte hain har choti edit log ho, toh ye check hata dein)
+     $check_log = mysqli_query($con, "SELECT id FROM user_edit_logs WHERE userid='$userid' AND section_edited='$section_edited' AND edit_date='$log_date'");
+    if(mysqli_num_rows($check_log) == 0) { 
+    
+        $sql_edit_log = "INSERT INTO user_edit_logs (userid, edit_date, section_edited) 
+                         VALUES ('$userid', '$log_date', '$section_edited')";
+        mysqli_query($con, $sql_edit_log);
+     } 
+}
+// --- END: PROFILE EDIT LOGGING ---
 // --- 1. FETCH USER DATA (Moved to Top) ---
 // We need this data immediately to check for approval status
 $sqlformfill = "select * from registration where userid = '$userid'";
@@ -173,7 +217,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         position: fixed; 
         top: 400; left: 400; width: 100%; height: 100%; 
         background: rgba(0,0,0,0.7); 
-        z-index: 8;
+        z-index: 4;
     }
     .chosen-disabled .chosen-single {
         cursor: default;
@@ -268,7 +312,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
             .np-char {
                 font-size: 26px;
                 font-weight: 500;
-                font-family: 'Playfair Display', serif; /* Agar font available ho */
+                font-family: 'Playfair Display', serif; 
                 color: #ffc532ff; /* OLD GOLD COLOR */
                 letter-spacing: 1px;
                 display: inline-block;

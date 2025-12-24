@@ -344,9 +344,9 @@ if(isset($_GET['tab'])) {
                                         <li class="nav-item">
                                             <a class="nav-link <?php if($active_tab=='declined') echo 'active'; ?>" data-bs-toggle="tab" href="#declined">Declined <span class="badge bg-secondary"><?php echo $cnt_dec; ?></span></a>
                                         </li>
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link <?php if($active_tab=='allprofiles') echo 'active'; ?>" data-bs-toggle="tab" href="#allprofiles">All Profiles</a>
-                                        </li>
+                                        </li> -->
                                     </ul>
 
                                     <!-- TAB CONTENT -->

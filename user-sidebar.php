@@ -182,7 +182,7 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
     }
 .material-symbols-outlined {
     vertical-align: middle;
-    color: #e2e78a !important;
+    color: #080808ff !important;
 }
     /* Class added via JS to slide it in */
     .db-nav.active {

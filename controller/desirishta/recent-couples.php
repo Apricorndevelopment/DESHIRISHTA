@@ -73,12 +73,21 @@ if(isset($_GET['id']) && !empty($_GET['id'])) {
  <?php 
  include "header.php";
  ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    
     <!-- END MOBILE MENU POPUP -->    <!-- START -->
     <section>
         <div class="wedd pg-wedd-vid m-tp">
             <div class="container">
                 <div class="row">
                     <div class="ban-wedd">
+                        <style>
+                            h1, h2, h3 {
+  font-family: 'Cinzel Decorative', serif;
+}
+                        </style>
                         <!-- DYNAMIC NAME -->
                         <h2><?php echo isset($row['couple_name']) ? $row['couple_name'] : ''; ?></h2>
                         <!-- DYNAMIC LOCATION -->
