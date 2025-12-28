@@ -803,7 +803,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                             <div class="col-md-6 form-group">
                                                                 <label class="lb"><i class="fa fa-times-circle text-danger" id="weightcross" style="display:none"></i> Weight <!--<span class="text-danger">*</span>--></label>
                                                                 <span class="iconbox">
-                                                                    <select class="form-select chosen-select" id="noweight" name="weight">
+                                                                    <select class="form-select chosen-select" id="noweight" name="weight" required>
                                                                         <?php render_dropdown_options($con, 'weight', $rowbasicinfo['weight']); ?>
                                                                     </select>
                                                                     <span class="material-icons icon">scale</span>
@@ -824,7 +824,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                                                     echo "selected";
                                                                                 } ?>>Handicapped by war</option>
                                                                     </select> -->
-                                                                    <select class="form-select chosen-select" id="nophysical" name="physical">
+                                                                    <select class="form-select chosen-select" id="nophysical" name="physical" required>
                                                                         <?php render_dropdown_options($con, 'disability', $rowbasicinfo['physical']); ?>
                                                                     </select>
                                                                     <span class="material-icons icon">accessible</span>

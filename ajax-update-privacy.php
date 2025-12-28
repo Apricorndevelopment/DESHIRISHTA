@@ -28,5 +28,14 @@ if(isset($_POST['action']) && $userid != '') {
             echo "error";
         }
     }
+    if($action == 'wa_privacy_all') {
+        $sql = "UPDATE registration SET whatsapp_privacy = 'all_members' WHERE userid = '$userid'";
+        if(mysqli_query($con, $sql)) { echo "success"; } else { echo "error"; }
+    }
+
+    if($action == 'wa_privacy_hide') {
+        $sql = "UPDATE registration SET whatsapp_privacy = 'hide' WHERE userid = '$userid'";
+        if(mysqli_query($con, $sql)) { echo "success"; } else { echo "error"; }
+    }
 }
 ?>

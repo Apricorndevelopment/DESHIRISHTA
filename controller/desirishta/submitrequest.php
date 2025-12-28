@@ -5,7 +5,8 @@ $userid = $_COOKIE['dr_userid'];
 
 if($userid == '')
 {
-    header('location:login.php');
+    echo "<script>window.location.href='login.php';</script>";
+    exit();
 }
 ?>
     <section>

@@ -119,118 +119,62 @@ if (isset($_COOKIE['dr_userid'])) {
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* === FLIPPER / BLINKING DOT CSS === */
-        .notif-flipper {
+        /* === NOTIFICATION PULSE ANIMATION === */
+        .notif-link {
+            position: relative;
             display: inline-block;
+            padding-right: 20px;
+        }
+
+        .notif-dot {
             width: 10px;
             height: 10px;
-            background-color: #ff0000;
+            background: #e74c3c;
             border-radius: 50%;
-            margin-left: 8px;
-            vertical-align: middle;
-            position: relative;
-            box-shadow: 0 0 0 0 rgba(255, 0, 0, 1);
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
             animation: pulse-red 1.5s infinite;
         }
 
         @keyframes pulse-red {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
-            }
-
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 6px rgba(255, 0, 0, 0);
-            }
-
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
         }
 
-        /* Mobile Menu Animations */
-        .mob-me-all .mv-bus ul li,
-        .mob-me-all .mv-bus h4 {
+        /* === MOBILE MENU ANIMATION CORE === */
+        .mob-me-all {
+            /* Existing styles usually handled by external CSS, ensuring base visibility logic */
+            transition: all 0.4s ease;
+            display: none; /* Default hidden */
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            visibility: hidden;
+        }
+        
+        /* Active state for the container */
+        .mob-me-all.act {
+            display: block;
+            opacity: 1;
+            visibility: visible;
         }
 
-        .mob-me-all.act .mv-bus ul li,
-        .mob-me-all.act .mv-bus h4 {
+        /* Initial State of Menu Items (Hidden & Pushed Down) */
+        .mob-me-all .mv-bus h4, 
+        .mob-me-all .mv-bus ul li {
+            opacity: 0;
+            transform: translateY(30px); /* Bottom-up start position */
+            transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: opacity, transform;
+        }
+
+        /* Active State of Menu Items (Visible & Original Position) */
+        .mob-me-all.act .mv-bus h4.anim-active, 
+        .mob-me-all.act .mv-bus ul li.anim-active {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        /* Delays */
-        .mob-me-all.act .mv-bus ul:nth-of-type(1) li:nth-child(1) {
-            transition-delay: 0.2s;
-        }
-
-        .mob-me-all.act .mv-bus ul:nth-of-type(1) li:nth-child(2) {
-            transition-delay: 0.4s;
-        }
-
-        .mob-me-all.act .mv-bus ul:nth-of-type(1) li:nth-child(3) {
-            transition-delay: 0.6s;
-        }
-
-        .mob-me-all.act .mv-bus ul:nth-of-type(1) li:nth-child(4) {
-            transition-delay: 0.8s;
-        }
-
-        .mob-me-all.act .mv-bus h4:nth-of-type(1) {
-            transition-delay: 1.0s;
-        }
-
-        /* Team Alignment Fixes */
-        .ab-team ul li div {
-            text-align: left !important;
-        }
-
-        .ab-team ul li div h4,
-        .ab-team ul li div p {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .ab-team ul li div .social-light {
-            text-align: center;
-            margin: 0 auto;
-            padding-top: 10px;
-        }
-
-        .ab-team .social-light li {
-            display: inline-block;
-            float: none !important;
-            width: auto !important;
-        }
-
-        /* Notification Dot */
-        .notif-dot {
-            width: 10px;
-            height: 10px;
-            background: red;
-            border-radius: 50%;
-            display: inline-block;
-            margin-left: 6px;
-            animation: flip 1s infinite;
-        }
-
-        @keyframes flip {
-            0% {
-                transform: rotateY(0deg);
-            }
-
-            50% {
-                transform: rotateY(180deg);
-            }
-
-            100% {
-                transform: rotateY(360deg);
-            }
         }
     </style>
 
@@ -413,18 +357,20 @@ if (isset($_COOKIE['dr_userid'])) {
                                         <div class="smenu-open smenu-single">
                                             <ul>
                                                 <li>
-                                                    <a href="user-incoming-interests.php">
+                                                    <a href="user-incoming-interests.php" class="notif-link">
                                                         Incoming Request
                                                         <?php if ($incoming_pending_count > 0) { ?>
-                                                            <span class="notif-flipper"></span>
+                                                            <div class="notif-dot"></div>
                                                         <?php } ?>
                                                     </a>
                                                 </li>
+
                                                 <li>
-                                                    <a href="user-outgoing-interests.php">
-                                                        Outgoing Requests <?php if ($outgoing_pending_count > 0) {
-                                                                                echo '(' . $outgoing_pending_count . ')';
-                                                                            } ?>
+                                                    <a href="user-outgoing-interests.php" class="notif-link">
+                                                        Outgoing Requests
+                                                        <?php if ($outgoing_pending_count > 0) { ?>
+                                                            <div class="notif-dot"></div>
+                                                        <?php } ?>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -468,8 +414,9 @@ if (isset($_COOKIE['dr_userid'])) {
                                     </a>
                                 </span>
                             <?php } ?>
-                            <span class="mobile-menu" data-mob="mobile" style="margin-right: 15px;">
-                                <i class="bi bi-list"></i>
+                            <!-- Trigger for Animation -->
+                            <span class="mobile-menu-trigger" style="margin-right: 15px; cursor: pointer;">
+                                <i class="bi bi-list" style="font-size: 28px;"></i>
                             </span>
                         </div>
                     </div>
@@ -534,17 +481,22 @@ if (isset($_COOKIE['dr_userid'])) {
                                                                                 } ?></h4>
                     <ul>
                         <li>
-                            <a href="user-incoming-interests.php">
+                            <a href="user-incoming-interests.php" class="notif-link">
                                 Incoming Requests
-                                <?php if ($incoming_pending_count > 0) {
-                                    echo '(' . $incoming_pending_count . ')';
-                                    echo '<span class="notif-flipper"></span>';
-                                } ?>
+                                <?php if ($incoming_pending_count > 0) { ?>
+                                    <div class="notif-dot"></div>
+                                <?php } ?>
                             </a>
                         </li>
-                        <li><a href="user-outgoing-interests.php">Outgoing Requests <?php if ($outgoing_pending_count > 0) {
-                                                                                        echo '(' . $outgoing_pending_count . ')';
-                                                                                    } ?></a></li>
+
+                        <li>
+                            <a href="user-outgoing-interests.php" class="notif-link">
+                                Outgoing Requests
+                                <?php if ($outgoing_pending_count > 0) { ?>
+                                    <div class="notif-dot"></div>
+                                <?php } ?>
+                            </a>
+                        </li>
                     </ul>
                 <?php } ?>
 
@@ -600,3 +552,50 @@ if (isset($_COOKIE['dr_userid'])) {
             <?php } ?>
         </div>
     </div>
+
+    <!-- SCRIPT FOR BOTTOM-UP ANIMATION -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuTrigger = document.querySelector('.mobile-menu-trigger');
+            const mobileMenu = document.querySelector('.mob-me-all');
+            const closeBtn = document.querySelector('.mob-me-clo');
+            
+            // Select all Headers and List Items inside the mobile menu
+            const animateItems = document.querySelectorAll('.mob-me-all .mv-bus h4, .mob-me-all .mv-bus ul li');
+
+            function openMenu() {
+                mobileMenu.classList.add('act');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+                // Apply staggered delays dynamically
+                animateItems.forEach((item, index) => {
+                    item.style.transitionDelay = (index * 0.05) + 's'; // 0.05s delay per item
+                    // Slight timeout to ensure class is added after display block
+                    setTimeout(() => {
+                        item.classList.add('anim-active');
+                    }, 50);
+                });
+            }
+
+            function closeMenu() {
+                mobileMenu.classList.remove('act');
+                document.body.style.overflow = 'auto';
+
+                // Reset animations
+                animateItems.forEach((item) => {
+                    item.style.transitionDelay = '0s'; // Remove delay so they disappear instantly or normally
+                    item.classList.remove('anim-active');
+                });
+            }
+
+            if(menuTrigger) {
+                menuTrigger.addEventListener('click', openMenu);
+            }
+
+            if(closeBtn) {
+                closeBtn.addEventListener('click', closeMenu);
+            }
+        });
+    </script>
+</body>
+</html>

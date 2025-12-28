@@ -212,7 +212,7 @@ $attempt = isset($_POST['attempt']) ? $_POST['attempt'] : 3;
 
         <div class="form-tit" style="border:0px">
             <p class="text-center mt-5">Don't have an account?
-                <a href="sign-up.php" class="linkbold pink">Sign Up Now</a>
+                <a href="sign-up.php" class="linkbold pink" style="font-weight: 800;">Sign Up Now</a>
             </p>
         </div>
     </form>

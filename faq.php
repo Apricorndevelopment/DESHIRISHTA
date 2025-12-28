@@ -26,7 +26,7 @@ include 'config.php';
         <div class="login inn ab-faq-lhs bg-transparent pt-0">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4 col-lg-3">
+                    <!-- <div class="col-md-4 col-lg-3">
                         <div class="col-md-12 db-sec-com">
                             <div class="db-nav">
                                 <div class="db-nav-pro text-center mb-2"><img src="images/gif/faq.gif" class="img-fluid" alt="" style="width:50%"></div>
@@ -52,7 +52,80 @@ include 'config.php';
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+                    <div class="col-12 d-md-none mb-3">
+    <button class="btn btn-danger w-40 d-flex align-items-center justify-content-center gap-2 p-3 shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileFaqSidebar" aria-controls="mobileFaqSidebar" style="position: fixed;
+    z-index: 10;
+    top: 100px;
+        background-color: #7a5050;
+        color:white;
+        border:3px solid goldenrod;
+        ">
+        <span class="material-symbols-outlined">menu_open</span>
+        <span style="  color:white;">FAQ Topic</span>
+    </button>
+</div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileFaqSidebar" aria-labelledby="mobileFaqSidebarLabel">
+    <div class="offcanvas-header bg-light">
+        <h5 class="offcanvas-title fw-bold text-danger" id="mobileFaqSidebarLabel">
+            <span class="material-symbols-outlined align-middle me-1">help</span> FAQ Topics
+        </h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <div class="db-nav-list">
+            <ul class="nav nav-tabs profiletabs flex-column" role="tablist">
+                <li><a class="nav-link active border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq1"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>About Desi Rishta</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq2"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Registration Process</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq3"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Sign In/Forgot Password</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq4"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Log Out Process</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq5"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Managing Profile</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq6"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Manage Photos</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq7"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Contact Information</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq8"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Finding Matches</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq9"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Privacy Settings</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq10"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Block/Report Feature</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq11"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>WhatsApp Sharing</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq12"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Technical Issues</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq13"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Grievances</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Terms and Conditions</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Privacy Policies</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq16"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Cookies Policies</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4 col-lg-3 d-none d-md-block">
+    <div class="col-md-12 db-sec-com">
+        <div class="db-nav">
+            <div class="db-nav-pro text-center mb-2">
+                <img src="images/gif/faq.gif" class="img-fluid" alt="" style="width:50%">
+            </div>
+            <div class="db-nav-list">
+                <ul class="nav nav-tabs profiletabs" role="tablist">
+                    <li><a class="nav-link active border-0" data-bs-toggle="tab" href="#faq1"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;About Desi Rishta </a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq2"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Registration Process</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq3"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Sign In/Forgot Password</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq4"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Log Out Process</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq5"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Managing Profile</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq6"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Manage Photos</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq7"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Contact Information</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq8"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Finding Matches</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq9"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Privacy Settings</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq10"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Block/Report Feature</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq11"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;WhatsApp Sharing</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq12"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Technical Issues </a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq13"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Grievances</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Terms and Conditions</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Privacy Policies</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq16"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Cookies Policies</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
                     <div class="col-md-8 col-lg-8">
                         <div class="row">
                             <div class="col-md-12 db-sec-com profileform">

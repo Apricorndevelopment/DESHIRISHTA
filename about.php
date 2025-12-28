@@ -350,6 +350,7 @@ include 'footer.php';
 .team-slider .slick-dots li {
     display: inline-block;
     margin: 0 5px;
+    padding: 7px;
 }
 
 .team-slider .slick-dots li button {
@@ -493,7 +494,7 @@ $(document).ready(function() {
 
 /* Dots ko style karna */
 .testimonial-slider .slick-dots {
-    bottom: -15px; /* Dots ko slider se thoda neeche karein */
+    bottom: 0px; /* Dots ko slider se thoda neeche karein */
     position: relative;
     padding-top: 30px;
     margin-left: 240px;

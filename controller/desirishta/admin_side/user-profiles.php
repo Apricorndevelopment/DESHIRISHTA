@@ -165,7 +165,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-pending text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_pending; ?></h2>
-                            <span class="stat-title">Pending</span>
+                            <span class="stat-title">User Profile Pending</span>
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-approved text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_approved; ?></h2>
-                            <span class="stat-title">Approved</span>
+                            <span class="stat-title">User Profile Approved</span>
                         </div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-deactive text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_deactive; ?></h2>
-                            <span class="stat-title">Deactivated</span>
+                            <span class="stat-title">User Profile Deactivated</span>
                         </div>
                     </div>
                 </div>
@@ -189,7 +189,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-deleted text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_deleted; ?></h2>
-                            <span class="stat-title">Deleted</span>
+                            <span class="stat-title">User Profile Deleted</span>
                         </div>
                     </div>
                 </div>
@@ -205,7 +205,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                 <div class="avatar-content"><i data-feather="clock" class="text-warning font-medium-4"></i></div>
                             </div>
                             <h2 class="stat-count text-warning"><?php echo $count_doc_pending; ?></h2>
-                            <span class="stat-title">Docs Pending Review</span>
+                            <span class="stat-title">ID Verification Review</span>
                         </div>
                     </div>
                 </div>
@@ -216,7 +216,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                 <div class="avatar-content"><i data-feather="check-circle" class="text-info font-medium-4"></i></div>
                             </div>
                             <h2 class="stat-count text-info"><?php echo $count_doc_verified; ?></h2>
-                            <span class="stat-title">Docs Verified</span>
+                            <span class="stat-title">ID Verification Verified</span>
                         </div>
                     </div>
                 </div>
@@ -227,7 +227,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                 <div class="avatar-content"><i data-feather="x-circle" class="text-danger font-medium-4"></i></div>
                             </div>
                             <h2 class="stat-count text-danger"><?php echo $count_doc_declined; ?></h2>
-                            <span class="stat-title">Docs Declined</span>
+                            <span class="stat-title"> ID Verification Declined</span>
                         </div>
                     </div>
                 </div>

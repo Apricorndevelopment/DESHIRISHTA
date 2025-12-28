@@ -131,7 +131,7 @@ include 'header.php';
 </div>
                                             <button type="button" id="mobileverifybtn" class="btn btn-primary" style="">Register Free &nbsp;<i class="fa fa-arrow-right"></i></button>
                                             <div class="form-tit" style="border:0px">
-                                            <p class="text-center mt-5">Already have an account? <a href="login.php" class="linkbold pink">Sign In</a></p>
+                                            <p class="text-center mt-5">Already have an account? <a href="login.php" class="linkbold pink" style="font-weight: 800;">Sign In</a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -382,6 +382,12 @@ include 'header.php';
                                                 </span>
                                                 <p class="text-danger errorstatement" id="drinkingerror" style="display:none">Please Select Drinking Habits</p>
                                             </div>
+                                            <div style="font-size:14px; color:#555; margin-top:10px; text-align: center;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
+
                                             <button type="button" id="astrodetailsbtn" class="btn btn-primary">Continue</button>
                                         </div>
                                     </div>
@@ -446,6 +452,11 @@ include 'header.php';
                                                 </span>
                                                  <p class="text-danger errorstatement" id="manglikerror" style="display:none">Please Select Dosh/Dosham</p>
                                             </div>
+                                           <div style="font-size:14px; color:#555; margin-top:10px; text-align: center;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
                                             <button type="button" id="religiousbackgroundbtn" class="btn btn-primary">Continue</button>
                                             <p class="errorstatement text-white notebox" id="ageerror" style="display:none"></p>
                                         </div>
@@ -533,6 +544,11 @@ include 'header.php';
                                             <?php
                                             }
                                             ?>
+                                                                                       <div style="font-size:14px; color:#555; margin-top:10px; text-align: center;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
                                             <button type="button" id="educationcareerbtn" class="btn btn-primary">Continue</button>
                                         </div>
                                     </div>
@@ -719,6 +735,11 @@ include 'header.php';
                                                 </span>
                                                 <p class="text-danger errorstatement" id="annualincomeerror" style="display:none">Please Enter Annual Income</p>
                                             </div>
+                                                                                       <div style="font-size:14px; color:#555; margin-top:10px; text-align: center;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
                                             <button type="button" id="familydetailsbtn" class="btn btn-primary">Continue</button>
                                         </div>
                                     </div>
@@ -884,6 +905,11 @@ include 'header.php';
                                             <?php
                                             }
                                             ?>
+                                                                                       <div style="font-size:14px; color:#555; margin-top:10px; text-align: center;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
                                             <button type="button" id="groomlocationbtn" class="btn btn-primary">Continue</button>
                                         </div>
                                     </div>
@@ -997,6 +1023,11 @@ include 'header.php';
                                                 <?php
                                                 }
                                                 ?>
+                                                                                           <div style="font-size:14px; color:#555; margin-top:10px; text-align: center;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
                                                 <button type="button" id="aboutmebtn" class="btn btn-primary">Continue</button>
                                                 <!--<button type="submit" id="createaccount" class="btn btn-primary">Create Profile</button>-->
                                             </div>
@@ -1046,6 +1077,11 @@ include 'header.php';
                                                     <div id="autotext" class=" text-justify" style="display:none"><span class="personname">[User Name]</span>, <span id="personage">[Age]</span> years old and <span id="personheight">[Height]</span>, is based in <span id="personcity">[City]</span>, <span id="personstate">[State]</span> and follows the <span id="personreligion">[Religion]</span> faith, belonging to the <span id="personcaste">[Caste]</span> community. <span class="personintial">[He/She as per Male/Female]</span> leads a lifestyle of <span id="personeating">[Eating Habits], [Drinking Habits], and [Smoking Habits]</span>, with his horoscope indicating <span id="personmaglik">[Dosham Status]</span>. <span class="personintial">[He/She as per Male/Female]</span> holds a qualification of <span id="personeducation">[Highest Education]</span> and works with <span id="personworking">[Working With]</span> as a <span class="personprofession">[Designation]</span> with an impressive annual income of <span id="personincome">[Annual Income]</span>. He comes from a <span id="personfamilystatus">[Family Status]</span> and <span id="personfamilytype">[Family Type]</span> family. His father, <span id="personfather">[Father Name]</span>, is a <span id="personfatherocc">[Father's occupation]</span>, and his mother, <span id="personmother">[Mother Name]</span>, is a <span id="personmotherocc">[Mother Occupation]</span>. <span class="personname">[User Name]</span>s family values love, respect, and tradition. <span class="personname">[User Name]</span> is a perfect blend of ambition and grounded values. <span class="personintial">[He/She as per Male/Female]</span> is now ready to embark on a new chapter of life with a loving and supportive partner, making him an ideal match for a meaningful and fulfilling relationship.
                                                         <p class="text-danger errorstatement" id="aboutmeerror" style="display:none"></p>
                                                     </div>
+                                                                                               <div style="font-size:14px; color:#555; margin-top:10px; text-align: center;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
                                                     <button type="button" id="profilepicbtn" class="btn btn-primary">Continue</button>
                                                     <!--<button type="submit" id="createaccount" class="btn btn-primary">Create Profile</button>-->
                                                 </div>
@@ -1085,6 +1121,12 @@ include 'header.php';
                                                     <p class=""><span class="text-danger">Supports:</span> PNG, JPG and JPEG</p>
                                                     <p class="text-danger errorstatement" id="profileimageerror" style="display:none">Please Select Profile Picture</p>
                                                 </div>
+                                                <div style="font-size:14px; color:#555; margin-top:10px; text-align: CENTER;">
+    Your Information & Pictures will be 
+    <span style="color:#28a745; font-weight:600;">100% Safe</span><br>
+    Privacy controls are available in Settings
+</div>
+
                                                 <button type="submit" id="createaccount" class="btn btn-primary">Create Profile</button>
                                             </div>
                                         </div>

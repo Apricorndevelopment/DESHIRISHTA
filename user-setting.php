@@ -266,7 +266,7 @@ document.querySelector(".close-modal-btn").onclick = function() {
                                                         <a href="logout.php" class="set-sig-out">Sign Out</a>
                                                     </div>
                                                 </li>
-                                                <li>
+                                                <!-- <li>
                                                     <div class="sett-lef">
                                                         <div class="sett-rad-left">
                                                             <h5>Profile Privacy </h5>
@@ -281,8 +281,8 @@ document.querySelector(".close-modal-btn").onclick = function() {
                                                             </select>
                                                         </div>
                                                     </div>
-                                                </li>
-                                                <li>
+                                                </li> -->
+                                                <!-- <li>
                                                     <div class="sett-lef">
                                                         <div class="sett-rad-left">
                                                             <h5>Photo Privacy </h5>
@@ -302,12 +302,12 @@ document.querySelector(".close-modal-btn").onclick = function() {
     
                                                         </div>
                                                     </div>
-                                                </li>
+                                                </li> -->
                                                 <li>
                                                     <div class="sett-lef">
                                                         <div class="sett-rad-left">
                                                             <h5>Contact Privacy </h5>
-                                                            <p>You can set-up who can able to view your phone no.</p>
+                                                            <p> You can control who is allowed to view your phone number</p>
                                                         </div>
                                                     </div>
                                                     
@@ -388,7 +388,7 @@ if(isset($_POST['action']) && $userid != '') {
                                                         </div>
                                                     </div>
                                                 </li>
-                                                <li>
+                                                <!-- <li>
                                                     <div class="sett-lef">
                                                         <div class="sett-rad-left">
                                                             <h5>Profile sharing using WhatsApp </h5>
@@ -399,12 +399,61 @@ if(isset($_POST['action']) && $userid != '') {
                                                         <div class="sett-select-drop">
                                                             <select>
                                                                 <option value="all_members">Enable to all the members</option>
-                                                                <option value="visited_members">Enable to visitors only</option>
+                                                                
                                                                 <option value="hide">Disable to all the members</option>
                                                             </select>
                                                         </div>
                                                     </div>
-                                                </li>
+                                                </li> -->
+                                                <li>
+    <div class="sett-lef">
+        <div class="sett-rad-left">
+            <h5>Profile Sharing Privacy </h5>
+            <p>You can control who is allowed to send you messages on various platforms</p>
+        </div>
+    </div>
+    <div class="sett-rig">
+        <div class="sett-select-drop">
+            <select id="whatsapp_privacy">
+                <option value="all_members" <?php if($rowprofile['whatsapp_privacy'] == "all_members" || $rowprofile['whatsapp_privacy'] == "") echo "selected"; ?>>
+                    Enable to all members
+                </option>
+                <option value="hide" <?php if($rowprofile['whatsapp_privacy'] == "hide") echo "selected"; ?>>
+                    Disable (Hide Share Buttons)
+                </option>
+            </select>
+            
+            <p id="wa-privacy-message" style="color: green; font-size: 14px; display:none; margin-top:5px;">
+                <i class="fa fa-check"></i> Updated!
+            </p>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('whatsapp_privacy').addEventListener('change', function () {
+        let selectedValue = this.value;
+        let action = (selectedValue === 'all_members') ? 'wa_privacy_all' : 'wa_privacy_hide';
+
+        let formData = new FormData();
+        formData.append('action', action);
+
+        fetch("ajax-update-privacy.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.text())
+        .then(data => {
+            if(data.trim() === "success") {
+                let msg = document.getElementById("wa-privacy-message");
+                msg.style.display = "block";
+                setTimeout(() => { msg.style.display = "none"; }, 2000);
+            } else {
+                alert("Error updating privacy settings.");
+            }
+        });
+    });
+    </script>
+</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -503,8 +552,14 @@ if(isset($_POST['action']) && $userid != '') {
                                                                             <input type="hidden" name="userid" value="<?php echo $userid; ?>">
                                                                             <input type="password" class="form-control leftspace pl-10" id="newpass" placeholder="Enter New Password" name="password" required>
                                                                             <span class="material-symbols-outlined icon1" style="font-size: 15px;">lock</span>
-                                                                            <span class="material-symbols-outlined iconright1" id="openid" style="font-size: 15px;">visibility</span>
-                                                                            <span class="material-symbols-outlined iconright1" id="closeeye" style="display:none;" style="font-size: 15px;">visibility_off</span>
+                                                                        <span class="material-symbols-outlined iconright1" 
+      id="new_openeye" 
+      style="font-size:15px; cursor:pointer;">visibility</span>
+
+<span class="material-symbols-outlined iconright1" 
+      id="new_closeeye" 
+      style="display:none; font-size:15px; cursor:pointer;">visibility_off</span>
+
                                                                         </span>
                                                                         <p class="text-danger errorstatement fs-12" id="newpasserror" style="display:none">Please Enter New Password.</p>
                                                                         <p class="mb-2 errorstatement fs-12" id="charlen" style="display:none"  style="display:none"><i class="fa fa-exclamation-circle" id="charlenexclamation"></i><i class="fa fa-check" id="charlencheck" style="display:none"></i>&nbsp;Password must be 6-20 characters long</p>
@@ -519,8 +574,14 @@ if(isset($_POST['action']) && $userid != '') {
                                                                         <span class="iconbox">
                                                                             <input type="password" class="form-control leftspace pl-10" id="comfrimpass" placeholder="Enter Confirm Password" name="cpassword" required>
                                                                             <span class="material-symbols-outlined icon1" style="font-size: 15px;">lock</span>
-                                                                            <span class="material-symbols-outlined iconright1" id="openid" style="font-size: 15px;">visibility</span>
-                                                                            <span class="material-symbols-outlined iconright1" id="closeeye" style="display:none;" style="font-size: 15px;">visibility_off</span>
+                                                                         <span class="material-symbols-outlined iconright1" 
+      id="confirm_openeye" 
+      style="font-size:15px; cursor:pointer;">visibility</span>
+
+<span class="material-symbols-outlined iconright1" 
+      id="confirm_closeeye" 
+      style="display:none; font-size:15px; cursor:pointer;">visibility_off</span>
+
                                                                         </span>
                                                                         <p class="text-danger errorstatement fs-12" id="comfrimpasserror" style="display:none">Please Enter Confirm Password</p>
                                                                         <p class="text-danger errorstatement fs-12" id="notmatched" style="display:none"><i class="fa fa-exclamation-circle"></i>&nbsp;The Password you entered do not match</p>
@@ -534,6 +595,51 @@ if(isset($_POST['action']) && $userid != '') {
                                                             </ul>
                                                         </form>
                                                     </div>
+                                                    <style>
+                                                        .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+                                                    </style>
+                                                    <script>
+/* New Password Eye */
+document.getElementById("new_openeye").onclick = function () {
+    document.getElementById("newpass").type = "text";
+    this.style.display = "none";
+    document.getElementById("new_closeeye").style.display = "inline";
+};
+
+document.getElementById("new_closeeye").onclick = function () {
+    document.getElementById("newpass").type = "password";
+    this.style.display = "none";
+    document.getElementById("new_openeye").style.display = "inline";
+};
+
+/* Confirm Password Eye */
+document.getElementById("confirm_openeye").onclick = function () {
+    document.getElementById("comfrimpass").type = "text";
+    this.style.display = "none";
+    document.getElementById("confirm_closeeye").style.display = "inline";
+};
+
+document.getElementById("confirm_closeeye").onclick = function () {
+    document.getElementById("comfrimpass").type = "password";
+    this.style.display = "none";
+    document.getElementById("confirm_openeye").style.display = "inline";
+};
+</script>
+
                                                 </li>
                                                 
                                             </ul>
@@ -646,7 +752,13 @@ if(isset($_POST['action']) && $userid != '') {
 
                 <form method="post" id="deactivateForm">
                     <input type="hidden" name="user_action" value="deactivate">
-                    <select name="duration" class="form-control" onchange="if(confirm('Are you sure you want to deactivate?')){ document.getElementById('deactivateForm').submit(); }">
+                    <select name="duration" class="form-control" onchange="if(confirm('Are you sure you want to deactivate?')){ document.getElementById('deactivateForm').submit(); }" style="    border: 1px solid #d3d3d3;
+    height: 28px;
+    padding: 5px 7px;
+    margin-top: -7px;
+    border-radius: 2px;
+    width: 100%;
+    FONT-SIZE: 13PX;">
                         <option value="">Select Action</option>
                         <option value="temp">Deactivate Profile</option>
                     </select>

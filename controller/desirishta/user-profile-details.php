@@ -295,48 +295,76 @@ if($loginid == $profileid) {
                             <div class="premium-divider"></div>
 
                             <!-- Share Section -->
-                            <div class="share-title">Share Profile</div>
+<div class="share-title">Share Profile</div>
                          
-<div class="premium-actions">
-    <a href="#!" onclick="shareTo('whatsapp')" class="p-action-btn icon-wa">
-        <i class="bi bi-whatsapp"></i>
-    </a>
+                            <?php
+                            // Get Privacy Setting
+                            $wa_privacy = $rowregistration['whatsapp_privacy']; 
+                            
+                            // Condition: Show buttons ONLY IF privacy is NOT 'hide' OR if Viewer is the Owner
+                            if($wa_privacy != 'hide' || $loginid == $profileid) { 
+                            ?>
 
-    <a href="#!" onclick="shareTo('facebook')" class="p-action-btn icon-fb">
-        <i class="bi bi-facebook"></i>
-    </a>
+                                <div class="premium-actions">
+                                    <a href="#!" onclick="shareTo('whatsapp')" class="p-action-btn icon-wa">
+                                        <i class="bi bi-whatsapp"></i>
+                                    </a>
 
-    <a href="#!" onclick="shareTo('instagram')" class="p-action-btn icon-in">
-        <i class="bi bi-instagram"></i>
-    </a>
+                                    <a href="#!" onclick="shareTo('facebook')" class="p-action-btn icon-fb">
+                                        <i class="bi bi-facebook"></i>
+                                    </a>
 
-    <a href="#!" onclick="shareTo('twitter')" class="p-action-btn icon-in">
-        <i class="bi bi-twitter-x"></i>
-    </a>
-</div>
+                                    <a href="#!" onclick="shareTo('instagram')" class="p-action-btn icon-in">
+                                        <i class="bi bi-instagram"></i>
+                                    </a>
+
+                                    <a href="#!" onclick="shareTo('twitter')" class="p-action-btn icon-in">
+                                        <i class="bi bi-twitter-x"></i>
+                                    </a>
+                                </div>
+                            
+                            <?php } else { ?>
+                                
+                                <div class="alert alert-secondary" style="font-size: 13px; background: #f8f9fa; border: 1px dashed #ccc;">
+                                    <i class="fa fa-lock"></i> Sharing is disabled by this user.
+                                </div>
+
+                            <?php } ?>
+
 <script>
 function shareTo(platform) {
 
-    // Current Page URL
     let url = window.location.href;
 
-    // Copy to Clipboard
-    navigator.clipboard.writeText(url);
+    // 🔹 SAVE SHARE COUNT
+    fetch('ajax-share-count.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'platform=' + platform + '&profileid=<?php echo $profileid; ?>'
+    });
 
-    // Social Share Links
-    let shareLinks = {
-        whatsapp: "https://api.whatsapp.com/send?text=Check this profile: " + url,
+    // 🔹 SHARE LINKS
+    let links = {
+        whatsapp: "https://api.whatsapp.com/send?text=" + encodeURIComponent(
+            "Hi There,\n" +
+            "Please check this profile: " + url + "\n" +
+            "Sign In to explore more profiles.\n\n" +
+            "Thanks and Regards,\n" +
+            "Team Desi Rishta"
+        ),
         facebook: "https://www.facebook.com/sharer/sharer.php?u=" + url,
-        instagram: "https://www.instagram.com/?url=" + url,  // Instagram does not support direct share, opens app
-        twitter: "https://twitter.com/intent/tweet?text=Check this profile: " + url
+        instagram: "https://www.instagram.com/?url=" + url,
+        twitter: "https://twitter.com/intent/tweet?text=" + encodeURIComponent(
+            "Please check this profile: " + url
+        )
     };
 
-    // Open in new tab
-    if (shareLinks[platform]) {
-        window.open(shareLinks[platform], "_blank");
+    if (links[platform]) {
+        window.open(links[platform], "_blank");
     }
 }
 </script>
+
 
                             <!-- Copy Link Section -->
  <div class="copy-link-wrapper">
@@ -1474,7 +1502,15 @@ function shareTo(platform) {
 
     // 🔹 SHARE LINKS
     let links = {
-        whatsapp: "https://api.whatsapp.com/send?text=" + url,
+    whatsapp: "https://api.whatsapp.com/send?text=" + encodeURIComponent(
+    "Hi There,\n\n" +
+    "Please check this profile:\n" +
+    url + "\n\n" +
+    "Sign In to explore more profiles.\n\n" +
+    "Thanks and Regards,\n" +
+    "Team Desi Rishta"
+),
+
         facebook: "https://www.facebook.com/sharer/sharer.php?u=" + url,
         instagram: "https://www.instagram.com/?url=" + url,
         twitter: "https://twitter.com/intent/tweet?url=" + url

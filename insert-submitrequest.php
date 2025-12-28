@@ -3,9 +3,10 @@
 include('config.php'); 
 
 // Zaroori: PHPMailer classes ko include karein
-require '../PHPMailer/Exception.php';
-require '../PHPMailer/PHPMailer.php';
-require '../PHPMailer/SMTP.php'; 
+// Adjusted paths to match the file structure (removed ../ as both are in root)
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php'; 
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -32,6 +33,7 @@ $message = mysqli_real_escape_string($con, $_POST['message']);
 // 2. DATABASE MEIN DATA DAALNA (Database Insertion in contact_us)
 // ----------------------------------------------------
 // contact_us table mein phone column nahi hai, isliye sirf zaruri fields use honge
+// Note: Assuming 'contact_us' table exists. If using 'tbl_contact', change table name here.
 $sql = "INSERT INTO contact_us (name, email, category, message, status) 
         VALUES ('$name', '$email', '$category', '$message', 'New')"; 
 
@@ -55,7 +57,7 @@ if (mysqli_query($con, $sql)) {
         */
 
         // Recipients
-        $admin_email = 'admin_email@yourwebsite.com'; // ⬅️ Apna Admin Email Yahan Dalein
+        $admin_email = 'support@desi-rishta.com'; // Defaulting to support email
         
         $mail->setFrom($email, $name); 
         $mail->addAddress($admin_email, 'Website Admin'); 

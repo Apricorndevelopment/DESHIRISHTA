@@ -236,7 +236,8 @@ h1,
 h1 b,
 h2,
 h2 span {
-    font-family: var(--tit-font);
+    /* font-family: var(--tit-font); */
+        font-family: 'cinzel decorative', cursive;
 }
 
 a {
@@ -1895,8 +1896,8 @@ i.fa-instagram:hover {
  
 }
 *{
-       /* font-family: "Cinzel Decorative", cursive; */
-    FONT-FAMILY: Playfair Display, serif;
+       font-family: "Cinzel Decorative", cursive;
+    /* FONT-FAMILY: Playfair Display, serif; */
 }
 /*-------------------------------------------------------*/
 /* ABOUT HOME
@@ -2280,7 +2281,7 @@ table td{}
 }
 
 .hom-cus-revi:before {
-    top: 10px;
+    top: -13px;
     bottom: initial;
 }
 
@@ -12658,7 +12659,7 @@ margin-left: -10px;
 .loginregister a {
     color:#fff;
     font-weight:500;
-    font-size:16px;
+    font-size:15px;
 }
 
 
@@ -13544,7 +13545,7 @@ background: #fff;
     .pro-pg-intro ul li div span strong {
         font-weight: 600;
         display: block;
-        font-size: 12px;
+        font-size: 10px;
     }
 }
 

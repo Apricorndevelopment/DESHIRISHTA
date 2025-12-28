@@ -1,18 +1,28 @@
 <?php include 'header.php'; ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Card Creator</title>
+
 <!-- Fabric JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.3.0/fontfaceobserver.standalone.js"></script>
 
 <style>
     /* --- Layout & General Styles --- */
     #ecard-creator {
         padding: 50px 0;
-        background: #fdfdfd;
+        background: linear-gradient(
+            to bottom,
+            #ffffff 0%,
+            #fedfdfda 45%,
+            #fedfdfd0 55%,
+            #ffffff 100%
+        );
         font-family: 'Lato', sans-serif;
-        margin-top: 100px;
+        margin-top: 50px;
     }
 
     /* Template Scroll */
@@ -21,7 +31,7 @@
         overflow-x: auto;
         gap: 15px;
         padding: 15px;
-        background: #fff;
+        background: #ffffff8f;
         border: 1px solid #eee;
         border-radius: 8px;
         margin-bottom: 25px;
@@ -52,7 +62,7 @@
 
     /* Controls Sidebar */
     .controls-box {
-        background: #ffffff;
+        background: #ffffff8e;
         padding: 25px;
         border-radius: 10px;
         box-shadow: 0 0 20px rgba(0,0,0,0.05);
@@ -100,7 +110,7 @@
         border: 1px solid #ddd;
         padding: 5px;
         border-radius: 6px;
-        background: #fff;
+        background: #ffffffab;
     }
     
     input[type="color"] {
@@ -114,7 +124,7 @@
 
     /* Buttons */
     .btn-ecard {
-        background: #f6af04;
+        background:brown;
         color: #fff;
         border: none;
         padding: 12px 20px;
@@ -127,13 +137,13 @@
     }
 
     .btn-ecard:hover {
-        background: #d69700;
-        color: #fff;
+        background: gold;
+        color:brown;
         box-shadow: 0 5px 15px rgba(246, 175, 4, 0.4);
     }
 
     .btn-secondary-custom {
-        background: #f8f9fa;
+        background: #f8f9fa9d;
         border: 1px solid #ddd;
         color: #333;
         padding: 8px 15px;
@@ -147,31 +157,54 @@
 
     /* Canvas Area */
     .canvas-wrapper {
-        background: #e9ecef;
+        /* background: #e9ecef; */
         padding: 30px;
         border-radius: 10px;
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        min-height: 600px;
-        box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        max-height: 1100px;
+        /* box-shadow: inset 0 0 20px rgba(0,0,0,0.05); */
         overflow: auto;
+
+    }
+    .canvas-wrapper::-webkit-scrollbar {
+        display: none;
     }
 
     .canvas-container {
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         background: white;
+        /* 🔥 FIXED: Only the container should be relative. */
+        /* The canvas elements inside MUST be absolute (handled by FabricJS) to stack correctly. */
+        position: relative !important;
     }
+    
+    /* Removed the rule that forced canvas to be relative, which broke interaction */
+    
+    /* Header Styles (from your structure) */
+    .home-tit h2 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 40px;
+        color: #d63384;
+        text-align: center;
+    }
+    .home-tit p { text-align: center; }
+    
 </style>
+</head>
+<body>
 
 <div id="ecard-creator">
     <div class="container">
         
         <!-- Header -->
         <div class="row mb-5">
-            <div class="col-12 text-center">
-                <h2 style="font-weight: 800; color: #333;">Wedding Invitation <span style="color: #f6af04;">Designer</span></h2>
-                <p class="text-muted">Choose a template and fill in the details below.</p>
+            <div class="col-12 home-tit">
+                <h2><span>Wedding Invitation</span></h2>
+                <p>Choose a template and fill in the details below.</p>
+                <span class="leaf1"></span>
+                <span class="tit-ani-"></span>
             </div>
         </div>
 
@@ -180,6 +213,7 @@
             <div class="col-12">
                 <h5 class="ec-label"><i class="fa fa-th-large"></i> Select Template</h5>
                 <div class="template-scroll-container">
+                    
                     <?php
                     // Fetch templates from database
                     if(isset($con)) {
@@ -196,6 +230,7 @@
                         echo '<p class="text-muted p-2">Database connection not found.</p>';
                     }
                     ?>
+                    
                 </div>
             </div>
         </div>
@@ -320,6 +355,12 @@
                         <button class="btn btn-ecard mt-2" onclick="downloadCard()">
                             <i class="fa fa-download"></i> Download Invitation
                         </button>
+                        <!-- <div class="d-flex gap-2 mb-2">
+                            <button class="btn btn-secondary-custom" onclick="zoomOut()">➖ Zoom Out</button>
+                            <button class="btn btn-secondary-custom" onclick="zoomIn()">➕ Zoom In</button>
+                            <button class="btn btn-secondary-custom" onclick="resetZoom()">🔄 Reset</button>
+                        </div> -->
+
                     </div>
 
                 </div>
@@ -335,12 +376,84 @@
         </div>
     </div>
 </div>
+<div class="zoom-controls">
+    <button class="btn btn-secondary-custom" onclick="zoomOut()">➖</button>
+    <button class="btn btn-secondary-custom" onclick="zoomIn()">➕</button>
+    <button class="btn btn-secondary-custom" onclick="resetZoom()">🔄</button>
+</div>
+<style>
+    .zoom-controls {
+    position: fixed;
+    bottom: 300px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;   /* column format */
+    gap: 10px;
+    z-index: 9999;
+    /* background-color: white;            sabke upar rahe */
+}
 
+.zoom-controls button {
+    min-width: 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.canvas-container {
+    position: relative !important;
+}
+
+
+</style>
 <script>
-    // --- Initialize Fabric Canvas ---
+      // --- Initialize Fabric Canvas ---
     var canvas = new fabric.Canvas('c', {
         preserveObjectStacking: true
     });
+  // =======================
+// 🔍 CANVAS ZOOM CONTROLS
+// =======================
+var currentZoom = 1;
+var zoomStep = 0.1;
+var minZoom = 0.4;
+var maxZoom = 2;
+
+function zoomIn() {
+    if (currentZoom < maxZoom) {
+        currentZoom += zoomStep;
+        applyZoom();
+    }
+}
+
+function zoomOut() {
+    if (currentZoom > minZoom) {
+        currentZoom -= zoomStep;
+        applyZoom();
+    }
+}
+
+function resetZoom() {
+    currentZoom = 1;
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]); // 🔥 HARD RESET
+    canvas.requestRenderAll();
+}
+function applyZoom() {
+
+    const zoom = currentZoom;
+
+    // 🔥 zoom at top-left (NOT center)
+    canvas.zoomToPoint(new fabric.Point(0, 0), zoom);
+
+    const vpt = canvas.viewportTransform;
+
+    // 👉 LEFT align (X axis)
+    vpt[4] = 20;   // left se gap (0 bhi rakh sakte ho)
+
+    // 👉 TOP align (Y axis)
+    vpt[5] = 20;
+
+    canvas.setViewportTransform(vpt);
+    canvas.requestRenderAll();
+}
+
 
     // Global variable to track current template
     var currentTemplateUrl = '';
@@ -373,7 +486,8 @@
                 scaleX: scale,
                 scaleY: scale,
                 originX: 'left',
-                originY: 'top'
+                originY: 'top',
+                crossOrigin: 'anonymous' // Enable CORS
             });
             
             // 2. Remove existing objects (cleanup)
@@ -517,7 +631,7 @@
     
     function updateControlsFromSelection() {
         var obj = canvas.getActiveObject();
-        if(obj && obj.type === 'i-text') {
+        if(obj && (obj.type === 'i-text' || obj.type === 'text')) {
             // Update Style Controls
             document.getElementById('font-family').value = obj.fontFamily;
             document.getElementById('text-color').value = obj.fill;
@@ -543,7 +657,7 @@
     // --- STYLE CONTROLS: Change Canvas Object ---
     document.getElementById('font-family').addEventListener('change', function () {
         var obj = canvas.getActiveObject();
-        if (!obj || obj.type !== 'i-text') return;
+        if (!obj || (obj.type !== 'i-text' && obj.type !== 'text')) return;
 
         obj.set({
             fontFamily: this.value,
@@ -629,7 +743,7 @@
 
     document.getElementById('text-color').addEventListener('input', function () {
         var obj = canvas.getActiveObject();
-        if (!obj || obj.type !== 'i-text') return;
+        if (!obj || (obj.type !== 'i-text' && obj.type !== 'text')) return;
 
         obj.set({
             fill: this.value,
@@ -641,7 +755,7 @@
 
     document.getElementById('font-size').addEventListener('input', function () {
         var obj = canvas.getActiveObject();
-        if (!obj || obj.type !== 'i-text') return;
+        if (!obj || (obj.type !== 'i-text' && obj.type !== 'text')) return;
 
         obj.set({
             fontSize: parseInt(this.value, 10),
@@ -714,3 +828,5 @@
 </script>
 
 <?php include 'footer.php'; ?>
+</body>
+</html>

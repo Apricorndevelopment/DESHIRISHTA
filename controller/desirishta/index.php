@@ -6,7 +6,21 @@ if(isset($_COOKIE['dr_userid']) && $_COOKIE['dr_userid'] != '')
 header('location:user-dashboard.php');
     exit;
 }
+$sql = "SELECT * FROM web_notifications WHERE status = 'active' ORDER BY id DESC LIMIT 1";
+$result = mysqli_query($con, $sql);
 
+if(mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    echo json_encode([
+        'status' => 'found',
+        'id' => $row['id'],
+        'title' => $row['title'],
+        'msg' => $row['message'],
+        'link' => $row['link']
+    ]);
+} else {
+    echo json_encode(['status' => 'empty']);
+}
 // 1. Default (static) values set karein
 $couples_paired = 200;
 $total_registrants = 1500;
@@ -80,6 +94,7 @@ $team_result = mysqli_query($con, $team_sql);
 
 </style>
     <!-- BANNER & SEARCH -->
+     
 <section>
         <div class="str">
             <div class="hom-head">
@@ -440,7 +455,7 @@ $team_result = mysqli_query($con, $team_sql);
     <div style="font-size: 15px; margin-bottom: 24px;">
         We use cookies and tracking technologies to enhance your browsing experience, deliver personalized ads, and analyse traffic.
         By clicking "Accept all cookies", you consent to our use of cookies.
-        For more details, visit our <a href="faqcookies.php" style="color: #fff; text-decoration:underline;" target="_blank">Cookie Policy</a>.
+        For more details, visit our <a href="faqcookies.php" style="color: #fcff3eff; text-decoration:underline; font-weight: 600;" target="_blank">Cookie Policy</a>.
     </div>
     <div style="display: flex; gap: 14px;">
         <button id="accept-cookies" style="background:#fff;color:#985b24;border:none;padding:10px 21px;border-radius:8px;font-weight:bold;cursor:pointer;transition:background 0.2s;">

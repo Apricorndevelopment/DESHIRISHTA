@@ -70,12 +70,7 @@ $pending_count = $pending_row['total_pending'];
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Header</span>
                 </a>
                 <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="promotion.php">
-                            <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate" data-i18n="Dashboards">Announcement</span>
-                        </a>
-                    </li>
+                 
                     <li>
                         <a class="d-flex align-items-center" href="logo.php">
                             <i data-feather="circle"></i>
@@ -262,6 +257,12 @@ $pending_count = $pending_row['total_pending'];
                             <span class="menu-title text-truncate" data-i18n="Dashboards">Approved Profiles</span>
                         </a>
                     </li>
+                        <li>
+                        <a class="d-flex align-items-center" href="userprofiles-deactivated.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">Profiles Deactivated</span>
+                        </a>
+                    </li>
                     
                 </ul>
                 
@@ -355,6 +356,15 @@ $pending_count = $pending_row['total_pending'];
                     <?php endif; ?>
     </a>
 </li>
+<li class="nav-item">
+    <a class="d-flex align-items-center" href="manage-ecards.php">
+        <i data-feather="credit-card"></i>
+        <span class="menu-title text-truncate">Manage E-Card</span>
+    </a>
+</li>
+<li class="nav-item"> <a class="d-flex align-items-center" href="manage-web-push.php"> <i data-feather="bell"></i>
+ <span class="menu-title text-truncate">Push Notification</span> </a> </li>
+
 
      <li class="nav-item">
     <a class="d-flex align-items-center" href="view-subscribers.php">
@@ -473,7 +483,22 @@ $pending_count = $pending_row['total_pending'];
                     <li>
                         <a class="d-flex align-items-center" href="view-contact-enquiries.php">
                             <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Contact Enquiries</span>
+                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Business Enquiries</span>
+                        </a>
+                    </li>
+                          <li>
+                        <a class="d-flex align-items-center" href="view-support.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Submit a Request
+
+</span>
+                        </a>
+                    </li>
+                          <li>
+                        <a class="d-flex align-items-center" href="view-review-rating.php.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Reviews & Ratings
+</span>
                         </a>
                     </li>
 
@@ -532,6 +557,7 @@ $pending_count = $pending_row['total_pending'];
         </li>
     </ul>
 </li> -->
+
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="mail"></i>
@@ -539,7 +565,12 @@ $pending_count = $pending_row['total_pending'];
                 </a>
 
                 <ul class="menu-content">
-
+                  <li>
+                        <a class="d-flex align-items-center" href="promotion.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">Announcement</span>
+                        </a>
+                    </li>
                     <!-- Create New Communication (Email or Banner) -->
                     <li>
                         <a class="d-flex align-items-center" href="create-communication.php">

@@ -70,21 +70,21 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
 
             <style>
                 .numberplate {
-                    background: #f5f5f5;
+                    background: #5c1b1bff;;
                     padding: 8px 14px;
                     display: inline-flex;
                     gap: 2px;
                     border-radius: 4px;
                     align-items: center;
                 }
-                .np-char {
-                    font-size: 20px;
-                    font-weight: 500;
-                    color: #ffc532ff;
-                    letter-spacing: 1px;
-                    display: inline-block;
-                    font-family: 'Playfair Display', serif;
-                }
+             .np-char {
+    font-size: 20px;
+    font-weight: 900;
+    color: #ffc941;
+    letter-spacing: 1px;
+    display: inline-block;
+    font-family: 'cinzel decorative', cursive;
+}
                 @media (max-width: 480px) {
                     .np-char { font-size: 22px; letter-spacing: 0.5px; }
                     .numberplate { padding: 6px 10px; gap: 3px; }

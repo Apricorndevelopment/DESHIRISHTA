@@ -1,4 +1,71 @@
     <!-- FOOTER -->
+     <div id="webPushPopup" style="display:none; position: fixed; bottom: 20px; right: 20px; width: 320px; background: #fff; border-left: 5px solid #E91E63; box-shadow: 0 5px 20px rgba(0,0,0,0.2); border-radius: 8px; padding: 20px; z-index: 99999; animation: slideIn 0.5s ease-out;">
+    <div style="display:flex; justify-content:space-between; align-items:start;">
+        <h5 id="wp-title" style="margin:0; font-size:16px; font-weight:700; color:#333;">Notification</h5>
+        <span onclick="closeWebPush()" style="cursor:pointer; color:#888; font-size:20px;">&times;</span>
+    </div>
+    <p id="wp-msg" style="margin: 10px 0; font-size:14px; color:#555; line-height: 1.4;"></p>
+    <a id="wp-link" href="#" style="display:inline-block; background:#E91E63; color:#fff; padding:8px 15px; text-decoration:none; font-size:12px; border-radius:4px;">Check Now</a>
+</div>
+
+<style>
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+</style>
+
+<script>
+// --- WEB PUSH LOGIC ---
+document.addEventListener("DOMContentLoaded", function() {
+    // Page load hone ke 2 second baad check karein
+    setTimeout(checkWebPush, 2000);
+});
+
+function checkWebPush() {
+    fetch('aj-check-notify.php')
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === 'found') {
+            
+            // Check karein ki user ne ye wala notification already close kiya hai kya
+            let seenId = localStorage.getItem('seen_push_id');
+            
+            if(seenId != data.id) {
+                // Show Popup
+                document.getElementById('wp-title').innerText = data.title;
+                document.getElementById('wp-msg').innerText = data.msg;
+                
+                let linkBtn = document.getElementById('wp-link');
+                if(data.link && data.link != '') {
+                    linkBtn.href = data.link;
+                    linkBtn.style.display = 'inline-block';
+                } else {
+                    linkBtn.style.display = 'none';
+                }
+
+                // Store current ID in element to use in close function
+                document.getElementById('webPushPopup').setAttribute('data-id', data.id);
+                document.getElementById('webPushPopup').style.display = 'block';
+                
+                // Sound play (Optional)
+                // let audio = new Audio('images/notification.mp3');
+                // audio.play().catch(e => console.log('Audio blocked'));
+            }
+        }
+    });
+}
+
+function closeWebPush() {
+    let popup = document.getElementById('webPushPopup');
+    let currentId = popup.getAttribute('data-id');
+    
+    // LocalStorage mein save kar lo ki ye ID dekh liya hai
+    localStorage.setItem('seen_push_id', currentId);
+    
+    popup.style.display = 'none';
+}
+</script>
     <section class="wed-hom-footer">
         <div class="container">
             <div class="row wed-foot-link wed-foot-link-1">
@@ -56,17 +123,41 @@
                 <div class="col-md-4 fot-soc">
                     <h4>SOCIAL MEDIA</h4>
                     <ul>
-                        <li><a href="#!"><img src="images/social/facebook.jpeg" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/instagram.png" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/linkedin.jpeg" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/twitter.jpeg" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/youtube.jpeg" alt="" loading="lazy"></a></li>
-                    </ul>
+                    <!-- I added 'data-platform' to each <a> to help the API find them -->
+                    <!-- 'onerror' is added just for this preview so you see icons instead of broken images -->
+                    <li>
+                        <a href="#!" data-platform="facebook">
+                            <img src="images/social/facebook.jpeg" alt="FB" loading="lazy" onerror="this.src='https://placehold.co/40x40/3b5998/white?text=f'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="instagram">
+                            <img src="images/social/instagram.png" alt="IG" loading="lazy" onerror="this.src='https://placehold.co/40x40/E1306C/white?text=Ig'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="linkedin">
+                            <img src="images/social/linkedin.jpeg" alt="IN" loading="lazy" onerror="this.src='https://placehold.co/40x40/0077b5/white?text=In'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="twitter">
+                            <img src="images/social/twitter.jpeg" alt="TW" loading="lazy" onerror="this.src='https://placehold.co/40x40/1DA1F2/white?text=Tw'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="youtube">
+                            <img src="images/social/youtube.jpeg" alt="YT" loading="lazy" onerror="this.src='https://placehold.co/40x40/FF0000/white?text=Yt'">
+                        </a>
+                    </li>
+                </ul>
                 </div>
             </div>
             <div class="row foot-count">
                 <!--<p>Desi Rishta - Trusted by over thousands of Boys & Girls for successfull marriage.</p>-->
-                <p>This website is strictly for matrimonial purpose only and not a dating website</p>
+                <p>Desi Rishta is a dedicated matrimonial platform for serious marriage seekers only and is not a dating website. 
+All profiles must reflect sincere marriage intentions.
+</p>
                 <?php
                 // if($_COOKIE['dr_userid'] == '')
 
@@ -91,7 +182,7 @@ if($useractive == '0')
                     <p class="pb-0">Copyright © <span><?php echo date('Y'); ?></span> <a href="#!" target="_blank">Desi-Rishta.com</a> All
                         rights reserved.</p>
                     <p class="pt-0">Crafted with
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart text-danger"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" style="color:rgb(200, 4, 108);"></path></svg> in Gurugram, India</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart text-danger"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" style="color:rgb(200, 4, 108);"></path></svg> By Apricorn Solution Sonipat, India</p>
                 </div>
             </div>
         </div>
@@ -231,7 +322,54 @@ if($useractive == '0')
     <script src="js/Chart.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/custom.js"></script> 
-    
+     <script>
+        // --- 1. MOCK API DATA ---
+        // Simulates the response from your backend
+        const mockApiData = {
+            success: true,
+            socials: {
+                facebook: 'https://www.facebook.com/YourPage',
+                instagram: 'https://www.instagram.com/YourPage',
+                linkedin: 'https://www.linkedin.com/company/YourPage',
+                twitter: 'https://twitter.com/YourPage',
+                youtube: 'https://www.youtube.com/c/YourPage'
+            }
+        };
+
+        // --- 2. FUNCTION TO ATTACH LINKS ---
+        function attachSocialLinks() {
+            const statusMsg = document.getElementById('status-msg');
+            
+            // Select all links inside your specific structure
+            const links = document.querySelectorAll('.fot-soc ul li a');
+
+            links.forEach(link => {
+                // Get the platform name from the attribute we added
+                const platform = link.getAttribute('data-platform');
+                
+                // If we have a URL for this platform in the API data...
+                if (platform && mockApiData.socials[platform]) {
+                    link.href = mockApiData.socials[platform];
+                    link.target = "_blank"; // Open in new tab
+                    link.rel = "noopener noreferrer"; // Security best practice
+                    
+                    console.log(`Updated ${platform} to ${mockApiData.socials[platform]}`);
+                }
+            });
+
+            // Update status text
+            if(statusMsg) {
+                statusMsg.innerText = "API Connected. Links Updated.";
+                statusMsg.style.color = "#28a745"; // Bootstrap success green
+            }
+        }
+
+        // Simulate network request delay (1 second)
+        setTimeout(() => {
+            attachSocialLinks();
+        }, 1000);
+
+    </script>
     <script>
          //COMMON SLIDER
     $('.slider').slick({
@@ -900,3 +1038,39 @@ $(document).ready(function () {
     }
 }
 </style>
+<script>
+const publicVapidKey = "BHfvtXOrMtJBEsTOQyYqEPG-db9j7Ynf-Wq2mxUj8HfXkpJNOBeSmW6xhOfjiyqygUVEZIWml31L3CcFZR--dMg";
+
+if ('serviceWorker' in navigator && 'PushManager' in window) {
+    navigator.serviceWorker.register('sw.js')
+    .then(reg => {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                subscribeUser(reg);
+            }
+        });
+    });
+}
+
+function subscribeUser(reg) {
+    reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    }).then(sub => {
+        fetch('save-subscription.php', {
+            method: 'POST',
+            body: JSON.stringify(sub),
+            headers: {'Content-Type': 'application/json'}
+        });
+    });
+}
+
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+}
+</script>
