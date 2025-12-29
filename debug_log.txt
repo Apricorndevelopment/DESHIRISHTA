@@ -547,3 +547,195 @@ Success: Data inserted into DB
 --- New Request at 2025-12-27 12:58:56 ---
 Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
 Success: Data inserted into DB
+--- New Request at 2025-12-29 05:00:42 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 05:00:49 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 05:00:58 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 05:01:09 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 05:39:37 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 05:40:02 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 05:51:29 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 05:51:33 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 06:49:10 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 06:49:23 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 06:51:23 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 06:51:35 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:03:03 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:03:07 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:03:22 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:05:06 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:07:06 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:09:29 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:09:33 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:25:07 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:26:05 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:26:14 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:31:01 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:31:47 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:31:53 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:38:30 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:38:34 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:38:59 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:43:38 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:45:50 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:45:55 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:55:32 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:55:37 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:55:42 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:55:56 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:56:54 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:56:57 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:59:11 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 07:59:16 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:06:30 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:06:34 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:12:35 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:12:40 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:13:01 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:16:49 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:16:57 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:27:22 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:27:40 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:28:09 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:28:13 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:28:27 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 08:28:32 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:35:41 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:35:58 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:36:01 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:37:13 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:46:30 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:46:42 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:50:05 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:50:07 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 09:50:39 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 10:45:43 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 10:46:05 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB
+--- New Request at 2025-12-29 10:46:19 ---
+Received Data: {"endpoint":"https://fcm.googleapis.com/fcm/send/cmDlXLUprAU:APA91bEs_2ljd0-_bnF3ufLZtfsIAtdBtAlPr149rJSglhACnA8WLI1Smb0AuKRhvlzkfxq5wzbJOuIY8keCxJcgZmKH3qad-QYE87SmW8XvqANX47-UtZbroIO5lMVleSrdFjYR-PrM","expirationTime":null,"keys":{"p256dh":"BFRaT4v-6Jaa2S0gyIB76M77RPxox2YZsxhvtamRgKtxK19uHecPhNT-jBBCfheTPzfyS5MAanRw45XgTDj8rsU","auth":"kmeDBSRB-nuMyq4NurJ63g"}}
+Success: Data inserted into DB

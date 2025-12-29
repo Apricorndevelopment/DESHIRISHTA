@@ -1,5 +1,3 @@
-<!-- BEGIN: Main Menu-->
-
 <?php
 include('config.php');
 
@@ -23,6 +21,7 @@ if ($pp_result && mysqli_num_rows($pp_result) > 0) {
     $pending_profiles_count = $pp_row['total'];
 }
 
+// 3. Pending Approval Count (Waitlist/Photos etc)
 $pending_sql = "
 SELECT COUNT(*) AS total_pending
 FROM registration
@@ -35,7 +34,17 @@ WHERE
 $pending_result = mysqli_query($con, $pending_sql);
 $pending_row = mysqli_fetch_assoc($pending_result);
 $pending_count = $pending_row['total_pending'];
+
+// 4. NEW: Pending Subscription Requests Count
+$sub_req_count = 0;
+$sub_req_query = "SELECT COUNT(id) AS total FROM tbl_subscription_requests WHERE status = 'Pending'";
+$sub_req_result = mysqli_query($con, $sub_req_query);
+if ($sub_req_result && mysqli_num_rows($sub_req_result) > 0) {
+    $sub_req_row = mysqli_fetch_assoc($sub_req_result);
+    $sub_req_count = $sub_req_row['total'];
+}
 ?>
+
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
@@ -70,7 +79,6 @@ $pending_count = $pending_row['total_pending'];
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Header</span>
                 </a>
                 <ul class="menu-content">
-                 
                     <li>
                         <a class="d-flex align-items-center" href="logo.php">
                             <i data-feather="circle"></i>
@@ -83,19 +91,12 @@ $pending_count = $pending_row['total_pending'];
                             <span class="menu-title text-truncate" data-i18n="Dashboards">Analytics-stats</span>
                         </a>
                     </li>
-
                     <li>
                         <a class="d-flex align-items-center" href="contact.php">
                             <i data-feather="circle"></i>
                             <span class="menu-title text-truncate" data-i18n="Dashboards">Contact</span>
                         </a>
                     </li>
-                    <!--<li>
-                            <a class="d-flex align-items-center" href="currency.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Currency</span>
-                            </a>
-                        </li>-->
                     <li>
                         <a class="d-flex align-items-center" href="sociallink.php">
                             <i data-feather="circle"></i>
@@ -104,38 +105,6 @@ $pending_count = $pending_row['total_pending'];
                     </li>
                 </ul>
             </li>
-
-            <!--<li class="nav-item">
-                    <a class="d-flex align-items-center" href="dashboard.php">
-                        <i data-feather="home"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Home Page</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li>
-                            <a class="d-flex align-items-center" href="banner.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Banners</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="threebox.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Small Banners</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="user"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">About Us</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="aboutus.php"><i data-feather="circle"></i><span class="menu-title text-truncate" data-i18n="Dashboards">About Us</span></a>
-                        </li>
-                    </ul>
-                </li>-->
 
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="heart"></i><span class="menu-title text-truncate" data-i18n="Couples">Couples</span></a>
                 <ul class="menu-content">
@@ -156,6 +125,30 @@ $pending_count = $pending_row['total_pending'];
                     </li>
                 </ul>
             </li>
+
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="dollar-sign"></i>
+                    <span class="menu-title text-truncate">Subscription Mgmt</span>
+                    <?php if ($sub_req_count > 0): ?>
+                        <span class="badge badge-light-danger rounded-pill ms-auto"><?php echo $sub_req_count; ?></span>
+                    <?php endif; ?>
+                </a>
+                <ul class="menu-content">
+                    <li>
+                        <a class="d-flex align-items-center" href="manage-plans.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">Manage Plans</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="d-flex align-items-center" href="subscription-requests.php">
+                            <i data-feather="circle"></i>
+                            <span class="menu-item text-truncate">View Requests</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Team">Our Team</span></a>
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="add-team.php"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add Member">Add Member</span></a>
@@ -171,56 +164,6 @@ $pending_count = $pending_row['total_pending'];
                 </ul>
             </li>
 
-            <!--<li class=" nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="package"></i>
-                        <span class="menu-title text-truncate" data-i18n="Invoice">Inventroy</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="viewproducts.php"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">View Products</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="addproduct.php"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add Product</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="addcategories.php"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Preview">Categories</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="addattribute.php"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Attributes</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="archive"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Orders</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li>
-                            <a class="d-flex align-items-center" href="vieworders.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">View Orders</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="archive"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Product Enquiry</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li>
-                            <a class="d-flex align-items-center" href="viewenquiry.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">View Enquiry</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="testimonial.php">
-                        <i data-feather="airplay"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Testimonials</span>
-                    </a>
-                </li>-->
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="users"></i>
@@ -236,15 +179,6 @@ $pending_count = $pending_row['total_pending'];
                             <span class="menu-title text-truncate" data-i18n="Dashboards">All Users</span>
                         </a>
                     </li>
-           
- 
-                
-        <!-- <li>
-                        <a class="d-flex align-items-center" href="x.php">
-                            <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate" data-i18n="Dashboards">All x Users</span>
-                        </a>
-                    </li> -->
                     <li>
                         <a class="d-flex align-items-center" href="userprofiles-pending.php">
                             <i data-feather="circle"></i>
@@ -257,21 +191,16 @@ $pending_count = $pending_row['total_pending'];
                             <span class="menu-title text-truncate" data-i18n="Dashboards">Approved Profiles</span>
                         </a>
                     </li>
-                        <li>
+                    <li>
                         <a class="d-flex align-items-center" href="userprofiles-deactivated.php">
                             <i data-feather="circle"></i>
                             <span class="menu-title text-truncate" data-i18n="Dashboards">Profiles Deactivated</span>
                         </a>
                     </li>
-                    
                 </ul>
-                
             </li>
-            
 
-
-
- <li class="nav-item">
+            <li class="nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="users"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Dummy Profiles</span>
@@ -283,41 +212,20 @@ $pending_count = $pending_row['total_pending'];
                             <span class="menu-title text-truncate" data-i18n="Dashboards">All Users</span>
                         </a>
                     </li>
-           
- 
-                
-        <!-- <li>
-                        <a class="d-flex align-items-center" href="x.php">
-                            <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate" data-i18n="Dashboards">All x Users</span>
-                        </a>
-                    </li> -->
                     <li>
                         <a class="d-flex align-items-center" href="add-dummy.php">
                             <i data-feather="circle"></i>
                             <span class="menu-title text-truncate" data-i18n="Dashboards">Add profile </span>
                         </a>
                     </li>
-                    <!-- <li>
-                        <a class="d-flex align-items-center" href="userprofiles-approved.php">
-                            <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate" data-i18n="Dashboards">Approved Profiles</span>
-                        </a>
-                    </li> -->
-                    
                 </ul>
-                
             </li>
 
-      <li class="nav-item">
-               <a class="d-flex align-items-center" href="#">
-                <i data-feather="tool"></i> 
-                <span class="menu-title text-truncate" data-i18n="Dashboards">Manage Dropdown Data</span>
-            </a>
-                        
-           
-   
-
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather="tool"></i>
+                    <span class="menu-title text-truncate" data-i18n="Dashboards">Manage Dropdown Data</span>
+                </a>
                 <ul class="menu-content">
                     <li>
                         <a class="d-flex align-items-center" href="manage-basic-options.php">
@@ -331,13 +239,13 @@ $pending_count = $pending_row['total_pending'];
                             <span class="menu-item text-truncate">Religious Dropdown</span>
                         </a>
                     </li>
-                  <li>
+                    <li>
                         <a class="d-flex align-items-center" href="manage-education-attributes.php">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Education Attributes</span>
                         </a>
                     </li>
-                       <li>
+                    <li>
                         <a class="d-flex align-items-center" href="manage-location-attributes.php">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Groom Location </span>
@@ -345,131 +253,34 @@ $pending_count = $pending_row['total_pending'];
                     </li>
                 </ul>
             </li>
-<li class="nav-item">
-    <a class="d-flex align-items-center" href="pending-approvals.php">
-        <i data-feather="check-square"></i>
-        <span class="menu-title text-truncate">Moderative Approvals</span>
-
-      
-          <?php if ($pending_count > 0): ?>
+            
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="pending-approvals.php">
+                    <i data-feather="check-square"></i>
+                    <span class="menu-title text-truncate">Moderative Approvals</span>
+                    <?php if ($pending_count > 0): ?>
                         <span class="badge badge-light-danger rounded-pill ms-auto"><?php echo $pending_count ?></span>
                     <?php endif; ?>
-    </a>
-</li>
-<li class="nav-item">
-    <a class="d-flex align-items-center" href="manage-ecards.php">
-        <i data-feather="credit-card"></i>
-        <span class="menu-title text-truncate">Manage E-Card</span>
-    </a>
-</li>
-<li class="nav-item"> <a class="d-flex align-items-center" href="manage-web-push.php"> <i data-feather="bell"></i>
- <span class="menu-title text-truncate">Push Notification</span> </a> </li>
-
-
-     <li class="nav-item">
-    <a class="d-flex align-items-center" href="view-subscribers.php">
-        <i data-feather="mail"></i>
-        <span class="menu-title text-truncate">Subscribers List</span>
-    </a>
-</li>
-           <!-- <li class=" nav-item">
-    <a class="d-flex align-items-center" href="view-approval.php">
-        <i data-feather="clock"></i>
-        <span class="menu-title text-truncate" data-i18n="Pending Approvals">View Approvals</span>
-    </a>
-</li> -->
-            
-            <!--<li class="nav-item">
-                    <a class="d-flex align-items-center" href="faqs.php">
-                        <i data-feather="help-circle"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Faq's</span>
-                    </a>
-                </li>
-                 <li class="nav-item">
-                    <a class="d-flex align-items-center" href="contactlead.php">
-                        <i data-feather="phone-call"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Contact Lead</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="file-text"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Policies</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li>
-                            <a class="d-flex align-items-center" href="privacypolicy.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Privacy Policy</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="termscondition.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Terms & Conditions</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="disclaimer.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Disclaimer</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="cookiepolicy.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Cookie Policy</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="returnpolicy.php">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Shipping Policy</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="subscriber.php"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Subscriber</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="brand.php"><i data-feather="tag"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Brand</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="help-circle"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Support</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li>
-                            <a class="d-flex align-items-center" href="#">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">User Requests</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="#">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Order Returns</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center" href="#">
-                        <i data-feather="activity"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Marketing</span>
-                    </a>
-                    <ul class="menu-content">
-                        <li>
-                            <a class="d-flex align-items-center" href="#">
-                                <i data-feather="circle"></i>
-                                <span class="menu-title text-truncate" data-i18n="Dashboards">Coupons</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>-->
-
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="manage-ecards.php">
+                    <i data-feather="credit-card"></i>
+                    <span class="menu-title text-truncate">Manage E-Card</span>
+                </a>
+            </li>
+            <li class="nav-item"> 
+                <a class="d-flex align-items-center" href="manage-web-push.php"> 
+                    <i data-feather="bell"></i>
+                    <span class="menu-title text-truncate">Push Notification</span> 
+                </a> 
+            </li>
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="view-subscribers.php">
+                    <i data-feather="mail"></i>
+                    <span class="menu-title text-truncate">Subscribers List</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="#">
@@ -486,22 +297,18 @@ $pending_count = $pending_row['total_pending'];
                             <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Business Enquiries</span>
                         </a>
                     </li>
-                          <li>
+                    <li>
                         <a class="d-flex align-items-center" href="view-support.php">
                             <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Submit a Request
-
-</span>
+                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Submit a Request</span>
                         </a>
                     </li>
-                          <li>
+                    <li>
                         <a class="d-flex align-items-center" href="view-review-rating.php.php">
                             <i data-feather="circle"></i>
-                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Reviews & Ratings
-</span>
+                            <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Reviews & Ratings</span>
                         </a>
                     </li>
-
                 </ul>
             </li>
             <li class="nav-item">
@@ -509,7 +316,6 @@ $pending_count = $pending_row['total_pending'];
                     <i data-feather="activity"></i>
                     <span class="menu-title text-truncate">User Activity</span>
                 </a>
-
                 <ul class="menu-content">
                     <li>
                         <a class="d-flex align-items-center" href="admin-user-activity.php">
@@ -520,14 +326,12 @@ $pending_count = $pending_row['total_pending'];
                 </ul>
             </li>
 
-
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="file-text"></i>
                     <span class="menu-title text-truncate" data-i18n="Dashboards">Data Export</span>
                 </a>
                 <ul class="menu-content">
-
                     <li>
                         <a class="d-flex align-items-center" href="export-users.php" target="_blank">
                             <i data-feather="circle"></i>
@@ -536,65 +340,37 @@ $pending_count = $pending_row['total_pending'];
                     </li>
                 </ul>
             </li>
-            <!-- <li class="nav-item">
-    <a class="d-flex align-items-center" href="#">
-        <i data-feather="mail"></i> 
-        <span class="menu-title text-truncate">Marketing & Comms</span>
-    </a>
-
-    <ul class="menu-content">
-        <li>
-            <a class="d-flex align-items-center" href="manage-communication.php">
-                <i data-feather="circle"></i>
-                <span class="menu-item text-truncate">Create New Communication</span>
-            </a>
-        </li>
-        <li>
-            <a class="d-flex align-items-center" href="view-campaigns.php">
-                <i data-feather="circle"></i>
-                <span class="menu-item text-truncate">View Past Campaigns</span>
-            </a>
-        </li>
-    </ul>
-</li> -->
 
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="mail"></i>
                     <span class="menu-title text-truncate">Marketing & Comms</span>
                 </a>
-
                 <ul class="menu-content">
-                  <li>
+                    <li>
                         <a class="d-flex align-items-center" href="promotion.php">
                             <i data-feather="circle"></i>
                             <span class="menu-title text-truncate" data-i18n="Dashboards">Announcement</span>
                         </a>
                     </li>
-                    <!-- Create New Communication (Email or Banner) -->
                     <li>
                         <a class="d-flex align-items-center" href="create-communication.php">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Create New Communication</span>
                         </a>
                     </li>
-
-                    <!-- View / Manage Previous Campaigns (Email + Banner) -->
                     <li>
                         <a class="d-flex align-items-center" href="manage-communication.php">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">Manage Email Campaigns</span>
                         </a>
                     </li>
-
-                    <!-- View all past campaigns in detail -->
                     <li>
                         <a class="d-flex align-items-center" href="view-campaigns.php">
                             <i data-feather="circle"></i>
                             <span class="menu-item text-truncate">View Past Campaigns</span>
                         </a>
                     </li>
-
                 </ul>
             </li>
 
@@ -635,4 +411,3 @@ $pending_count = $pending_row['total_pending'];
         </ul>
     </div>
 </div>
-<!-- END: Main Menu-->

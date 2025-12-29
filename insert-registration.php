@@ -115,40 +115,62 @@ $sd1=move_uploaded_file($s11,"userphoto//".$s1);
 
 $entrydate = date('Y-m-d');
 
+// --- NEW SUBSCRIPTION LOGIC START ---
+$plan_id = 1; // Default Free Plan ID
+$plan_start_date = date('Y-m-d'); 
+$plan_expiry_date = date('Y-m-d', strtotime('+3650 days')); // 10 Years Validity for Free Plan
+// --- NEW SUBSCRIPTION LOGIC END ---
+
 $sqlcheck = "select * from registration where phone = '$phone'";
 $rowcheck = mysqli_query($con,$sqlcheck);
 $check = mysqli_num_rows($rowcheck);
 
 if($check == '0')
 {
-    $sql = "INSERT INTO `registration`(`userid`, `name`, `email`, `phone`, `city`, `state`, `country`, `password`, `otp`, `gender`, `groomlocation`, `bridelocation`, `tnc`, `entrydate`) VALUES ('$userid', '$fullname', '$email', '$phone', '$groomcity', '$groomstate', '$groomcountry', '$password', '$otp', '$gender', '$groomlocation', '$bridelocation', '$agree', '$entrydate')";
+    // Updated INSERT query to include plan_id, plan_start_date, and plan_expiry_date
+    $sql = "INSERT INTO `registration`(`userid`, `name`, `email`, `phone`, `city`, `state`, `country`, `password`, `otp`, `gender`, `groomlocation`, `bridelocation`, `tnc`, `entrydate`, `plan_id`, `plan_start_date`, `plan_expiry_date`) VALUES ('$userid', '$fullname', '$email', '$phone', '$groomcity', '$groomstate', '$groomcountry', '$password', '$otp', '$gender', '$groomlocation', '$bridelocation', '$agree', '$entrydate', '$plan_id', '$plan_start_date', '$plan_expiry_date')";
     $result = mysqli_query($con,$sql);
+
     $sqlbasicinfo = "INSERT INTO `basic_info`(`userid`, `createby`, `fullname`, `gender`, `marital`, `children`, `age`, `height`, `eating`, `smoking`, `drinking`, `aboutme`) VALUES ('$userid', '$createby', '$fullname', '$gender', '$marital', '$children', '$age', '$height', '$eating', '$smoking', '$drinking', '$aboutme')";
     $resultbasicinfo = mysqli_query($con,$sqlbasicinfo);
+
     $updatebasicstatus = "UPDATE `registration` SET `aboutme`='Done' WHERE `userid`='$userid'";
     $resultbasicstatus = mysqli_query($con,$updatebasicstatus);
+
     $sqlastroinfo = "INSERT INTO `astro_info`(`userid`, `dob`, `birthplace`, `birthtime`, `manglik`) VALUES ('$userid', '$dob', '$birthplace', '$birthtime', '$manglik')";
     $resultastroinfo = mysqli_query($con,$sqlastroinfo);
+
     $updateastrostatus = "UPDATE `registration` SET `astroinfo`='Done' WHERE `userid`='$userid'";
     $resultastrostatus = mysqli_query($con,$updateastrostatus);
+
     $sqlcontactinfo = "INSERT INTO `contact_info`(`userid`, `phonenumber`, `email`) VALUES ('$userid', '$phone', '$email')";
     $resultcontactinfo = mysqli_query($con,$sqlcontactinfo);
+
     $sqlreligiousinfo = "INSERT INTO `religious_info`(`userid`, `religion`, `caste`) VALUES ('$userid', '$religion', '$caste')";
     $resultreligiousinfo = mysqli_query($con,$sqlreligiousinfo);
+
     $sqleducationinfo = "INSERT INTO `education_info`(`userid`, `stream`, `education`, `workingwith`, `profession`, `designation`, `income`) VALUES ('$userid', '$stream', '$education', '$profession', '$domain', '$designation', '$annualincome')";
     $resulteducationinfo = mysqli_query($con,$sqleducationinfo);
+
     $sqlfamilyinfo = "INSERT INTO `family_info`(`userid`, `familytype`, `familystatus`, `fathername`, `mothername`, `fatheroccupation`, `motheroccupation`, `state`, `city`, `country`) VALUES ('$userid', '$familytype', '$familystatus', '$fathername', '$mothername', '$fatheroccupation', '$motheroccupation', '$state', '$city', '$country')";
     $resultfamilyinfo = mysqli_query($con,$sqlfamilyinfo);
+
     $sqlgroomlocation = "INSERT INTO `groom_location`(`userid`, `state`, `city`, `country`) VALUES ('$userid', '$groomstate', '$groomcity', '$groomcountry')";
     $resultgroomlocation = mysqli_query($con,$sqlgroomlocation);
+
     $sqlprofilepic = "INSERT INTO `photos_info`(`userid`, `profilepic`) VALUES ('$userid','$s1')";
     $resultprofilepic = mysqli_query($con,$sqlprofilepic);
+
     $sqlupdate = "UPDATE `registration` SET `otpstatus`='active' WHERE phone = '$phone'";
     $resultupdate = mysqli_query($con,$sqlupdate);
+
+    // Kept for legacy compatibility, though main logic now uses registration table
     $sqlplan = "INSERT INTO `plan_info`(`userid`, `plan`, `entrydate`) VALUES ('$userid','free','$entrydate')";
     $resultplan = mysqli_query($con,$sqlplan);
+
     $sql_finalbio = "INSERT INTO `final_bio`(`userid`, `age`, `height`, `marital`, `religion`, `caste`, `stream`, `workingwith`, `gender`, `manglik`, `education`, `profession`, `income`, `state`, `country`) VALUES ('$userid', '$age', '$height', '$marital', '$religion', '$caste', '$stream', '$profession', '$gender', '$manglik', '$education', '$domain', '$annualincome', '$groomstate', '$groomcountry')";
     $result_finalbio = mysqli_query($con,$sql_finalbio);
+
     $sqlpartnerinfo = "INSERT INTO `partner_info`(`userid`, `partnermarital`, `partnerage`, `partnerheight`, `partnerreligion`, `partnercaste`, `partnerstream`, `partnerprofession`, `partnerdomain`, `partnerincome`, `partnerstate`,  `partnercountry`) VALUES ('$userid', '$marital', '$partnerage', '$partnerheight', '$religion', '$caste', '$stream', '$profession', '$domain', '$annualincome', '$groomstate', '$groomcountry')";
     $resultpartnerinfo = mysqli_query($con,$sqlpartnerinfo);
     
