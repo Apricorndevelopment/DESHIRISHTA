@@ -13,7 +13,7 @@ $resultbasicinfo = mysqli_query($con,$sqlbasicinfo);
 $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
 ?>
 
-<div class="mobile-menu-trigger">
+<div class="mobile-menu">
     <button onclick="toggleSidebar()">
         <span class="material-symbols-outlined">menu</span> Dashboard Menu
     </button>
@@ -120,7 +120,7 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
 
 <style>
 /* Default Desktop Styles (Keeps your existing layout) */
-.mobile-menu-trigger {
+.mobile-menu {
     display: none; /* Hidden on desktop */
 }
 .closebtn {
@@ -141,14 +141,14 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
 @media (max-width: 991px) {
     
     /* Show the trigger button */
-    .mobile-menu-trigger {
+    .mobile-menu {
         display: block;
         padding: 10px 15px;
         background: #fff;
         border-bottom: 1px solid #eee;
     }
     
-       .mobile-menu-trigger button {
+       .mobile-menu button {
         background: #754d4dff;
         border: none;
         color: #faf482ff;

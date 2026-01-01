@@ -275,6 +275,13 @@ if ($sub_req_result && mysqli_num_rows($sub_req_result) > 0) {
                     <span class="menu-title text-truncate">Push Notification</span> 
                 </a> 
             </li>
+                 <li class="nav-item"> 
+                <a class="d-flex align-items-center" href="send-push.php"> 
+                    <i data-feather="bell"></i>
+                    <span class="menu-title text-truncate"> web Push Notification</span> 
+                </a> 
+            </li>
+
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="view-subscribers.php">
                     <i data-feather="mail"></i>

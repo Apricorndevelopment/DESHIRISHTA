@@ -9,6 +9,7 @@ $userid = null;
 $user_data = null; // Stores the main user row
 $useractive = 0;   // Default: User is NOT active (0)
 
+
 // Profile Status Defaults
 $id_verification = null;
 $id_verification_popup = null;

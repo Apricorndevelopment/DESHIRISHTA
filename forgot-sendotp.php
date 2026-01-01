@@ -66,64 +66,81 @@ if($phone != '')
         </script>
     <?php
     }
-    else
-    {
-        $msgphone = '91'.$_POST['phone'];
+   
+    else {
+    $phone = trim($_POST['phone'] ?? ''); // Make sure $phone is defined
+    $msgphone = '91' . $phone;
+    
+    // Cookie set karein
+    setcookie("forgot_dr_phone", $phone, time() + (10 * 365 * 24 * 60 * 60));
+    
+    // OTP Generate karein (4 digit)
+    $otp = rand(1000, 9999);
+    
+    // 1. Check karein ki user exist karta hai ya nahi (Prepared Statement use karein)
+    $stmt_check = mysqli_prepare($con, "SELECT id FROM registration WHERE phone = ?");
+    mysqli_stmt_bind_param($stmt_check, "s", $phone);
+    mysqli_stmt_execute($stmt_check);
+    mysqli_stmt_store_result($stmt_check);
+    $check = mysqli_stmt_num_rows($stmt_check);
+    
+    if($check == 1) {
+        // 2. OTP Database mein save karein
+        $stmt_ins = mysqli_prepare($con, "INSERT INTO `forgot_otp` (`number`, `otp`) VALUES (?, ?)");
+        mysqli_stmt_bind_param($stmt_ins, "si", $phone, $otp);
+        mysqli_stmt_execute($stmt_ins);
+
         
-        setcookie("forgot_dr_phone", $phone, time() + (10 * 365 * 24 * 60 * 60));
-        
-        $otp = rand(0000,9999);
-        
-        $sqlcheck = "select * from registration where phone = '$phone'";
-        $rowcheck = mysqli_query($con,$sqlcheck);
-        echo $check = mysqli_num_rows($rowcheck);
-        
-        if($check == '1')
-        {
-            $sql = "INSERT INTO `forgot_otp`(`number`, `otp`) VALUES ('$phone', '$otp')";
-            $result = mysqli_query($con,$sql);
-            
-            $curl = curl_init();
-        
-            curl_setopt_array($curl, array(
-              CURLOPT_URL => 'http://sms.primeclick.in/api/mt/SendSMS?user=Skdgtech&password=Skdg%40123&senderid=SKDGTE&channel=trans&DCS=0&flashsms=0&number='.$phone.'&text=Dear%20User%2C%20Your%20one%20time%20authentication%20is%20'.$otp.'%2C%20Regards%20SKDG%20Websoft%20Technologies%20(OPC)%20Pvt.%20Ltd.&route=15&DLTTemplateId=1707169572357217271&PEID=1701169547177152621',
-              CURLOPT_RETURNTRANSFER => true,
-              CURLOPT_ENCODING => '',
-              CURLOPT_MAXREDIRS => 10,
-              CURLOPT_TIMEOUT => 0,
-              CURLOPT_FOLLOWLOCATION => true,
-              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_CUSTOMREQUEST => 'GET',
-            ));
-            
-            $response = curl_exec($curl);
-            
-            curl_close($curl);
-            //echo $response;
-            //header('location:forgot-verifyotp.php');
+        $message = "Dear Customer, Your Desi Rishta Forgot Password PIN is {$otp}. It is valid for 10 minutes and is confidential. Please do not share it with anyone.";
+
+        $payload = [
+            "listsms" => [
+                [
+                    "sms"        => $message,
+                    "mobiles"    => $phone,
+                    "senderid"   => "DSIRST",
+                    "tempid"     => "1207176681254116168",
+                    "responsein" => "json"
+                ]
+            ],
+            "user"     => "desirsms",
+            "password" => "30c3c138b0XX" 
+        ];
+
+        $jsonPayload = json_encode($payload);
+
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL            => "https://www.proactivesms.in/REST/sendsms",
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $jsonPayload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER     => ["Content-Type: application/json"]
+        ]);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // Auto-submit form to verify page
         ?>
-            <form action="forgot-verifyotp.php" method="post" id="myForm2">
-                <input type="hidden" name="validphone" value="<?php echo $phone; ?>">
-                <input type="hidden" name="attempt" value="<?php if($phattempt != '') { echo $phattempt; } else { echo "2"; } ?>">
-                <input type="hidden" name="display_contact" value="<?php echo $masked_phone; ?>">
-            </form>
-            <script>
-                document.getElementById("myForm2").submit();
-            </script>
+        <form action="forgot-verifyotp.php" method="post" id="myForm2">
+            <input type="hidden" name="validphone" value="<?php echo $phone; ?>">
+            <input type="hidden" name="attempt" value="<?php echo ($phattempt ?? "2"); ?>">
+            <input type="hidden" name="display_contact" value="<?php echo ($masked_phone ?? $phone); ?>">
+        </form>
+        <script>document.getElementById("myForm2").submit();</script>
         <?php
-        }
-        else
-        {
+    } 
+    else {
+        // User exist nahi karta
         ?>
-            <form action="forgot-password.php" method="post" id="myForm3">
-                <input type="hidden" name="user" value="not-exist">
-            </form>
-            <script>
-                document.getElementById("myForm3").submit();
-            </script>
+        <form action="forgot-password.php" method="post" id="myForm3">
+            <input type="hidden" name="user" value="not-exist">
+        </form>
+        <script>document.getElementById("myForm3").submit();</script>
         <?php
-        }
     }
+}
 }
 
 

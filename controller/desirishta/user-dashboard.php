@@ -25,11 +25,27 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
 $my_name = "User"; // Default
 $show_first_login_popup = false;
 
-$sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_name, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone FROM registration WHERE userid = '$userid'";
+// UPDATED QUERY: Added 'plan_id' to fetch subscription info
+$sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_id, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone FROM registration WHERE userid = '$userid'";
 $result_user_data = mysqli_query($con, $sql_user_data);
+
+// Initialize Dynamic Plan Variables (Default to Free/Fallback)
+$current_plan_name = "Free";
+$current_daily_limit = 5; 
 
 if ($result_user_data && mysqli_num_rows($result_user_data) > 0) {
     $row_user_data = mysqli_fetch_assoc($result_user_data);
+
+    // --- 1. GET DYNAMIC PLAN DETAILS ---
+    $my_plan_id = $row_user_data['plan_id'];
+    // Fetch plan details from tbl_plans based on ID
+    $sql_plan_fetch = "SELECT plan_name, contacts_per_day FROM tbl_plans WHERE id = '$my_plan_id'";
+    $res_plan_fetch = mysqli_query($con, $sql_plan_fetch);
+    if($res_plan_fetch && mysqli_num_rows($res_plan_fetch) > 0){
+        $row_plan_fetch = mysqli_fetch_assoc($res_plan_fetch);
+        $current_plan_name = $row_plan_fetch['plan_name'];
+        $current_daily_limit = $row_plan_fetch['contacts_per_day'];
+    }
 
     // Variables for logic
     $id_verification = $row_user_data['verificationinfo'];
@@ -383,7 +399,6 @@ $json_popup_queue = json_encode($popup_queue);
     }
 </style>
 
-<!-- STANDARD NOTIFICATION POPUP -->
 <div class="menu-pop menu-pop1" id="dynamic-popup">
     <span class="menu-pop-clo" id="close-popup-btn"><i class=" fa bi bi-x" aria-hidden="true"></i></span>
     <div class="inn">
@@ -401,7 +416,6 @@ $json_popup_queue = json_encode($popup_queue);
     </div>
 </div>
 
-<!-- FIRST LOGIN POPUP -->
 <?php if ($show_first_login_popup) { ?>
     <div id="firstLoginModal" class="welcome-modal" style="display: flex;">
         <div class="welcome-modal-content">
@@ -435,7 +449,6 @@ $json_popup_queue = json_encode($popup_queue);
     </div>
 <?php } ?>
 
-<!-- DASHBOARD CONTENT -->
 <section>
     <div class="db">
         <div class="container">
@@ -445,7 +458,6 @@ $json_popup_queue = json_encode($popup_queue);
                 </div>
                 <div class="col-md-8 col-lg-9">
                     <div class="row">
-                        <!-- CLOCK, GREETING & WEATHER SECTION -->
                         <div class="col-lg-12 col-xl-12 mb-4">
                             <div class="db-pro-stat p-4 text-center" style="background: #fff; border-radius: 10px; border: 1px solid #e6e6e6; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
                                 <div class="d-flex justify-content-center align-items-center flex-wrap" style="gap: 40px;">
@@ -477,14 +489,12 @@ $json_popup_queue = json_encode($popup_queue);
                                 line-height: 1;
                             }
                         </style>
-                        <!-- STATS SUMMARY -->
                         <div class="col-md-8 col-lg-12">
                             <div class="row">
                                 <div class="col-lg-12 col-xl-12">
                                     <h2 class="db-tit">Summary</h2>
                                 </div>
 
-                                <!-- All Profiles -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -506,7 +516,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- New Matches -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -530,7 +539,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- My Matches (UPDATED QUERY) -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -553,7 +561,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Nearby Matches -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -575,7 +582,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Recently Viewed (Profiles I visited) -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -598,7 +604,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Recent Visitors (People who visited me) -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -621,7 +626,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Shortlisted -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -643,7 +647,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Blocked Members -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -665,7 +668,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Reported Members -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -688,9 +690,6 @@ $json_popup_queue = json_encode($popup_queue);
                                 </div>
 
 
-                                <!-- ================= GROUP B: CONTACT STATS (UPDATED) ================= -->
-
-                                <!-- My Contact Views (Incoming: Who Viewed MY Contact) -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -713,7 +712,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Members Contact Views (Outgoing: Contacts I Viewed) -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -736,7 +734,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Contact Views/Day Left -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -745,20 +742,17 @@ $json_popup_queue = json_encode($popup_queue);
                                                     <div class="db-int-pro-1"> <img src="images/gif/contact.gif" alt=""> </div>
                                                     <div class="db-int-pro-2">
                                                         <?php
-                                                        $plan_name_dash = $row_user_data['plan_name'] ?? 'Free';
-                                                        $daily_limit_dash = 5;
-                                                        if ($plan_name_dash == 'Gold') $daily_limit_dash = 15;
-                                                        if ($plan_name_dash == 'Platinum') $daily_limit_dash = 25;
-
+                                                        // UPDATED LOGIC: Using Dynamic variables from Top
                                                         $today_dash = date('Y-m-d');
                                                         $sql_usage_dash = "SELECT COUNT(*) as cnt FROM contact_view_logs WHERE viewer_id='$userid' AND view_date='$today_dash'";
                                                         $res_usage_dash = mysqli_query($con, $sql_usage_dash);
                                                         $row_usage_dash = mysqli_fetch_assoc($res_usage_dash);
+                                                        
                                                         $used_dash = $row_usage_dash['cnt'];
-                                                        $left_dash = $daily_limit_dash - $used_dash;
+                                                        $left_dash = $current_daily_limit - $used_dash; // Uses dynamic limit
                                                         if ($left_dash < 0) $left_dash = 0;
                                                         ?>
-                                                        <h5><?php echo $left_dash; ?> / <?php echo $daily_limit_dash; ?></h5>
+                                                        <h5><?php echo $left_dash; ?> / <?php echo $current_daily_limit; ?></h5>
                                                         <span><b>Contact Views Left</b></span>
                                                     </div>
                                                 </li>
@@ -768,9 +762,6 @@ $json_popup_queue = json_encode($popup_queue);
                                 </div>
 
 
-                                <!-- ================= GROUP C: SHARES & LOGINS ================= -->
-
-                                <!-- WhatsApp Shares -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -791,7 +782,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Others Sharing -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -808,7 +798,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Number of Logins -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -831,9 +820,6 @@ $json_popup_queue = json_encode($popup_queue);
                                 </div>
 
 
-                                <!-- ================= GROUP D: ACTIVITY (UPDATED) ================= -->
-
-                                <!-- Searches (UPDATED) -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -855,7 +841,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- No. of Edits (UPDATED) -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -877,7 +862,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Photos Uploaded -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -907,9 +891,6 @@ $json_popup_queue = json_encode($popup_queue);
                                 </div>
 
 
-                                <!-- ================= GROUP E: ACCOUNT STATUS ================= -->
-
-                                <!-- Account Status -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -934,7 +915,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Trust Badge -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -955,7 +935,6 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
-                                <!-- Phone & Email Verified -->
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -974,7 +953,6 @@ $json_popup_queue = json_encode($popup_queue);
 
                             </div>
 
-                            <!-- ROW: Profile Completion & Plan -->
                             <div class="row mt-4">
                                 <div class="col-md-12 col-lg-6 col-xl-4 db-sec-com">
                                     <h2 class="db-tit">Profiles </h2>
@@ -1067,17 +1045,11 @@ $json_popup_queue = json_encode($popup_queue);
                                             $res_usage = mysqli_query($con, $sql_usage);
                                             $row_usage = mysqli_fetch_assoc($res_usage);
                                             $used = $row_usage['cnt'];
-
-                                            // Limits from Plan
-                                            $plan_name = $row_user_data['plan_name'] ?? 'Free';
-                                            $limit = 5;
-                                            if ($plan_name == 'Gold') $limit = 15;
-                                            if ($plan_name == 'Platinum') $limit = 25;
                                             ?>
                                             <ul>
-                                                <li>Current Plan: <strong><?php echo $plan_name; ?></strong></li>
-                                                <li>Daily Limit: <strong><?php echo $limit; ?> Contacts</strong></li>
-                                                <li>Views Used Today: <strong style="color: #b16421; font-size:16px;"><?php echo $used; ?> / <?php echo $limit; ?></strong></li>
+                                                <li>Current Plan: <strong><?php echo $current_plan_name; ?></strong></li>
+                                                <li>Daily Limit: <strong><?php echo $current_daily_limit; ?> Contacts</strong></li>
+                                                <li>Views Used Today: <strong style="color: #b16421; font-size:16px;"><?php echo $used; ?> / <?php echo $current_daily_limit; ?></strong></li>
                                                 <li><a href="plans.php" class="cta-3">Upgrade Plan</a></li>
                                             </ul>
                                         </div>
@@ -1130,7 +1102,6 @@ $json_popup_queue = json_encode($popup_queue);
                                 </div>
                             </div>
 
-                            <!-- New Matches Slider -->
                             <div class="col-md-12 db-sec-com db-new-pro-main">
                                 <h2 class="db-tit">New Profiles Matches</h2>
                                 <ul class="slider">
@@ -1177,8 +1148,7 @@ $json_popup_queue = json_encode($popup_queue);
 
 <?php include 'footer.php'; ?>
 
-<!-- RECONNECT MODAL -->
-<div id="reconnectModal" class="custom-modal" style="display: none;">
+  <div id="reconnectModal" class="custom-modal" style="display: none;">
     <div class="custom-modal-content">
         <span class="close-modal-btn" onclick="closeReconnect()">&times;</span>
         <div class="modal-body">

@@ -1,9 +1,6 @@
 <?php
 include 'config.php';
 
-// ------------------------
-// USER LOGIN CHECK
-// ------------------------
 if(!isset($_COOKIE['dr_userid']) || $_COOKIE['dr_userid'] == '') {
     header("Location: login.php");
     exit;
@@ -11,9 +8,6 @@ if(!isset($_COOKIE['dr_userid']) || $_COOKIE['dr_userid'] == '') {
 
 $userid = $_COOKIE['dr_userid'];
 
-// ------------------------
-// FETCH USER DATA
-// ------------------------
 $sqlprofile = mysqli_query($con, "SELECT * FROM registration WHERE userid='$userid'");
 $rowprofile = mysqli_fetch_assoc($sqlprofile);
 
@@ -22,75 +16,55 @@ if(!$rowprofile){
 }
 
 $phone = $rowprofile['phone'];
-$mobile_number = "91" . $phone;
+$mobile_number = $phone; 
 
+$otp = sprintf("%04d", rand(1000, 9999));
 
-$otp = sprintf("%04d", rand(0, 9999));
-
-// ------------------------
-// UPDATE TEMP OTP IN DB
-// ------------------------
-// mysqli_query($con, "UPDATE registration SET temp_otp = '$otp' WHERE userid = '$userid'");
 mysqli_query($con, "UPDATE registration SET mobile_otp = '$otp' WHERE userid = '$userid'");
 
-$message = "Dear User, Your one time authentication is $otp, Regards SKDG Websoft Technologies (OPC) Pvt. Ltd.";
-$message_encoded = urlencode($message);
+$message = "Dear Customer, Your Desi Rishta Mobile Verification PIN is {$otp}. It is valid for 10 minutes and is confidential. Please do not share it with anyone.";
 
-// ------------------------
-// PRIMECLICK SMS API URL
-// ------------------------
-$api_url = "http://sms.primeclick.in/api/mt/SendSMS";
-$api_url .= "?user=Skdgtech";
-$api_url .= "&password=Skdg%40123";
-$api_url .= "&senderid=SKDGTE";
-$api_url .= "&channel=trans";
-$api_url .= "&DCS=0";
-$api_url .= "&flashsms=0";
-$api_url .= "&number=$mobile_number";
-$api_url .= "&text=$message_encoded";
-$api_url .= "&route=15";
-$api_url .= "&DLTTemplateId=1707169572357217271";
-$api_url .= "&PEID=1701169547177152621";
+$payload = [
+    "listsms" => [
+        [
+            "sms"        => $message,
+            "mobiles"    => $mobile_number,
+            "senderid"   => "DSIRST",
+            "tempid"     => "1207176681662137357",
+            "responsein" => "json"
+        ]
+    ],
+    "user"     => "desirsms",
+    "password" => "30c3c138b0XX" 
+];
 
-// ------------------------
-// CURL EXECUTION
-// ------------------------
-$curl = curl_init();
-curl_setopt_array($curl, array(
-  CURLOPT_URL => $api_url,
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_TIMEOUT => 20
-));
+$jsonPayload = json_encode($payload);
 
-$response = curl_exec($curl);
-$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-curl_close($curl);
+$ch = curl_init();
+curl_setopt_array($ch, [
+    CURLOPT_URL            => "https://www.proactivesms.in/REST/sendsms",
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => $jsonPayload,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER     => ["Content-Type: application/json"],
+    CURLOPT_TIMEOUT        => 20
+]);
 
-// ----------------------------------
-// OPTIONAL DEBUGGING (Remove Later)
-// ----------------------------------
-// echo "HTTP CODE: $http_code <br> RESPONSE: $response"; exit;
+$response = curl_exec($ch);
+$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlError = curl_error($ch);
+curl_close($ch);
 
-// ------------------------
-// RESPONSE VALIDATION
-// ------------------------
-// ------------------------
-// RESPONSE VALIDATION
-// ------------------------
-if ($http_code == 200 && !empty($response) && (stripos($response, "Done") !== false || stripos($response, "Success") !== false)) {
-
+if ($http_code == 200 && $response !== false) {
     header("Location: enter-mobile-otp.php?status=success&mobile=$phone");
     exit;
-
 } else {
-
     ?>
     <script>
-        alert("❌ OTP bhejne me problem aayi! Please try again.\nServer Response: <?= addslashes($response); ?>");
+        alert("❌ OTP bhejne me problem aayi! Please try again.\nError: <?= addslashes($curlError); ?>");
         window.location.href = "enter-mobile-otp.php?status=failed";
     </script>
     <?php
     exit;
 }
-
 ?>

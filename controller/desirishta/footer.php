@@ -123,12 +123,34 @@ function closeWebPush() {
                 <div class="col-md-4 fot-soc">
                     <h4>SOCIAL MEDIA</h4>
                     <ul>
-                        <li><a href="#!"><img src="images/social/facebook.jpeg" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/instagram.png" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/linkedin.jpeg" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/twitter.jpeg" alt="" loading="lazy"></a></li>
-                        <li><a href="#!"><img src="images/social/youtube.jpeg" alt="" loading="lazy"></a></li>
-                    </ul>
+                    <!-- I added 'data-platform' to each <a> to help the API find them -->
+                    <!-- 'onerror' is added just for this preview so you see icons instead of broken images -->
+                    <li>
+                        <a href="#!" data-platform="facebook">
+                            <img src="images/social/facebook.jpeg" alt="FB" loading="lazy" onerror="this.src='https://placehold.co/40x40/3b5998/white?text=f'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="instagram">
+                            <img src="images/social/instagram.png" alt="IG" loading="lazy" onerror="this.src='https://placehold.co/40x40/E1306C/white?text=Ig'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="linkedin">
+                            <img src="images/social/linkedin.jpeg" alt="IN" loading="lazy" onerror="this.src='https://placehold.co/40x40/0077b5/white?text=In'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="twitter">
+                            <img src="images/social/twitter.jpeg" alt="TW" loading="lazy" onerror="this.src='https://placehold.co/40x40/1DA1F2/white?text=Tw'">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#!" data-platform="youtube">
+                            <img src="images/social/youtube.jpeg" alt="YT" loading="lazy" onerror="this.src='https://placehold.co/40x40/FF0000/white?text=Yt'">
+                        </a>
+                    </li>
+                </ul>
                 </div>
             </div>
             <div class="row foot-count">
@@ -300,7 +322,54 @@ if($useractive == '0')
     <script src="js/Chart.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/custom.js"></script> 
-    
+     <script>
+        // --- 1. MOCK API DATA ---
+        // Simulates the response from your backend
+        const mockApiData = {
+            success: true,
+            socials: {
+                facebook: 'https://www.facebook.com/YourPage',
+                instagram: 'https://www.instagram.com/YourPage',
+                linkedin: 'https://www.linkedin.com/company/YourPage',
+                twitter: 'https://twitter.com/YourPage',
+                youtube: 'https://www.youtube.com/c/YourPage'
+            }
+        };
+
+        // --- 2. FUNCTION TO ATTACH LINKS ---
+        function attachSocialLinks() {
+            const statusMsg = document.getElementById('status-msg');
+            
+            // Select all links inside your specific structure
+            const links = document.querySelectorAll('.fot-soc ul li a');
+
+            links.forEach(link => {
+                // Get the platform name from the attribute we added
+                const platform = link.getAttribute('data-platform');
+                
+                // If we have a URL for this platform in the API data...
+                if (platform && mockApiData.socials[platform]) {
+                    link.href = mockApiData.socials[platform];
+                    link.target = "_blank"; // Open in new tab
+                    link.rel = "noopener noreferrer"; // Security best practice
+                    
+                    console.log(`Updated ${platform} to ${mockApiData.socials[platform]}`);
+                }
+            });
+
+            // Update status text
+            if(statusMsg) {
+                statusMsg.innerText = "API Connected. Links Updated.";
+                statusMsg.style.color = "#28a745"; // Bootstrap success green
+            }
+        }
+
+        // Simulate network request delay (1 second)
+        setTimeout(() => {
+            attachSocialLinks();
+        }, 1000);
+
+    </script>
     <script>
          //COMMON SLIDER
     $('.slider').slick({

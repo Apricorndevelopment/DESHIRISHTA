@@ -27,9 +27,20 @@
                                     $sql = "SELECT * FROM `dummy-profile` ORDER BY id DESC";
                                     $result = mysqli_query($con, $sql);
                                     while ($row = mysqli_fetch_assoc($result)) {
+                                        // --- LOGIC CHANGE FOR MULTIPLE IMAGES ---
+                                        // 1. Get the image string from DB
+                                        $image_string = $row['image'];
+                                        
+                                        // 2. Convert comma-separated string back to array
+                                        $image_array = explode(',', $image_string);
+                                        
+                                        // 3. Select the first image for the thumbnail
+                                        $main_image = $image_array[0];
                                     ?>
                                         <tr>
-                                            <td><img src="../images/profiles/<?php echo $row['image']; ?>" width="60"></td>
+                                            <td>
+                                                <img src="../images/profiles/<?php echo $main_image; ?>" width="60" style="border-radius: 5px; object-fit: cover; height: 60px;">
+                                            </td>
                                             <td><?php echo $row['profile_id']; ?></td>
                                             <td><?php echo $row['name']; ?></td>
                                             <td><?php echo $row['age'] . " Yrs, " . $row['city']; ?></td>

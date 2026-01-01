@@ -9,30 +9,7 @@ $userid = null;
 $user_data = null; // Stores the main user row
 $useractive = 0;   // Default: User is NOT active (0)
 
-if (isset($_COOKIE['dr_userid'])) {
-    $check_uid = mysqli_real_escape_string($con, $_COOKIE['dr_userid']);
-    $today_date = date('Y-m-d');
 
-    // User ka current plan aur expiry nikalo
-    $sql_check_expiry = "SELECT plan_id, plan_expiry_date FROM registration WHERE userid='$check_uid'";
-    $res_check_expiry = mysqli_query($con, $sql_check_expiry);
-    
-    if ($res_check_expiry && mysqli_num_rows($res_check_expiry) > 0) {
-        $row_exp = mysqli_fetch_assoc($res_check_expiry);
-        $current_pid = $row_exp['plan_id'];
-        $expiry_date = $row_exp['plan_expiry_date'];
-
-        // Logic: Agar Plan FREE (ID:1) NAHI hai -- AUR -- Date beet chuki hai
-        if ($current_pid != 1 && $expiry_date < $today_date && !empty($expiry_date)) {
-            
-            // Downgrade to Free Plan (ID: 1)
-            // Free plan ki validity wapas 10 saal kar dete hain
-            $new_free_expiry = date('Y-m-d', strtotime('+3650 days'));
-            
-            mysqli_query($con, "UPDATE registration SET plan_id='1', plan_expiry_date='$new_free_expiry' WHERE userid='$check_uid'");
-        }
-    }
-}
 // Profile Status Defaults
 $id_verification = null;
 $id_verification_popup = null;

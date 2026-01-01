@@ -300,19 +300,19 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         
         <style>
             .numberplate {
-                background: #f5f5f5; /* Light background box */
-                padding: 8px 12px;
-                border-radius: 4px;
-                align-items: center;
-                display: inline-block;
-                border: 1px solid #ccc;
+                   background: #5c1b1bff;
+    padding: 8px 14px;
+    display: inline-flex;
+    gap: 2px;
+    border-radius: 4px;
+    align-items: center;
             }
             
             /* Main character styling - OLD GOLD COLOR RESTORED */
             .np-char {
-                font-size: 26px;
-                font-weight: 500;
-                font-family: 'Playfair Display', serif; 
+                font-size: 25px;
+                font-weight: 700;
+                font-family: 'Cinzel decorative', serif; 
                 color: #ffc532ff; /* OLD GOLD COLOR */
                 letter-spacing: 1px;
                 display: inline-block;
@@ -4012,6 +4012,7 @@ function previewImage(input, imgId, boxId) {
     </div>
 </section>
 <!-- END -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdxunSZ7-shHwoFbPZhMh-UIvffnUgtaE"></script>
 
 <?php
 include 'footer.php';
@@ -4272,6 +4273,8 @@ include 'footer.php';
         }
     });
 </script>
+<!-- grom location js code start -->
+<!-- grom location js code end -->
 
 <script>
     $('#groomstate').change(function() {

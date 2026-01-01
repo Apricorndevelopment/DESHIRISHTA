@@ -20,16 +20,28 @@ $count_doc_pending  = mysqli_fetch_assoc(mysqli_query($con, $doc_pending_sql))['
 $count_doc_verified = mysqli_fetch_assoc(mysqli_query($con, $doc_verified_sql))['count'];
 $count_doc_declined = mysqli_fetch_assoc(mysqli_query($con, $doc_declined_sql))['count'];
 
+// C. Plan Counts Logic (Dynamic)
+$plan_stats = [];
+$plan_sql = "SELECT p.id, p.plan_name, COUNT(r.id) as user_count 
+             FROM tbl_plans p 
+             LEFT JOIN registration r ON p.id = r.plan_id 
+             GROUP BY p.id";
+$plan_res = mysqli_query($con, $plan_sql);
+while($p_row = mysqli_fetch_assoc($plan_res)) {
+    $plan_stats[] = $p_row;
+}
+
 
 // --- 2. FILTER LOGIC ---
 $filter_profile = "";
 $filter_doc = "";
+$filter_plan = "";
 $conditions = [];
 
 // Check Profile Filter
 if(isset($_GET['filter_profile']) && $_GET['filter_profile'] !== '') {
     $filter_profile = mysqli_real_escape_string($con, $_GET['filter_profile']);
-    $conditions[] = "profilestatus = '$filter_profile'";
+    $conditions[] = "r.profilestatus = '$filter_profile'";
 }
 
 // Check Document Filter
@@ -37,10 +49,16 @@ if(isset($_GET['filter_doc']) && $_GET['filter_doc'] !== '') {
     $filter_doc = mysqli_real_escape_string($con, $_GET['filter_doc']);
     
     if($filter_doc == 'Pending') {
-        $conditions[] = "(document_verification_status = 'Pending' OR document_verification_status IS NULL OR document_verification_status = '')";
+        $conditions[] = "(r.document_verification_status = 'Pending' OR r.document_verification_status IS NULL OR r.document_verification_status = '')";
     } else {
-        $conditions[] = "document_verification_status = '$filter_doc'";
+        $conditions[] = "r.document_verification_status = '$filter_doc'";
     }
+}
+
+// Check Plan Filter
+if(isset($_GET['filter_plan']) && $_GET['filter_plan'] !== '') {
+    $filter_plan = mysqli_real_escape_string($con, $_GET['filter_plan']);
+    $conditions[] = "r.plan_id = '$filter_plan'";
 }
 
 // Build WHERE Clause
@@ -49,53 +67,54 @@ if(count($conditions) > 0) {
     $where_clause = "WHERE " . implode(' AND ', $conditions);
 }
 
-// Main Query
-$sql = "SELECT * FROM registration $where_clause ORDER BY id DESC";
+// Main Query (Joined with tbl_plans to get plan name in the list)
+// using 'r' as alias for registration and 'p' for plans
+$sql = "SELECT r.*, p.plan_name 
+        FROM registration r 
+        LEFT JOIN tbl_plans p ON r.plan_id = p.id 
+        $where_clause 
+        ORDER BY r.id DESC";
+
 $result = mysqli_query($con, $sql);
 
+// Fetch all plans for the Filter Dropdown
+$all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
 ?>
 <STYLE>
     table.dataTable thead .sorting:after,
-table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_desc:after,
-table.dataTable thead .sorting_asc_disabled:after,
-table.dataTable thead .sorting_desc_disabled:after {
-    content: "" !important;
-
-
-}
- table.dataTable thead .sorting:before,
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_desc:before,
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_desc_disabled:before {
-    content: "" !important;
-}
-table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
-    right:12PX;
-    /* content: "\2193"; */
-    FONT-SIZE: 23PX;
-    TOP: 20PX;
-}
-table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
-    right: 1em;
-    content: "\2191";
-    TOP: 5PX;
-}
-.stats-box, .card {
-    box-shadow: none !important;
-    border: 1px solid #eee;
-}
-
-
-
-  </STYLE>
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_asc_disabled:after,
+    table.dataTable thead .sorting_desc_disabled:after {
+        content: "" !important;
+    }
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_asc_disabled:before,
+    table.dataTable thead .sorting_desc_disabled:before {
+        content: "" !important;
+    }
+    table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        right:12PX;
+        FONT-SIZE: 23PX;
+        TOP: 20PX;
+    }
+    table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
+        right: 1em;
+        content: "\2191";
+        TOP: 5PX;
+    }
+    .stats-box, .card {
+        box-shadow: none !important;
+        border: 1px solid #eee;
+    }
+</STYLE>
 <style>
     /* Custom Light Colors for Cards */
     .card-stat {
         transition: transform 0.3s ease;
         border: none;
-        /* box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1); */
     }
     .card-stat:hover {
         transform: translateY(-5px);
@@ -104,26 +123,28 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
     
     /* Profile Colors */
     .bg-light-total { background-color: #f0f2f5; color: #3e2b85ff; }
-    .bg-light-pending { background-color: #ffe5e5; color: #ea5455; } /* Light Red */
-    .bg-light-approved { background-color: #e5ffe5; color: #28c76f; } /* Light Green */
-    .bg-light-deactive { background-color: #ffffe5; color: #ff9f43; } /* Light Orange */
-    .bg-light-deleted { background-color: #eaeaec; color: #82868b; } /* Light Grey */
+    .bg-light-pending { background-color: #ffe5e5; color: #ea5455; }
+    .bg-light-approved { background-color: #e5ffe5; color: #28c76f; }
+    .bg-light-deactive { background-color: #ffffe5; color: #ff9f43; }
+    .bg-light-deleted { background-color: #eaeaec; color: #82868b; }
 
-    /* Document Colors (Distinct) */
-    .bg-doc-pending { background-color: #fff0e1; color: #ff9f43; } /* Peach/Orange */
-    .bg-doc-verified { background-color: #e0f7fa; color: #00cfe8; } /* Light Cyan/Blue */
-    .bg-doc-declined { background-color: #fce4ec; color: #e91e63; } /* Light Pink */
+    /* Document Colors */
+    .bg-doc-pending { background-color: #fff0e1; color: #ff9f43; }
+    .bg-doc-verified { background-color: #e0f7fa; color: #00cfe8; }
+    .bg-doc-declined { background-color: #fce4ec; color: #e91e63; }
+
+    /* Plan Colors */
+    .bg-plan-silver { background-color: #f3f3f3; color: #787878; border-bottom: 3px solid #b0b0b0; }
+    .bg-plan-gold { background-color: #f1e39cff; color: #ebaa07ff; border-bottom: 3px solid #ffd700; }
+    .bg-plan-platinum { background-color: #ae99e99a; color: #4e08cfff; border-bottom: 3px solid #8e44ad; }
+    .bg-plan-free { background-color: #88e48d65; color: #11af53ff; border-bottom: 3px solid #e0b7b7ff; }
+    .bg-plan-default { background-color: #e6f7ff; color: #007bff; border-bottom: 3px solid #007bff; }
+
 
     .stat-title { font-size: 0.9rem; font-weight: 600; margin-top: 10px; display: block; }
     .stat-count { font-size: 1.8rem; font-weight: bold; margin-bottom: 0; }
     
-    /* Table Styling */
-    table.dataTable thead .sorting:after,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting_desc:after { content: "" !important; }
-    table.dataTable thead .sorting:before,
-    table.dataTable thead .sorting_asc:before,
-    table.dataTable thead .sorting_desc:before { content: "" !important; }
+    .row { display:flex; justify-content: center; }
 </style>
 
 <!-- BEGIN: Content-->
@@ -143,15 +164,10 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                 </div>
             </div>
         </div>
-<style>
-    .row{
-        display:flex;
-        justify-content: center;
-    }
-</style>
+
         <div class="content-body">
             
-           
+            <!-- SECTION 1: PROFILE STATUS -->
             <div class="row mb-2" >
                 <div class="col-xl-2 col-md-4 col-sm-6 col-12">
                     <div class="card card-stat bg-light-total text-center">
@@ -165,7 +181,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-pending text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_pending; ?></h2>
-                            <span class="stat-title">User Profile Pending</span>
+                            <span class="stat-title">Profile Pending</span>
                         </div>
                     </div>
                 </div>
@@ -173,7 +189,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-approved text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_approved; ?></h2>
-                            <span class="stat-title">User Profile Approved</span>
+                            <span class="stat-title">Profile Approved</span>
                         </div>
                     </div>
                 </div>
@@ -181,7 +197,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-deactive text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_deactive; ?></h2>
-                            <span class="stat-title">User Profile Deactivated</span>
+                            <span class="stat-title">Profile Deactivated</span>
                         </div>
                     </div>
                 </div>
@@ -189,14 +205,13 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                     <div class="card card-stat bg-light-deleted text-center">
                         <div class="card-body">
                             <h2 class="stat-count"><?php echo $count_deleted; ?></h2>
-                            <span class="stat-title">User Profile Deleted</span>
+                            <span class="stat-title">Profile Deleted</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 2: DOCUMENT STATUS CARDS -->
-            <!-- <h5 class="mb-1 mt-2">Document (Govt ID) Overview</h5> -->
+            <!-- SECTION 2: DOCUMENT STATUS -->
             <div class="row mb-2">
                 <div class="col-xl-4 col-md-4 col-12">
                     <div class="card card-stat bg-doc-pending text-center">
@@ -233,7 +248,37 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                 </div>
             </div>
 
-            <!-- SECTION 3: FILTER & TABLE -->
+            <!-- SECTION 3: PLAN STATUS (NEW) -->
+            <div class="row mb-2">
+                <?php foreach($plan_stats as $stat): 
+                    // Determine Color based on Plan Name
+                    $planName = strtolower($stat['plan_name']);
+                    $bgClass = 'bg-plan-default';
+                    
+                    if(strpos($planName, 'gold') !== false) {
+                        $bgClass = 'bg-plan-gold';
+                    } elseif(strpos($planName, 'platinum') !== false) {
+                        $bgClass = 'bg-plan-platinum';
+                    } 
+                  
+                     elseif(strpos($planName, 'free') !== false || $planName == '') {
+                        $bgClass = 'bg-plan-free';
+                    }
+                ?>
+
+               
+                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
+                    <div class="card card-stat <?php echo $bgClass; ?> text-center">
+                        <div class="card-body">
+                            <h2 class="stat-count"><?php echo $stat['user_count']; ?></h2>
+                            <span class="stat-title"><?php echo $stat['plan_name'] ? $stat['plan_name'] : 'Unknown'; ?> Users</span>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- SECTION 4: FILTER & TABLE -->
             <section id="basic-datatable">
                 <div class="row">
                     <div class="col-12">
@@ -269,8 +314,24 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                                 <option value="Declined" <?php if($filter_doc === 'Declined') echo 'selected'; ?>>Declined</option>
                                             </select>
                                         </div>
+
+                                        <!-- Plan Filter (NEW) -->
+                                        <div class="form-group mr-1">
+                                            <label class="mr-50 font-small-3">Plan:</label>
+                                            <select name="filter_plan" class="form-control form-control-sm" onchange="this.form.submit()">
+                                                <option value="">All Plans</option>
+                                                <?php 
+                                                    // Reset pointer for plan dropdown
+                                                    mysqli_data_seek($all_plans_query, 0); 
+                                                    while($p = mysqli_fetch_assoc($all_plans_query)) {
+                                                        $sel = ($filter_plan == $p['id']) ? 'selected' : '';
+                                                        echo "<option value='".$p['id']."' $sel>".$p['plan_name']."</option>";
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
                                         
-                                        <?php if($filter_profile !== '' || $filter_doc !== '') { ?>
+                                        <?php if($filter_profile !== '' || $filter_doc !== '' || $filter_plan !== '') { ?>
                                             <a href="user-profiles.php" class="btn btn-sm btn-outline-secondary">Clear</a>
                                         <?php } ?>
                                     </form>
@@ -305,8 +366,9 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                             <th>Phone & Email</th>
                                             <th>Join Date</th>
                                             <th>Profile Status</th>
-                                            <th>Matches Visibility Status</th>
-                                            <th>ID Verification <br> Status</th>
+                                            <th>Matches Status</th>
+                                            <th>ID Verification</th>
+                                            <th>Current Plan</th> <!-- NEW COLUMN -->
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -317,11 +379,12 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                     if(mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             
-                                            // Verification Status (verificationinfo)
+                                            // Verification Status
                                             $id_status_val = $row['verificationinfo']; 
-                                            
                                             // Document Upload Status
-                                            $doc_status_val = $row['document_verification_status'] ?? 'Pending'; 
+                                            $doc_status_val = $row['document_verification_status'] ?? 'Pending';
+                                            // Plan Name
+                                            $plan_name_display = $row['plan_name'] ? $row['plan_name'] : '<span class="text-muted">Free</span>';
                                     ?>
                                     <tr>
                                         <td><?php echo $i++; ?>.</td>
@@ -337,7 +400,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
 
                                         <td><?php echo date('d M Y', strtotime($row['entrydate'])); ?></td>
 
-                                        <!-- Profile Status Badge -->
+                                        <!-- Profile Status -->
                                         <td>
                                             <?php 
                                             if($row['profilestatus'] == '0') {
@@ -352,7 +415,7 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                             ?>
                                         </td>
 
-                                        <!-- ID Status (verificationinfo) -->
+                                        <!-- Matches Visibility -->
                                         <td>
                                             <?php
                                             if($id_status_val == '1') {
@@ -363,93 +426,91 @@ table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before
                                             ?>
                                         </td>
 
-                                        <!-- Document Status (Govt ID) -->
+                                        <!-- Document Status -->
                                         <td>
                                             <?php
                                                 if ($doc_status_val == 'Done') {
-                                                    echo '<span class="badge badge-pill badge-light-info">
-                                                            <i data-feather="check-circle" style="width:12px;"></i> Verified
-                                                          </span>';
+                                                    echo '<span class="badge badge-pill badge-light-info">Verified</span>';
                                                 } elseif ($doc_status_val == 'Declined') {
-                                                    echo '<span class="badge badge-pill badge-light-danger">
-                                                            <i data-feather="x-circle" style="width:12px;"></i> Declined
-                                                          </span>';
+                                                    echo '<span class="badge badge-pill badge-light-danger">Declined</span>';
                                                 } else {
-                                                    echo '<span class="badge badge-pill badge-light-warning">
-                                                            <i data-feather="clock" style="width:12px;"></i> Pending
-                                                          </span>';
+                                                    echo '<span class="badge badge-pill badge-light-warning">Pending</span>';
                                                 }
                                             ?>
                                         </td>
 
-                                        <!-- -->
+                                        <!-- NEW COLUMN: Current Plan -->
                                         <td>
-    <div class="dropdown">
-        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-toggle="dropdown">
-            Action
-        </button>
+                                            <span class="font-weight-bold"><?php echo $plan_name_display; ?></span>
+                                        </td>
 
-        <div class="dropdown-menu">
+                                        <!-- Actions -->
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle" data-toggle="dropdown">
+                                                    Action
+                                                </button>
 
-            <a class="dropdown-item" href="userprofile-view.php?uid=<?php echo $row['userid']; ?>">
-                <i data-feather="eye" class="mr-50"></i> View Full Profile
-            </a>
+                                                <div class="dropdown-menu">
 
-            <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="userprofile-view.php?uid=<?php echo $row['userid']; ?>">
+                                                        <i data-feather="eye" class="mr-50"></i> View
+                                                    </a>
 
-            <?php if($row['profilestatus'] != '1'): ?>
-            <a class="dropdown-item text-success" href="userprofile-update.php?uid=<?php echo $row['userid']; ?>&status=1">
-                <i data-feather="check" class="mr-50"></i> Approve Profile
-            </a>
-            <?php endif; ?>
+                                                    <div class="dropdown-divider"></div>
 
-            <!-- ID STATUS VERIFY / UNVERIFY BUTTON -->
-            <?php if($row['verificationinfo'] == '1'): ?>
-                <a class="dropdown-item text-danger"
-                   href="userprofile-approve-id.php?uid=<?php echo $row['userid']; ?>&status=0"
-                   onclick="return confirm('Mark ID as NOT VERIFIED?');">
-                    <i data-feather="x-circle" class="mr-50"></i> Unverify ID
-                </a>
-            <?php else: ?>
-                <a class="dropdown-item text-primary"
-                   href="userprofile-approve-id.php?uid=<?php echo $row['userid']; ?>&status=1"
-                   onclick="return confirm('Verify ID for this user?');">
-                    <i data-feather="check-circle" class="mr-50"></i> Verify ID
-                </a>
-            <?php endif; ?>
-            <!-- END ID BUTTON -->
+                                                    <?php if($row['profilestatus'] != '1'): ?>
+                                                    <a class="dropdown-item text-success" href="userprofile-update.php?uid=<?php echo $row['userid']; ?>&status=1">
+                                                        <i data-feather="check" class="mr-50"></i> Approve
+                                                    </a>
+                                                    <?php endif; ?>
 
-            <!-- Shortcut for Document verify -->
-            <?php if($doc_status_val != 'Done'): ?>
-            <a class="dropdown-item text-info"
-               href="verify-document.php?uid=<?php echo $row['userid']; ?>&action=verify"
-               onclick="return confirm('Verify Document for this user?')">
-                <i data-feather="shield" class="mr-50"></i> Verify Doc
-            </a>
-            <?php endif; ?>
+                                                    <!-- ID STATUS -->
+                                                    <?php if($row['verificationinfo'] == '1'): ?>
+                                                        <a class="dropdown-item text-danger"
+                                                           href="userprofile-approve-id.php?uid=<?php echo $row['userid']; ?>&status=0"
+                                                           onclick="return confirm('Mark ID as NOT VERIFIED?');">
+                                                            <i data-feather="x-circle" class="mr-50"></i> Unverify ID
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <a class="dropdown-item text-primary"
+                                                           href="userprofile-approve-id.php?uid=<?php echo $row['userid']; ?>&status=1"
+                                                           onclick="return confirm('Verify ID for this user?');">
+                                                            <i data-feather="check-circle" class="mr-50"></i> Verify ID
+                                                        </a>
+                                                    <?php endif; ?>
 
-            <?php if($row['profilestatus'] != '2'): ?>
-            <a class="dropdown-item text-warning"
-               href="userprofile-update.php?uid=<?php echo $row['userid']; ?>&status=2">
-                <i data-feather="user-x" class="mr-50"></i> Deactivate
-            </a>
-            <?php endif; ?>
+                                                    <!-- Doc Verify -->
+                                                    <?php if($doc_status_val != 'Done'): ?>
+                                                    <a class="dropdown-item text-info"
+                                                       href="verify-document.php?uid=<?php echo $row['userid']; ?>&action=verify"
+                                                       onclick="return confirm('Verify Document for this user?')">
+                                                        <i data-feather="shield" class="mr-50"></i> Verify Doc
+                                                    </a>
+                                                    <?php endif; ?>
 
-            <a class="dropdown-item text-danger"
-               href="userprofile-delete.php?uid=<?php echo $row['userid']; ?>"
-               onclick="return confirm('Are you sure to delete?');">
-                <i data-feather="trash-2" class="mr-50"></i> Delete
-            </a>
+                                                    <?php if($row['profilestatus'] != '2'): ?>
+                                                    <a class="dropdown-item text-warning"
+                                                       href="userprofile-update.php?uid=<?php echo $row['userid']; ?>&status=2">
+                                                        <i data-feather="user-x" class="mr-50"></i> Deactivate
+                                                    </a>
+                                                    <?php endif; ?>
 
-        </div>
-    </div>
-</td>
+                                                    <a class="dropdown-item text-danger"
+                                                       href="userprofile-delete.php?uid=<?php echo $row['userid']; ?>"
+                                                       onclick="return confirm('Are you sure to delete?');">
+                                                        <i data-feather="trash-2" class="mr-50"></i> Delete
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </td>
 
                                     </tr>
                                     <?php
                                         }
                                     } else {
-                                        echo "<tr><td colspan='9' class='text-center py-3'>No records found for selected filters.</td></tr>";
+                                        echo "<tr><td colspan='10' class='text-center py-3'>No records found.</td></tr>";
                                     }
                                     ?>
                                     </tbody>

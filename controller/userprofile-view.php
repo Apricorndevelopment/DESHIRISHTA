@@ -417,6 +417,72 @@ $row_admin_verification = mysqli_fetch_assoc($result_admin_verification);
     </div>
 </div>
 </div>
+<!--_--_--_--_--_   MEMBERSHIP PLAN BUTTONS   _--_--_--_--_-->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-dark mb-2">
+                                    <h4 class="card-title text-white">Change Membership Plan</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    <?php
+                                    // 1. Get Current Plan ID
+                                    // Assuming 'plan_id' column exists in registration table
+                                    $current_plan_id = isset($rowformfill['plan_id']) ? $rowformfill['plan_id'] : '1'; 
+
+                                    // 2. Define Plans Configuration
+                                    // IMPORTANT: Change the array keys (1, 2, 3) to match your database IDs for these plans
+                                    $plans = [
+                                        '1' => [
+                                            'name' => 'Free', 
+                                            'class' => 'btn-outline-secondary', 
+                                            'icon' => 'user'
+                                        ],
+                                        '2' => [
+                                            'name' => 'Gold', 
+                                            'class' => 'btn-warning', // Yellow/Gold color
+                                            'icon' => 'star'
+                                        ],
+                                        '3' => [
+                                            'name' => 'Platinum', 
+                                            'class' => 'btn-info', // Blue/Purple color
+                                            'icon' => 'award'
+                                        ]
+                                    ];
+                                    ?>
+
+                                    <div class="d-flex justify-content-center align-items-center flex-wrap">
+                                        <?php foreach ($plans as $id => $plan) { 
+                                            // Check if this is the current plan
+                                            $isActive = ($current_plan_id == $id);
+                                            
+                                            // Style adjustments for active/inactive state
+                                            $btnClass = $isActive ? 'btn-secondary' : $plan['class'];
+                                            $btnText  = $plan['name'];
+                                            $disabled = $isActive ? 'disabled' : '';
+                                            $cursor   = $isActive ? 'cursor: not-allowed;' : '';
+                                            
+                                            if($isActive) {
+                                                $btnText .= ' (Current)';
+                                            }
+                                        ?>
+                                            <!-- Action Button -->
+                                            <a href="userprofile-update-plan.php?uid=<?php echo $userid; ?>&plan_id=<?php echo $id; ?>" 
+                                               class="btn <?php echo $btnClass; ?> mr-2 mb-1 btn-lg"
+                                               style="<?php echo $cursor; ?>"
+                                               <?php echo $disabled; ?>
+                                               onclick="return confirm('Are you sure you want to change user plan to <?php echo $plan['name']; ?>?');">
+                                                <i data-feather="<?php echo $plan['icon']; ?>" class="mr-50"></i>
+                                                <?php echo $btnText; ?>
+                                            </a>
+                                        <?php } ?>
+                                    </div>
+                                    
+                                    <small class="text-muted mt-1 d-block">Clicking a button will immediately update the user's plan.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-12">

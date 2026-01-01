@@ -1,29 +1,21 @@
 <?php
-// Errors dekhne ke liye settings on karein
+// Errors dekhne ke liye settings
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Log file mein entry shuru karein
-file_put_contents('debug_log.txt', "--- New Request at " . date('Y-m-d H:i:s') . " ---\n", FILE_APPEND);
-
-// 1. Config file check
+// Config check
 if (!file_exists('config.php')) {
-    file_put_contents('debug_log.txt', "Error: config.php not found!\n", FILE_APPEND);
     die("Config missing");
 }
-
 include 'config.php';
 
-// 2. Database connection check
+// DB Check
 if (!$con) {
-    file_put_contents('debug_log.txt', "Error: Database connection failed: " . mysqli_connect_error() . "\n", FILE_APPEND);
     die("Connection failed");
 }
 
-// 3. Receive Data
+// Receive Data
 $json_input = file_get_contents("php://input");
-file_put_contents('debug_log.txt', "Received Data: " . $json_input . "\n", FILE_APPEND);
-
 $data = json_decode($json_input, true);
 
 if ($data) {
@@ -31,17 +23,26 @@ if ($data) {
     $p256dh  = mysqli_real_escape_string($con, $data['keys']['p256dh']);
     $auth    = mysqli_real_escape_string($con, $data['keys']['auth']);
 
-    // 4. Run Query
-    $sql = "INSERT INTO web_push_subscriptions (endpoint, p256dh, auth) VALUES ('$endpoint', '$p256dh', '$auth')";
-    
-    if (mysqli_query($con, $sql)) {
-        file_put_contents('debug_log.txt', "Success: Data inserted into DB\n", FILE_APPEND);
-        echo "Success";
+    // --- MAIN FIX: Pehle check karein ki user exist karta hai ya nahi ---
+    $check_query = "SELECT id FROM web_push_subscriptions WHERE endpoint = '$endpoint'";
+    $check_res = mysqli_query($con, $check_query);
+
+    if (mysqli_num_rows($check_res) > 0) {
+        // Agar user pehle se hai, toh sirf keys update karein (Insert nahi)
+        $sql = "UPDATE web_push_subscriptions SET p256dh='$p256dh', auth='$auth' WHERE endpoint='$endpoint'";
+        mysqli_query($con, $sql);
+        echo "Updated"; // Frontend ko pata chalega ki update hua
     } else {
-        file_put_contents('debug_log.txt', "SQL Error: " . mysqli_error($con) . "\n", FILE_APPEND);
-        echo "SQL Error";
+        // Agar naya user hai, tabhi INSERT karein
+        $sql = "INSERT INTO web_push_subscriptions (endpoint, p256dh, auth) VALUES ('$endpoint', '$p256dh', '$auth')";
+        
+        if (mysqli_query($con, $sql)) {
+            echo "Inserted";
+        } else {
+            echo "SQL Error";
+        }
     }
 } else {
-    file_put_contents('debug_log.txt', "Error: JSON data empty or invalid\n", FILE_APPEND);
+    echo "Invalid Data";
 }
 ?>

@@ -1,27 +1,89 @@
 <?php
 include 'config.php';
+date_default_timezone_set('Asia/Kolkata');
 
-$phone = $_POST['phonenum'];
-$otp = rand(0000,9999);
+/* =========================
+   VALIDATION
+========================= */
+$phone = trim($_POST['phonenum'] ?? '');
 
-$curl = curl_init();
+if (!preg_match('/^[6-9]\d{9}$/', $phone)) {
+    die("Invalid mobile number");
+}
 
-    curl_setopt_array($curl, array(
-    CURLOPT_URL => 'http://sms.primeclick.in/api/mt/SendSMS?user=Skdgtech&password=Skdg%40123&senderid=SKDGTE&channel=trans&DCS=0&flashsms=0&number='.$phone.'&text=Dear%20User%2C%20Your%20one%20time%20authentication%20is%20'.$otp.'%2C%20Regards%20SKDG%20Websoft%20Technologies%20(OPC)%20Pvt.%20Ltd.&route=15&DLTTemplateId=1707169572357217271&PEID=1701169547177152621',
+$otp = rand(1000, 9999);
+
+$message = "Dear Customer, Your Desi Rishta verification PIN is {$otp}. "
+         . "It is valid for 10 minutes and is confidential. "
+         . "Please do not share it with anyone.";
+
+
+$payload = [
+    "listsms" => [
+        [
+            "sms"        => $message,
+            "mobiles"    => $phone,
+            "senderid"   => "DSIRST",
+            "tempid"     => "1207176473586978716",
+            "responsein" => "json"
+        ]
+    ],
+    "user"     => "desirsms",
+    "password" => "30c3c138b0XX"
+];
+
+$jsonPayload = json_encode($payload);
+
+/* =========================
+   CURL REQUEST
+========================= */
+$ch = curl_init();
+curl_setopt_array($ch, [
+    CURLOPT_URL            => "https://www.proactivesms.in/REST/sendsms",
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => $jsonPayload,
     CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-));
+    CURLOPT_HTTPHEADER     => ["Content-Type: application/json"]
+]);
 
-$response = curl_exec($curl);
+$response = curl_exec($ch);
+$curlError = curl_error($ch);
+curl_close($ch);
 
-curl_close($curl);
-echo $response;
+/* =========================
+   LOG SMS RESPONSE
+========================= */
+file_put_contents(
+    "sms_debug.log",
+    date('Y-m-d H:i:s') . "\n$response\n$curlError\n\n",
+    FILE_APPEND
+);
 
-$sql = "INSERT INTO `mobile_otp`(`mobile`, `otp`, `status`) VALUES ('$phone', '$otp', '0')";
-$result = mysqli_query($con,$sql);
+/* =========================
+   SAVE OTP (FIXED WAY)
+========================= */
+$stmt = mysqli_prepare(
+    $con,
+    "INSERT INTO mobile_otp (mobile, otp, status)
+     VALUES (?, ?, 0)"
+);
+
+if (!$stmt) {
+    die("Prepare failed: " . mysqli_error($con));
+}
+
+mysqli_stmt_bind_param($stmt, "si", $phone, $otp);
+
+if (mysqli_stmt_execute($stmt)) {
+    echo "OTP SENT & SAVED";
+} else {
+    file_put_contents(
+        "db_error.log",
+        date('Y-m-d H:i:s') . " - " . mysqli_error($con) . "\n",
+        FILE_APPEND
+    );
+    echo "OTP SENT BUT DB ERROR";
+}
+
+mysqli_stmt_close($stmt);
 ?>

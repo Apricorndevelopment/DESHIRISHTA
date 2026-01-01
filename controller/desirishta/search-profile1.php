@@ -2,8 +2,65 @@
 include 'header.php'; 
 include 'config.php'; // Database connection 
 
-// --- PAGINATION LOGIC ---
-$limit = 6; // Ek page par kitne profiles dikhane hain
+// ==========================================
+// 1. FILTER LOGIC (SEARCH FUNCTIONALITY)
+// ==========================================
+$where = " WHERE 1=1 "; // Default condition
+
+// Age Filter
+if(!empty($_GET['agefrom'])) {
+    $agefrom = mysqli_real_escape_string($con, $_GET['agefrom']);
+    $where .= " AND age >= '$agefrom'";
+}
+if(!empty($_GET['ageto'])) {
+    $ageto = mysqli_real_escape_string($con, $_GET['ageto']);
+    $where .= " AND age <= '$ageto'";
+}
+
+// Height Filter (String comparison)
+if(!empty($_GET['heightfrom'])) {
+    $hfrom = mysqli_real_escape_string($con, $_GET['heightfrom']);
+    $where .= " AND height >= '$hfrom'";
+}
+if(!empty($_GET['heightto'])) {
+    $hto = mysqli_real_escape_string($con, $_GET['heightto']);
+    $where .= " AND height <= '$hto'";
+}
+
+// Marital Status
+if(!empty($_GET['maritalstatus'])) {
+    $ms = mysqli_real_escape_string($con, $_GET['maritalstatus']);
+    $where .= " AND marital_status = '$ms'";
+}
+
+// Religion
+if(!empty($_GET['religion'])) {
+    $rel = mysqli_real_escape_string($con, $_GET['religion']);
+    $where .= " AND religion = '$rel'";
+}
+
+// City (Handles Multiple Selections)
+if(!empty($_GET['city'])) {
+    $cities = $_GET['city'];
+    if(is_array($cities)){
+        // Create string like 'Delhi','Mumbai'
+        $city_list = "'" . implode("','", array_map(function($c) use($con){ return mysqli_real_escape_string($con, $c); }, $cities)) . "'";
+        $where .= " AND city IN ($city_list)";
+    }
+}
+
+// Sorting Logic
+$order_by = "ORDER BY id DESC"; // Default
+if(isset($_GET['sortby'])) {
+    if($_GET['sortby'] == 'asc') {
+        $order_by = "ORDER BY id ASC";
+    }
+}
+
+// ==========================================
+// 2. PAGINATION LOGIC
+// ==========================================
+$limit = 6; // Records per page
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
 } else {
@@ -11,17 +68,29 @@ if (isset($_GET['page'])) {
 }
 $offset = ($page - 1) * $limit;
 
-// Total records count karna (Pagination numbers ke liye)
-$sql_count = "SELECT COUNT(*) as total FROM `dummy-profile`";
+// Count Total Records (With Filters applied)
+$sql_count = "SELECT COUNT(*) as total FROM `dummy-profile` $where";
 $result_count = mysqli_query($con, $sql_count);
 $row_count = mysqli_fetch_assoc($result_count);
 $total_records = $row_count['total'];
 $total_pages = ceil($total_records / $limit);
-// ------------------------
+
+// ==========================================
+// 3. FETCH PROFILES (With Filters + Limit)
+// ==========================================
+$sql_profiles = "SELECT * FROM `dummy-profile` $where $order_by LIMIT $offset, $limit";
+$result_profiles = mysqli_query($con, $sql_profiles);
+
+// Helper function to keep URL params for pagination
+function get_url_params($remove_page = true) {
+    $params = $_GET;
+    if($remove_page && isset($params['page'])) unset($params['page']);
+    return http_build_query($params);
+}
 ?>
 
 <style>
-    /* === POPUP CSS (Yeh page specific hai isliye yahan rakha hai) === */
+    /* === POPUP CSS === */
     .menu-pop {
         display: none; 
         position: fixed;
@@ -63,6 +132,13 @@ $total_pages = ceil($total_records / $limit);
         from { opacity: 0; transform: translate(-50%, -60%); }
         to { opacity: 1; transform: translate(-50%, -50%); }
     }
+    
+    /* Ensure slider images fit well */
+    .wedd-rel-img img {
+        width: 100%;
+        height: 250px; /* Fixed height for consistency */
+        object-fit: cover;
+    }
 </style>
 
     <!-- SUB-HEADING -->
@@ -85,10 +161,12 @@ $total_pages = ceil($total_records / $limit);
         <div class="all-weddpro all-jobs all-serexp chosenini">
             <div class="container">
                 <div class="row">
-                    <!-- SIDEBAR FILTERS -->
+                    <!-- SIDEBAR FILTERS (SEARCH WALA) -->
                     <div class="col-md-3 fil-mob-view">
                         <span class="filter-clo">+</span>
-                        <form action="#" method="post">
+                        <!-- Changed method to GET so pagination works with search -->
+                        <form action="all-profiles.php" method="get">
+                            
                             <div class="filt-com lhs-cate">
                                 <h4><i><span class="material-icons">123</span></i>Age <span class="text-danger">*</span></h4>
                                 <div class="row">
@@ -96,10 +174,10 @@ $total_pages = ceil($total_records / $limit);
                                         <div class="form-group">
                                             <select class="chosen-select" name="agefrom">
                                                 <option value="">From</option>
-                                                <option value="18">18</option>
-                                                <option value="25">25</option>
-                                                <option value="30">30</option>
-                                                <option value="35">35</option>
+                                                <option value="18" <?php if(isset($_GET['agefrom']) && $_GET['agefrom']=='18') echo 'selected'; ?>>18</option>
+                                                <option value="25" <?php if(isset($_GET['agefrom']) && $_GET['agefrom']=='25') echo 'selected'; ?>>25</option>
+                                                <option value="30" <?php if(isset($_GET['agefrom']) && $_GET['agefrom']=='30') echo 'selected'; ?>>30</option>
+                                                <option value="35" <?php if(isset($_GET['agefrom']) && $_GET['agefrom']=='35') echo 'selected'; ?>>35</option>
                                             </select>
                                         </div>
                                     </div>
@@ -107,10 +185,10 @@ $total_pages = ceil($total_records / $limit);
                                         <div class="form-group">
                                             <select class="chosen-select" name="ageto">
                                                 <option value="">To</option>
-                                                <option value="25">25</option>
-                                                <option value="30">30</option>
-                                                <option value="35">35</option>
-                                                <option value="40">40</option>
+                                                <option value="25" <?php if(isset($_GET['ageto']) && $_GET['ageto']=='25') echo 'selected'; ?>>25</option>
+                                                <option value="30" <?php if(isset($_GET['ageto']) && $_GET['ageto']=='30') echo 'selected'; ?>>30</option>
+                                                <option value="35" <?php if(isset($_GET['ageto']) && $_GET['ageto']=='35') echo 'selected'; ?>>35</option>
+                                                <option value="40" <?php if(isset($_GET['ageto']) && $_GET['ageto']=='40') echo 'selected'; ?>>40</option>
                                             </select>
                                         </div>
                                     </div>
@@ -148,10 +226,10 @@ $total_pages = ceil($total_records / $limit);
                                 <div class="form-group">
                                     <select class="chosen-select" name="maritalstatus">
                                         <option value="">Select</option>
-                                        <option value="Never Married">Never Married</option>
-                                        <option value="Divorced">Divorced</option>
-                                        <option value="Widowed">Widowed</option>
-                                        <option value="Awaiting Divorce">Awaiting Divorce</option>
+                                        <option value="Never Married" <?php if(isset($_GET['maritalstatus']) && $_GET['maritalstatus']=='Never Married') echo 'selected'; ?>>Never Married</option>
+                                        <option value="Divorced" <?php if(isset($_GET['maritalstatus']) && $_GET['maritalstatus']=='Divorced') echo 'selected'; ?>>Divorced</option>
+                                        <option value="Widowed" <?php if(isset($_GET['maritalstatus']) && $_GET['maritalstatus']=='Widowed') echo 'selected'; ?>>Widowed</option>
+                                        <option value="Awaiting Divorce" <?php if(isset($_GET['maritalstatus']) && $_GET['maritalstatus']=='Awaiting Divorce') echo 'selected'; ?>>Awaiting Divorce</option>
                                     </select>
                                 </div>
                             </div>
@@ -161,10 +239,10 @@ $total_pages = ceil($total_records / $limit);
                                 <div class="form-group">
                                     <select class="chosen-select" name="religion">
                                         <option value="">Select</option>
-                                        <option value="Hindu">Hindu</option>
-                                        <option value="Muslim">Muslim</option>
-                                        <option value="Christian">Christian</option>
-                                        <option value="Sikh">Sikh</option>
+                                        <option value="Hindu" <?php if(isset($_GET['religion']) && $_GET['religion']=='Hindu') echo 'selected'; ?>>Hindu</option>
+                                        <option value="Muslim" <?php if(isset($_GET['religion']) && $_GET['religion']=='Muslim') echo 'selected'; ?>>Muslim</option>
+                                        <option value="Christian" <?php if(isset($_GET['religion']) && $_GET['religion']=='Christian') echo 'selected'; ?>>Christian</option>
+                                        <option value="Sikh" <?php if(isset($_GET['religion']) && $_GET['religion']=='Sikh') echo 'selected'; ?>>Sikh</option>
                                     </select>
                                 </div>
                             </div>
@@ -182,7 +260,7 @@ $total_pages = ceil($total_records / $limit);
                             </div>
 
                             <div class="filt-com lhs-cate">
-                                <button type="button" class="cta-3 w-100 text-center">Search</button>
+                                <button type="submit" class="cta-3 w-100 text-center">Search</button>
                             </div>
                         </form>
                     </div>
@@ -198,23 +276,33 @@ $total_pages = ceil($total_records / $limit);
                                 <ul>
                                     <li>Sort by:</li>
                                     <li>
-                                        <div class="form-group oldnew">
-                                            <select class="chosen-select p-2" id="sortby">
-                                                <option value="">Select</option>
-                                                <option value="desc">Date listed: Newest</option>
-                                                <option value="asc">Date listed: Oldest</option>
-                                            </select>
-                                        </div>
+                                        <!-- Sort Form -->
+                                        <form id="sortForm" method="get">
+                                            <!-- Keep existing search params hidden -->
+                                            <?php 
+                                            foreach($_GET as $key => $val){
+                                                if($key == 'sortby' || $key == 'page') continue;
+                                                if(is_array($val)){
+                                                    foreach($val as $v) echo "<input type='hidden' name='{$key}[]' value='$v'>";
+                                                } else {
+                                                    echo "<input type='hidden' name='$key' value='$val'>";
+                                                }
+                                            }
+                                            ?>
+                                            <div class="form-group oldnew">
+                                                <select class="chosen-select p-2" name="sortby" onchange="this.form.submit()">
+                                                    <option value="">Select</option>
+                                                    <option value="desc" <?php if(isset($_GET['sortby']) && $_GET['sortby']=='desc') echo 'selected'; ?>>Date listed: Newest</option>
+                                                    <option value="asc" <?php if(isset($_GET['sortby']) && $_GET['sortby']=='asc') echo 'selected'; ?>>Date listed: Oldest</option>
+                                                </select>
+                                            </div>
+                                        </form>
                                     </li>
                                     <li>
-                                        <div class="sort-grid sort-grid-1">
-                                            <i class="fa fa-th-large" aria-hidden="true"></i>
-                                        </div>
+                                        <div class="sort-grid sort-grid-1"><i class="fa fa-th-large" aria-hidden="true"></i></div>
                                     </li>
                                     <li>
-                                        <div class="sort-grid sort-grid-2 act">
-                                            <i class="fa fa-bars" aria-hidden="true"></i>
-                                        </div>
+                                        <div class="sort-grid sort-grid-2 act"><i class="fa fa-bars" aria-hidden="true"></i></div>
                                     </li>
                                 </ul>
                             </div>
@@ -223,34 +311,42 @@ $total_pages = ceil($total_records / $limit);
                         <div class="all-list-sh">
                             <ul>
                                 <?php
-                                // === DYNAMIC PHP LOOP STARTS HERE ===
-                                // Fetch data from dummy-profile table with LIMIT and OFFSET
-                                $sql_profiles = "SELECT * FROM `dummy-profile` ORDER BY id DESC LIMIT $offset, $limit";
-                                $result_profiles = mysqli_query($con, $sql_profiles);
-
                                 if (mysqli_num_rows($result_profiles) > 0) {
                                     while ($row = mysqli_fetch_assoc($result_profiles)) {
-                                        // Image path handling
-                                        $image_path = 'images/profiles/' . $row['image'];
-                                        // Fallback if image field is empty or file doesn't exist
-                                        // (Note: file_exists check works best with absolute server path, here simplistic)
-                                        if(empty($row['image'])){
-                                            $image_path = 'images/user/default.jpg'; 
+                                        
+                                        // 1. HANDLE MULTIPLE IMAGES
+                                        $image_string = $row['image'];
+                                        $image_array = explode(',', $image_string);
+                                        $image_array = array_filter($image_array, function($value) { return !is_null($value) && $value !== ''; });
+                                        
+                                        if(empty($image_array)) {
+                                            $image_array = ['default.jpg'];
                                         }
                                 ?>
                                 <li>
                                     <div class="all-pro-box user-avil-onli head-pro2" data-useravil="avilyes" data-aviltxt="Available online">
-                                        <!-- Profile Image -->
+                                        <!-- Profile Image Slider -->
                                         <div class="pro-img">
                                             <div class="slid-inn pr-bio-c wedd-rel-pro sliderarrow m-0">
                                                 <ul class="slider5">
+                                                    <?php 
+                                                    // Loop images for slider
+                                                    foreach($image_array as $img_file) {
+                                                        $full_img_path = 'images/profiles/' . $img_file;
+                                                        if($img_file == 'default.jpg') {
+                                                            $full_img_path = 'images/user/default.jpg';
+                                                        }
+                                                    ?>
                                                     <li>
                                                         <div class="wedd-rel-box">
                                                             <div class="wedd-rel-img">
-                                                                <img src="<?php echo $image_path; ?>" alt="" onerror="this.src='images/user/default.jpg'">
+                                                                <img src="<?php echo $full_img_path; ?>" alt="Profile Photo" onerror="this.src='images/user/default.jpg'">
                                                             </div>
                                                         </div>
                                                     </li>
+                                                    <?php 
+                                                    } 
+                                                    ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -261,7 +357,6 @@ $total_pages = ceil($total_records / $limit);
                                             <div><?php echo htmlspecialchars($row['profile_id']); ?></div>
                                             <div class="pro-info-status mobile mb-2"></div>
                                             
-                                            <!-- Bio Part 1: Personal -->
                                             <div class="pro-bio m-0 b-0 pb-1">
                                                 <span><?php echo $row['age']; ?> Yrs</span>
                                                 <span><?php echo $row['height']; ?></span>
@@ -269,20 +364,17 @@ $total_pages = ceil($total_records / $limit);
                                                 <span><?php echo $row['religion']; ?>, <?php echo $row['caste']; ?></span>
                                             </div>
 
-                                            <!-- Bio Part 2: Professional -->
                                             <div class="pro-bio m-0 pt-0">
                                                 <span><?php echo $row['education']; ?></span>
                                                 <span><?php echo $row['profession']; ?></span>
                                                 <span><?php echo $row['city']; ?></span>
                                             </div>
 
-                                            <!-- Links that trigger Popup -->
                                             <div class="links">
                                                 <a href="#!">Profile</a>
                                                 <a href="#!">Contact</a>
                                                 <a href="#!">Shortlist</a>
                                                 <a href="#!">WhatsApp</a>
-                                                <!-- Dropdown (Optional) -->
                                                 <div class="dropdown">
                                                     <button type="button" class="btn btn-outline-secondary blockreport" data-bs-toggle="dropdown">
                                                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -320,22 +412,24 @@ $total_pages = ceil($total_records / $limit);
                         <div class="page-nation">
                             <ul class="pagination pagination-sm">
                                 <?php 
-                                // Previous Button
+                                // Current search params string
+                                $search_params = get_url_params();
+                                $link_prefix = "?";
+                                if(!empty($search_params)) {
+                                    $link_prefix .= $search_params . "&";
+                                }
+
                                 if ($page > 1) {
-                                    echo '<li class="page-item"><a class="page-link" href="?page='.($page - 1).'">Previous</a></li>';
+                                    echo '<li class="page-item"><a class="page-link" href="'.$link_prefix.'page='.($page - 1).'">Previous</a></li>';
                                 } else {
                                     echo '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
                                 }
-
-                                // Page Numbers
                                 for ($i = 1; $i <= $total_pages; $i++) {
                                     $active = ($i == $page) ? 'active' : '';
-                                    echo '<li class="page-item '.$active.'"><a class="page-link" href="?page='.$i.'">'.$i.'</a></li>';
+                                    echo '<li class="page-item '.$active.'"><a class="page-link" href="'.$link_prefix.'page='.$i.'">'.$i.'</a></li>';
                                 }
-
-                                // Next Button
                                 if ($page < $total_pages) {
-                                    echo '<li class="page-item"><a class="page-link" href="?page='.($page + 1).'">Next</a></li>';
+                                    echo '<li class="page-item"><a class="page-link" href="'.$link_prefix.'page='.($page + 1).'">Next</a></li>';
                                 } else {
                                     echo '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
                                 }
@@ -349,11 +443,10 @@ $total_pages = ceil($total_records / $limit);
         </div>
     </section>
 
-    <!-- FOOTER -->
     <?php include 'footer.php'; ?>
 
-    <!-- POPUP HTML (Hidden by default) -->
-    <div class="menu-pop menu-pop2" style="">
+    <!-- POPUP HTML -->
+    <div class="menu-pop menu-pop2">
         <span class="menu-pop-clo"><i class="fa bi bi-x" aria-hidden="true"></i></span>
         <div class="inn">
             <div class="menu-pop-help">
@@ -382,15 +475,21 @@ $total_pages = ceil($total_records / $limit);
 
     <script>
     $(document).ready(function(){
-        // 1. Initialize Slider if content exists
+        // === UPDATED SLIDER LOGIC ===
         if($('.slider5').length > 0) {
              $('.slider5').slick({
-                dots: false, infinite: true, speed: 300, slidesToShow: 1, adaptiveHeight: true, arrows: true
+                dots: true,           
+                infinite: true,
+                speed: 500,           
+                slidesToShow: 1,      
+                adaptiveHeight: true,
+                arrows: true,
+                autoplay: true,       // ENABLE AUTO SCROLL
+                autoplaySpeed: 2000   // 2 SECONDS DELAY
             });
         }
 
-        // 2. POPUP LOGIC for ANY link inside .links
-        // Using 'document' delegation so it works even if content loads via AJAX later
+        // Popup Logic
         $(document).on('click', '.links a', function(e){
             e.preventDefault(); 
             $(".menu-pop2").addClass("act"); 
@@ -398,14 +497,13 @@ $total_pages = ceil($total_records / $limit);
             $("body").addClass("scroll-hide"); 
         });
 
-        // 3. Close Popup Actions
         $(".menu-pop-clo, .pop-bg").on('click', function(){
             $(".menu-pop2").removeClass("act");
             $(".pop-bg").fadeOut();
             $("body").removeClass("scroll-hide");
         });
         
-        // 4. Grid View / List View Toggles (Restored from static)
+        // Grid View Logic
         $(".sort-grid-1").click(function(){
             $(".all-list-sh").addClass("grid-view");
             $(".sort-grid-1").addClass("act");

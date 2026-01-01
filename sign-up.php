@@ -925,7 +925,7 @@ include 'header.php';
                                                     <div class="formnum active">1</div>
                                                     <div class="formnum active">2</div>
                                                     <div class="formnum active">3</div>
-                                                    <div class="formnum  active">4</div>
+                                                    <div class="formnum active">4</div>
                                                     <div class="formnum active">5</div>
                                                     <div class="formnum active">6</div>
                                                     <div class="formnum">7</div>

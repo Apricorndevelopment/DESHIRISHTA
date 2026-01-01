@@ -1,6 +1,8 @@
 <?php
+include 'header.php';
 include '../config.php';
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,3 +29,4 @@ include '../config.php';
 
 </body>
 </html>
+<?php include 'footer.php'; ?>

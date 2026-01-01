@@ -16,7 +16,7 @@
                                 <h4 class="card-title">Add New Profile</h4>
                             </div>
                             <div class="card-body">
-                                <form class="form form-vertical" action="insert-dummy.php" method="POST" enctype="multipart/form-data">
+                                <form class="form form-vertical" action="" method="POST" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
@@ -87,12 +87,14 @@
                                                 <input type="text" class="form-control" name="city" placeholder="e.g. Delhi">
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-12 col-12">
                                             <div class="form-group">
-                                                <label>Profile Image</label>
-                                                <input type="file" class="form-control" name="image" required>
+                                                <label>Profile Images (Select Multiple)</label>
+                                                <input type="file" class="form-control" name="images[]" multiple required>
                                             </div>
                                         </div>
+
                                         <div class="col-12">
                                             <button type="submit" name="submit" class="btn btn-primary mr-1">Submit</button>
                                         </div>
@@ -108,3 +110,66 @@
 </div>
 
 <?php include 'footer.php'; ?>
+
+<?php
+include 'config.php';
+
+if (isset($_POST['submit'])) {
+    $name = mysqli_real_escape_string($con, $_POST['name']);
+    $profile_id = mysqli_real_escape_string($con, $_POST['profile_id']);
+    $age = mysqli_real_escape_string($con, $_POST['age']);
+    $height = mysqli_real_escape_string($con, $_POST['height']);
+    $marital_status = mysqli_real_escape_string($con, $_POST['marital_status']);
+    $religion = mysqli_real_escape_string($con, $_POST['religion']);
+    $caste = mysqli_real_escape_string($con, $_POST['caste']);
+    $education = mysqli_real_escape_string($con, $_POST['education']);
+    $profession = mysqli_real_escape_string($con, $_POST['profession']);
+    $city = mysqli_real_escape_string($con, $_POST['city']);
+
+    // --- UPDATED IMAGE UPLOAD LOGIC ---
+    $target_dir = "../images/profiles/";
+    
+    // Ensure directory exists
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+
+    $uploaded_images = array(); // Array to store success filenames
+
+    // Loop through each uploaded file
+    if(isset($_FILES['images']['name']) && $_FILES['images']['name'][0] != "") {
+        $total_files = count($_FILES['images']['name']);
+        
+        for($i = 0; $i < $total_files; $i++) {
+            $image_name = $_FILES['images']['name'][$i];
+            $temp_name = $_FILES['images']['tmp_name'][$i];
+            
+            // Generate a unique name to prevent overwriting (Optional, allows same filename twice)
+            // $final_name = time() . "_" . $image_name; 
+            
+            // Using original name as per your request
+            $final_name = $image_name;
+
+            if(move_uploaded_file($temp_name, $target_dir . $final_name)) {
+                $uploaded_images[] = $final_name;
+            }
+        }
+    }
+
+    // Convert array to comma-separated string (e.g., "pic1.jpg,pic2.jpg")
+    if (!empty($uploaded_images)) {
+        $image_string = implode(',', $uploaded_images);
+    } else {
+        $image_string = "default.jpg";
+    }
+
+    $sql = "INSERT INTO `dummy-profile` (profile_id, name, age, height, marital_status, religion, caste, education, profession, city, image) 
+            VALUES ('$profile_id', '$name', '$age', '$height', '$marital_status', '$religion', '$caste', '$education', '$profession', '$city', '$image_string')";
+
+    if (mysqli_query($con, $sql)) {
+        echo "<script>alert('Profile Added Successfully with Multiple Images'); window.location.href='view-dummy.php';</script>";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+?>
