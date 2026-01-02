@@ -27,6 +27,10 @@ class VAPID
     private const PRIVATE_KEY_LENGTH = 32;
 
     /**
+     * @param array $vapid
+     *
+     * @return array
+     *
      * @throws \ErrorException
      */
     public static function validate(array $vapid): array
@@ -92,6 +96,7 @@ class VAPID
      * @param string $subject This should be a URL or a 'mailto:' email address
      * @param string $publicKey The decoded VAPID public key
      * @param string $privateKey The decoded VAPID private key
+     * @param string $contentEncoding
      * @param null|int $expiration The expiration of the VAPID JWT. (UNIX timestamp)
      *
      * @return array Returns an array with the 'Authorization' and 'Crypto-Key' values to be used as headers
@@ -118,7 +123,7 @@ class VAPID
             throw new \ErrorException('Failed to encode JWT payload in JSON');
         }
 
-        [$x, $y] = Utils::unserializePublicKey($publicKey);
+        list($x, $y) = Utils::unserializePublicKey($publicKey);
         $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
@@ -143,9 +148,7 @@ class VAPID
                 'Authorization' => 'WebPush '.$jwt,
                 'Crypto-Key' => 'p256ecdsa='.$encodedPublicKey,
             ];
-        }
-
-        if ($contentEncoding === 'aes128gcm') {
+        } elseif ($contentEncoding === 'aes128gcm') {
             return [
                 'Authorization' => 'vapid t='.$jwt.', k='.$encodedPublicKey,
             ];
@@ -158,6 +161,7 @@ class VAPID
      * This method creates VAPID keys in case you would not be able to have a Linux bash.
      * DO NOT create keys at each initialization! Save those keys and reuse them.
      *
+     * @return array
      * @throws \ErrorException
      */
     public static function createVapidKeys(): array

@@ -28,7 +28,12 @@ class Subscription implements SubscriptionInterface
     private $contentEncoding;
 
     /**
-     * @param string|null $contentEncoding (Optional) Must be "aesgcm"
+     * Subscription constructor.
+     *
+     * @param string $endpoint
+     * @param null|string $publicKey
+     * @param null|string $authToken
+     * @param string $contentEncoding (Optional) Must be "aesgcm"
      * @throws \ErrorException
      */
     public function __construct(
@@ -52,7 +57,10 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
+     * Subscription factory.
+     *
      * @param array $associativeArray (with keys endpoint, publicKey, authToken, contentEncoding)
+     * @return self
      * @throws \ErrorException
      */
     public static function create(array $associativeArray): self

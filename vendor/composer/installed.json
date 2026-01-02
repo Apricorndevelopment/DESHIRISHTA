@@ -478,17 +478,17 @@
         },
         {
             "name": "minishlink/web-push",
-            "version": "v7.0.0",
-            "version_normalized": "7.0.0.0",
+            "version": "v6.0.7",
+            "version_normalized": "6.0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-push-libs/web-push-php.git",
-                "reference": "8b023f2f5c6df846c0cfb87e13fb7ddf5e62c340"
+                "reference": "23a78b8585bdcecaa323f1dd1acdc548e28892fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/8b023f2f5c6df846c0cfb87e13fb7ddf5e62c340",
-                "reference": "8b023f2f5c6df846c0cfb87e13fb7ddf5e62c340",
+                "url": "https://api.github.com/repos/web-push-libs/web-push-php/zipball/23a78b8585bdcecaa323f1dd1acdc548e28892fe",
+                "reference": "23a78b8585bdcecaa323f1dd1acdc548e28892fe",
                 "shasum": ""
             },
             "require": {
@@ -497,19 +497,18 @@
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "guzzlehttp/guzzle": "^7.0.1|^6.2",
-                "php": ">=7.3",
-                "spomky-labs/base64url": "^2.0",
-                "web-token/jwt-key-mgmt": "^2.0|^3.0.2",
-                "web-token/jwt-signature": "^2.0|^3.0.2",
-                "web-token/jwt-signature-algorithm-ecdsa": "^2.0|^3.0.2",
-                "web-token/jwt-util-ecc": "^2.0|^3.0.2"
+                "php": ">=7.2",
+                "web-token/jwt-key-mgmt": "^2.0",
+                "web-token/jwt-signature": "^2.0",
+                "web-token/jwt-signature-algorithm-ecdsa": "^2.0",
+                "web-token/jwt-util-ecc": "^2.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.14",
                 "phpstan/phpstan": "^0.11|^0.12",
                 "phpunit/phpunit": "^8.0|^9.0"
             },
-            "time": "2022-03-29T13:54:20+00:00",
+            "time": "2021-11-22T17:36:01+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -539,7 +538,7 @@
             ],
             "support": {
                 "issues": "https://github.com/web-push-libs/web-push-php/issues",
-                "source": "https://github.com/web-push-libs/web-push-php/tree/v7.0.0"
+                "source": "https://github.com/web-push-libs/web-push-php/tree/v6.0.7"
             },
             "install-path": "../minishlink/web-push"
         },
@@ -829,23 +828,23 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.0.2",
-            "version_normalized": "3.0.2.0",
+            "version": "v2.5.4",
+            "version_normalized": "2.5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c"
+                "reference": "605389f2a7e5625f273b53960dc46aeaf9c62918"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/605389f2a7e5625f273b53960dc46aeaf9c62918",
+                "reference": "605389f2a7e5625f273b53960dc46aeaf9c62918",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2"
+                "php": ">=7.1"
             },
-            "time": "2022-01-02T09:55:41+00:00",
+            "time": "2024-09-25T14:11:13+00:00",
             "type": "library",
             "extra": {
                 "thanks": {
@@ -853,7 +852,7 @@
                     "name": "symfony/contracts"
                 },
                 "branch-alias": {
-                    "dev-main": "3.0-dev"
+                    "dev-main": "2.5-dev"
                 }
             },
             "installation-source": "dist",
@@ -879,7 +878,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.0.2"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.4"
             },
             "funding": [
                 {

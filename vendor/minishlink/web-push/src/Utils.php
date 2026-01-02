@@ -20,11 +20,21 @@ use Jose\Component\Core\Util\Ecc\PublicKey;
 
 class Utils
 {
+    /**
+     * @param string $value
+     *
+     * @return int
+     */
     public static function safeStrlen(string $value): int
     {
         return mb_strlen($value, '8bit');
     }
 
+    /**
+     * @param PublicKey $publicKey
+     *
+     * @return string
+     */
     public static function serializePublicKey(PublicKey $publicKey): string
     {
         $hexString = '04';
@@ -40,6 +50,11 @@ class Utils
         return $hexString;
     }
 
+    /**
+     * @param JWK $jwk
+     *
+     * @return string
+     */
     public static function serializePublicKeyFromJWK(JWK $jwk): string
     {
         $hexString = '04';
@@ -49,6 +64,11 @@ class Utils
         return $hexString;
     }
 
+    /**
+     * @param string $data
+     *
+     * @return array
+     */
     public static function unserializePublicKey(string $data): array
     {
         $data = bin2hex($data);
