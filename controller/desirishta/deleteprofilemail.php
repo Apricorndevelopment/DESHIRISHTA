@@ -1,27 +1,19 @@
 <?php
 ob_start(); 
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 $email = $_COOKIE['dr_email'];
 $fullname =  $_COOKIE['dr_name'];
 $subject = "Confirmation of Profile Deletion from Desi Rishta";
-$mailContent = "
-    <div style='width:100%; margin:2% auto; padding:3%;'>
-        <div style='text-align:center'>
-            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-        </div>
-        <div style='width:100%; margin:0 auto'>
-            <div style='color:#000; width:90%; margin:0 auto;'>
-                <p style='font-size:15px;'>Dear $fullname,</p>
+$customHtml = "
+ <p style='font-size:15px;'>Dear $fullname,</p>
                 <p style='font-size:15px;'>Your profile has been successfully deleted from Desi Rishta.</p>
                 <p style='font-size:15px;'>Thank you for using our platform. If you have any questions or need assistance, feel free to contact us.</p>
-                <br>
-                <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
-                <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
-                <p style='font-size:15px; margin:0px'>support@desi-rishta.com</p>
-            </div>
-        </div>    
-    </div>
-    ";
+";
+
+
+$mailContent = getEmailLayout($customHtml);
 
 $curl = curl_init();
 

@@ -248,7 +248,7 @@ if ($sub_req_result && mysqli_num_rows($sub_req_result) > 0) {
                     <li>
                         <a class="d-flex align-items-center" href="manage-location-attributes.php">
                             <i data-feather="circle"></i>
-                            <span class="menu-item text-truncate">Groom Location </span>
+                            <span class="menu-item text-truncate">Location </span>
                         </a>
                     </li>
                 </ul>
@@ -278,7 +278,7 @@ if ($sub_req_result && mysqli_num_rows($sub_req_result) > 0) {
                  <li class="nav-item"> 
                 <a class="d-flex align-items-center" href="send-push.php"> 
                     <i data-feather="bell"></i>
-                    <span class="menu-title text-truncate"> web Push Notification</span> 
+                    <span class="menu-title text-truncate"> Web Push Notification</span> 
                 </a> 
             </li>
 

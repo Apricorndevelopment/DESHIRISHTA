@@ -4,6 +4,8 @@
 ob_start();
 include 'config.php';
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 // Check if all necessary parameters are set
 if (isset($_GET['uid']) && isset($_GET['action'])) {
     
@@ -46,22 +48,12 @@ if (isset($_GET['uid']) && isset($_GET['action'])) {
             $fullname = $row_user['name'];
 
             $subject = "Government ID verification completed: You've Earned Your Trust Badge!";
-            $mailContent = "
-                <div style='width:90%; margin:2% auto; padding:3%;'>
-                    <div style='text-align:center'>
-                        <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-                    </div>
-                    <div style='width:100%; margin:0 auto'>
-                        <div style='color:#000; width:90%; margin:0 auto;'>
-                            <p style='font-size:15px;'>Dear User,</p>
+            $customHtml = "
+                 <p style='font-size:15px;'>Dear User,</p>
                             <p style='font-size:15px;'>We are pleased to inform you that your verification process has been successfully completed. As a result, your trust badge is now active on your profile.</p>
                             <p style='font-size:15px;'>We appreciate your cooperation in completing this important step.</p>
-                            <br>
-                            <p style='font-size:15px; margin:0px'>Thanks & Regards,<br>Team Desi Rishta<br>support@desi-rishta.com</p>
-                        </div>
-                    </div>    
-                </div>";
-
+";
+            $mailContent = getEmailLayout($customHtml);
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => 'https://app.smtpprovider.com/api/send-mail/',

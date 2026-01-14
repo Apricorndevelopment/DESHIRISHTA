@@ -2,6 +2,8 @@
 ob_start();
 include 'config.php';
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 // 1. Check that all required parameters are present in the URL
 if (isset($_GET['uid']) && isset($_GET['status'])) {
     
@@ -61,25 +63,14 @@ if (isset($_GET['uid']) && isset($_GET['status'])) {
             $email = $rowselect['email'];
             $fullname = $rowselect['name'];
             $subject = "Your Profile is Now Live on Desi Rishta";
-            $mailContent = "
-                <div style='width:90%; margin:2% auto; padding:3%;'>
-                    <div style='text-align:center'>
-                        <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-                    </div>
-                    <div style='width:100%; margin:0 auto'>
-                        <div style='color:#000; width:90%; margin:0 auto;'>
-                            <p style='font-size:15px;'>Dear $fullname,</p>
+            $customHtml = "
+            <p style='font-size:15px;'>Dear $fullname,</p>
                             <p style='font-size:15px;'>We're pleased to inform you that your profile has passed screening and is now live on Desi Rishta. Start connecting with potential partners today!</p>
                             <p style='font-size:15px;'>If you have any questions or need assistance, our support team is here to help.</p>
-                            <br>
-                            <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
-                            <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
-                            <p style='font-size:15px; margin:0px'>support@desi-rishta.com</p>
-                        </div>
-                    </div>    
-                </div>
-                ";
-                
+            ";
+            
+            $mailContent = getEmailLayout($customHtml);
+            
             $curl = curl_init();
 
             curl_setopt_array($curl, array(

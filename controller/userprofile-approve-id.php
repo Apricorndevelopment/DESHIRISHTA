@@ -1,6 +1,8 @@
 <?php
 ob_start();
 include 'config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 
 if (isset($_GET['uid']) && isset($_GET['status'])) {
 
@@ -23,23 +25,13 @@ if (isset($_GET['uid']) && isset($_GET['status'])) {
             $email    = $rowselect['email'];
             $fullname = $rowselect['name'];
             $subject  = "Your ID has been Verified on Desi Rishta";
-
-            $mailContent = "
-                <div style='width:90%; margin:2% auto; padding:3%;'>
-                    <div style='text-align:center'>
-                        <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-                    </div>
-                    <div style='width:100%; margin:0 auto'>
-                        <div style='color:#000; width:90%; margin:0 auto;'>
-                            <p style='font-size:15px;'>Dear $fullname,</p>
+            $customHtml = "
+                    <p style='font-size:15px;'>Dear $fullname,</p>
                             <p style='font-size:15px;'>Congratulations! Your submitted Government ID has been successfully verified by our team.</p>
                             <p style='font-size:15px;'>Your profile will now display a 'Verified' badge, increasing your trust and credibility in the community.</p>
-                            <br>
-                            <p style='font-size:15px; margin:0px'>Thanks & Regards,<br>Team Desi Rishta<br>support@desi-rishta.com</p>
-                        </div>
-                    </div>    
-                </div>";
+";
 
+            $mailContent = getEmailLayout($customHtml);
             $curl = curl_init();
             curl_setopt_array($curl, array(
                 CURLOPT_URL => 'https://app.smtpprovider.com/api/send-mail/',

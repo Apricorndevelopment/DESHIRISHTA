@@ -14,9 +14,9 @@ include '../config.php';
 use Minishlink\WebPush\WebPush;
 use Minishlink\WebPush\Subscription;
 
-// Error display on karein testing ke liye
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Error reporting band karein taki redirect me issue na aaye
+error_reporting(0);
+ini_set('display_errors', 0);
 
 if(isset($_POST['send_push'])) {
 
@@ -24,64 +24,53 @@ if(isset($_POST['send_push'])) {
     $message = $_POST['message'];
     $link    = $_POST['link'];
 
-    // 2. Asli Keys Yahan Set Karein (Placeholder nahi chalega)
+    // 2. Keys Setup
     $auth = [
         'VAPID' => [
             'subject' => 'mailto:admin@desirishta.com',
             'publicKey' => 'BHfvtXOrMtJBEsTOQyYqEPG-db9j7Ynf-Wq2mxUj8HfXkpJNOBeSmW6xhOfjiyqygUVEZIWml31L3CcFZR--dMg',
-            'privateKey' => 'o6XF_j9JVGaUnTmQsHLbfXR1E8eYpX1cX3BZxLTZJbU', // Aapki private key
+            'privateKey' => 'o6XF_j9JVGaUnTmQsHLbfXR1E8eYpX1cX3BZxLTZJbU',
         ],
     ];
 
-    // WebPush initialize karein
     $webPush = new WebPush($auth);
 
-    // Database se users layein
     $res = mysqli_query($con, "SELECT * FROM web_push_subscriptions");
     
-    if(mysqli_num_rows($res) == 0) {
-        die("<h3>Error: Database me koi subscriber nahi hai. Pehle 'Allow Notification' karein.</h3>");
+    if(mysqli_num_rows($res) > 0) {
+        while($row = mysqli_fetch_assoc($res)) {
+            $subscription = Subscription::create([
+                'endpoint' => $row['endpoint'],
+                'publicKey' => $row['p256dh'],
+                'authToken' => $row['auth'],
+            ]);
+
+            $payload = json_encode([
+                'title' => $title,
+                'message' => $message,
+                'link' => $link,
+                'icon' => 'images/logo.png'
+            ]);
+
+            $webPush->queueNotification($subscription, $payload);
+        }
     }
 
-    echo "<h3>Notification Sending Report:</h3><ul>";
-
-    while($row = mysqli_fetch_assoc($res)) {
-
-        $subscription = Subscription::create([
-            'endpoint' => $row['endpoint'],
-            'publicKey' => $row['p256dh'],
-            'authToken' => $row['auth'],
-        ]);
-
-        $payload = json_encode([
-            'title' => $title,
-            'message' => $message,
-            'link' => $link,
-            'icon' => 'images/logo.png' // Icon path check karein
-        ]);
-
-        // Notification queue mein dalein
-        $webPush->queueNotification($subscription, $payload);
-    }
-
-    // 3. FLUSH aur REPORT Check (Sabse Important Step)
-    // Ye actually send karega aur batayega ki success hua ya fail
+    // 3. FLUSH & SILENT CLEANUP
     foreach ($webPush->flush() as $report) {
         $endpoint = $report->getRequest()->getUri()->__toString();
 
-        if ($report->isSuccess()) {
-            echo "<li style='color:green;'>✅ Success: Notification sent successfully!</li>";
-        } else {
-            echo "<li style='color:red;'>❌ Failed: " . $report->getReason() . "</li>";
-            
-            // Agar subscription expire ho gayi hai, toh use delete kar dein
+        if (!$report->isSuccess()) {
+            // Agar subscription expired/invalid hai, to DB se delete karein (Silent Mode)
             if ($report->isSubscriptionExpired()) {
-                echo "<span>(Subscription expired, deleting from DB...)</span>";
-                // Optional: Delete query here
+                $safeEndpoint = mysqli_real_escape_string($con, $endpoint);
+                mysqli_query($con, "DELETE FROM web_push_subscriptions WHERE endpoint = '$safeEndpoint'");
             }
         }
     }
-    echo "</ul>";
-    echo "<br><a href='send-push.php'>Go Back</a>";
+
+    // 4. Redirect with Success Message
+    header("Location: send-push.php?msg=sent");
+    exit();
 }
 ?>

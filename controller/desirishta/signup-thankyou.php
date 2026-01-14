@@ -1,28 +1,19 @@
 <?php
 include 'header.php';
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 $email = $_COOKIE['dr_email'];
 $fullname =  $_COOKIE['dr_name'];
 $subject = "Welcome to Desi Rishta";
-$mailContent = "
-    <div style='width:100%; margin:2% auto; padding:3%;'>
-        <div style='text-align:center'>
-            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-        </div>
-        <div style='width:100%; margin:0 auto'>
-            <div style='color:#000; width:90%; margin:0 auto;'>
-                <p style='font-size:15px;'>Dear $fullname,</p>
+$customHtml = "
+          <p style='font-size:15px;'>Dear $fullname,</p>
                 <p style='font-size:15px;'>On behalf of the entire Desi Rishta team, I extend a warm welcome to you! We are thrilled to have you on board.</p>
                 <p style='font-size:15px;'>Your profile is currently under screening. Once we determine that your profile meets our terms and conditions, your account will be made live. You will be notified once this process is complete. In the meantime, please continue your partner search on Desi Rishta.</p>
                 <p style='font-size:15px;'>If you have any questions or need assistance, our support team is here to help.</p>
-                <br>
-                <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
-                <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
-                <p style='font-size:15px; margin:0px'>support@desi-rishta.com</p>
-            </div>
-        </div>    
-    </div>
-    ";
+";
+
+$mailContent = getEmailLayout($customHtml);
 ?>
     <!-- LOGIN -->
     <section>

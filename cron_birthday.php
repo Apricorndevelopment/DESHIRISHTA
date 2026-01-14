@@ -1,6 +1,8 @@
 <?php
 ob_start(); 
 include 'config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 
 echo $currentdate = date('m-d');
 
@@ -18,26 +20,20 @@ $rowdetails = mysqli_fetch_assoc($resultdetails);
 
 $email = $rowdetails['email'];
 $fullname =  $rowdetails['name'];
-$subject = "Wishing You a Joyful and Love-Filled Birthday from Desi Rishta! 🎉🎂";
-$mailContent = "
-    <div style='width:100%; margin:2% auto; padding:3%;'>
-        <div style='text-align:center'>
-            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-        </div>
-        <div style='width:100%; margin:0 auto'>
-            <div style='color:#000; width:90%; margin:0 auto;'>
-                <p style='font-size:15px;'>Dear $fullname,</p>
-                <p style='font-size:15px;'>Wishing you a joyful and love-filled birthday from all of us at Desi Rishta! 🎂🎉🥳</p>
-                <p style='font-size:15px;'>We hope your special day is full of happiness, and that the year ahead brings you closer to finding your perfect match.</p>
-                <p style='font-size:15px;'>Enjoy your day to the fullest! 🥳</p>
-                <br>
-                <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
-                <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
-                <p style='font-size:15px; margin:0px'>support@desi-rishta.com</p>
-            </div>
-        </div>    
+$subject = "🎊🎂 It’s Your Birthday! Desi Rishta Celebrates You 🎉";
+$customHtml = "
+    <div style='font-size:15px; line-height:1.6; color:#333;'>
+        Dear <strong>$fullname</strong>,<br><br>
+        🎊🎉 <strong>Happy Birthday!</strong> 🎉🎊<br>
+        ✨ <strong>Today is all about celebrating you!</strong> ✨<br><br>
+        The entire Desi Rishta team wishes you a year filled with happiness, good health, and beautiful new beginnings.<br><br>
+        Thank you for being a valued part of our community. We hope Desi Rishta continues to support you on your journey toward meaningful connections. 💖<br><br>
+        Have a fantastic birthday and enjoy every moment! 🎂🎁🎈✨
     </div>
-    ";
+";
+
+
+$mailContent = getEmailLayout($customHtml);
 
 $curl = curl_init();
 

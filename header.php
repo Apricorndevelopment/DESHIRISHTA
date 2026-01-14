@@ -416,7 +416,7 @@ if (isset($_COOKIE['dr_userid'])) {
                                 </span>
                             <?php } ?>
                             <!-- Trigger for Animation -->
-                            <span class="mobile-menu-trigger" style="margin-right: 15px; cursor: pointer;">
+                            <span class="mobile-menu-" style="margin-right: 15px; cursor: pointer;">
                                 <i class="bi bi-list" style="font-size: 28px;"></i>
                             </span>
                         </div>
@@ -445,7 +445,7 @@ if (isset($_COOKIE['dr_userid'])) {
     </div>
 
     <!-- MOBILE MENU POPUP -->
-    <div class="mob-me-all mobile_menu pt-2">
+    <div class="mob-me-all mobile_menu pt-2" style="z-index: 10000;">
         <div class="mob-me-clo">
             <i class="bi bi-x-lg"></i>
         </div>
@@ -536,7 +536,7 @@ if (isset($_COOKIE['dr_userid'])) {
                 </ul>
 
                 <!-- SERVICES -->
-                <h4><i class="fa fa-service" aria-hidden="true"></i>SERVICES</h4>
+                <h4><i class="fa bi bi-service" aria-hidden="true"></i>SERVICES</h4>
                 <ul>
                     <li><a href="wedding-ecard.php">Wedding E-card</a></li>
                 </ul>
@@ -557,7 +557,7 @@ if (isset($_COOKIE['dr_userid'])) {
     <!-- SCRIPT FOR BOTTOM-UP ANIMATION -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const menuTrigger = document.querySelector('.mobile-menu-trigger');
+            const menuTrigger = document.querySelector('.mobile-menu-');
             const mobileMenu = document.querySelector('.mob-me-all');
             const closeBtn = document.querySelector('.mob-me-clo');
             

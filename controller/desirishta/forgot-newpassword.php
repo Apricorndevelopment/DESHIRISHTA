@@ -137,8 +137,8 @@ include 'header.php';
                                             <span class="iconbox">
                                                 <input type="password" class="form-control leftspace" id="comfrimpass" placeholder="Enter Confirm Password" name="comfrimpass" required>
                                                 <span class="material-symbols-outlined icon">lock</span>
-                                                <span class="material-symbols-outlined iconright" id="openid">visibility</span>
-                                                <span class="material-symbols-outlined iconright" id="closeeye" style="display:none;">visibility_off</span>
+                                                <span class="material-symbols-outlined iconright" id="openid1">visibility</span>
+                                                <span class="material-symbols-outlined iconright" id="closeeye1" style="display:none;">visibility_off</span>
                                             </span>
                                             <p class="text-danger errorstatement" id="comfrimpasserror" style="display:none">Please Enter Confirm Password</p>
                                             <p class="text-danger errorstatement" id="notmatched" style="display:none"><i class="fa fa-exclamation-circle"></i>&nbsp;The Password you entered do not match</p>

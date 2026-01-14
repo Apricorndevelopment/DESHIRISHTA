@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
 
 $sqdate_default_timezone_set('Asia/Kolkata');
 
@@ -25,22 +26,13 @@ while($row = mysqli_fetch_assoc($result_deactivate)) {
 
     // Send Deactivation Email
     $subject = "Account deactivation due to missing government ID details";
-    $mailContent = "
-        <div style='width:90%; margin:2% auto; padding:3%;'>
-            <div style='text-align:center'>
-                <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-            </div>
-            <div style='width:100%; margin:0 auto'>
-                <div style='color:#000; width:90%; margin:0 auto;'>
-                    <p style='font-size:15px;'>Dear $fullname,</p>
+    $customHtml = "
+  <p style='font-size:15px;'>Dear $fullname,</p>
                     <p style='font-size:15px;'>We noticed that you have not uploaded your government ID since registration. As a result, your account has been deactivated.</p>
                     <p style='font-size:15px;'>To reactivate your account, please upload your government ID at your earliest convenience. Once verified, your account will be automatically activated by our Desi Rishta Team. If you need any assistance, feel free to contact us at support@desi-rishta.com.</p>
                     <p style='font-size:15px;'>Thank you for your prompt attention.</p>
-                    <br>
-                    <p style='font-size:15px; margin:0px'>Thanks & Regards,<br>Team Desi Rishta<br>support@desi-rishta.com</p>
-                </div>
-            </div>    
-        </div>";
+";
+    $mailContent = getEmailLayout($customHtml);
 
     send_mail_cron($email, $subject, $mailContent);
     echo "Deactivated: $email <br>";
@@ -106,3 +98,5 @@ function send_mail_cron($to, $subject, $body) {
     $response = curl_exec($curl);
     curl_close($curl);
     return $response;
+}
+?>

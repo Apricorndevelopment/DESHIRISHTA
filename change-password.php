@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
 
 $userid = $_POST['userid'];
 $password = $_POST['password'];
@@ -22,25 +23,13 @@ if($previous_pass != $password)
     // --- START EMAIL NOTIFICATION LOGIC ---
     if($user_email != '') {
         $subject = "Desi Rishta Sign In Password changed successfully";
-        $mailContent = "
-            <div style='width:100%; margin:2% auto; padding:3%; font-family: Arial, sans-serif;'>
-                <div style='text-align:center'>
-                    <img src='https://desi-rishta.com/images/tlogo.png' style='width:200px'>
-                </div>
-                <div style='width:100%; margin:0 auto'>
-                    <div style='color:#000; width:90%; margin:0 auto;'>
-                        <p style='font-size:15px;'>Dear $user_name,</p>
+        $customHtml = "
+        <p style='font-size:15px;'>Dear $user_name,</p>
                         <p style='font-size:15px;'>This is a confirmation that your Desi Rishta Sign In password has been changed successfully. You can now access your account using the updated credentials.</p>
                         
                         <p style='font-size:15px;'>If you did not request this change or suspect unauthorized activity on your account, please contact our support team immediately at <a href='mailto:support@desi-rishta.com'>support@desi-rishta.com</a></p>
-                        <br>
-                        <p style='font-size:15px; margin:0px'>Thanks & Regards,</p>
-                        <p style='font-size:15px; margin:0px'>Team Desi Rishta</p>
-                        <p style='font-size:15px; margin:0px'>support@desi-rishta.com</p>
-                    </div>
-                </div>    
-            </div>
         ";
+        $mailContent = getEmailLayout($customHtml);
 
         $curl = curl_init();
         curl_setopt_array($curl, array(

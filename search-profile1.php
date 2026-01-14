@@ -195,7 +195,7 @@ function get_url_params($remove_page = true) {
                                 </div>
                             </div>
                             
-                            <div class="filt-com lhs-cate">
+                            <!-- <div class="filt-com lhs-cate">
                                 <h4><i><span class="material-icons">height</span></i>Height</h4>
                                 <div class="row">
                                     <div class="col-md-12 mb-2">
@@ -219,7 +219,150 @@ function get_url_params($remove_page = true) {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
+                            <div class="filt-com lhs-cate">
+        
+        <!-- 1. AGE SECTION -->
+        <h4><i><span class="material-icons">cake</span></i>Age</h4>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <div class="form-group">
+                    <select class="chosen-select" name="agefrom" id="ageFrom">
+                        <option value="">Age From</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <select class="chosen-select" name="ageto" id="ageTo">
+                        <option value="">Age To</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <!-- 2. HEIGHT SECTION -->
+        <h4><i><span class="material-icons">height</span></i>Height</h4>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <div class="form-group">
+                    <select class="chosen-select" name="heightfrom" id="heightFrom">
+                        <option value="">Height From</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <select class="chosen-select" name="heightto" id="heightTo">
+                        <option value="">Height To</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <!-- 3. RELIGION SECTION -->
+        <h4><i><span class="material-icons">self_improvement</span></i>Religion</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <select class="chosen-select" name="religion" id="religionSelect">
+                        <option value="">Select Religion</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <!-- 4. LOCATION SECTION -->
+        <h4><i><span class="material-icons">location_on</span></i>Location</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <select class="chosen-select" name="location" id="locationSelect">
+                        <option value="">Select Location</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Aapka Div End -->
+
+    <!-- Inline Script to Populate Options -->
+    <script>
+        (function() {
+            // 1. Populate Age (18 to 100)
+            var ageFrom = document.getElementById('ageFrom');
+            var ageTo = document.getElementById('ageTo');
+            for (var i = 18; i <= 100; i++) {
+                var opt1 = document.createElement('option');
+                opt1.value = i;
+                opt1.innerHTML = i + " Years";
+                ageFrom.appendChild(opt1);
+
+                var opt2 = document.createElement('option');
+                opt2.value = i;
+                opt2.innerHTML = i + " Years";
+                ageTo.appendChild(opt2);
+            }
+
+            // 2. Populate Height (4ft to 7ft)
+            var heightFrom = document.getElementById('heightFrom');
+            var heightTo = document.getElementById('heightTo');
+            for (var ft = 4; ft <= 7; ft++) {
+                for (var inch = 0; inch <= 11; inch++) {
+                    var hText = ft + " Feet " + inch + " Inches";
+                    // Stop at 7 feet 2 inches roughly
+                    if(ft === 7 && inch > 2) break; 
+
+                    var optH1 = document.createElement('option');
+                    optH1.value = hText;
+                    optH1.innerHTML = hText;
+                    heightFrom.appendChild(optH1);
+
+                    var optH2 = document.createElement('option');
+                    optH2.value = hText;
+                    optH2.innerHTML = hText;
+                    heightTo.appendChild(optH2);
+                }
+            }
+
+            // 3. Populate Religion
+            var religions = ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Parsi", "Buddhist", "Jewish", "No Religion", "Other"];
+            var relSelect = document.getElementById('religionSelect');
+            for (var r = 0; r < religions.length; r++) {
+                var optR = document.createElement('option');
+                optR.value = religions[r];
+                optR.innerHTML = religions[r];
+                relSelect.appendChild(optR);
+            }
+
+            // 4. Populate Location
+            var locations = [
+                "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", 
+                "Kolkata", "Surat", "Pune", "Jaipur", "Lucknow", "Kanpur", "Nagpur", 
+                "Indore", "Thane", "Bhopal", "Visakhapatnam", "Patna", "Vadodara", 
+                "Ghaziabad", "Ludhiana", "Agra", "Nashik", "Faridabad", "Meerut", 
+                "Rajkot", "Varanasi", "Srinagar", "Aurangabad", "Dhanbad", "Amritsar", 
+                "Navi Mumbai", "Allahabad", "Ranchi", "Howrah", "Coimbatore", 
+                "Jabalpur", "Gwalior", "Vijayawada", "Jodhpur", "USA", "UK", "Canada", "Australia", "UAE"
+            ];
+            // Sort A-Z
+            locations.sort();
+            var locSelect = document.getElementById('locationSelect');
+            for (var l = 0; l < locations.length; l++) {
+                var optL = document.createElement('option');
+                optL.value = locations[l];
+                optL.innerHTML = locations[l];
+                locSelect.appendChild(optL);
+            }
+        })();
+    </script>
 
                             <div class="filt-com lhs-cate">
                                 <h4><i><span class="material-symbols-outlined">diversity_4</span></i>Marital Status</h4>
@@ -239,10 +382,47 @@ function get_url_params($remove_page = true) {
                                 <div class="form-group">
                                     <select class="chosen-select" name="religion">
                                         <option value="">Select</option>
-                                        <option value="Hindu" <?php if(isset($_GET['religion']) && $_GET['religion']=='Hindu') echo 'selected'; ?>>Hindu</option>
-                                        <option value="Muslim" <?php if(isset($_GET['religion']) && $_GET['religion']=='Muslim') echo 'selected'; ?>>Muslim</option>
-                                        <option value="Christian" <?php if(isset($_GET['religion']) && $_GET['religion']=='Christian') echo 'selected'; ?>>Christian</option>
-                                        <option value="Sikh" <?php if(isset($_GET['religion']) && $_GET['religion']=='Sikh') echo 'selected'; ?>>Sikh</option>
+                                 <option value="Hindu" <?php if(isset($_GET['religion']) && $_GET['religion']=='Hindu') echo 'selected'; ?>>Hindu</option>
+<option value="Muslim" <?php if(isset($_GET['religion']) && $_GET['religion']=='Muslim') echo 'selected'; ?>>Muslim</option>
+<option value="Christian" <?php if(isset($_GET['religion']) && $_GET['religion']=='Christian') echo 'selected'; ?>>Christian</option>
+<option value="Sikh" <?php if(isset($_GET['religion']) && $_GET['religion']=='Sikh') echo 'selected'; ?>>Sikh</option>
+<option value="Buddhist" <?php if(isset($_GET['religion']) && $_GET['religion']=='Buddhist') echo 'selected'; ?>>Buddhist</option>
+<option value="Jain" <?php if(isset($_GET['religion']) && $_GET['religion']=='Jain') echo 'selected'; ?>>Jain</option>
+<option value="Jewish" <?php if(isset($_GET['religion']) && $_GET['religion']=='Jewish') echo 'selected'; ?>>Jewish</option>
+<option value="Bahai" <?php if(isset($_GET['religion']) && $_GET['religion']=='Bahai') echo 'selected'; ?>>Bahai</option>
+<option value="Parsi" <?php if(isset($_GET['religion']) && $_GET['religion']=='Parsi') echo 'selected'; ?>>Parsi (Zoroastrian)</option>
+<option value="Taoist" <?php if(isset($_GET['religion']) && $_GET['religion']=='Taoist') echo 'selected'; ?>>Taoist</option>
+<option value="Confucian" <?php if(isset($_GET['religion']) && $_GET['religion']=='Confucian') echo 'selected'; ?>>Confucian</option>
+<option value="Shinto" <?php if(isset($_GET['religion']) && $_GET['religion']=='Shinto') echo 'selected'; ?>>Shinto</option>
+<option value="Pagan" <?php if(isset($_GET['religion']) && $_GET['religion']=='Pagan') echo 'selected'; ?>>Pagan</option>
+<option value="Wiccan" <?php if(isset($_GET['religion']) && $_GET['religion']=='Wiccan') echo 'selected'; ?>>Wiccan</option>
+<option value="Atheist" <?php if(isset($_GET['religion']) && $_GET['religion']=='Atheist') echo 'selected'; ?>>Atheist</option>
+<option value="Agnostic" <?php if(isset($_GET['religion']) && $_GET['religion']=='Agnostic') echo 'selected'; ?>>Agnostic</option>
+<option value="Spiritual" <?php if(isset($_GET['religion']) && $_GET['religion']=='Spiritual') echo 'selected'; ?>>Spiritual</option>
+<option value="Tribal" <?php if(isset($_GET['religion']) && $_GET['religion']=='Tribal') echo 'selected'; ?>>Tribal</option>
+<option value="Animist" <?php if(isset($_GET['religion']) && $_GET['religion']=='Animist') echo 'selected'; ?>>Animist</option>
+<option value="African Traditional" <?php if(isset($_GET['religion']) && $_GET['religion']=='African Traditional') echo 'selected'; ?>>African Traditional</option>
+<option value="Native American" <?php if(isset($_GET['religion']) && $_GET['religion']=='Native American') echo 'selected'; ?>>Native American</option>
+<option value="Aboriginal" <?php if(isset($_GET['religion']) && $_GET['religion']=='Aboriginal') echo 'selected'; ?>>Aboriginal</option>
+<option value="Mormon" <?php if(isset($_GET['religion']) && $_GET['religion']=='Mormon') echo 'selected'; ?>>Mormon</option>
+<option value="Jehovah Witness" <?php if(isset($_GET['religion']) && $_GET['religion']=='Jehovah Witness') echo 'selected'; ?>>Jehovah's Witness</option>
+<option value="Orthodox Christian" <?php if(isset($_GET['religion']) && $_GET['religion']=='Orthodox Christian') echo 'selected'; ?>>Orthodox Christian</option>
+<option value="Catholic" <?php if(isset($_GET['religion']) && $_GET['religion']=='Catholic') echo 'selected'; ?>>Catholic</option>
+<option value="Protestant" <?php if(isset($_GET['religion']) && $_GET['religion']=='Protestant') echo 'selected'; ?>>Protestant</option>
+<option value="Sunni" <?php if(isset($_GET['religion']) && $_GET['religion']=='Sunni') echo 'selected'; ?>>Sunni</option>
+<option value="Shia" <?php if(isset($_GET['religion']) && $_GET['religion']=='Shia') echo 'selected'; ?>>Shia</option>
+<option value="Ahmadiyya" <?php if(isset($_GET['religion']) && $_GET['religion']=='Ahmadiyya') echo 'selected'; ?>>Ahmadiyya</option>
+<option value="Druze" <?php if(isset($_GET['religion']) && $_GET['religion']=='Druze') echo 'selected'; ?>>Druze</option>
+<option value="Yazidi" <?php if(isset($_GET['religion']) && $_GET['religion']=='Yazidi') echo 'selected'; ?>>Yazidi</option>
+<option value="Cao Dai" <?php if(isset($_GET['religion']) && $_GET['religion']=='Cao Dai') echo 'selected'; ?>>Cao Dai</option>
+<option value="Tenrikyo" <?php if(isset($_GET['religion']) && $_GET['religion']=='Tenrikyo') echo 'selected'; ?>>Tenrikyo</option>
+<option value="Rastafarian" <?php if(isset($_GET['religion']) && $_GET['religion']=='Rastafarian') echo 'selected'; ?>>Rastafarian</option>
+<option value="Scientology" <?php if(isset($_GET['religion']) && $_GET['religion']=='Scientology') echo 'selected'; ?>>Scientology</option>
+<option value="Falun Gong" <?php if(isset($_GET['religion']) && $_GET['religion']=='Falun Gong') echo 'selected'; ?>>Falun Gong</option>
+<option value="Eckankar" <?php if(isset($_GET['religion']) && $_GET['religion']=='Eckankar') echo 'selected'; ?>>Eckankar</option>
+<option value="Unitarian Universalist" <?php if(isset($_GET['religion']) && $_GET['religion']=='Unitarian Universalist') echo 'selected'; ?>>Unitarian Universalist</option>
+<option value="Other" <?php if(isset($_GET['religion']) && $_GET['religion']=='Other') echo 'selected'; ?>>Other</option>
+
                                     </select>
                                 </div>
                             </div>
@@ -251,16 +431,114 @@ function get_url_params($remove_page = true) {
                                 <h4><i><span class="material-symbols-outlined">location_on</span></i>City</h4>
                                 <div class="form-group">
                                     <select class="chosen-select" name="city[]" multiple>
-                                        <option value="Delhi">Delhi</option>
-                                        <option value="Mumbai">Mumbai</option>
-                                        <option value="Bangalore">Bangalore</option>
-                                        <option value="Chennai">Chennai</option>
+                               <option>Delhi</option>
+<option>Mumbai</option>
+<option>Bangalore</option>
+<option>Chennai</option>
+<option>Kolkata</option>
+<option>Hyderabad</option>
+<option>Pune</option>
+<option>Ahmedabad</option>
+<option>Jaipur</option>
+<option>Chandigarh</option>
+<option>Lucknow</option>
+<option>Kanpur</option>
+<option>Indore</option>
+<option>Bhopal</option>
+<option>Gwalior</option>
+<option>Ujjain</option>
+<option>Jabalpur</option>
+<option>Raipur</option>
+<option>Bilaspur</option>
+<option>Nagpur</option>
+<option>Amravati</option>
+<option>Nashik</option>
+<option>Aurangabad</option>
+<option>Solapur</option>
+<option>Kolhapur</option>
+<option>Sangli</option>
+<option>Satara</option>
+<option>Latur</option>
+<option>Nanded</option>
+<option>Akola</option>
+<option>Thane</option>
+<option>Vasai</option>
+<option>Virar</option>
+<option>Kalyan</option>
+<option>Dombivli</option>
+<option>Panvel</option>
+<option>Ulhasnagar</option>
+<option>Palghar</option>
+<option>Surat</option>
+<option>Vadodara</option>
+<option>Rajkot</option>
+<option>Bhavnagar</option>
+<option>Jamnagar</option>
+<option>Junagadh</option>
+<option>Gandhinagar</option>
+<option>Udaipur</option>
+<option>Jodhpur</option>
+<option>Kota</option>
+<option>Ajmer</option>
+<option>Alwar</option>
+<option>Bikaner</option>
+<option>Sikar</option>
+<option>Bharatpur</option>
+<option>Noida</option>
+<option>Greater Noida</option>
+<option>Ghaziabad</option>
+<option>Faridabad</option>
+<option>Gurgaon</option>
+<option>Meerut</option>
+<option>Agra</option>
+<option>Mathura</option>
+<option>Aligarh</option>
+<option>Bareilly</option>
+<option>Moradabad</option>
+<option>Rampur</option>
+<option>Shahjahanpur</option>
+<option>Prayagraj</option>
+<option>Varanasi</option>
+<option>Mirzapur</option>
+<option>Sonbhadra</option>
+<option>Gorakhpur</option>
+<option>Deoria</option>
+<option>Ballia</option>
+<option>Patna</option>
+<option>Gaya</option>
+<option>Bhagalpur</option>
+<option>Muzaffarpur</option>
+<option>Darbhanga</option>
+<option>Purnia</option>
+<option>Ranchi</option>
+<option>Dhanbad</option>
+<option>Bokaro</option>
+<option>Jamshedpur</option>
+<option>Hazaribagh</option>
+<option>Deoghar</option>
+<option>Koderma</option>
+<option>Giridih</option>
+<option>Asansol</option>
+<option>Durgapur</option>
+<option>Siliguri</option>
+<option>Howrah</option>
+<option>Hooghly</option>
+<option>Midnapore</option>
+<option>Malda</option>
+<option>Cooch Behar</option>
+<option>Darjeeling</option>
+<option>Kalimpong</option>
+
                                     </select>
                                 </div>
                             </div>
 
                             <div class="filt-com lhs-cate">
-                                <button type="submit" class="cta-3 w-100 text-center">Search</button>
+                             <a href="#!"class="cta-3 w-100 text-center search-popup-btn">
+    Search
+</a> 
+
+
                             </div>
                         </form>
                     </div>
@@ -355,6 +633,33 @@ function get_url_params($remove_page = true) {
                                         <div class="pro-detail">
                                             <h4><a href="#"><?php echo htmlspecialchars($row['name']); ?></a></h4>
                                             <div><?php echo htmlspecialchars($row['profile_id']); ?></div>
+                                               <div style="
+        display:flex;
+        align-items:center;
+        gap:6px;
+        background:#e9f9ec;
+        color:#2e7d32;
+        padding:4px 10px;
+        border-radius:6px;
+        font-size:12px;
+        font-weight:600;
+        height:30px;
+        width:130px;
+    ">
+        <!-- Check Icon -->
+        <span style="
+            width:16px;
+            height:16px;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            background:#2ecc71;
+            color:#fff;
+            border-radius:50%;
+            font-size:10px;
+        ">✓</span>
+        ID Verified
+    </div>
                                             <div class="pro-info-status mobile mb-2"></div>
                                             
                                             <div class="pro-bio m-0 b-0 pb-1">
@@ -490,7 +795,7 @@ function get_url_params($remove_page = true) {
         }
 
         // Popup Logic
-        $(document).on('click', '.links a', function(e){
+        $(document).on('click', '.links a .search-popup-btn', function(e){
             e.preventDefault(); 
             $(".menu-pop2").addClass("act"); 
             $(".pop-bg").fadeIn(); 

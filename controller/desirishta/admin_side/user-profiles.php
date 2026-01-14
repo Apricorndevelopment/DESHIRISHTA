@@ -33,6 +33,7 @@ while($p_row = mysqli_fetch_assoc($plan_res)) {
 
 
 // --- 2. FILTER LOGIC ---
+$filter_visibility = "";
 $filter_profile = "";
 $filter_doc = "";
 $filter_plan = "";
@@ -43,7 +44,17 @@ if(isset($_GET['filter_profile']) && $_GET['filter_profile'] !== '') {
     $filter_profile = mysqli_real_escape_string($con, $_GET['filter_profile']);
     $conditions[] = "r.profilestatus = '$filter_profile'";
 }
-
+if(isset($_GET['filter_visibility']) && $_GET['filter_visibility'] !== '') {
+    $filter_visibility = mysqli_real_escape_string($con, $_GET['filter_visibility']);
+    
+    if($filter_visibility == '1') {
+        // Allowed
+        $conditions[] = "r.verificationinfo = '1'";
+    } else {
+        // Restricted (0 or any other value)
+        $conditions[] = "r.verificationinfo != '1'";
+    }
+}
 // Check Document Filter
 if(isset($_GET['filter_doc']) && $_GET['filter_doc'] !== '') {
     $filter_doc = mysqli_real_escape_string($con, $_GET['filter_doc']);
@@ -79,6 +90,13 @@ $result = mysqli_query($con, $sql);
 
 // Fetch all plans for the Filter Dropdown
 $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
+// ... after $filter_profile logic ...
+
+// Check Visibility Filter (NEW MODULE)
+
+
+
+// ... before $filter_doc logic ...
 ?>
 <STYLE>
     table.dataTable thead .sorting:after,
@@ -294,7 +312,7 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
                                         
                                         <!-- Profile Status Filter -->
                                         <div class="form-group mr-1">
-                                            <label class="mr-50 font-small-3">Profile:</label>
+                                            <label class="mr-50 font-small-3">Profile Status:</label>
                                             <select name="filter_profile" class="form-control form-control-sm" onchange="this.form.submit()">
                                                 <option value="">All Profiles</option>
                                                 <option value="0" <?php if($filter_profile === '0') echo 'selected'; ?>>Pending</option>
@@ -303,10 +321,18 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
                                                 <option value="3" <?php if($filter_profile === '3') echo 'selected'; ?>>Deleted</option>
                                             </select>
                                         </div>
+                                        <div class="form-group mr-1">
+    <label class="mr-50 font-small-3">Visibility:</label>
+    <select name="filter_visibility" class="form-control form-control-sm" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="1" <?php if(isset($filter_visibility) && $filter_visibility === '1') echo 'selected'; ?>>Allowed</option>
+        <option value="0" <?php if(isset($filter_visibility) && $filter_visibility === '0') echo 'selected'; ?>>Restricted</option>
+    </select>
+</div>
 
                                         <!-- Document Status Filter -->
                                         <div class="form-group mr-1">
-                                            <label class="mr-50 font-small-3">Document:</label>
+                                            <label class="mr-50 font-small-3">Verification Status </label>
                                             <select name="filter_doc" class="form-control form-control-sm" onchange="this.form.submit()">
                                                 <option value="">All Docs</option>
                                                 <option value="Pending" <?php if($filter_doc === 'Pending') echo 'selected'; ?>>Pending Review</option>
@@ -331,9 +357,9 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
                                             </select>
                                         </div>
                                         
-                                        <?php if($filter_profile !== '' || $filter_doc !== '' || $filter_plan !== '') { ?>
-                                            <a href="user-profiles.php" class="btn btn-sm btn-outline-secondary">Clear</a>
-                                        <?php } ?>
+                                   <?php if($filter_profile !== '' || $filter_doc !== '' || $filter_plan !== '' || (isset($filter_visibility) && $filter_visibility !== '')) { ?>
+    <a href="user-profiles.php" class="btn btn-sm btn-outline-secondary">Clear</a>
+<?php } ?>
                                     </form>
 
                                     <a href="export-users.php" class="btn btn-success btn-sm" target="_blank">
@@ -470,13 +496,13 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
                                                         <a class="dropdown-item text-danger"
                                                            href="userprofile-approve-id.php?uid=<?php echo $row['userid']; ?>&status=0"
                                                            onclick="return confirm('Mark ID as NOT VERIFIED?');">
-                                                            <i data-feather="x-circle" class="mr-50"></i> Unverify ID
+                                                            <i data-feather="x-circle" class="mr-50"></i> Restricted
                                                         </a>
                                                     <?php else: ?>
                                                         <a class="dropdown-item text-primary"
                                                            href="userprofile-approve-id.php?uid=<?php echo $row['userid']; ?>&status=1"
                                                            onclick="return confirm('Verify ID for this user?');">
-                                                            <i data-feather="check-circle" class="mr-50"></i> Verify ID
+                                                            <i data-feather="check-circle" class="mr-50"></i> Allowed
                                                         </a>
                                                     <?php endif; ?>
 
@@ -485,7 +511,7 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
                                                     <a class="dropdown-item text-info"
                                                        href="verify-document.php?uid=<?php echo $row['userid']; ?>&action=verify"
                                                        onclick="return confirm('Verify Document for this user?')">
-                                                        <i data-feather="shield" class="mr-50"></i> Verify Doc
+                                                        <i data-feather="shield" class="mr-50"></i> Verify ID 
                                                     </a>
                                                     <?php endif; ?>
 

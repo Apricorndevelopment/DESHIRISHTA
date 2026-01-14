@@ -10,6 +10,10 @@ $attempt = isset($_POST['attempt']) ? $_POST['attempt'] : 3;
 
 <!-- LOGIN -->
 <style>
+    .form-login input::placeholder {
+    color: #000 !important;
+}
+
     /* FORM INPUTS (INPUT + TEXTAREA + SELECT) */
     .form-login .form-control,
     .form-login select.form-select,

@@ -3,6 +3,10 @@ include 'header.php';
 include 'config.php';
 
 date_default_timezone_set("Asia/Kolkata");
+// send-push.php में जहाँ मैसेज दिखाना हो:
+if(isset($_GET['msg']) && $_GET['msg'] == 'sent') {
+    echo '<div class="alert alert-success">Notification sent successfully!</div>';
+}
 ?>
 
 <!-- BEGIN: Content-->
@@ -37,7 +41,8 @@ date_default_timezone_set("Asia/Kolkata");
 
                             <!-- Card Header -->
                             <div class="card-header">
-                                <h4 class="card-title">🔔 Send Web Push Notification</h4>
+                                <h4 class="card-title">🔔 Send Web Push Notification</h4> 
+                            
                             </div>
 
                             <!-- Card Body -->

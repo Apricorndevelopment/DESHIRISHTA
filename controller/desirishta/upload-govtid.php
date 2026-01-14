@@ -2,6 +2,9 @@
 // File: upload-govtid.php
 
 include 'config.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
+
 
 // Check if form is submitted via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -73,21 +76,13 @@ mysqli_query($con, $update_reg_status);
     $fullname = $row_user['name'];
 
     $subject = "Government ID is under screening";
-    $mailContent = "
-        <div style='width:90%; margin:2% auto; padding:3%;'>
-            <div style='text-align:center'>
-                <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-            </div>
-            <div style='width:100%; margin:0 auto'>
-                <div style='color:#000; width:90%; margin:0 auto;'>
-                    <p style='font-size:15px;'>Dear User,</p>
+    $customHtml = "
+     <p style='font-size:15px;'>Dear $fullname,</p>
                     <p style='font-size:15px;'>Your government ID is currently under screening. Once verified, your account will be marked as ID verified. You will receive a notification upon completion of this process.</p>
                     <p style='font-size:15px;'>If you have any questions or need assistance, our support team is here to help.</p>
-                    <br>
-                    <p style='font-size:15px; margin:0px'>Thanks & Regards,<br>Team Desi Rishta<br>support@desi-rishta.com</p>
-                </div>
-            </div>    
-        </div>";
+";
+
+    $mailContent = getEmailLayout($customHtml);
 
     $curl = curl_init();
     curl_setopt_array($curl, array(

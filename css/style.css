@@ -1940,7 +1940,7 @@ i.fa-instagram:hover {
 }
 
 .sub-tit-caps h2 {
-    font-weight: 300;
+    font-weight: 700;
     color: #e74974;
     font-size: 34px;
     padding-bottom: 10px;
@@ -2281,7 +2281,7 @@ table td{}
 }
 
 .hom-cus-revi:before {
-    top: -13px;
+    top: -37px;
     bottom: initial;
 }
 

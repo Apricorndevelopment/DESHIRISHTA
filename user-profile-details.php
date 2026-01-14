@@ -462,29 +462,37 @@ function copyCurrentURL() {
                                 <p class="text-justify"><?php echo $rowbasicinfo['aboutme']; ?></p>
                             </div>
 
-                     
-<?php
-
-
-    // --- FINAL LOGIC: DEDUCT QUOTA FOR ACCEPTED REQUESTS ALSO ---
+ <?php
+    // --- FINAL LOGIC: DEDUCT QUOTA ON CLICK ONLY (NO AUTO DEDUCTION) ---
 
     $current_date = date('Y-m-d');
 
-    // 1. GET VIEWER'S PLAN & LIMIT (Logic added here because we need it for PHP check)
-    $sql_viewer_plan = "SELECT plan_name FROM registration WHERE userid = '$loginid'";
+    // 1. GET DYNAMIC PLAN LIMIT (Database Driven)
+    // यूजर का Plan ID निकालें (ताकि डैशबोर्ड वाली ही लिमिट मिले)
+    $sql_viewer_plan = "SELECT plan_id FROM registration WHERE userid = '$loginid'";
     $res_viewer_plan = mysqli_query($con, $sql_viewer_plan);
     $row_viewer_plan = mysqli_fetch_assoc($res_viewer_plan);
-    $plan_name = $row_viewer_plan['plan_name'] ?? 'Free';
+    $my_plan_id = $row_viewer_plan['plan_id'] ?? 1;
 
-    $daily_limit = 5; // Default Free
-    if($plan_name == 'Gold') { $daily_limit = 15; }
-    if($plan_name == 'Platinum') { $daily_limit = 25; }
+    // Plan Table से लिमिट निकालें
+    $sql_limit = "SELECT contacts_per_day FROM tbl_plans WHERE id = '$my_plan_id'";
+    $res_limit = mysqli_query($con, $sql_limit);
+    if($res_limit && mysqli_num_rows($res_limit) > 0) {
+        $row_limit = mysqli_fetch_assoc($res_limit);
+        $daily_limit = $row_limit['contacts_per_day'];
+    } else {
+        $daily_limit = 5; // Default Fallback
+    }
 
     // 2. CHECK TODAY'S USAGE
     $sql_usage = "SELECT COUNT(*) as used FROM contact_view_logs WHERE viewer_id = '$loginid' AND view_date = '$current_date'";
     $res_usage = mysqli_query($con, $sql_usage);
     $row_usage = mysqli_fetch_assoc($res_usage);
     $used_views = $row_usage['used'];
+    
+    // Remaining Count Calculate (Display के लिए)
+    $views_left = $daily_limit - $used_views;
+    if($views_left < 0) $views_left = 0;
 
 
     // 3. CHECK RELATIONSHIP STATUS
@@ -508,33 +516,18 @@ function copyCurrentURL() {
         $is_contact_unlocked = true;
     }
     else {
-        // Check if ALREADY viewed today (Common for both flows)
-        // Agar aaj pehle hi dekh liya hai (view log exist karta hai), toh Direct Unlock.
+        // Condition: Already Paid/Viewed Today?
         $sql_already_viewed = "SELECT * FROM contact_view_logs WHERE viewer_id = '$loginid' AND viewed_id = '$profileid' AND view_date = '$current_date'";
         $res_already_viewed = mysqli_query($con, $sql_already_viewed);
 
         if(mysqli_num_rows($res_already_viewed) > 0) {
-            $is_contact_unlocked = true; // Already paid for today
+            $is_contact_unlocked = true; // आज देख चुके हैं, फ्री में दिखाएं
         } 
         else {
-            // Not viewed today yet. Now check conditions to deduct quota.
-            
-            // Condition B: Request Accepted -> AUTO DEDUCT QUOTA
-            if($relationship_status == 'accept') {
-                if($used_views < $daily_limit) {
-                    // Limit bachi hai -> Deduct karo aur dikha do
-                    $sql_insert = "INSERT INTO `contact_view_logs`(`viewer_id`, `viewed_id`, `view_date`) VALUES ('$loginid', '$profileid', '$current_date')";
-                    mysqli_query($con, $sql_insert);
-                    $is_contact_unlocked = true;
-                } else {
-                    // Limit khatam -> Accepted hai fir bhi mat dikhao (Locked rahega)
-                    $is_contact_unlocked = false; 
-                }
-            }
-            
-            // Condition C: Show to All (No Request) -> WAIT FOR CLICK
-            // Isme hum auto-deduct nahi karenge, user click karega tab AJAX handle karega.
-            // Isliye yahan $is_contact_unlocked = false hi rahega.
+            // अगर आज नहीं देखा है, तो LOCKED रखें।
+            // चाहे Request Accept हो या Show to All हो,
+            // हम यूजर से "Click" करवाएंगे और पॉपअप दिखाएंगे।
+            $is_contact_unlocked = false; 
         }
     }
 
@@ -547,24 +540,7 @@ function copyCurrentURL() {
         // LOCKED (Blur + Lower Opacity)
         $blur_style = 'filter: blur(5px); border:1px solid; -webkit-filter: blur(5px); pointer-events: none; user-select: none; opacity: 0.6;';
     }
-
-    // --- UPDATED LOGIC FOR CONTACT PRIVACY ---
-    
-    // NOTE: Humne yahan se duplicate logic hata diya hai.
-    // $is_contact_unlocked ki value ab file ke top par (Database check) se aa rahi hai.
-    // Agar hum yahan dobara check karenge toh "Daily Quota" wala logic overwrite ho jayega.
-
-    // --- CSS STYLE GENERATION ---
-    // if(isset($is_contact_unlocked) && $is_contact_unlocked === true) {
-    //     // UNLOCKED: Force remove blur and fix opacity
-    //     $blur_style = 'filter: none !important; -webkit-filter: none !important; opacity: 1 !important; pointer-events: auto; background:#fff;';
-    // } else {
-        // LOCKED: Apply blur
-    //     $blur_style = 'filter: blur(5px); -webkit-filter: blur(5px); pointer-events: none; user-select: none; opacity: 0.6;';
-    // }
-    // --- LOGIC END ---
-?>
-<style>
+?><style>
     
 .pr-bio-conta ul li span {
     font-weight: 400;
@@ -733,19 +709,24 @@ function copyCurrentURL() {
             <div style="width:55px; height:55px; border-radius:50%; border:2px solid #979797ff; display:flex; align-items:center; justify-content:center; background:white;">
                 <img src="images/gif/lock.gif" style="width:32px;">
             </div>
+        
             <div style="font-size:15px; font-weight:600; color:#555;">
-                <span style="color:#E91E63; cursor:pointer;">
-                    <?php 
-                    if($show_click_to_view_btn) {
-                        echo "Click to View Contact"; 
-                    } elseif($relationship_status == 'pending') { 
-                        echo "Request Pending"; 
-                    } else { 
-                        echo "Click to Request"; 
-                    } 
-                    ?>
-                </span>
-            </div>
+    <span style="cursor:pointer;">
+        <span style="color:#E91E63;">Click</span>
+        <span style="color:#000; font-weight:700;">
+            <?php 
+            if($show_click_to_view_btn) {
+                echo " to View Contact"; 
+            } elseif($relationship_status == 'pending') { 
+                echo " Request Pending"; 
+            } else { 
+                echo " to Request"; 
+            } 
+            ?>
+        </span>
+    </span>
+</div>
+
         </div>
     </div>
     <?php } ?>
@@ -753,13 +734,30 @@ function copyCurrentURL() {
   
 </div>
 
-<div id="modal-confirm" class="cv-modal-overlay">
+<!-- <div id="modal-confirm" class="cv-modal-overlay">
     <div class="cv-modal">
         <h4>View Contact Details</h4>
         <p id="confirm-msg">You are about to view this contact.</p>
         <div style="margin-top:15px;">
             <button class="cv-btn cv-btn-cancel" onclick="closeModals()">Cancel</button>
             <button class="cv-btn cv-btn-ok" onclick="proceedToView()">OK</button>
+        </div>
+    </div>
+</div> -->
+<div id="modal-confirm" class="cv-modal-overlay">
+    <div class="cv-modal">
+        <h4>Contact Detail Confirmation</h4>
+        
+        <p id="confirm-msg" style="font-size: 16px; margin-bottom: 5px;">You are about to view this contact.</p>
+        
+        <div style="background: #fff8e1; border: 1px dashed #b16421; padding: 8px; border-radius: 6px; margin: 10px 0;">
+            <p id="view-count-msg" style="margin:0; font-weight:bold; color:#b16421; font-size:14px;">
+                </p>
+        </div>
+
+        <div style="margin-top:15px;">
+            <button class="cv-btn cv-btn-cancel" onclick="closeModals()">Cancel</button>
+            <button class="cv-btn cv-btn-ok" onclick="proceedToView()">Confirm View</button>
         </div>
     </div>
 </div>
@@ -774,8 +772,88 @@ function copyCurrentURL() {
         </div>
     </div>
 </div>
-
 <script>
+// 1. PHP वेरिएबल्स को JS में लाएं
+var profileId = '<?php echo $profileid; ?>';
+var dailyLimit = <?php echo $daily_limit; ?>;
+var usedViews = <?php echo $used_views; ?>;
+var isClickToView = <?php echo $show_click_to_view_btn ? 'true' : 'false'; ?>;
+var requestStatus = '<?php echo $relationship_status; ?>';
+
+// 2. Lock Click Handler (Updated)
+function handleLockClick() {
+    var showPopup = false;
+    var message = "";
+
+    // Case A: Direct View (Privacy: Show to All)
+    if(isClickToView) {
+        message = "This profile is open to view. Do you want to unlock contact details?";
+        showPopup = true;
+    } 
+    // Case B: Request Accepted (Privacy: Hide, but Request Accepted)
+    else if(requestStatus == 'accept') {
+        message = "<b>Request Accepted!</b><br>You can now view the contact details of this member.";
+        showPopup = true;
+    } 
+    // Case C: Request Pending
+    else if(requestStatus == 'pending') {
+        alert("Your request is still pending with this member.");
+        return;
+    } 
+    // Case D: Send New Request
+    else {
+        // अगर आप चाहते हैं कि रिक्वेस्ट भेजने पर भी कोई पॉपअप आए तो यहाँ कोड लिखें
+        // फिलहाल यह दूसरे पेज पर भेज रहा है जैसा पहले था
+        window.location.href = "matches-allprofiles.php"; 
+        return;
+    }
+
+    // अगर Popup दिखाना है (Case A या B)
+    if(showPopup) {
+        // मैसेज सेट करें
+        $('#confirm-msg').html(message);
+        
+        // डेली काउंट सेट करें
+        $('#view-count-msg').html("Daily Usage: " + usedViews + " / " + dailyLimit);
+        
+        // पॉपअप दिखाएं
+        $('#modal-confirm').css('display', 'flex');
+    }
+}
+
+// 3. Proceed to View (AJAX Call - No Change needed here if Step 1 logic is correct)
+function proceedToView() {
+    $.ajax({
+        url: 'ajax-contact-view.php',
+        type: 'POST',
+        data: { viewed_id: profileId },
+        dataType: 'json',
+        success: function(resp) {
+            closeModals();
+            if(resp.status == 'success') {
+                // UI अपडेट करें
+                $('#contact-ul').css({ 'filter': 'none', 'opacity': '1', 'pointer-events': 'auto' });
+                $('#lock-overlay').hide();
+                
+                // नया रिमेनिंग काउंट अपडेट करें (Optional)
+                usedViews++; 
+                // पेज रीलोड भी कर सकते हैं ताकि मोबाइल नंबर दिखने लगे (अगर PHP ने उसे XXXXX कर रखा था)
+                location.reload(); 
+            } else if(resp.status == 'limit_reached') {
+                $('#modal-limit').css('display', 'flex');
+            } else {
+                alert(resp.message);
+            }
+        }
+    });
+}
+
+function closeModals() {
+    $('.cv-modal-overlay').hide();
+}
+</script>
+
+<!-- <script>
 var profileId = '<?php echo $profileid; ?>';
 var isClickToView = <?php echo $show_click_to_view_btn ? 'true' : 'false'; ?>;
 var isRequestMode = <?php echo ($show_click_to_view_btn) ? 'false' : 'true'; ?>;
@@ -793,7 +871,7 @@ function handleLockClick() {
         if(requestStatus == 'pending') {
             alert("Request Pending...");
         } else {
-             window.location.href = "user-incoming-interests.php?tab=allprofiles"; 
+             window.location.href = "matches-allprofiles.php"; 
         }
     }
 }
@@ -826,14 +904,14 @@ function closeModals() {
     $('.cv-modal-overlay').hide();
 }
 </script>
-   
+    -->
    
    <script>
         function redirectToRequestPage() {
             <?php if($relationship_status == 'pending') { ?>
                 alert("You have already sent a request. Please wait for acceptance.");
             <?php } else { ?>
-                window.location.href = "user-incoming-interests.php?tab=allprofiles"; 
+                window.location.href = "matches-allprofiles.php?tab=allprofiles"; 
             <?php } ?>
         }
     </script>

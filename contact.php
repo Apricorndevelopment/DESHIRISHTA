@@ -2,6 +2,48 @@
 include 'header.php';
 ?>
 <!-- BANNER -->
+ <style>
+    /* Placeholder color black – Support form */
+.form-login input::placeholder,
+.form-login textarea::placeholder {
+    color: #000 !important;
+    opacity: 1; /* Firefox fix */
+}
+
+/* Edge / IE support */
+.form-login :-ms-input-placeholder {
+    color: #000 !important;
+}
+
+.form-login ::-ms-input-placeholder {
+    color: #000 !important;
+}
+
+ </style>
+<style>
+    input::placeholder {
+        color: #000;
+        opacity: 1;
+    }
+
+    .form-login .form-control {
+        border: none;
+        border-radius: 0;
+        
+        /* NOTE: Maine yahan se '!important' hata diya hai taaki click karne par color change ho sake */
+        border-bottom: 2px solid maroon; 
+        
+        outline: none;
+        box-shadow: none;
+        transition: border-bottom-color 0.3s; /* Smooth color change ke liye */
+    }
+
+    /* Jab user click karega (Focus State) tab Grey color hoga */
+    .form-login .form-control:focus {
+        border-bottom-color: #000000 !important; /* Grey Color */
+        box-shadow: none;
+    }
+</style>
 <section>
     <div class="str">
         <div class="ban-inn ab-ban pg-cont">
@@ -485,6 +527,7 @@ $(document).ready(function(){
   }
 });
 </script> -->
+
 <script>
     function showSuccessModal() {
         document.getElementById('successModal').style.display = 'block';
@@ -493,10 +536,16 @@ $(document).ready(function(){
 <script> function closeModal() { document.getElementById('successModal').style.display = 'none'; } </script>
 
 <style>
+    input::placeholder {
+    color: #000;
+    opacity: 1;
+}
+
     .form-login .form-control {
         border: none;
         /* Saare default borders hata dein */
         border-radius: 0;
+            border-bottom: 3px solid maroon !important;
         /* Corners ko flat rakhein */
         border-bottom: 2px solid maroon;
         /* Sirf bottom border rakhein */

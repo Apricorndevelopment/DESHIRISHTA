@@ -1,6 +1,9 @@
 <?php
 include 'config.php';
 
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 // Check if user is logged in
 if(!isset($_COOKIE['dr_userid'])) {
     header('location:login.php');
@@ -113,24 +116,14 @@ if ($result) {
 $email = $_COOKIE['dr_email'];
 $fullname = $_COOKIE['dr_name'];
 $subject = "Photos updated - Under Screening";
-$mailContent = "
-    <div style='width:90%; margin:2% auto; padding:3%; font-family: Arial, sans-serif;'>
-        <div style='text-align:center'>
-            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:200px'>
-        </div>
-        <div style='width:100%; margin:20px auto'>
-            <div style='color:#333; width:95%; margin:0 auto;'>
-                <p>Dear <b>$fullname</b>,</p>
+
+$customHtml = "
+   <p>Dear <b>$fullname</b>,</p>
                 <p>You have recently updated your profile photos. These changes are currently <b>Under Screening</b>.</p>
                 <p>Once approved by our team, the new photos will be visible on your live profile.</p>
-                <br>
-                <p style='margin:0px'>Thanks & Regards,</p>
-                <p style='margin:0px'><b>Team Desi Rishta</b></p>
-                <p style='margin:0px'><a href='mailto:support@desi-rishta.com'>support@desi-rishta.com</a></p>
-            </div>
-        </div>    
-    </div>
-    ";
+";
+
+$mailContent = getEmailLayout($customHtml);
 
 $curl = curl_init();
 curl_setopt_array($curl, array(

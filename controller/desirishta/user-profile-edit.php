@@ -3042,7 +3042,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                                                                     <span class="material-symbols-outlined icon">menu_book</span>
                                                                 </span>
                                                             </div>
-                                                            <div class="col-md-12 form-group">
+                                         <div class="col-md-12 form-group">
                                                                 <label class="lb">Education/Qualification </label>
                                                                 <span class="iconbox">
                                                                     <?php
@@ -3714,7 +3714,7 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
                 <li>The combined maximum file size allowed for upload is 5MB.</li>
             </ul>
         </div>
-        <p class="text-white mt-2 notebox"><b>Note:</b> Photos will be reviewed before going live.</p>
+        <p class="text-white mt-2 notebox"><b>Note:</b> This section will be reviewed each time you update it. Please allow up to 24 hours for it to go live</p>
     </div>
 </div>
                 <!-- <div class="row p-4">

@@ -123,7 +123,7 @@ include 'header.php';
                                             <div class="form-group form-check">
     <label class="form-check-label">
         <input class="form-check-input" type="checkbox" name="agree" id="agree" value="yes" checked> 
-        By creating an account, I agree to the <a href="/desirishta/faqterms.php" class="faqlink-text pink"><b>T&C</b></a> and <a href="/desirishta/faqprivacy.php" class="faqlink-text pink"><b>Privacy Policy</b></a>
+        By creating an account, I agree to the <a href="faqterms.php" class="faqlink-text pink"><b>T&C</b></a> and <a href="faqprivacy.php" class="faqlink-text pink"><b>Privacy Policy</b></a>
     </label>
     <p class="text-danger errorstatement" id="agreeerror" style="display:none">
         <i class="fa fa-exclamation-circle"></i> Please agree to the Terms & Conditions

@@ -107,7 +107,7 @@ include 'header.php';
                                     if(isset($_POST['display_contact']) && $_POST['display_contact'] != '') {
                                         $contact_info = $_POST['display_contact'];
                                         // Aap style ko apne hisaab se adjust kar sakte hain
-                                        echo "<p style='color:black; font-weight:bold; font-size:20px;'>Otp sent on  $contact_info .</p>";
+                                        echo "<p style='color:black; font-weight:bold; font-size:20px;'>We have sent an OTP to   $contact_info .</p>";
                                     } else {
                                         // Fallback agar kisi vajah se display_contact nahi aata hai
                                         echo "<p>We have sent an OTP to your Mobile No./Email ID</p>";
@@ -149,7 +149,7 @@ include 'header.php';
                                             {
                                             ?>
                                             <p class="text-center mt-5" id="timer">Resend OTP in <span id="seconds">60</span> Seconds</p>
-                                            <p class="text-center mt-5" id="resendbtn" style="display:none">Didn’t received OTP? <a href="forgot-sendotp.php?phone=<?php echo  $_POST['validphone']; ?>&email=<?php echo  $_POST['validemail']; ?>&attempt=<?php echo $_POST['attempt']; ?>" class="pink">Resend</a></p>
+                                            <p class="text-center mt-5" id="resendbtn" style="display:none">Didn’t received OTP? <a href="forgot-sendotp.php?phone=<?php echo  $_POST['validphone']; ?>&email=<?php echo  $_POST['validemail']; ?>&attempt=<?php echo $_POST['attempt']; ?>" class="pink; font-weight:400; font-size:20px;">Resend</a></p>
                                             <?php
                                             }
                                             else

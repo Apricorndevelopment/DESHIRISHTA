@@ -2,15 +2,20 @@
 // Import PHPMailer classes into the global namespace
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-    
+
 ob_start();
 include 'config.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 
 $email = $_COOKIE['dr_email'];
 $name = $_COOKIE['dr_name'];
 
 $phone = $_POST['phone'];
 $otp = $_POST['otp'];
+
+$socialIcons = getEmailSocialLinks();
 
 $sqlcheck = "select * from registration where phone = '$phone' and otp = '$otp'";
 $resultcheck = mysqli_query($con,$sqlcheck);
@@ -69,26 +74,15 @@ else
     // Set email format to HTML
     $mail->isHTML(true);
     
-    // Email body content
-    $mailContent = "
-    <div style='background:#000; width:100%; margin:2% auto; padding:3%;'>
-        <div style='text-align:center'>
-            <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:50%'>
-        </div>
-        <div style='width:100%; margin:0 auto'>
-            <div style='background:#000; color:#fff; width:100%;'>
-                <p>Dear $name,</p>
+    $costumHtml = "
+        <p>Dear $name,</p>
                 <p>On behalf of the entire Desi Rishta team, I extend a warm welcome to you! We are thrilled to have you onboard.</p>
                 <p>Your profile is currently under screening. Once we determine that your profile meets our terms and conditions, you will be able to login and continue your partner search on Desi Rishta.</p>
-                <p>If you have any questions or need assistance, our support team is here to help.</p>
-                <br>
-                <p>Thanks & Regards,</p>
-                <p>Team Desi Rishta</p>
-                <p>support@desi-rishta.com</p>
-            </div>
-        </div>    
-    </div>
     ";
+    
+    // Email body content
+    $mailContent = getEmailLayout($costumHtml);
+    
     $mail->Body = $mailContent;
     
     // Send email

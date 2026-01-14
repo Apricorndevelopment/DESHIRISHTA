@@ -6,9 +6,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>E-Card Creator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-<!-- Fabric JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fontfaceobserver/2.3.0/fontfaceobserver.standalone.js"></script>
 
 <style>
     /* --- Layout & General Styles --- */
@@ -36,7 +40,7 @@
         border-radius: 8px;
         margin-bottom: 25px;
         scrollbar-width: thin;
-        scrollbar-color: #f6af04 #eee;
+        scrollbar-color: maroon #eee;
     }
     
     .template-scroll-container::-webkit-scrollbar { height: 8px; }
@@ -55,7 +59,7 @@
     }
 
     .ecard-thumb:hover, .ecard-thumb.active {
-        border-color: #f6af04;
+        border-color: maroon;
         transform: translateY(-5px);
         box-shadow: 0 5px 15px rgba(246, 175, 4, 0.3);
     }
@@ -66,7 +70,7 @@
         padding: 25px;
         border-radius: 10px;
         box-shadow: 0 0 20px rgba(0,0,0,0.05);
-        border-top: 4px solid #f6af04;
+        border-top: 4px solid maroon;
         height: 100%;
     }
 
@@ -100,7 +104,7 @@
         transition: border 0.3s;
     }
     .form-control-custom:focus {
-        border-color: #f6af04;
+        border-color: maroon;
         outline: none;
     }
 
@@ -137,8 +141,8 @@
     }
 
     .btn-ecard:hover {
-        background: gold;
-        color:brown;
+        background: maroon;
+        color:white;
         box-shadow: 0 5px 15px rgba(246, 175, 4, 0.4);
     }
 
@@ -190,6 +194,57 @@
         text-align: center;
     }
     .home-tit p { text-align: center; }
+    .wedding-invitation-box {
+    position: relative;
+    width: 100%;
+}
+
+.invitation-message {
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    top: 25%;
+    right: 90px;
+    transform: rotate(35deg);
+    z-index: 100;
+    /* Smooth transition for when the screen resizes */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Tablet Screens (e.g., iPads) */
+@media (max-width: 1024px) {
+    .invitation-message {
+        right: 40px;
+        height: 70px;
+        width: 70px;
+    }
+}
+
+@media (max-width: 768px) {
+    .invitation-message {
+        height: 60px;
+        width: 60px;
+        right: 20px; 
+        top: -17%;   
+        transform: rotate(40deg); 
+    }
+}
+.wedding-invitation-box{
+        position: relative;
+        width: 100%;
+      
+    }
+
+    .invitation-message {
+        height: 80px;
+        width: 80px;
+      
+        position: absolute;
+        top:25%;
+        right: 90px;
+        transform: rotate(35deg);
+        z-index: 100;
+    }
     
 </style>
 </head>
@@ -201,8 +256,13 @@
         <!-- Header -->
         <div class="row mb-5">
             <div class="col-12 home-tit">
-                <h2><span>Wedding Invitation</span></h2>
-                <p>Choose a template and fill in the details below.</p>
+                <h2><span>Wedding Invitation Designer</span></h2>
+                <p>Turn your special day into a lifetime of togetherness - invite others to be part of your special story
+
+</p>
+ <!-- <div class="invitation-message">
+                    <img src="./images/ecards/1766401976_8646.jpg" height="100%" width="100%" >
+                </div> -->
                 <span class="leaf1"></span>
                 <span class="tit-ani-"></span>
             </div>
@@ -211,7 +271,7 @@
         <!-- Step 1: Template Selection -->
         <div class="row">
             <div class="col-12">
-                <h5 class="ec-label"><i class="fa fa-th-large"></i> Select Template</h5>
+                <h2 class="ec-label" style="font-size: 20px;"><i class="fa fa-th-large"></i> Select Template</h2>
                 <div class="template-scroll-container">
                     
                     <?php
@@ -243,56 +303,61 @@
                 <div class="controls-box">
                     
                     <!-- TAB 1: Event Details Form -->
-                    <div class="mb-4">
-                        <div class="section-title"><i class="fa fa-pencil"></i> Wedding Details</div>
-                        
-                        <!-- Groom Details -->
-                        <div class="mb-3 p-2" style="background: #f9f9f9; border-radius: 5px;">
-                            <label class="ec-label" style="color: #f6af04;">GROOM'S SIDE</label>
-                            <input type="text" id="inp-groom" class="form-control-custom mb-2" value="Rahul" placeholder="Groom Name" oninput="updateFromInput('groom', this.value)">
-                            
-                            <div class="row">
-                                <div class="col-6 pr-1">
-                                    <input type="text" id="inp-groom-father" class="form-control-custom" value="Ramesh" placeholder="Father's Name" oninput="updateParents('groom')">
-                                </div>
-                                <div class="col-6 pl-1">
-                                    <input type="text" id="inp-groom-mother" class="form-control-custom" value="Sunita" placeholder="Mother's Name" oninput="updateParents('groom')">
-                                </div>
-                            </div>
-                        </div>
+                 <div class="mb-4">
+    <div class="section-title"><i class="fa fa-pencil"></i> Wedding Details</div>
+    
+    <div class="mb-3 p-2" style="background: #f9f9f9; border-radius: 5px;">
+        <label class="ec-label" style="color: #f6af04; font-weight: bold; margin-bottom: 10px; display: block;">GROOM'S SIDE</label>
+        
+        <label class="ec-label">Groom Name</label>
+        <input type="text" id="inp-groom" class="form-control-custom mb-2" value="Rahul" placeholder="Groom Name" oninput="updateFromInput('groom', this.value)">
+        
+        <div class="row">
+            <div class="col-6 pr-1">
+                <label class="ec-label">Father's Name</label>
+                <input type="text" id="inp-groom-father" class="form-control-custom" value="Ramesh" placeholder="Father's Name" oninput="updateParents('groom')">
+            </div>
+            <div class="col-6 pl-1">
+                <label class="ec-label">Mother's Name</label>
+                <input type="text" id="inp-groom-mother" class="form-control-custom" value="Sunita" placeholder="Mother's Name" oninput="updateParents('groom')">
+            </div>
+        </div>
+    </div>
 
-                        <!-- Bride Details -->
-                        <div class="mb-3 p-2" style="background: #f9f9f9; border-radius: 5px;">
-                            <label class="ec-label" style="color: #f6af04;">BRIDE'S SIDE</label>
-                            <input type="text" id="inp-bride" class="form-control-custom mb-2" value="Priya" placeholder="Bride Name" oninput="updateFromInput('bride', this.value)">
-                            
-                            <div class="row">
-                                <div class="col-6 pr-1">
-                                    <input type="text" id="inp-bride-father" class="form-control-custom" value="Suresh" placeholder="Father's Name" oninput="updateParents('bride')">
-                                </div>
-                                <div class="col-6 pl-1">
-                                    <input type="text" id="inp-bride-mother" class="form-control-custom" value="Geeta" placeholder="Mother's Name" oninput="updateParents('bride')">
-                                </div>
-                            </div>
-                        </div>
+    <div class="mb-3 p-2" style="background: #f9f9f9; border-radius: 5px;">
+        <label class="ec-label" style="color: #f6af04; font-weight: bold; margin-bottom: 10px; display: block;">BRIDE'S SIDE</label>
+        
+        <label class="ec-label">Bride Name</label>
+        <input type="text" id="inp-bride" class="form-control-custom mb-2" value="Priya" placeholder="Bride Name" oninput="updateFromInput('bride', this.value)">
+        
+        <div class="row">
+            <div class="col-6 pr-1">
+                <label class="ec-label">Father's Name</label>
+                <input type="text" id="inp-bride-father" class="form-control-custom" value="Suresh" placeholder="Father's Name" oninput="updateParents('bride')">
+            </div>
+            <div class="col-6 pl-1">
+                <label class="ec-label">Mother's Name</label>
+                <input type="text" id="inp-bride-mother" class="form-control-custom" value="Geeta" placeholder="Mother's Name" oninput="updateParents('bride')">
+            </div>
+        </div>
+    </div>
 
-                        <!-- Time, Date, Venue -->
-                        <div class="row mt-3">
-                            <div class="col-6 pr-1">
-                                <label class="ec-label">Date</label>
-                                <input type="text" id="inp-date" class="form-control-custom" value="25 Dec 2025" placeholder="Ex. 25 Dec 2025" oninput="updateFromInput('date', this.value)">
-                            </div>
-                            <div class="col-6 pl-1">
-                                <label class="ec-label">Time</label>
-                                <input type="text" id="inp-time" class="form-control-custom" value="At 7:00 PM" placeholder="Ex. 7:00 PM" oninput="updateFromInput('time', this.value)">
-                            </div>
-                        </div>
+    <div class="row mt-3">
+        <div class="col-6 pr-1">
+            <label class="ec-label">Date</label>
+            <input type="text" id="inp-date" class="form-control-custom" value="25 Dec 2025" placeholder="Ex. 25 Dec 2025" oninput="updateFromInput('date', this.value)">
+        </div>
+        <div class="col-6 pl-1">
+            <label class="ec-label">Time</label>
+            <input type="text" id="inp-time" class="form-control-custom" value="At 7:00 PM" placeholder="Ex. 7:00 PM" oninput="updateFromInput('time', this.value)">
+        </div>
+    </div>
 
-                        <div class="mt-2">
-                            <label class="ec-label">Venue</label>
-                            <textarea id="inp-venue" class="form-control-custom" rows="2" placeholder="Ex. Grand Palace Hotel" oninput="updateFromInput('venue', this.value)">Grand Palace Hotel, New Delhi</textarea>
-                        </div>
-                    </div>
+    <div class="mt-2">
+        <label class="ec-label">Venue</label>
+        <textarea id="inp-venue" class="form-control-custom" rows="2" placeholder="Ex. Grand Palace Hotel" oninput="updateFromInput('venue', this.value)">Grand Palace Hotel, New Delhi</textarea>
+    </div>
+</div>
                     
                     <!-- TAB 2: Extra Details -->
                     <div class="mb-4">

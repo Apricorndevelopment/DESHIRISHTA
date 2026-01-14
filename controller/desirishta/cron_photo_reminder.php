@@ -3,6 +3,8 @@
 ob_start(); 
 include 'config.php';
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+
 $current_date = date('Y-m-d');
 
 // 1. Fetch users who are active (not deleted)
@@ -53,14 +55,8 @@ while($row = mysqli_fetch_assoc($result_users)) {
         if($should_send) {
             
             $subject = "Make a Great First Impression – Add Your More Picture to Desi Rishta Now!";
-            $mailContent = "
-                <div style='width:90%; margin:2% auto; padding:3%; font-family: Arial, sans-serif;'>
-                    <div style='text-align:center'>
-                        <img src='http://myptetest.com/desirishta/images/tlogo.png' style='width:200px'>
-                    </div>
-                    <div style='width:100%; margin:20px auto'>
-                        <div style='color:#333; width:95%; margin:0 auto;'>
-                            <p>Hi <b>$fullname</b>,</p>
+            $customHtml = "
+                             <p>Hi <b>$fullname</b>,</p>
                             
                             <p>Your profile looks great, let’s make it irresistible! Add a few more pictures so matches can get to know the real you. A bright headshot, a smiling candid, and one full-length photo work best.</p>
                             
@@ -71,14 +67,9 @@ while($row = mysqli_fetch_assoc($result_users)) {
                             </div>
 
                             <p>Please feel free to contact our support team, and we’ll be happy to assist you.</p>
-                            <br>
-                            <p style='margin:0px'>Thanks & Regards,</p>
-                            <p style='margin:0px'><b>Team Desi Rishta</b></p>
-                            <p style='margin:0px'><a href='mailto:support@desi-rishta.com'>support@desi-rishta.com</a></p>
-                        </div>
-                    </div>    
-                </div>
-            ";
+                         ";
+                         
+            $mailContent = getEmailLayout($customHtml);
 
             // Send via SMTP API (Same method as your other files)
             $curl = curl_init();

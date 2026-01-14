@@ -109,8 +109,97 @@ $team_result = mysqli_query($con, $team_sql);
     </section>
     <!-- END -->
     
+            
+    <!-- END -->
     
+    <!-- START -->
+    <section>
+        <div class="hom-partners abo-partners">
+            <div class="container" style="    padding-bottom: 100px;
+    margin-top: -90px;">
+                <div class="row">
+                    <div class="wedd-shap">
+                        <span class="abo-shap-1"></span>
+                        <span class="abo-shap-2"></span>
+                        <span class="abo-shap-4"></span>
+                        <span class="abo-shap-5"></span>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ab-wel-lhs">
+                            <span class="ab-wel-3"></span>
+                            <img src="images/about/1.jpg" alt="" class="ab-wel-1">
+                            <img src="images/about/2.jpg" alt="" class="ab-wel-2">
+                            <span class="ab-wel-4"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ab-wel-rhs">
+                            <div class="ab-wel-tit">
+                                <h2>Welcome to <em>Desi Rishta Matrimony</em></h2>
+                                <p><a href="#">Our Mission : </a> Our mission is to provide customers with a user-friendly platform featuring an extensive database of genuine profiles, enabling faster matches with minimal screening. Setting ourselves apart through a commitment to privacy, transparency, and customer satisfaction, we aim to establish a secure and reliable environment for individuals embarking on their journey towards a blissful married life.</p>
+                            </div>
+                            <div class="ab-wel-tit">
+                                <p><a href="#">Our Vision : </a> We aspire to become the leading and most dependable provider of matrimonial website services, dedicated to simplicity, trustworthiness, and expediting matches. </p>
+                            </div>
+                            <div class="ab-wel-tit-1">
+                            </div>
+                            <div class="ab-wel-tit-2">
+                                <ul>
+                                    <li>
+                                        <div>
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                            <h4>Enquiry <em>+91-8377053041</em></h4>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>
+                                            <i class="bi bi-envelope" aria-hidden="true"></i>
+                                            <h4>Get Support <em>support@desi-rishta.com</em></h4>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<style>
+    /* =========================
+   DESKTOP (default)
+========================= */
+.team-slider .slick-dots,
+.testimonial-slider .slick-dots {
+    position: relative;
+    bottom: 0;
+    padding-top: 20px;
+    text-align: center;
+}
 
+/* =========================
+   MOBILE FIX
+========================= */
+@media (max-width: 768px) {
+
+    .team-slider .slick-dots,
+    .testimonial-slider .slick-dots {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        left: 0;
+        right: 0;
+        text-align: center;
+        display: flex !important;
+        justify-content: center;
+    }
+
+    .team-slider .slick-dots li,
+    .testimonial-slider .slick-dots li {
+        margin: 0 6px;
+    }
+}
+
+</style>
     <!-- START -->
   <section>
         <div class="ab-cont">
@@ -229,7 +318,7 @@ $team_result = mysqli_query($con, $team_sql);
                                         <?php if(!empty($member['facebook'])) { ?>
                                             <li><a href="<?php echo htmlspecialchars($member['facebook']); ?>" target="_blank"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li> <?php } ?>
                                         <?php if(!empty($member['twitter'])) { ?>
-                                            <li><a href="<?php echo htmlspecialchars($member['twitter']); ?>" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a></li> <?php } ?>
+                                            <li><a href="<?php echo htmlspecialchars($member['twitter']); ?>" target="_blank"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a></li> <?php } ?>
                                         <?php if(!empty($member['whatsapp'])) { ?>
                                             <li><a href="<?php echo htmlspecialchars($member['whatsapp']); ?>" target="_blank"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li> <?php } ?>
                                         <?php if(!empty($member['linkedin'])) { ?>
@@ -253,6 +342,18 @@ $team_result = mysqli_query($con, $team_sql);
             </div>
         </div>
     </section>
+    <style>
+        .social-light li a:hover .fa-linkedin-in {
+    background: #53a6f8;
+}
+.social-light li a:hover .fa-facebook-f {
+    background: #1877f2;
+}
+
+.social-light li a:hover .fa-x-twitter {
+    background: #000;
+}
+    </style>
     <!-- END -->
 <section>
     <div class="hom-partners abo-partners" id="testimonials">
@@ -344,7 +445,7 @@ include 'footer.php';
     position: relative;
     padding-top: 20px;
     text-align: center; /* Dots ko center mein dikhane ke liye */
-    padding-left: 270PX;
+    padding-left: 230PX;
 }
 
 .team-slider .slick-dots li {

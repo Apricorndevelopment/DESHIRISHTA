@@ -198,51 +198,134 @@ $team_result = mysqli_query($con, $team_sql);
                     <label>Age From</label>
                     <select class="chosen-select" name="age_from" id="age_from">
                         <option value="">Age From</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
+                      <option value="">Age To</option>
+    <?php
+    for ($i = 1; $i <= 100; $i++) {
+        echo "<option value='$i'>$i</option>";
+    }
+    ?>
                     </select>
                 </div>
             </li>
             <li class="sr-age">
                 <div class="form-group">
                     <label>Age To</label>
-                    <select class="chosen-select" name="age_to" id="age_to">
-                        <option value="">Age To</option>
-                        <option value="31">31</option>
-                        <option value="32">32</option>
-                        <option value="33">33</option>
-                        <option value="34">34</option>
-                        <option value="35">35</option>
-                        <option value="36">36</option>
-                    </select>
+                <select class="chosen-select" name="age_to" id="age_to">
+    <option value="">Age To</option>
+    <?php
+    for ($i = 1; $i <= 100; $i++) {
+        echo "<option value='$i'>$i</option>";
+    }
+    ?>
+</select>
+
                 </div>
             </li>
             <li class="sr-reli">
                 <div class="form-group">
                     <label>Religion</label>
-                    <select class="chosen-select" name="religion" id="religion">
-                        <option value="">Religion</option> <option value="Any">Any</option>
-                        <option value="Hindu">Hindu</option>
-                        <option value="Muslim">Muslim</option>
-                        <option value="Jain">Jain</option>
-                        <option value="Christian">Christian</option>
-                    </select>
+              <select class="chosen-select" name="religion" id="religion">
+    <option value="">Religion</option>
+    <option value="Any">Any</option>
+    <option value="Hindu">Hindu</option>
+    <option value="Muslim">Muslim</option>
+    <option value="Christian">Christian</option>
+    <option value="Sikh">Sikh</option>
+    <option value="Jain">Jain</option>
+    <option value="Buddhist">Buddhist</option>
+    <option value="Parsi">Parsi</option>
+    <option value="Jewish">Jewish</option>
+    <option value="Bahai">Bahai</option>
+    <option value="Tribal">Tribal</option>
+
+    <option value="Shia">Shia</option>
+    <option value="Sunni">Sunni</option>
+    <option value="Ahmadiyya">Ahmadiyya</option>
+
+    <option value="Catholic">Catholic</option>
+    <option value="Protestant">Protestant</option>
+    <option value="Orthodox">Orthodox</option>
+
+    <option value="Vaishnav">Vaishnav</option>
+    <option value="Shaiv">Shaiv</option>
+    <option value="Shakt">Shakt</option>
+
+    <option value="Arya Samaj">Arya Samaj</option>
+    <option value="Brahmo Samaj">Brahmo Samaj</option>
+    <option value="ISKCON">ISKCON</option>
+    <option value="Lingayat">Lingayat</option>
+
+    <option value="Zoroastrian">Zoroastrian</option>
+    <option value="Taoist">Taoist</option>
+    <option value="Confucian">Confucian</option>
+    <option value="Shinto">Shinto</option>
+
+    <option value="Animism">Animism</option>
+    <option value="Pagan">Pagan</option>
+    <option value="Wiccan">Wiccan</option>
+
+    <option value="Spiritual">Spiritual</option>
+    <option value="Atheist">Atheist</option>
+    <option value="Agnostic">Agnostic</option>
+
+    <option value="Other">Other</option>
+    <option value="Not Disclosed">Not Disclosed</option>
+</select>
+
                 </div>
             </li>
             <li class="sr-cit">
                 <div class="form-group">
                     <label>City</label>
-                    <select class="chosen-select" name="city" id="city">
-                        <option value="">Location</option> <option value="Any location">Any location</option>
-                        <option value="Chennai">Chennai</option>
-                        <option value="New york">New york</option>
-                        <option value="Perth">Perth</option>
-                        <option value="London">London</option>
-                    </select>
+              <select class="chosen-select" name="city" id="city">
+    <option value="">Location</option>
+    <option value="Any location">Any location</option>
+
+    <!-- India -->
+    <option value="Delhi">Delhi</option>
+    <option value="Mumbai">Mumbai</option>
+    <option value="Bengaluru">Bengaluru</option>
+    <option value="Chennai">Chennai</option>
+    <option value="Hyderabad">Hyderabad</option>
+    <option value="Pune">Pune</option>
+    <option value="Kolkata">Kolkata</option>
+    <option value="Ahmedabad">Ahmedabad</option>
+    <option value="Jaipur">Jaipur</option>
+    <option value="Indore">Indore</option>
+    <option value="Bhopal">Bhopal</option>
+    <option value="Ujjain">Ujjain</option>
+    <option value="Gwalior">Gwalior</option>
+    <option value="Jabalpur">Jabalpur</option>
+    <option value="Nagpur">Nagpur</option>
+    <option value="Surat">Surat</option>
+    <option value="Vadodara">Vadodara</option>
+    <option value="Rajkot">Rajkot</option>
+    <option value="Udaipur">Udaipur</option>
+    <option value="Jodhpur">Jodhpur</option>
+
+    <!-- International -->
+    <option value="New York">New York</option>
+    <option value="Los Angeles">Los Angeles</option>
+    <option value="Chicago">Chicago</option>
+    <option value="Toronto">Toronto</option>
+    <option value="Vancouver">Vancouver</option>
+    <option value="London">London</option>
+    <option value="Manchester">Manchester</option>
+    <option value="Birmingham">Birmingham</option>
+    <option value="Sydney">Sydney</option>
+    <option value="Melbourne">Melbourne</option>
+    <option value="Perth">Perth</option>
+    <option value="Dubai">Dubai</option>
+    <option value="Abu Dhabi">Abu Dhabi</option>
+    <option value="Doha">Doha</option>
+    <option value="Riyadh">Riyadh</option>
+    <option value="Singapore">Singapore</option>
+    <option value="Kuala Lumpur">Kuala Lumpur</option>
+    <option value="Bangkok">Bangkok</option>
+    <option value="Kathmandu">Kathmandu</option>
+    <option value="Colombo">Colombo</option>
+</select>
+
                 </div>
             </li>
             <li class="sr-btn">
@@ -851,8 +934,8 @@ ease;
                         <li>
                             <div>
                                 <img src="<?php echo $image_path; ?>" alt="<?php echo htmlspecialchars($member['name']); ?>" loading="lazy">
-                                <h4><?php echo htmlspecialchars($member['name']); ?></h4>
-                                <p><?php echo htmlspecialchars($member['designation']); ?></p>
+                                <h4 style="text-align: center;"><?php echo htmlspecialchars($member['name']); ?></h4>
+                                <p style="text-align: center;"><?php echo htmlspecialchars($member['designation']); ?></p>
                                 <ul class="social-light">
                                     <?php if(!empty($member['facebook'])) { ?>
                                         <li><a href="<?php echo htmlspecialchars($member['facebook']); ?>" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
@@ -887,7 +970,15 @@ ease;
         </div>
     </div>
 </section>
+<style>
+    .social-light li a:hover .fa-facebook-f {
+    background: #1877f2;
+}
 
+.social-light li a:hover .fa-x-twitter {
+    background: #000;
+}
+</style>
 
     <!-- BLOG POSTS START -->
     <section>
@@ -1085,8 +1176,9 @@ $(document).ready(function () {
 });
 </script>
 
-</body>
-</html>
 <?php
 include 'footer.php';
 ?>
+</body>
+</html>
+
