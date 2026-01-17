@@ -369,7 +369,7 @@ $rownearby = mysqli_num_rows($resultnearby);
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <div class="page-nation">
-                            <ul class="pagination pagination-sm">
+                            <ul class="pagination pagination-sm" style="justify-content: center;">
                                 <?php
                                 $sqltotalentry = "select * from registration where userid != '$userid' and state = '$state' and gender != '$gender' and delete_status != 'delete' and firstapprove = '1'";
                                 $resulttotalentry = mysqli_query($con,$sqltotalentry);

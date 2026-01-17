@@ -154,6 +154,110 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
 
 
 <style>
+/* Common button base (important) */
+#basicupdatebtn,
+#aboutupdatebtn,
+#astroupdatebtn,
+#religiousupdatebtn,
+#educationupdatebtn,
+#groomupdatebtn,
+#familyupdatebtn,
+#partnerupdatebtn {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shine Effect */
+#basicupdatebtn::after,
+#aboutupdatebtn::after,
+#astroupdatebtn::after,
+#religiousupdatebtn::after,
+#educationupdatebtn::after,
+#groomupdatebtn::after,
+#familyupdatebtn::after,
+#partnerupdatebtn::after {
+    animation: shine 10s ease-in-out infinite;
+    animation-fill-mode: forwards;
+    content: "";
+    position: absolute;
+    top: -110%;
+    left: -210%;
+    width: 300%;
+    height: 100%;
+    opacity: 0;
+    transform: rotate(30deg);
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.0) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.0) 100%
+    );
+}
+
+/* Animation Keyframes */
+@keyframes shine {
+    0% {
+        opacity: 0;
+        left: -210%;
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        left: 210%;
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        left: 210%;
+    }
+}
+/* Base button fix */
+.profile-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shine Effect */
+.profile-btn::after {
+    animation: shine 10s ease-in-out infinite;
+    animation-fill-mode: forwards;
+    content: "";
+    position: absolute;
+    top: -110%;
+    left: -210%;
+    width: 300%;
+    height: 100%;
+    opacity: 0;
+    transform: rotate(30deg);
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.0) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.0) 100%
+    );
+}
+
+/* Animation */
+@keyframes shine {
+    0% {
+        opacity: 0;
+        left: -210%;
+    }
+    10% {
+        opacity: 1;
+    }
+    20% {
+        left: 210%;
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        left: 210%;
+    }
+}
+
+
     input[readonly],
     textarea[readonly],
     select[readonly] {
@@ -3449,8 +3553,9 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
         ?>
             <div class="alert alert-warning text-center m-3" style="border: 1px solid #ffc107; background: #fff3cd; color: #856404; padding: 15px; border-radius: 5px;">
                 <i class="fa fa-image"></i> 
-                <b>Photos Under Review:</b> You have uploaded new photos. 
-                These are currently pending Admin Approval. Your live profile will continue to show your old photos until the new ones are approved.
+               <b>Photo Approval Pending:</b> Your newly uploaded photos are pending Admin approval.
+Your profile will continue to display your existing photos until the new photos are approved.
+
             </div>
         <?php } ?>
         <form action="profile-photos.php" method="post" enctype="multipart/form-data">

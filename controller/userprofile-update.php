@@ -2,7 +2,8 @@
 ob_start();
 include 'config.php';
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+require_once __DIR__ . '/../email_layout_template.php';
 
 // 1. Check that all required parameters are present in the URL
 if (isset($_GET['uid']) && isset($_GET['status'])) {
@@ -13,9 +14,7 @@ if (isset($_GET['uid']) && isset($_GET['status'])) {
 
     // 2. Build the correct SQL query based on the new status
     if ($new_status == '1') {
-        // --- APPROVE ---
-        // UPDATE: Set profilestatus_popup='1' to notify user
-        // UPDATE: Set deactivated_by=NULL to clear any previous admin/user block
+        
         $sql = "UPDATE `registration` SET 
                 `profilestatus`='1', 
                 `firstapprove`='1', 

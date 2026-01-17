@@ -201,12 +201,12 @@ $attempt = isset($_POST['attempt']) ? $_POST['attempt'] : 3;
             <p class="text-danger errorstatement" id="password" style="display:none">Please Enter Password</p>
         </div>
 
-        <div class="form-group form-check">
+        <!-- <div class="form-group form-check">
             <label class="form-check-label">
                 <input class="form-check-input" type="checkbox" name="agree" checked>
                 Keep me Signed In
             </label>
-        </div>
+        </div> -->
 
         <?php if ($attempt > 0) { ?>
             <button type="submit" class="btn btn-primary" id="signin">Sign In</button>

@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+require_once 'email_layout_template.php';
 
 $email = $_COOKIE['dr_email'];
 $fullname =  $_COOKIE['dr_name'];

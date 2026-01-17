@@ -15,7 +15,7 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
 
 <div class="mobile-menu">
     <button onclick="toggleSidebar()">
-        <span class="material-symbols-outlined">menu</span> Dashboard Menu
+        <span class="material-symbols-outlined">menu</span> Dashboard
     </button>
 </div>
 
@@ -151,16 +151,18 @@ $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
        .mobile-menu button {
         background: #754d4dff;
         border: none;
-        color: #faf482ff;
+        color: rgb(255, 255, 255);
+        border: 2px solid #ffc941;
         padding: 8px 15px;
         border-radius: 5px;
         display: flex;
         align-items: center;
         gap: 5px;
+                left: 18px;
         font-size: 14px;
         cursor: pointer;
         position: fixed;
-        top: 90px;
+        top: 100px;
         z-index: 10;
         /* position: sticky; */
         /* top: 100px; */

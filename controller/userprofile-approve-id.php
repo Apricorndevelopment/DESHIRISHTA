@@ -1,7 +1,8 @@
 <?php
 ob_start();
 include 'config.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+require_once __DIR__ . '/../email_layout_template.php';
+
 
 
 if (isset($_GET['uid']) && isset($_GET['status'])) {

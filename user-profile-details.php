@@ -1,3 +1,18 @@
+<!-- 
+ / include 'header.php';
+// include 'config.php';
+
+// date_default_timezone_set('Asia/kolkata'); 
+
+// $loginid = $_COOKIE['dr_userid'];
+// $gender = $_COOKIE['dr_gender'];
+// $profileid = $_GET['uid'];
+
+// if($loginid == '')
+// {
+//     header('location:login.php');
+//     exit;
+// }
 <?php
 include 'header.php';
 include 'config.php';
@@ -13,6 +28,34 @@ if($loginid == '')
     header('location:login.php');
     exit;
 }
+
+// =========================================================
+// 1. PRIVACY CHECK: STOP IF THEY BLOCKED/REPORTED ME
+// =========================================================
+$sql_blocked_me = "SELECT * FROM block_ids WHERE by_whom = '$profileid' AND for_who = '$loginid'";
+$res_blocked_me = mysqli_query($con, $sql_blocked_me);
+
+$sql_reported_me = "SELECT * FROM report_ids WHERE by_who = '$profileid' AND against = '$loginid'";
+$res_reported_me = mysqli_query($con, $sql_reported_me);
+
+if(mysqli_num_rows($res_blocked_me) > 0 || mysqli_num_rows($res_reported_me) > 0) {
+    echo "<script>alert('This profile is unavailable.'); window.location.href='matches-allprofiles.php';</script>";
+    exit;
+}
+
+// Check if I blocked them (to disable buttons)
+$i_blocked_them = false;
+$sql_i_blocked = "SELECT * FROM block_ids WHERE by_whom = '$loginid' AND for_who = '$profileid'";
+$res_i_blocked = mysqli_query($con, $sql_i_blocked);
+if(mysqli_num_rows($res_i_blocked) > 0) {
+    $i_blocked_them = true;
+}
+// =========================================================
+
+// $entrydate = date('Y-m-d');
+
+// 1. Log View Visit
+// ... (Rest of existing code) ...
 
 $entrydate = date('Y-m-d');
 
@@ -304,24 +347,35 @@ if($loginid == $profileid) {
                             // Condition: Show buttons ONLY IF privacy is NOT 'hide' OR if Viewer is the Owner
                             if($wa_privacy != 'hide' || $loginid == $profileid) { 
                             ?>
+ <div class="premium-actions">
+    <?php 
+    // Red/Disabled Style Logic
+    $btn_style = ""; 
+    $onclick_attr = "shareTo"; 
+    
+    if($i_blocked_them) {
+        // Red and Inactionable
+        $btn_style = "background-color: red !important; color: white !important; pointer-events: none; opacity: 0.6; border: 1px solid red;";
+        $onclick_attr = "return false; //"; // This comments out the function call in JS
+    }
+    ?>
+    
+    <a href="#!" onclick="<?php echo $onclick_attr; ?>('whatsapp')" class="p-action-btn icon-wa" style="<?php echo $btn_style; ?>">
+        <i class="bi bi-whatsapp"></i>
+    </a>
 
-                                <div class="premium-actions">
-                                    <a href="#!" onclick="shareTo('whatsapp')" class="p-action-btn icon-wa">
-                                        <i class="bi bi-whatsapp"></i>
-                                    </a>
+    <a href="#!" onclick="<?php echo $onclick_attr; ?>('facebook')" class="p-action-btn icon-fb" style="<?php echo $btn_style; ?>">
+        <i class="bi bi-facebook"></i>
+    </a>
 
-                                    <a href="#!" onclick="shareTo('facebook')" class="p-action-btn icon-fb">
-                                        <i class="bi bi-facebook"></i>
-                                    </a>
+    <a href="#!" onclick="<?php echo $onclick_attr; ?>('instagram')" class="p-action-btn icon-in" style="<?php echo $btn_style; ?>">
+        <i class="bi bi-instagram"></i>
+    </a>
 
-                                    <a href="#!" onclick="shareTo('instagram')" class="p-action-btn icon-in">
-                                        <i class="bi bi-instagram"></i>
-                                    </a>
-
-                                    <a href="#!" onclick="shareTo('twitter')" class="p-action-btn icon-in">
-                                        <i class="bi bi-twitter-x"></i>
-                                    </a>
-                                </div>
+    <a href="#!" onclick="<?php echo $onclick_attr; ?>('twitter')" class="p-action-btn icon-in" style="<?php echo $btn_style; ?>">
+        <i class="bi bi-twitter-x"></i>
+    </a>
+</div>
                             
                             <?php } else { ?>
                                 
@@ -969,7 +1023,7 @@ function closeModals() {
                             <div class="pr-bio-c pr-bio-info">
                                 <h3><img src="images/profilepage/career.png" style="width:6%"> Education & Career </h3>
                                 <ul>
-                                    <?php if($roweducationinfo['stream'] != '') { ?> <li><b>Stream</b> <?php echo $roweducationinfo['stream']; ?></li> <?php } ?>
+                                    <?php if($roweducationinfo['stream'] != '') { ?> <li ><b>Stream</b> <?php echo $roweducationinfo['stream']; ?></li> <?php } ?>
                                     <?php if($roweducationinfo['education'] != '') { ?> <li><b>Highest Education</b> <?php echo $roweducationinfo['education']; ?></li> <?php } ?>
                                     <?php if($roweducationinfo['college'] != '') { ?> <li><b>College/Institute</b> <?php echo $roweducationinfo['college']; ?></li> <?php } ?>
                                     <?php if($roweducationinfo['workingwith'] != '') { ?> <li><b>Working With</b> <?php echo $roweducationinfo['workingwith']; ?></li> <?php } ?>

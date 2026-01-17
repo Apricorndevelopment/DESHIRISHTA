@@ -269,6 +269,12 @@ if ($sub_req_result && mysqli_num_rows($sub_req_result) > 0) {
                     <span class="menu-title text-truncate">Manage E-Card</span>
                 </a>
             </li>
+            <li class="nav-item">
+    <a class="d-flex align-items-center" href="view-delete-requests.php">
+        <i data-feather="trash-2"></i>
+        <span class="menu-title text-truncate">Deleted Profile Requests</span>
+    </a>
+</li>
             <li class="nav-item"> 
                 <a class="d-flex align-items-center" href="manage-web-push.php"> 
                     <i data-feather="bell"></i>
@@ -288,7 +294,12 @@ if ($sub_req_result && mysqli_num_rows($sub_req_result) > 0) {
                     <span class="menu-title text-truncate">Subscribers List</span>
                 </a>
             </li>
-
+<li class="nav-item">
+    <a class="d-flex align-items-center" href="view-reports.php">
+        <i data-feather="alert-triangle"></i>
+        <span class="menu-title text-truncate">Reported Profiles</span>
+    </a>
+</li>
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather="phone"></i>

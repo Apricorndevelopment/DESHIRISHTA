@@ -1896,8 +1896,8 @@ i.fa-instagram:hover {
  
 }
 *{
-       font-family: "Cinzel Decorative", cursive;
-    /* FONT-FAMILY: Playfair Display, serif; */
+       /* font-family: "Cinzel Decorative", cursive; */
+    FONT-FAMILY: Playfair Display, serif;
 }
 /*-------------------------------------------------------*/
 /* ABOUT HOME
@@ -2281,7 +2281,7 @@ table td{}
 }
 
 .hom-cus-revi:before {
-    top: -37px;
+    top: -13px;
     bottom: initial;
 }
 
@@ -5021,7 +5021,7 @@ color: #fff !important;
 }
 
 .pr-bio-info ul li b {
-    font-weight: 500;
+    font-weight: 600;
     width: 145px;
     display: inline-block;
 }
@@ -8910,7 +8910,7 @@ color: #fff !important;
     float: left;
     width: 100%;
     margin: 50px 0;
-    padding-left:155px ;
+    padding-left:125px ;
 }
 
 .page-nation ul {}

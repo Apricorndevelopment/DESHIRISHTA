@@ -27,7 +27,7 @@ $show_first_login_popup = false;
 
 // UPDATED QUERY: Added 'plan_id' to fetch subscription info
 // $sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_id, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone FROM registration WHERE userid = '$userid'";
-$sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_id, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone, verify_email FROM registration WHERE userid = '$userid'";
+$sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_id, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone, emailverify FROM registration WHERE userid = '$userid'";
 $result_user_data = mysqli_query($con, $sql_user_data);
 
 // Initialize Dynamic Plan Variables (Default to Free/Fallback)
@@ -71,9 +71,10 @@ if ($result_user_data && mysqli_num_rows($result_user_data) > 0) {
     $days_old = $interval->days;
 
     // Condition: If (Account <= 15 days old) AND (Privacy is 'Show to All')
-    if ($days_old <= 15 && $privacy_setting == 'Show to All') {
-        $show_first_login_popup = true;
-    }
+// Condition: If (Account <= 15 days old) AND (Privacy is 'Show to All') AND (Cookie is NOT set)
+if ($days_old <= 15 && $privacy_setting == 'Show to All' && !isset($_COOKIE['privacy_popup_seen'])) {
+    $show_first_login_popup = true;
+}
 }
 
 // --- 1. FETCH POPUP DATA (Banners + Status) ---
@@ -927,7 +928,7 @@ $json_popup_queue = json_encode($popup_queue);
                         // Logic: Check Verification Info
                         $ver_info = $row_user_data['verificationinfo'];
                         
-                        if ($ver_info == 'Done') {
+                        if ($ver_info == '1') {
                             $t_status = "Verified";
                             $t_class = "text-success";
                             $t_icon = '<i class="fa fa-check-circle"></i>';
@@ -960,7 +961,7 @@ $json_popup_queue = json_encode($popup_queue);
                         <?php
                         // Logic: Check Phone (otpstatus) & Email (verify_email)
                         $phone_ok = ($row_user_data['otpstatus'] == 'active' || $row_user_data['otpstatus'] == 'Done');
-                        $email_ok = ($row_user_data['verify_email'] == '1' || $row_user_data['verify_email'] == 'Done'); // Check DB value
+                        $email_ok = ($row_user_data['emailverify'] == '1' || $row_user_data['emailverify'] == 'Done'); // Check DB value
 
                         if ($phone_ok && $email_ok) {
                             $pe_text = "Verified";
@@ -1121,7 +1122,7 @@ $json_popup_queue = json_encode($popup_queue);
                                                 <li>Current Plan: <strong><?php echo $current_plan_name; ?></strong></li>
                                                 <li>Daily Limit: <strong><?php echo $current_daily_limit; ?> Contacts</strong></li>
                                                 <li>Views Used Today: <strong style="color: #b16421; font-size:16px;"><?php echo $used; ?> / <?php echo $current_daily_limit; ?></strong></li>
-                                                <li><a href="plans.php" class="cta-3">Upgrade Plan</a></li>
+                                                <li><a href="user-plan.php" class="cta-3">Upgrade Plan</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -1244,8 +1245,13 @@ function closeReconnect() {
 }
 
 function closePrivacyModal() {
+    // 1. Set a Cookie for 24 Hours so popup doesn't come back on refresh
+    document.cookie = "privacy_popup_seen=yes; path=/; max-age=" + (24 * 60 * 60);
+
+    // 2. Hide the modal
     document.getElementById('firstLoginModal').style.display = 'none';
-    // Privacy modal band hone ke baad check karein agar koi aur popup queue mein hai
+
+    // 3. Trigger next popup queue
     if (typeof triggerPopups === 'function') triggerPopups();
 }
 

@@ -96,7 +96,7 @@ function closeWebPush() {
                         </li>
                          <li><a href="faqcookies.php"> Cookies policy </a>
                         </li>
-                        <li><a href="faqgravience.php">Graviences</a>
+                        <li><a href="faqgravience.php">Grievances</a>
                         </li>
                     </ul>
                     <?php
@@ -105,13 +105,21 @@ function closeWebPush() {
                     {
                     ?>
                     <ul>
-                        <li><a href="contact.php">Contact us</a>
+                  <li><a href="contact.php">Contact us</a>
                         </li>
-                        <li><a href="submitrequest.php">Submit A Request</a>
+                        <li><a href="contact.php?#support">Business Enquiries</a>
                         </li>
                         <li><a href="https://wa.me/918377053041?text=Hello i am having some queries" target="_blank">Chat Support</a>
                         </li>
                         <li><a href="faq.php">FAQ's</a>
+                        </li>
+                           <li><a href="faqterms.php">Terms and Conditions </a>
+                        </li>
+                         <li><a href="faqprivacy.php">Privacy policy</a>
+                        </li>
+                         <li><a href="faqcookies.php"> Cookies policy </a>
+                        </li>
+                        <li><a href="faqgravience.php">Grievances</a>
                         </li>
                      
                        

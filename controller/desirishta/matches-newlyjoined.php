@@ -370,7 +370,7 @@ $countnewmatches = mysqli_num_rows($resultnewmatches);
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <div class="page-nation">
-                            <ul class="pagination pagination-sm">
+                            <ul class="pagination pagination-sm" style="justify-content: center;">
                                 <?php
                                 $sqltotalentry = "select * from registration where userid != '$userid' and gender != '$gender' and delete_status != 'delete' and firstapprove = '1' and entrydate between '$seven_days' and '$today_date'";
                                 $resulttotalentry = mysqli_query($con,$sqltotalentry);

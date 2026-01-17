@@ -1,7 +1,8 @@
 <?php
+
+include '../config.php';
 include 'header.php';
 include 'sidebar.php';
-include '../config.php';
 
 // Fetch all email communications
 $sql = "SELECT * FROM admin_communication WHERE type='email' ORDER BY id DESC";
@@ -14,7 +15,21 @@ $sql_users = mysqli_query($con, "
 ");
 
 ?>
+<style>
+    body {
+    overflow-y: auto !important;
+}
 
+.vertical-layout .main-menu {
+    height: 100vh !important;
+    overflow-y: auto !important;
+}
+
+.app-content {
+    overflow: visible !important;
+}
+
+</style>
 <!-- BEGIN: Content-->
 <div class="app-content content">
     <div class="content-overlay"></div>

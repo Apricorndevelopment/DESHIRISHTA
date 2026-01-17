@@ -7,7 +7,7 @@
 
 // if($userid == '')
 // {
-//     header('location:login.php');
+//     header('location:login.php');
 // }
 
 // $sqlphotoinfo = "select * from photos_info where userid = '$userid'";
@@ -37,25 +37,25 @@ if($userid == '') {
 
 // --- HANDLE USER ACTIVATION/DEACTIVATION ACTIONS ---
 // if(isset($_POST['user_action'])) {
-//     if($_POST['user_action'] == 'deactivate') {
-//         // User deactivates self
-//         mysqli_query($con, "UPDATE registration SET profilestatus='2', deactivated_by='user', profilestatus_popup='1' WHERE userid='$userid'");
-//         header("Location: user-setting.php?msg=deactivated");
-//         exit();
-//     }
+//     if($_POST['user_action'] == 'deactivate') {
+//         // User deactivates self
+//         mysqli_query($con, "UPDATE registration SET profilestatus='2', deactivated_by='user', profilestatus_popup='1' WHERE userid='$userid'");
+//         header("Location: user-setting.php?msg=deactivated");
+//         exit();
+//     }
     
-//     if($_POST['user_action'] == 'activate') {
-//         // User tries to activate
-//         // Security Check: Only allow if NOT deactivated by admin
-//         $check = mysqli_query($con, "SELECT deactivated_by FROM registration WHERE userid='$userid'");
-//         $statusRow = mysqli_fetch_assoc($check);
+//     if($_POST['user_action'] == 'activate') {
+//         // User tries to activate
+//         // Security Check: Only allow if NOT deactivated by admin
+//         $check = mysqli_query($con, "SELECT deactivated_by FROM registration WHERE userid='$userid'");
+//         $statusRow = mysqli_fetch_assoc($check);
         
-//         if($statusRow['deactivated_by'] == 'user') {
-//             mysqli_query($con, "UPDATE registration SET profilestatus='1', deactivated_by=NULL, profilestatus_popup='1' WHERE userid='$userid'");
-//             header("Location: user-setting.php?msg=activated");
-//             exit();
-//         }
-//     }
+//         if($statusRow['deactivated_by'] == 'user') {
+//             mysqli_query($con, "UPDATE registration SET profilestatus='1', deactivated_by=NULL, profilestatus_popup='1' WHERE userid='$userid'");
+//             header("Location: user-setting.php?msg=activated");
+//             exit();
+//         }
+//     }
 // }
 
 // --- LOGIC: Handle User Activation/Deactivation ---
@@ -457,7 +457,7 @@ if(isset($_POST['action']) && $userid != '') {
                                             </ul>
                                         </div>
                                     </div>
-                                    <!--END-->	
+                                    <!--END-->  
                                     <!--START-->
                                     <div class="ms-write-post fol-sett-sec sett-rhs-acc" id="accountdetails">
                                         <div class="foll-set-tit fol-pro-abo-ico">
@@ -484,14 +484,17 @@ if(isset($_POST['action']) && $userid != '') {
     if($rowprofile['mobileverify'] == '1')
     {
     ?>
-        <div><?php echo $rowprofile['phone']; ?><a href="#" style="float:right" class="sett-acc-edit-eve sett-edit-btn3"> Verified</a></div>
+        <!-- REMOVED sett-acc-edit-eve from here as well -->
+        <div><?php echo $rowprofile['phone']; ?><a href="#" style="float:right" class="sett-edit-btn3"> Verified</a></div>
     <?php
     }
     // Case 2: Verified Nahi Hai (0 ya Empty)
     else
     {
     ?>
-        <div><?php echo $rowprofile['phone']; ?><a href="verifymobile_otp.php" style="float:right" class="sett-acc-edit-eve sett-edit-btn2"> Verify</a></div>
+        <!-- FIX: REMOVED CLASS 'sett-acc-edit-eve' SO IT DOES NOT TRIGGER EDIT MODE -->
+        <div><?php echo $rowprofile['phone']; ?>
+        <a href="verifymobile_otp.php" style="float:right" class="sett-edit-btn2"> Verify</a></div>
     <?php
     }
     ?>
@@ -502,19 +505,22 @@ if(isset($_POST['action']) && $userid != '') {
                                                     if($rowprofile['emailverify'] == '1')
                                                     {
                                                     ?>
-                                                    <div><?php echo $rowprofile['email']; ?><a href="#" style="float:right" class="sett-acc-edit-eve sett-edit-btn3"> Verified</a></div>
+                                                    <!-- REMOVED sett-acc-edit-eve to prevent conflict -->
+                                                    <div><?php echo $rowprofile['email']; ?><a href="#" style="float:right" class="sett-edit-btn3"> Verified</a></div>
                                                     <?php
                                                     }
                                                     if($rowprofile['emailverify'] == '0')
                                                     {
                                                     ?>
-                                                    <div><?php echo $rowprofile['email']; ?><a href="#" style="float:right" class="sett-acc-edit-eve sett-edit-btn1"> Verification Pending</a></div>
+                                                    <!-- REMOVED sett-acc-edit-eve to prevent conflict -->
+                                                    <div><?php echo $rowprofile['email']; ?><a href="#" style="float:right" class="sett-edit-btn1"> Verification Pending</a></div>
                                                     <?php
                                                     }
                                                     if($rowprofile['emailverify'] == '')
                                                     {
                                                     ?>
-                                                    <div><?php echo $rowprofile['email']; ?><a href="verifyemailmail.php" style="float:right" class="sett-acc-edit-eve sett-edit-btn2"> Verify</a></div>
+                                                    <!-- REMOVED sett-acc-edit-eve to prevent conflict -->
+                                                    <div><?php echo $rowprofile['email']; ?><a href="verifyemailmail.php" style="float:right" class="sett-edit-btn2"> Verify</a></div>
                                                     <?php
                                                     }
                                                     ?>
@@ -525,6 +531,7 @@ if(isset($_POST['action']) && $userid != '') {
                                                 </li>
                                                 <li>
                                                     <div>Password</div>
+                                                    <!-- This one KEEPS 'sett-acc-edit-eve' because it NEEDS to open the form below -->
                                                     <div><?php $passlength = strlen($rowprofile['password']); for($pass = 1; $pass <= $passlength; $pass++) { echo "*"; } ?><a href="#!" style="float:right" class="sett-acc-edit-eve sett-edit-btn1 "><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></div>
                                                     <?php
                                                     if($_POST['passtype'] == 'old')
@@ -552,7 +559,7 @@ if(isset($_POST['action']) && $userid != '') {
                                                                             <input type="hidden" name="userid" value="<?php echo $userid; ?>">
                                                                             <input type="password" class="form-control leftspace pl-10" id="newpass" placeholder="Enter New Password" name="password" required>
                                                                             <span class="material-symbols-outlined icon1" style="font-size: 15px;">lock</span>
-                                                                        <span class="material-symbols-outlined iconright1" 
+                                                                    <span class="material-symbols-outlined iconright1" 
       id="new_openeye" 
       style="font-size:15px; cursor:pointer;">visibility</span>
 
@@ -574,7 +581,7 @@ if(isset($_POST['action']) && $userid != '') {
                                                                         <span class="iconbox">
                                                                             <input type="password" class="form-control leftspace pl-10" id="comfrimpass" placeholder="Enter Confirm Password" name="cpassword" required>
                                                                             <span class="material-symbols-outlined icon1" style="font-size: 15px;">lock</span>
-                                                                         <span class="material-symbols-outlined iconright1" 
+                                                                     <span class="material-symbols-outlined iconright1" 
       id="confirm_openeye" 
       style="font-size:15px; cursor:pointer;">visibility</span>
 
@@ -645,7 +652,7 @@ document.getElementById("confirm_closeeye").onclick = function () {
                                             </ul>
                                         </div>
                                     </div>
-                                    <!--END-->	
+                                    <!--END-->  
                                     <!--START-->
                                     <div class="ms-write-post fol-sett-sec sett-rhs-acc ms-write-post fol-sett-sec sett-rhs-not" style="">
                                         <div class="foll-set-tit fol-pro-abo-ico">
@@ -715,7 +722,7 @@ document.getElementById("confirm_closeeye").onclick = function () {
         </div>
     </div>
 </li> -->
-                                               
+                                                
 
 <li>
     <div class="sett-lef">
@@ -794,7 +801,7 @@ document.getElementById("confirm_closeeye").onclick = function () {
                                         </div>
                                     </div>
                                     <!--END-->
-                                   						
+                                                        
                                 </div>
                             </div>
                         </div>

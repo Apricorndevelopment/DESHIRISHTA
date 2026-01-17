@@ -2,7 +2,9 @@
 include 'config.php';
 
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+require_once 'email_layout_template.php';
+
 
 // Check if user is logged in
 if(!isset($_COOKIE['dr_userid'])) {

@@ -677,7 +677,7 @@ function get_url_params($remove_page = true) {
 
                                             <div class="links">
                                                 <a href="#!">Profile</a>
-                                                <a href="#!">Contact</a>
+                                                <a href="#!">Send</a>
                                                 <a href="#!">Shortlist</a>
                                                 <a href="#!">WhatsApp</a>
                                                 <div class="dropdown">

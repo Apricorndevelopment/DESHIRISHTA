@@ -345,7 +345,7 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <div class="page-nation">
-                            <ul class="pagination pagination-sm">
+                            <ul class="pagination pagination-sm" style="justify-content: center;">
                                 <?php
                                 $sqltotalentry = "select * from shortlist_ids where by_whom = '$userid' and delete_status != 'delete' and firstapprove = '1'";
                                 $resulttotalentry = mysqli_query($con,$sqltotalentry);

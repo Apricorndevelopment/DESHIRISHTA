@@ -367,7 +367,7 @@ $rowvisited = mysqli_num_rows($resultvisited);
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <div class="page-nation">
-                            <ul class="pagination pagination-sm">
+                            <ul class="pagination pagination-sm" style="justify-content: center;">
                                 <?php
                                 $sqltotalentry = "select distinct(view) from viewvist_ids where visit = '$userid' and delete_status != 'delete' and firstapprove = '1'";
                                 $resulttotalentry = mysqli_query($con,$sqltotalentry);

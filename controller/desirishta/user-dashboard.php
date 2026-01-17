@@ -26,7 +26,8 @@ $my_name = "User"; // Default
 $show_first_login_popup = false;
 
 // UPDATED QUERY: Added 'plan_id' to fetch subscription info
-$sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_id, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone FROM registration WHERE userid = '$userid'";
+// $sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_id, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone FROM registration WHERE userid = '$userid'";
+$sql_user_data = "SELECT name, first_login, contact_privacy, entrydate, plan_id, verificationinfo, verification_popup, profilestatus, profilestatus_popup, otpstatus, delete_status, email, phone, emailverify FROM registration WHERE userid = '$userid'";
 $result_user_data = mysqli_query($con, $sql_user_data);
 
 // Initialize Dynamic Plan Variables (Default to Free/Fallback)
@@ -915,6 +916,76 @@ $json_popup_queue = json_encode($popup_queue);
                                     </div>
                                 </div>
 
+<div class="col-lg-12 col-xl-4 mb-3">
+    <div class="db-pro-stat p-3 pt-1 pb-1">
+        <div class="db-inte-prof-list db-inte-prof-chat">
+            <ul>
+                <li>
+                    <div class="db-int-pro-1"> <img src="images/gif/badge.gif" alt=""> </div>
+                    <div class="db-int-pro-2">
+                        <?php
+                        // Logic: Check Verification Info
+                        $ver_info = $row_user_data['verificationinfo'];
+                        
+                        if ($ver_info == '1') {
+                            $t_status = "Verified";
+                            $t_class = "text-success";
+                            $t_icon = '<i class="fa fa-check-circle"></i>';
+                        } elseif (!empty($ver_info)) {
+                            $t_status = "Pending";
+                            $t_class = "text-warning";
+                            $t_icon = '<i class="fa fa-clock-o"></i>';
+                        } else {
+                            $t_status = "Not Applied";
+                            $t_class = "text-danger";
+                            $t_icon = '<i class="fa fa-times-circle"></i>';
+                        }
+                        ?>
+                        <h5 class="<?php echo $t_class; ?>"><?php echo $t_status; ?> <?php echo $t_icon; ?></h5>
+                        <span><b>Trust Badge</b></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 col-xl-4 mb-3">
+    <div class="db-pro-stat p-3 pt-1 pb-1">
+        <div class="db-inte-prof-list db-inte-prof-chat">
+            <ul>
+                <li>
+                    <div class="db-int-pro-1"> <img src="images/gif/comments.gif" alt=""> </div>
+                    <div class="db-int-pro-2">
+                        <?php
+                        // Logic: Check Phone (otpstatus) & Email (verify_email)
+                        $phone_ok = ($row_user_data['otpstatus'] == 'active' || $row_user_data['otpstatus'] == 'Done');
+                        $email_ok = ($row_user_data['emailverify'] == '1' || $row_user_data['emailverify'] == 'Done'); // Check DB value
+
+                        if ($phone_ok && $email_ok) {
+                            $pe_text = "Verified";
+                            $pe_class = "text-success";
+                            $pe_icon = '<i class="fa fa-check-circle"></i>';
+                        } elseif ($phone_ok || $email_ok) {
+                            $pe_text = "Partially Verified";
+                            $pe_class = "text-warning";
+                            $pe_icon = '<i class="fa fa-exclamation-circle"></i>';
+                        } else {
+                            $pe_text = "Unverified";
+                            $pe_class = "text-danger";
+                            $pe_icon = '<i class="fa fa-times-circle"></i>';
+                        }
+                        ?>
+                        <h5 class="<?php echo $pe_class; ?>"><?php echo $pe_text; ?> <?php echo $pe_icon; ?></h5>
+                        <span><b>Phone & Email</b></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 
                                 <div class="col-lg-12 col-xl-4 mb-3">
                                     <div class="db-pro-stat p-3 pt-1 pb-1">
                                         <div class="db-inte-prof-list db-inte-prof-chat">
@@ -949,13 +1020,13 @@ $json_popup_queue = json_encode($popup_queue);
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col-md-12 col-lg-6 col-xl-4 db-sec-com">
-                                    <h2 class="db-tit">Profiles </h2>
+                                    <h2 class="db-tit">Profiles Completion </h2>
                                     <div class="db-pro-stat h-85">
                                         <h6></h6>
                                         <div class="db-pro-pgog">
@@ -1050,7 +1121,7 @@ $json_popup_queue = json_encode($popup_queue);
                                                 <li>Current Plan: <strong><?php echo $current_plan_name; ?></strong></li>
                                                 <li>Daily Limit: <strong><?php echo $current_daily_limit; ?> Contacts</strong></li>
                                                 <li>Views Used Today: <strong style="color: #b16421; font-size:16px;"><?php echo $used; ?> / <?php echo $current_daily_limit; ?></strong></li>
-                                                <li><a href="plans.php" class="cta-3">Upgrade Plan</a></li>
+                                                <li><a href="user-plan.php" class="cta-3">Upgrade Plan</a></li>
                                             </ul>
                                         </div>
                                     </div>

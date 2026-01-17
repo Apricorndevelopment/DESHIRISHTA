@@ -97,12 +97,29 @@ include 'header.php';
                             
                             <hr>
                             
-                            <div class="text-center">
-                                <p>Didn't receive the code?</p>
-                                <a href="verifymobile_otp.php" style="color: #e44d3a; font-weight: bold;">Resend OTP</a>
-                                <br><br>
-                                <a href="user-setting.php" style="color: #555;">Cancel</a>
-                            </div>
+ <div class="text-center">
+
+    <!-- Initial Message -->
+    <p id="resendInitial" style="margin-bottom:5px;">
+        Didn't receive the code? 
+        <span 
+            id="resendLink"
+            style="color:#e44d3a;font-weight:600;cursor:pointer;">
+            Resend
+        </span>
+    </p>
+
+    <!-- Countdown Message (Hidden initially) -->
+    <p 
+        id="resendCountdown" 
+        style="display:none;color:dark-brown;font-weight:600;">
+        Resend OTP <span id="timer">11</span> Seconds
+    </p>
+
+</div>
+
+
+
 
                         </div>
                     </div>
@@ -115,3 +132,31 @@ include 'header.php';
 <?php
 include 'footer.php';
 ?>
+<script>
+document.getElementById("resendLink").addEventListener("click", function () {
+
+    // Hide first message
+    document.getElementById("resendInitial").style.display = "none";
+
+    // Show countdown message
+    document.getElementById("resendCountdown").style.display = "block";
+
+    let timeLeft = 11;
+
+    let countdown = setInterval(function () {
+
+        document.getElementById("timer").innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+
+            // Optional: auto redirect or enable resend again
+            window.location.href = "verifymobile_otp.php";
+        }
+
+        timeLeft--;
+
+    }, 1000);
+
+});
+</script>

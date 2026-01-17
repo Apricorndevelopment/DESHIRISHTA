@@ -286,8 +286,8 @@ $rowverificationinfo = mysqli_fetch_assoc($resultverificationinfo);
                                             if($doc_verified_status == 'Pending') {
                                                 $statusClass = 'status-pending';
                                                 $statusIcon = 'fa-clock-o';
-                                                $statusTitle = 'Under Review';
-                                                $statusDesc = 'User Government ID under review.';
+                                                $statusTitle = 'Document pending ';
+                                                $statusDesc = 'User Government ID is pending please upload Original Govt. ID then wait for admin approval';
                                             } elseif($doc_verified_status == 'Done') { 
                                                 $statusClass = 'status-success';
                                                 $statusIcon = 'fa-check-circle';
