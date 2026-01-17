@@ -2,6 +2,8 @@
 include 'header.php';
 include 'config.php';
 ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- BANNER -->
     <section>
         <div class="str">
@@ -88,7 +90,11 @@ include 'config.php';
                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq10"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Block/Report Feature</a></li>
                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq11"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>WhatsApp Sharing</a></li>
                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq12"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Technical Issues</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq13"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Grievances</a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq17"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Deactivation/Deletion</a></li>
+                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq18"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>ID Verification</a></li>
+                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq19"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Subscriptions</a></li>
+                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq20"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Wedding E Cards </a></li>
+                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq13"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Subscriptions</a></li>
                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Terms and Conditions</a></li>
                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Privacy Policies</a></li>
                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq16"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Cookies Policies</a></li>
@@ -117,6 +123,10 @@ include 'config.php';
                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq10"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Block/Report Feature</a></li>
                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq11"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;WhatsApp Sharing</a></li>
                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq12"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Technical Issues </a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq17"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Deactivation/Deletion</a></li>
+                   <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq18"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;ID Verification </a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq19"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Subscriptions</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq20"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Wedding E-Cards</a></li>
                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq13"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Grievances</a></li>
                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Terms and Conditions</a></li>
                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Privacy Policies</a></li>
@@ -818,6 +828,294 @@ include 'config.php';
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div id="faq17" class="container tab-pane fade p-0 faqs">
+                                                <!--<div id="accordion11">-->
+                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
+                                                <!--        <div class="card-header">-->
+                                                <!--            <a class="card-link collapse41" data-toggle="collapse">-->
+                                                <!--               Can a user account get automatically deactivated?   -->
+                                                <!--            </a>-->
+                                                <!--        </div>-->
+                                                <!--        <div id="collapse41" class="collapse show" data-parent="#accordion11">-->
+                                                <!--            <div class="card-body text-justify">-->
+                                                <!--                <p> yash If you encounter an error while using Desi Rishta, please email us all pertinent details, including the error description, a screenshot (if possible), the member's name, and their ID, to <a href="mailto:support@desi-rishta.com" class="faqlink-text">support@desi-rishta.com</a></p>-->
+                                                <!--                <ul>-->
+                                                <!--                    <li>Profile Privacy: Customize who can view your profile. </li>-->
+                                                <!--                    <li>Photo Privacy: Manage who can see your photos. </li>-->
+                                                <!--                    <li>Phone Number Privacy: Control who can view your phone number. </li>-->
+                                                <!--                    <li>WhatsApp Sharing Privacy: Determine who can share your profile via WhatsApp.</li>-->
+                                                <!--                </ul>-->
+                                                <!--            </div>-->
+                                                <!--        </div>-->
+                                                <!--    </div>-->
+                                                <!--</div>-->
+                                                <!--<div id="accordion13">-->
+                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
+                                                <!--        <div class="card-header">-->
+                                                <!--            <a class="card-link collapse43" data-toggle="collapse">-->
+                                                <!--                Can a user account get automatically deactivated?-->
+                                                <!--            </a>-->
+                                                <!--        </div>-->
+                                                <!--        <div id="collapse43" class="collapse show" data-parent="#accordion13">-->
+                                                <!--            <div class="card-body text-justify">-->
+                                                <!--                <p>Yes, there are two scenarios in which a user account can be automatically deactivated:<p>-->
+                                                <!--                    <ul>-->
+                                                <!--                    <li>If the verification process is not completed within 7 days from the date of registration, the account will be deactivated. </li>-->
+                                                <!--                    <li>If you have not signed in for the last 30 days, your account will be deactivated due to inactivity.</li>-->
+                                                                    
+                                                <!--                </ul>-->
+                                                <!--            </div>-->
+                                                <!--        </div>-->
+                                                <!--    </div>-->
+                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
+                                                <!--        <div class="card-header">-->
+                                                <!--            <a class="collapsed card-link collapse44" data-toggle="collapse">-->
+                                                <!--                Can a user account get automatically deleted?-->
+                                                <!--            </a>-->
+                                                <!--        </div>-->
+                                                <!--        <div id="collapse44" class="collapse" data-parent="#accordion13">-->
+                                                <!--            <div class="card-body text-justify">-->
+                                                <!--                <p>User account will be permanently deleted if it is not used for more than 3 months.</p>-->
+                                                <!--            </div>-->
+                                                <!--        </div>-->
+                                                <!--    </div>-->
+                                                <!--</div>-->
+                                               
+
+                                                <div id="accordion13">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+                Can a user account get automatically deactivated?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion13">
+            <div class="card-body text-justify">
+                <p>Yes, there are two scenarios:</p>
+                <ul>
+                    <li>If verification is not completed within 7 days.</li>
+                    <li>If you have not signed in for 30 days.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+                Can a user account get automatically deleted?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion13">
+            <div class="card-body text-justify">
+                <p>User account will be permanently deleted if unused for more than 3 months.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+                                            </div>
+                                             <div id="faq18" class="container tab-pane fade p-0 faqs">
+                                                <div id="accordion14">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+               Is ID verification mandatory for a user to continue using the website?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>Yes, it is mandatory to upload a government-issued ID for user verification. This ensures that only genuine users are on the site and helps maintain the accuracy and integrity of our data.</p>
+                <!--<ul>-->
+                <!--    <li>If verification is not completed within 7 days.</li>-->
+                <!--    <li>If you have not signed in for 30 days.</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+                What happens if a user doesn’t complete the verification process?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>If the verification process is not completed within 7 days of registration, the account will be automatically deactivated.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
+                How can a user reactivate their account after deactivation?
+            </a>
+        </div>
+
+        <div id="collapse45" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>The user can email their request along with a government-issued ID to support@desi-rishta.com. The account will be reactivated within 24 to 48 hours.</p>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse46">
+                How long does it take to verify a user’s government ID after uploading?
+            </a>
+        </div>
+
+        <div id="collapse46" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>Verification typically takes 24 to 48 hours after the ID has been uploaded.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+                                            </div>
+                                            <div id="faq19" class="container tab-pane fade p-0 faqs">
+                                                <div id="accordion14">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+               What subscription is assigned when a user signs up for a new account?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>When a user signs up, they are automatically assigned a Free subscription plan. Details of this plan are available in the [Pricing Plan] section.</p>
+                <!--<ul>-->
+                <!--    <li>If verification is not completed within 7 days.</li>-->
+                <!--    <li>If you have not signed in for 30 days.</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+What types of subscription plans are available?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>There are three subscription plans available: Free, Gold, and Platinum. For more information, please refer to the [Pricing Plan] section.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
+                How can a user change or request a new subscription plan?
+            </a>
+        </div>
+
+        <div id="collapse45" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>The user needs to go to the Plan section available in the Dashboard and click on the “Upgrade Plan” button to request a change in the subscription plan as per their choice. The request will then be sent to the Admin for approval, which may take 24–48 hours to complete.</p>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+                                            </div>
+                                            <div id="faq20" class="container tab-pane fade p-0 faqs">
+                                                <div id="accordion14">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+               Who can use the Wedding E-Cards section?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>Anyone can use this section to create Wedding Invitation E-Cards.</p>
+                <!--<ul>-->
+                <!--    <li>If verification is not completed within 7 days.</li>-->
+                <!--    <li>If you have not signed in for 30 days.</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+Is it mandatory to sign up before creating Wedding E-Cards?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>No, signing up is not mandatory. Wedding E-Cards can be created both before and after signing in.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
+                How many E-Card templates can a user use at one time to create Wedding E-Cards?
+            </a>
+        </div>
+
+        <div id="collapse45" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>You can use multiple E-Card templates at a time to create Wedding E-Cards.</p>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse46">
+                Will the number and types of E-Card templates remain fixed?
+            </a>
+        </div>
+
+        <div id="collapse46" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>No, the number and types of Wedding E-Card templates may change from time to time based on seasonal themes and user demand.</p>
+            </div>
+        </div>
+    </div>
+     <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse47">
+                Is there any charge for using the Wedding E-Cards Invitation feature?
+            </a>
+        </div>
+
+        <div id="collapse47" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>No, this feature is completely free for everyone and will remain free in the future.</p>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+                                            </div>
                                             <div id="faq13" class="container tab-pane fade p-0 faqs">
                                                 <div id="accordion11">
                                                     <div class="card mb-3 border-5 box-shadow">
@@ -878,6 +1176,8 @@ include 'config.php';
                                                                     <li>Certain provisions of this Agreement, including sections 4, 5, 6, 7, 8 and sections 10 to 16, shall remain effective even after termination.</li>
                                                                     <li>The duration of paid Membership will be determined by the type of membership selected.</li>
                                                                     <li>In the event of business discontinuity, the Company will not refund membership fees paid by you.</li>
+                                                                    
+                                                                    
                                                                 </ul>
                                                                 
                                                                 <p class="mb-2 mt-4"><b>5.	Members' Use for Non-Commercial Purposes</b></p>

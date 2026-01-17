@@ -56,8 +56,7 @@ header('location:user-profiles.php?profilestatus=yes');
 ?> -->
 
 <?php
-ob_start();
-include 'config.php';
+
 
 // 1. Check that all required parameters are present in the URL
 if (isset($_GET['uid']) && isset($_GET['status'])) {
