@@ -176,7 +176,10 @@ $team_result = mysqli_query($con, $team_sql);
     padding-top: 20px;
     text-align: center;
 }
-
+.wedd-shap span {
+    position: absolute;
+    z-index: -1;
+}
 /* =========================
    MOBILE FIX
 ========================= */

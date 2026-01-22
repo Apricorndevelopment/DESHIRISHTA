@@ -1,4 +1,50 @@
 <style>
+
+    /* ==============================
+   FOOTER BOTTOM GAP FIX (TABLET)
+============================== */
+
+/* Prevent extra page height */
+html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden;
+}
+
+/* Footer sections should not add extra space */
+.wed-hom-footer,
+.cr {
+    margin-bottom: 0 !important;
+    padding-bottom: 20px;
+}
+
+/* Remove accidental min-height from sections */
+section {
+    min-height: unset !important;
+}
+
+/* Tablet-specific fix */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .wed-hom-footer {
+        padding-bottom: 10px !important;
+    }
+
+    .cr {
+        padding-bottom: 10px !important;
+    }
+
+    /* Slick slider height fix */
+    .slick-track,
+    .slick-list {
+        height: auto !important;
+    }
+}
+
     .web-push-popup {
         display: none;
         position: fixed;
@@ -105,7 +151,7 @@ function closeWebPush() {
                     <h4>Get In Touch</h4>
                     <p>Location: New Delhi, India</p>
                     <p>Phone: <a href="tel:+918377053041">+91-8377053041</a></p>
-                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com.</a></p>
+                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com</a></p>
                 </div>
                 <div class="col-md-4">
                     <h4>HELP &amp; SUPPORT</h4>

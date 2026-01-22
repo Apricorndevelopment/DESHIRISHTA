@@ -209,6 +209,58 @@ $json_popup_queue = json_encode($popup_queue);
 ?>
 
 <style>
+/* ===============================
+   CONTACT PRIVACY POPUP FIX
+   DESKTOP + MOBILE RESPONSIVE
+================================ */
+
+/* Ensure popup never overflows screen */
+.welcome-modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile optimizations */
+@media (max-width: 576px) {
+
+    /* Ribbon text adjust */
+    .welcome-ribbon {
+        font-size: 16px;
+        padding: 12px;
+        line-height: 1.4;
+    }
+
+    /* Body spacing */
+    .welcome-body {
+        padding: 15px;
+    }
+
+    /* Guideline boxes spacing */
+    .guideline-box {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    /* Buttons stack vertically */
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-actions button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* Status row font size */
+    .status-row {
+        font-size: 12px;
+    }
+}
+
+
     /* Popup Styles */
     .menu-pop-help h4,
     .menu-pop-help h5,
