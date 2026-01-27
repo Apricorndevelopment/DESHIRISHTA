@@ -1,6 +1,6 @@
 <?php
 include 'config.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+require_once 'email_layout_template.php';
 // --- Masking Logic Start ---
 $display_message = '';
 

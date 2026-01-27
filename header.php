@@ -288,7 +288,7 @@ if (isset($_COOKIE['dr_userid'])) {
                                         <ul>
                                             <li><a href="contact.php">Contact Us</a></li>
                                             <li><a href="contact.php?#support">Business Enquiries</a></li>
-                                            <li><a href="https://wa.me/918377053041?text=Hi There..." target="_blank">Chat Support</a></li>
+                                            <li><a href="https://wa.me/918377053041?text=Hi There,I have some queries to ask.Thanks!" target="_blank">Chat Support</a></li>
                                             <li><a href="faq.php">FAQ's</a></li>
                                         </ul>
                                     </div>
@@ -535,7 +535,7 @@ if (isset($_COOKIE['dr_userid'])) {
                 </ul>
 
                 <!-- SERVICES -->
-                <h4><i class="fa bi bi-service" aria-hidden="true"></i>SERVICES</h4>
+                <h4><i class="fa bi bi-gear"true"></i>SERVICES</h4>
                 <ul>
                     <li><a href="wedding-ecard.php">Wedding E-card</a></li>
                 </ul>
@@ -552,7 +552,24 @@ if (isset($_COOKIE['dr_userid'])) {
             <?php } ?>
         </div>
     </div>
+ <style>
+    /* Placeholder color black – Support form */
+.form-login input::placeholder,
+.form-login textarea::placeholder {
+    color: #000 !important;
+    opacity: 1; /* Firefox fix */
+}
 
+/* Edge / IE support */
+.form-login :-ms-input-placeholder {
+    color: #000 !important;
+}
+
+.form-login ::-ms-input-placeholder {
+    color: #000 !important;
+}
+
+ </style>
     <!-- SCRIPT FOR BOTTOM-UP ANIMATION -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {

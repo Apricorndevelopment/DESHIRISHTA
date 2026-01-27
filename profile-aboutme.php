@@ -2,7 +2,7 @@
 include 'config.php';
 
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+require_once'email_layout_template.php';
 
 $userid = $_COOKIE['dr_userid'];
 

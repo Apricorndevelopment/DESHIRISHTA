@@ -1,6 +1,7 @@
 <?php
 include 'header.php';
 include 'config.php';
+include 'auto_logout_popup.php';
 
 $userid = $_COOKIE['dr_userid'];
 $state = $_COOKIE['dr_state'];

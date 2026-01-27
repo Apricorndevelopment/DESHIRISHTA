@@ -71,48 +71,49 @@ if($row_check_gender['gender'] == 'Male') {
     $sql_status_update = "UPDATE registration SET bridelocation = 'Done' WHERE userid = '$userid'";
 }
 mysqli_query($con, $sql_status_update);
-
-
-// --- 3. REJECTION POPUP LOGIC (Fixed Variables) ---
+// --- 3. REJECTION POPUP LOGIC (Fixed) ---
 $rejection_popups = [];
 
-// 1. Groom Rejection
+// 1. Custom Database Rejection (Priority 1)
+if (isset($rowformfill['reject_popup']) && $rowformfill['reject_popup'] == '1') {
+    $rejection_popups[] = [
+        'title' => 'Photo Rejected',
+        'body' => 'Your profile photo was rejected by Admin. Please upload a clear photo.',
+        'image' => 'images/gif/rejected.gif',
+        'action_type' => 'clear_reject_flag' // Ye DB update karega
+    ];
+}
+// 2. Normal Photos Rejection (Priority 2)
+elseif ($rowformfill['photos_approval_status'] == 'Rejected') {
+    $rejection_popups[] = [
+        'title' => 'Photos Rejected',
+        'body' => 'Your uploaded photos were rejected. Please upload clear photos.',
+        'image' => 'images/gif/rejected.gif',
+        'action_type' => 'just_close' // Ye sirf popup band karega
+    ];
+}
+
+// 3. Groom Rejection
 if($rowformfill['groom_approval_status'] == 'Rejected') {
     $rejection_popups[] = [
         'title' => 'Location Update Rejected',
-        'body' => 'Your request to update Groom/Bride Location was declined by Admin. Please check details and try again.',
-        'image' => 'images/gif/rejected.gif'
+        'body' => 'Your request to update Location was declined by Admin.',
+        'image' => 'images/gif/rejected.gif',
+        'action_type' => 'just_close' // Ye sirf popup band karega
     ];
-    // Optional: Reset status to 'Seen'
-    // mysqli_query($con, "UPDATE registration SET groom_approval_status='Seen' WHERE userid='$userid'");
 }
 
-// 2. Photos Rejection
-if($rowformfill['photos_approval_status'] == 'Rejected') {
-    $rejection_popups[] = [
-        'title' => 'Photos Rejected',
-        'body' => 'Your uploaded photos were rejected as they did not meet our guidelines. Please upload clear photos.',
-        'image' => 'images/gif/rejected.gif'
-    ];
-    // Optional: Reset status
-    // mysqli_query($con, "UPDATE registration SET photos_approval_status='Seen' WHERE userid='$userid'");
-}
-
-// 3. About Me Rejection
+// 4. About Me Rejection
 if($rowformfill['aboutme_approval_status'] == 'Rejected') {
     $rejection_popups[] = [
         'title' => 'About Me Rejected',
-        'body' => 'Your "About Me" description was declined. Please remove any contact info or inappropriate content.',
-        'image' => 'images/gif/rejected.gif'
+        'body' => 'Your "About Me" description was declined.',
+        'image' => 'images/gif/rejected.gif',
+        'action_type' => 'just_close' // Ye sirf popup band karega
     ];
 }
 
-// JSON encode for JS
 $json_rejections = json_encode($rejection_popups);
-
-
-// --- 4. HELPER FUNCTIONS ---
-
 function render_dropdown_options($con, $dropdownName, $selectedValue)
 {
     echo '<option value="">Select</option>';
@@ -358,7 +359,8 @@ function render_multiselect_options($con, $dropdownName, $selectedValues)
             </div>
             <div class="user-bio">
                 <h5 id="rej-body"></h5>
-                <a href="#" onclick="closeRejectionPopup()" class="btn btn-primary btn-sm mt-3">Okay, I will fix it</a>
+                <a href="javascript:void(0);" id="btn_fix_popup" class="btn btn-primary btn-sm mt-3">Okay, I will fix it</a>
+                <!-- <a href="#" onclick="closeRejectionPopup()" class="btn btn-primary btn-sm mt-3">Okay, I will fix it</a> -->
             </div>
         </div>
     </div>
@@ -4933,5 +4935,79 @@ include 'footer.php';
         if (window.innerWidth <= 991) {
             toggleSidebar();
         }
+    }
+</script><script>
+    $(document).ready(function(){
+        
+        // PHP Variables
+        var rejections = <?php echo $json_rejections; ?>;
+        
+        // 1. Check karein ki data aaya ya nahi
+        if(rejections.length > 0) {
+            console.log("Popup Data Found:", rejections); // Console mein data check karein
+            
+            var alertData = rejections[0];
+            
+            // Content Set
+            $('#rej-title').text(alertData.title);
+            $('#rej-body').text(alertData.body);
+            if(alertData.image) {
+                $('#rej-img').attr('src', alertData.image);
+            }
+            
+            // Popup Show
+            $('#rejection-popup').addClass('act');
+            $('.pop-bg').addClass('act'); 
+            
+            // Button Click
+            $('#btn_fix_popup').off('click').on('click', function(e){
+                e.preventDefault();
+                
+                // Debugging Alert: Pata chalega button click hua
+                // alert("Button Clicked! Action Type: " + alertData.action_type);
+
+                // --- CASE 1: Database Update Wala ---
+                if(alertData.action_type === 'clear_reject_flag') {
+                    
+                    var btn = $(this);
+                    var originalText = btn.text();
+                    btn.text("Processing...");
+
+                    $.ajax({
+                        url: 'remove_reject_popup.php',
+                        type: 'POST',
+                        data: { user_id: '<?php echo $userid; ?>' },
+                        success: function(response) {
+                            var res = response.trim().toUpperCase();
+                            // alert("Server Response: " + res); // Response check karein
+
+                            if(res.includes("SUCCESS") || res == "1") {
+                                closeRejectionPopup();
+                            } else {
+                                alert("Error from Server: " + response);
+                                btn.text(originalText);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert("AJAX Error: " + error);
+                            btn.text(originalText);
+                        }
+                    });
+
+                } 
+                // --- CASE 2: Normal Popup Close ---
+                else {
+                    // alert("Closing directly..."); // Check karein ye chal raha hai ya nahi
+                    closeRejectionPopup();
+                }
+            });
+        }
+    });
+
+    // Close Function
+    function closeRejectionPopup() {
+        // console.log("Closing Popup Function Called");
+        $('#rejection-popup').removeClass('act');
+        $('.pop-bg').removeClass('act');
     }
 </script>

@@ -3,11 +3,10 @@ ob_start();
 
 include 'config.php';
 
-// --- 1. INITIALIZE VARIABLES (Defaults) ---
-// Initialize all variables to null/0 to prevent "Undefined Variable" errors
+
 $userid = null;
-$user_data = null; // Stores the main user row
-$useractive = 0;   // Default: User is NOT active (0)
+$user_data = null; 
+$useractive = 0;  
 
 
 // Profile Status Defaults

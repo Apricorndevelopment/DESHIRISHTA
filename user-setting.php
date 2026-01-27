@@ -597,7 +597,9 @@ if(isset($_POST['action']) && $userid != '') {
                                                                 </li>
                                                                 <li class="b-0 m-0">
                                                                     <input type="submit" id="resetpassword" value="Update" class="">
-                                                                    <input type="reset" value="Cancel" class="sett-acc-edi-can">
+                                                                    <!-- <input type="reset" value="Cancel" class="sett-acc-edi-can"> -->
+                                                                     <input type="reset" value="Cancel" class="sett-acc-edi-can" onclick="setTimeout(() => location.reload(), 50);">
+
                                                                 </li>
                                                             </ul>
                                                         </form>

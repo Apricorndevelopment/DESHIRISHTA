@@ -84,7 +84,6 @@ if($userid == '')
                                 </div>
                                 <div class="form-login">
                                     <form class="cform fvali" method="post" action="insert-submitrequest.php">
-                                        <input type="hidden" name="category" value="User Support Request" required>
                                         
                                         <?php if(isset($_GET['success']) && $_GET['success'] == 'yes') { ?>
                                             <script>
@@ -97,7 +96,7 @@ if($userid == '')
                                         <div class="form-group">
                                             <label class="lb">Name</label>
                                             <span class="iconbox">
-                                                <input type="text" id="name" class="form-control leftspace" placeholder="Enter Full Name" value="<?php echo $_COOKIE['dr_name']; ?>" name="name" required readonly>
+                                                <input type="text" id="name" class="form-control leftspace" placeholder="Enter Full Name" value="<?php echo htmlspecialchars($_COOKIE['dr_name']); ?>" name="name" required readonly>
                                                 <span class="material-symbols-outlined icon">account_circle</span>
                                             </span>
                                         </div>
@@ -114,6 +113,19 @@ if($userid == '')
                                                 <input type="text" class="form-control leftspace" id="phone" placeholder="Enter Phone No." value="<?php echo $_COOKIE['dr_phone']; ?>" name="phone" required readonly>
                                                 <span class="material-symbols-outlined icon">call</span>
                                             </span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="lb">Select Issue Category <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="category" name="category" required>
+                                                <option value="" disabled selected>--- Select ---</option>
+                                                <option value="General Query">General Query</option>
+                                                <option value="Technical Issue">Technical Issue</option>
+                                                <option value="Billing/Payment">Billing/Payment</option>
+                                                <option value="Profile Update">Profile Update</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <p class="text-danger errorstatement" id="categoryerror" style="display:none">Please Select Issue Category</p>
                                         </div>
                                         <div class="form-group">
                                             <label class="lb">Message</label>
@@ -200,6 +212,16 @@ if($userid == '')
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* Select Box Styling match */
+      select.form-control {
+    border: none;
+    border-bottom: 3px solid maroon;
+    border-radius: 1;
+    outline: none;
+    box-shadow: none;
+    height: 45px;
+}
     </style>
 
 <?php
@@ -216,24 +238,52 @@ function closeModal() {
 }
 
 $(document).ready(function(){
-  $("#enquirybtn").click(function(){
+  $("#enquirybtn").click(function(e){
     var message = $("#message").val();
-    
+    var category = $("#category").val();
+    var isValid = true;
+
+    // Validate Category
+    if(category == null || category == "")
+    {
+        $("#categoryerror").show();
+        $("#category").css("border-bottom", "2px solid red");
+        isValid = false;
+    }
+    else
+    {
+        $("#categoryerror").hide();
+        $("#category").css("border-bottom", "2px solid maroon");
+    }
+
+    // Validate Message
     if(message == '')
     {
         $("#messerror").show();
         $("#message").css("border", "2px solid red");
-        return false;
+        isValid = false;
     }
     else
     {
         $("#messerror").hide();
-        return true;
+        $("#message").css("border", ""); // Reset to default
+    }
+
+    if(!isValid) {
+        e.preventDefault(); // Stop form submission
+        return false;
     }
   });
   
+  // Reset errors on user interaction
+  $("#category").change(function(){
+    $("#categoryerror").hide();
+    $(this).css("border-bottom", "2px solid maroon");
+  });
+
   $("#message").keyup(function(){
     $("#messerror").hide();
+    $(this).css("border", "");
   });
 });
 </script>

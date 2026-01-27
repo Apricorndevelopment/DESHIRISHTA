@@ -1,9 +1,18 @@
 <?php
-include 'config.php';
+include 'config.php'; 
 
-$userid = $_COOKIE['dr_userid'];
+if(isset($_POST['user_id'])) {
+    $userid = $_POST['user_id'];
 
-mysqli_query($con, "UPDATE registration 
-SET reject_popup='0' 
-WHERE userid='$userid'");
+    // Database mein 'reject_popup' flag ko 0 (zero) set karein taaki popup dobara na aaye
+    $sql = "UPDATE registration SET reject_popup = '0' WHERE userid = '$userid'";
+    
+    if(mysqli_query($con, $sql)) {
+        echo "SUCCESS"; // Yehi string JavaScript dhoond raha hai
+    } else {
+        echo "ERROR: " . mysqli_error($con);
+    }
+} else {
+    echo "No User ID Found";
+}
 ?>

@@ -4,7 +4,7 @@
 ob_start();
 include 'config.php';
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+require_once '../email_layout_template.php';
 
 // Check if all necessary parameters are set
 if (isset($_GET['uid']) && isset($_GET['action'])) {

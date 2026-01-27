@@ -31,7 +31,6 @@ while($p_row = mysqli_fetch_assoc($plan_res)) {
     $plan_stats[] = $p_row;
 }
 
-
 // --- 2. FILTER LOGIC ---
 $filter_visibility = "";
 $filter_profile = "";
@@ -39,26 +38,25 @@ $filter_doc = "";
 $filter_plan = "";
 $conditions = [];
 
-// Check Profile Filter
+// 1. Check Profile Filter
 if(isset($_GET['filter_profile']) && $_GET['filter_profile'] !== '') {
     $filter_profile = mysqli_real_escape_string($con, $_GET['filter_profile']);
     $conditions[] = "r.profilestatus = '$filter_profile'";
 }
+
+// 2. Check Visibility Filter
 if(isset($_GET['filter_visibility']) && $_GET['filter_visibility'] !== '') {
     $filter_visibility = mysqli_real_escape_string($con, $_GET['filter_visibility']);
-    
     if($filter_visibility == '1') {
-        // Allowed
         $conditions[] = "r.verificationinfo = '1'";
     } else {
-        // Restricted (0 or any other value)
         $conditions[] = "r.verificationinfo != '1'";
     }
 }
-// Check Document Filter
+
+// 3. Check Document Filter
 if(isset($_GET['filter_doc']) && $_GET['filter_doc'] !== '') {
     $filter_doc = mysqli_real_escape_string($con, $_GET['filter_doc']);
-    
     if($filter_doc == 'Pending') {
         $conditions[] = "(r.document_verification_status = 'Pending' OR r.document_verification_status IS NULL OR r.document_verification_status = '')";
     } else {
@@ -66,20 +64,27 @@ if(isset($_GET['filter_doc']) && $_GET['filter_doc'] !== '') {
     }
 }
 
-// Check Plan Filter
+// 4. Check Plan Filter
 if(isset($_GET['filter_plan']) && $_GET['filter_plan'] !== '') {
     $filter_plan = mysqli_real_escape_string($con, $_GET['filter_plan']);
     $conditions[] = "r.plan_id = '$filter_plan'";
 }
 
-// Build WHERE Clause
+// 5. SEARCH LOGIC (Ye Query se pehle aana chahiye)
+$search_term = "";
+if(isset($_GET['search']) && $_GET['search'] !== '') {
+    $search_term = mysqli_real_escape_string($con, $_GET['search']);
+    // Multiple columns mein search
+    $conditions[] = "(r.name LIKE '%$search_term%' OR r.userid LIKE '%$search_term%' OR r.phone LIKE '%$search_term%' OR r.email LIKE '%$search_term%')";
+}
+
+// --- BUILD WHERE CLAUSE ---
 $where_clause = "";
 if(count($conditions) > 0) {
     $where_clause = "WHERE " . implode(' AND ', $conditions);
 }
 
-// Main Query (Joined with tbl_plans to get plan name in the list)
-// using 'r' as alias for registration and 'p' for plans
+// --- MAIN QUERY ---
 $sql = "SELECT r.*, p.plan_name 
         FROM registration r 
         LEFT JOIN tbl_plans p ON r.plan_id = p.id 
@@ -90,8 +95,6 @@ $result = mysqli_query($con, $sql);
 
 // Fetch all plans for the Filter Dropdown
 $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
-// ... after $filter_profile logic ...
-
 // Check Visibility Filter (NEW MODULE)
 
 
@@ -309,10 +312,10 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
                                 <div class="d-flex align-items-center flex-wrap">
                                     <!-- Filter Form -->
                                     <form method="GET" action="" class="form-inline mr-1">
-                                        
+ 
                                         <!-- Profile Status Filter -->
                                         <div class="form-group mr-1">
-                                            <label class="mr-50 font-small-3">Profile Status:</label>
+                                            <label class="mr-50 font-small-3">Profile :</label>
                                             <select name="filter_profile" class="form-control form-control-sm" onchange="this.form.submit()">
                                                 <option value="">All Profiles</option>
                                                 <option value="0" <?php if($filter_profile === '0') echo 'selected'; ?>>Pending</option>
@@ -332,7 +335,7 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
 
                                         <!-- Document Status Filter -->
                                         <div class="form-group mr-1">
-                                            <label class="mr-50 font-small-3">Verification Status </label>
+                                            <label class="mr-50 font-small-3">Verification</label>
                                             <select name="filter_doc" class="form-control form-control-sm" onchange="this.form.submit()">
                                                 <option value="">All Docs</option>
                                                 <option value="Pending" <?php if($filter_doc === 'Pending') echo 'selected'; ?>>Pending Review</option>
@@ -356,6 +359,14 @@ $all_plans_query = mysqli_query($con, "SELECT * FROM tbl_plans");
                                                 ?>
                                             </select>
                                         </div>
+                                                                               <div class="input-group input-group-sm mr-1" style="min-width: 150px; max-width: 150px;">
+        <input type="text" name="search" class="form-control" placeholder="Search Name, ID..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">
+                <i data-feather="search"></i>
+            </button>
+        </div>
+    </div>
                                         
                                    <?php if($filter_profile !== '' || $filter_doc !== '' || $filter_plan !== '' || (isset($filter_visibility) && $filter_visibility !== '')) { ?>
     <a href="user-profiles.php" class="btn btn-sm btn-outline-secondary">Clear</a>

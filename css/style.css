@@ -3072,10 +3072,17 @@ table td{}
 .all-weddpro .col-md-3 {
     background: rgb(255 255 255);
     border-radius: 10px;
+    padding: 0px 0px;
+    margin: 63px 0px 70px;
+    /* border: 1px solid #ebddaa; */
+}
+/* .all-weddpro .col-md-3 {
+    background: rgb(255 255 255);
+    border-radius: 10px;
     padding: 30px 25px;
     margin: 60px 0px 70px;
     border: 1px solid #ebddaa;
-}
+} */
 
 .all-filt {
     background: rgb(245, 245, 245);
@@ -4422,7 +4429,7 @@ span.mail::before {
 
 .chosen-container-multi .chosen-choices .search-field input[type="text"] {
     box-shadow: none;
-    color: rgb(85, 85, 85);
+    color: rgb(0, 0, 0);
     height: 32px;
     margin: 0px;
     /*padding: 20px 0px;*/
@@ -4433,7 +4440,7 @@ span.mail::before {
 }
 
 .chosen-container-multi .chosen-choices .search-field .default {
-    color: rgb(153, 153, 153);
+    color: rgb(0, 0, 0);
 }
 
 .chosen-container-multi .chosen-choices .search-choice {
@@ -8910,7 +8917,7 @@ color: #fff !important;
     float: left;
     width: 100%;
     margin: 50px 0;
-    padding-left:125px ;
+    /* padding-left:125px ; */
 }
 
 .page-nation ul {}
@@ -9719,7 +9726,7 @@ h2.db-tit{
 }
 .db-plan-detil li strong{}
 .db-plan-detil li a{
-    margin-top: 15px;
+    margin-top: 5px;
 }
 .db-plan-card{}
 .db-plan-card img{
@@ -13425,7 +13432,7 @@ background: #fff;
 
 .picborder{
     height:250px;
-    border: 2px solid #ccc; 
+    border: 3px dashed #ccc; 
     text-align: center;
     border-radius:20px;
 }
@@ -13457,7 +13464,7 @@ background: #fff;
     width: 40px;
     height: 40px;
     border-radius: 50px;
-    background: rgba(0, 0, 0, 0.58);
+    background:#f6af04;
     border: 1px solid rgba(255, 255, 255, 0.55);
     color: rgba(255, 255, 255, 0.01);
     position: absolute;
@@ -13476,7 +13483,7 @@ background: #fff;
     }
 
     .slick-arrow::before, .slick-arrow::after {
-    font-size: 26px;
+    font-size: 25px;
     font-family: FontAwesome;
     text-align: center;
     display: inline-block;

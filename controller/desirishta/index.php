@@ -1096,7 +1096,7 @@ ul.slider4 .slick-slide li {
 /* === SLIDER ARROW FIX (CUT-OFF PROBLEM) === */
 .slid-inn .slick-prev, .slid-inn .slick-next {
     position: absolute;
-    top: 55%;
+    top: 50%;
     transform: translateY(-50%);
     z-index: 2;
     background: #f6af04;

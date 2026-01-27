@@ -34,7 +34,7 @@ if($userid == '')
                 <div class="row">
                     <div class="col-md-12">
                         <span class="filter-clo">+</span> 
-                        <form action="basicsearch-profiles.php" method="post" class="row mt-5">
+                        <form action="matches-allprofiles.php" method="post" class="row mt-5">
                             <div class="col-md-4">
                                 <!-- START -->
                                 <div class="filt-com lhs-cate">
@@ -226,65 +226,8 @@ if($userid == '')
                                 <!-- END -->
                             </div>
                             
-                            <div class="col-md-4">
-                                <div class="filt-com lhs-cate">
-                                    <h4><i><span class="material-symbols-outlined">diversity_3</span></i>Dosh/Dosham</h4>
-                                    <div class="form-group">
-                                        <select class="chosen-select" name="manglik">
-                                            <option value="">Select</option>
-                                            <option value="yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <!-- START -->
-                                <div class="filt-com lhs-cate">
-                                    <h4><i><span class="material-icons">dining</span></i>Eating Habits</h4>
-                                    <div class="form-group">
-                                        <select class="form-select chosen-select" name="eating[]" multiple>
-                                            <option value="">Select</option>
-                                            <option <?php if($rowbasicinfo['eating'] == 'Vegetarian') { echo "selected"; }?>>Vegetarian</option>
-                                            <option <?php if($rowbasicinfo['eating'] == 'Non-Vegetarian') { echo "selected"; }?>>Non-Vegetarian</option>
-                                            <option <?php if($rowbasicinfo['eating'] == 'Eggetarian') { echo "selected"; }?>>Eggetarian</option>
-                                            <otpion <?php if($rowbasicinfo['eating'] == 'Vegan') { echo "selected"; }?>>Vegan</otpion>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- END -->
-                            </div>
-                            <div class="col-md-4">
-                                <!-- START -->
-                                <div class="filt-com lhs-cate">
-                                    <h4><i><span class="material-icons">liquor</span></i>Drinking Habits</h4>
-                                    <div class="form-group">
-                                        <select class="form-select chosen-select" name="drinking[]" multiple>
-                                            <option value="">Select</option>
-                                            <option <?php if($rowbasicinfo['drinking'] == 'Non-drinker') { echo "selected"; }?>>Non-drinker</option>
-                                            <option <?php if($rowbasicinfo['drinking'] == 'Light / Social drinker') { echo "selected"; }?>>Light / Social drinker</option>
-                                            <option <?php if($rowbasicinfo['drinking'] == 'Regular drinker') { echo "selected"; }?>>Regular drinker</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- END -->
-                            </div>
-                            <div class="col-md-4">
-                                <!-- START -->
-                                <div class="filt-com lhs-cate">
-                                    <h4><i><span class="material-icons">smoking_rooms</span></i>Smoking Habits</h4>
-                                    <div class="form-group">
-                                        <select class="form-select chosen-select" name="smoking[]" multiple>
-                                            <option value="">Select</option>
-                                            <option <?php if($rowbasicinfo['smoking'] == 'Non-smoker') { echo "selected"; }?>>Non-smoker</option>
-                                            <option <?php if($rowbasicinfo['smoking'] == 'Light / Social smoker') { echo "selected"; }?>>Light / Social smoker</option>
-                                            <option <?php if($rowbasicinfo['smoking'] == 'Regular Smoker') { echo "selected"; }?>>Regular Smoker</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- END -->
-                            </div>
+                            <!-- Removed Dosh/Dosham, Eating, Drinking, Smoking divs here -->
+
                             <div class="col-md-4">
                                 <!-- START -->
                                 <div class="filt-com lhs-cate">
@@ -352,22 +295,8 @@ if($userid == '')
                                 </div>
                                 <!-- END -->
                             </div>
-                            <div class="col-md-4">
-                                <!-- START -->
-                                <div class="filt-com lhs-cate">
-                                    <h4><i><span class="material-symbols-outlined">diversity_3</span></i>Family Status</h4>
-                                    <div class="form-group">
-                                        <select class="chosen-select" name="familystatus[]" multiple>
-                                            <option value="">Select</option>
-                                            <option <?php if($rowfamilyinfo['familystatus'] == 'Middle Class') { echo "selected"; } ?>>Middle Class</option>
-                                            <option <?php if($rowfamilyinfo['familystatus'] == 'Upper Middle Class') { echo "selected"; } ?>>Upper Middle Class</option>
-                                            <option <?php if($rowfamilyinfo['familystatus'] == 'Affluent') { echo "selected"; } ?>>Affluent</option>
-                                            <option <?php if($rowfamilyinfo['familystatus'] == 'Other') { echo "selected"; } ?>>Other</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- END -->
-                            </div>
+                            
+                            <!-- Removed Family Status div here -->
                             
                             <div class="col-md-4">
                                 <!-- START -->
@@ -453,9 +382,6 @@ if($userid == '')
     
     
 
-
-
  <?php
  include 'footer.php';
  ?>
- 

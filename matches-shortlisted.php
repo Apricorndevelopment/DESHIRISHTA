@@ -1,31 +1,36 @@
 <?php
-include 'header.php';
 include 'config.php';
+
+// 1. Auth Check (Must be before any output)
+if(!isset($_COOKIE['dr_userid']) || empty($_COOKIE['dr_userid'])) {
+    header('location:login.php');
+    exit;
+}
 
 $userid = $_COOKIE['dr_userid'];
 
-if($userid == '')
-{
-    header('location:login.php');
+include 'header.php';
+
+// 2. Pagination & Sorting Logic
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+if($page < 1) {
+    $page = 1;
+}
+$lower_limit = ($page - 1) * 3;
+
+$sort = "DESC"; // Default sort
+if(isset($_GET['sort']) && $_GET['sort'] == 'asc') {
+    $sort = "ASC";
 }
 
-$page = $_GET['page'];
-
-if($page == '')
-{
-    $lower_page =  0;
-}
-else
-{
-    $lower_page = $page - 1;
-}
-
-$lower_limit = $lower_page * 3;
-
-$sqlshortlisted = "select * from shortlist_ids where by_whom = '$userid' and delete_status != 'delete' and firstapprove = '1'";
-$resultshortlisted = mysqli_query($con,$sqlshortlisted);
-$countshortlisted = mysqli_num_rows($resultshortlisted);
+// 3. Count Total Shortlisted Profiles (For Pagination)
+// Using count(distinct for_who) to be safe against duplicates
+$sql_count = "SELECT COUNT(DISTINCT for_who) as total FROM shortlist_ids WHERE by_whom = '$userid'";
+$res_count = mysqli_query($con, $sql_count);
+$row_count = mysqli_fetch_assoc($res_count);
+$total_count = $row_count['total'];
 ?>
+
     <!-- SUB-HEADING -->
     <section>
         <div class="all-pro-head">
@@ -49,14 +54,12 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                 <div class="row">
                     <div class="col-md-3 fil-mob-view">
                         <span class="filter-clo">+</span>
-                        <?php
-                        include 'filter-sidebar.php';
-                        ?>
+                        <?php include 'filter-sidebar.php'; ?>
                     </div>
                     <div class="col-md-9">
                         <div class="short-all">
                             <div class="short-lhs">
-                                Showing <b><?php echo $countshortlisted; ?></b> profiles
+                                Showing <b><?php echo $total_count; ?></b> profiles
                             </div>
                             <div class="short-rhs">
                                 <ul>
@@ -65,10 +68,9 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                                     </li>
                                     <li>
                                         <div class="form-group oldnew">
-                                            <select class="chosen-select p-2" id="sortby">
-                                                <option value="">Select</option>
-                                                <option value="desc" <?php if($_GET['sort'] == 'desc') { echo "selected"; } ?>>Date listed: Newest</option>
-                                                <option value="asc" <?php if($_GET['sort'] == 'asc') { echo "selected"; } ?>>Date listed: Oldest</option>
+                                            <select class="chosen-select p-2" id="sortby" onchange="window.location.href='matches-shortlisted.php?sort='+this.value">
+                                                <option value="desc" <?php if(isset($_GET['sort']) && $_GET['sort'] == 'desc') { echo "selected"; } ?>>Date listed: Newest</option>
+                                                <option value="asc" <?php if(isset($_GET['sort']) && $_GET['sort'] == 'asc') { echo "selected"; } ?>>Date listed: Oldest</option>
                                             </select>
                                         </div>
                                     </li>
@@ -88,83 +90,72 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                         <div class="all-list-sh">
                             <ul>
                                 <?php
-                                if($_GET['sort'] == 'desc')
-                                {
-                                    $sort = "desc";
-                                }
-                                if($_GET['sort'] == 'asc')
-                                {
-                                    $sort = "asc";
-                                }
-                                if($_GET['sort'] == '')
-                                {
-                                    $sort = "desc";
-                                }
-                                
-                                $sqlinfo = "select * from shortlist_ids where by_whom = '$userid' and delete_status != 'delete' and firstapprove = '1' order by id $sort limit $lower_limit,3";
-                                $resultinfo = mysqli_query($con,$sqlinfo);
-                                $countinfo = mysqli_num_rows($resultinfo);
-                                if($countinfo != 0)
+                                // 4. Main Query: Fetch Shortlisted IDs
+                                // Orders by 'id' which acts as timestamp (higher ID = newer)
+                                $sqlinfo = "SELECT * FROM shortlist_ids WHERE by_whom = '$userid' ORDER BY id $sort LIMIT $lower_limit, 3";
+                                $resultinfo = mysqli_query($con, $sqlinfo);
+
+                                if(mysqli_num_rows($resultinfo) > 0)
                                 {
                                     while($rowinfo = mysqli_fetch_assoc($resultinfo))
                                     {
-                                        $profileid = $rowinfo['for_who'];
-                                        
-                                        $sqlbasicinfo = "select * from basic_info where userid = '$profileid'";
+                                        $profileid = $rowinfo['for_who']; // The ID of the person I shortlisted
+                                        $shortlist_db_id = $rowinfo['id']; // ID of the shortlist record (for deletion)
+
+                                        // Fetch User Data for the shortlisted profile
+                                        $sqlbasicinfo = "SELECT * FROM basic_info WHERE userid = '$profileid'";
                                         $resultbasicinfo = mysqli_query($con,$sqlbasicinfo);
+                                        
+                                        // Skip if profile deleted or not found
+                                        if(mysqli_num_rows($resultbasicinfo) == 0) continue;
+                                        
                                         $rowbasicinfo = mysqli_fetch_assoc($resultbasicinfo);
                                         
-                                        $sqlreligiousinfo = "select * from religious_info where userid = '$profileid'";
+                                        $sqlreligiousinfo = "SELECT * FROM religious_info WHERE userid = '$profileid'";
                                         $resultreligiousinfo = mysqli_query($con,$sqlreligiousinfo);
                                         $rowreligiousinfo = mysqli_fetch_assoc($resultreligiousinfo);
                                         
-                                        $sqleducationinfo = "select * from education_info where userid = '$profileid'";
+                                        $sqleducationinfo = "SELECT * FROM education_info WHERE userid = '$profileid'";
                                         $resulteducationinfo = mysqli_query($con,$sqleducationinfo);
                                         $roweducationinfo = mysqli_fetch_assoc($resulteducationinfo);
                                         
-                                        $sqllocationinfo = "select * from groom_location where userid = '$profileid'";
+                                        $sqllocationinfo = "SELECT * FROM groom_location WHERE userid = '$profileid'";
                                         $resultlocationinfo = mysqli_query($con,$sqllocationinfo);
                                         $rowlocationinfo = mysqli_fetch_assoc($resultlocationinfo);
                                         
-                                        $sqlphotoinfo = "select * from photos_info where userid = '$profileid'";
+                                        $sqlphotoinfo = "SELECT * FROM photos_info WHERE userid = '$profileid'";
                                         $resultphotoinfo = mysqli_query($con,$sqlphotoinfo);
                                         $rowphotoinfo = mysqli_fetch_assoc($resultphotoinfo);
                                         
-                                        $sqlregistration = "select * from registration where userid = '$profileid'";
+                                        $sqlregistration = "SELECT * FROM registration WHERE userid = '$profileid'";
                                         $resultregistration = mysqli_query($con,$sqlregistration);
                                         $rowregistration = mysqli_fetch_assoc($resultregistration);
                                         
-                                        $sqlblock = "select * from block_ids where by_whom = '$userid' and for_who = '$profileid'";
+                                        // Check Block Status (Have I blocked them?)
+                                        $sqlblock = "SELECT * FROM block_ids WHERE by_whom = '$userid' AND for_who = '$profileid'";
                                         $resultblock = mysqli_query($con,$sqlblock);
                                         $countblock = mysqli_num_rows($resultblock);
                                         
-                                        $sqlshortlist = "select * from shortlist_ids where by_whom = '$userid' and for_who = '$profileid'";
-                                        $resultshortlist = mysqli_query($con,$sqlshortlist);
-                                        $countshortlist = mysqli_num_rows($resultshortlist);
-                                    ?>
+                                        // Fallback for profile picture
+                                        $profile_pic = "images/gif/not-found.gif";
+                                        if(!empty($rowphotoinfo['profilepic'])) {
+                                            $profile_pic = "userphoto/" . $rowphotoinfo['profilepic'];
+                                        }
+                                ?>
                                     <li>
-                                        <div class="all-pro-box user-avil-onli" data-useravil="avilyes"
-                                            data-aviltxt="Available online">
+                                        <div class="all-pro-box user-avil-onli">
                                             <!--PROFILE IMAGE-->
                                             <div class="pro-img">
                                                 <div class="slid-inn pr-bio-c wedd-rel-pro sliderarrow m-0">
                                                     <ul class="slider5">
-                                                        <?php
-                                                        if($rowphotoinfo['profilepic'] != '')
-                                                        {
-                                                        ?>
                                                         <li>
                                                             <div class="wedd-rel-box">
                                                                 <div class="wedd-rel-img">
-                                                                    <img src="userphoto/<?php echo $rowphotoinfo['profilepic']?>" alt="">
+                                                                    <img src="<?php echo $profile_pic; ?>" alt="">
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <?php
-                                                        }
-                                                        if($rowphotoinfo['photo1'] != '')
-                                                        {
-                                                        ?>
+                                                        <?php if(!empty($rowphotoinfo['photo1'])) { ?>
                                                         <li>
                                                             <div class="wedd-rel-box">
                                                                 <div class="wedd-rel-img">
@@ -172,11 +163,8 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <?php
-                                                        }
-                                                        if($rowphotoinfo['photo2'] != '')
-                                                        {
-                                                        ?>
+                                                        <?php } ?>
+                                                        <?php if(!empty($rowphotoinfo['photo2'])) { ?>
                                                         <li>
                                                             <div class="wedd-rel-box">
                                                                 <div class="wedd-rel-img">
@@ -184,11 +172,8 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <?php
-                                                        }
-                                                        if($rowphotoinfo['photo3'] != '')
-                                                        {
-                                                        ?>
+                                                        <?php } ?>
+                                                        <?php if(!empty($rowphotoinfo['photo3'])) { ?>
                                                         <li>
                                                             <div class="wedd-rel-box">
                                                                 <div class="wedd-rel-img">
@@ -196,9 +181,7 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <?php
-                                                        }
-                                                        ?>
+                                                        <?php } ?>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -209,30 +192,17 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                                                 <h4><a href="user-profile-details.php?uid=<?php echo $rowbasicinfo['userid']; ?>"><?php echo $rowbasicinfo['fullname']; ?></a></h4>
                                                 <div>
                                                     <?php echo $rowbasicinfo['userid']; ?>
-                                                    <?php
-                                                    if($countblock == '1')
-                                                    {
-                                                    ?>
+                                                    <?php if($countblock >= 1) { ?>
                                                         <span class="text-danger desktop" style="float: right;">You have blocked this member</span>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="pro-info-status mobile mb-2">
-                                                    <?php
-                                                    if($rowinfo['verificationinfo'] == 'Done')
-                                                    {
-                                                    ?>
-                                                        <span class="stat-6 text-success" data-toggle="tooltip" ><i class="fa fa-shield text-success" aria-hidden="true"></i>&nbsp;ID Verified</span>
-                                                    <?php
-                                                    }
-                                                    if($countblock == '1')
-                                                    {
-                                                    ?>
+                                                    <?php if($rowregistration['verificationinfo'] == 'Done') { ?>
+                                                        <span class="stat-6 text-success"><i class="fa fa-shield text-success" aria-hidden="true"></i>&nbsp;ID Verified</span>
+                                                    <?php } ?>
+                                                    <?php if($countblock >= 1) { ?>
                                                         <span class="stat-5 m-0"><b>You blocked this member</b></span>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="pro-bio m-0 b-0 pb-0">
                                                     <span><?php echo $rowbasicinfo['age'].' Yrs'; ?></span>
@@ -246,63 +216,45 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                                                     <span><?php echo $rowlocationinfo['city'].', '.$rowlocationinfo['state']; ?></span>
                                                 </div>
                                                 <div class="links">
-                                                    <a href="user-profile-details.php?uid=<?php echo $rowbasicinfo['userid']; ?>">Profile</a>
-                                                    <a href="user-profile-details.php?uid=<?php echo $rowbasicinfo['userid']; ?>&#contactinfo">Contact</a>
-                                                    <a href="delete-shortlisted.php?uid=<?php echo $rowbasicinfo['userid']; ?>" class="unshort">Un-shortlist</a>
-                                                    <?php
-                                                    if($countblock == '1')
-                                                    {
-                                                    ?>
+                                                    <a href="user-profile-details.php?uid=<?php echo $rowbasicinfo['userid']; ?>">View Profile</a>
+                                                    
+                                                    <!-- REMOVE FROM SHORTLIST -->
+                                                    <a href="delete-shortlisted.php?id=<?php echo $shortlist_db_id; ?>" class="ta-dark" onclick="return confirm('Are you sure you want to remove this profile from your shortlist?');">Remove</a>
+                                                    
+                                                    <?php if($countblock >= 1) { ?>
                                                         <a href="#" class="bg-danger text-white shortblock">WhatsApp</a>
-                                                    <?php
-                                                    }
-                                                    else
-                                                    {
-                                                    ?>
-                                                        <a href="https://api.whatsapp.com/send?text=https://myptetest.com/desirishta/user-profile-details.php?uid=<?php echo $rowbasicinfo['userid']; ?>" target="_blank">WhatsApp</a>
-                                                    <?php
-                                                    }
-                                                    ?>
+                                                    <?php } else { ?>
+                                                        <a href="https://api.whatsapp.com/send?text=Check this profile: https://myptetest.com/desirishta/user-profile-details.php?uid=<?php echo $rowbasicinfo['userid']; ?>" target="_blank">WhatsApp</a>
+                                                    <?php } ?>
+                                                    
                                                     <div class="dropdown">
                                                         <button type="button" class="btn btn-outline-secondary blockreport" data-bs-toggle="dropdown">
                                                             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                        <?php
-                                                        if($countblock == '0' && $countshortlist == '0')
-                                                        {   
-                                                        ?>
-                                                            <li><a class="dropdown-item" href="insert-blockprofile.php?uid=<?php echo $rowbasicinfo['userid']; ?>">Block</a></li>
-                                                        <?php
-                                                        }
-                                                        ?>
+                                                            <?php if($countblock == 0) { ?>
+                                                                <li><a class="dropdown-item" href="insert-blockprofile.php?uid=<?php echo $rowbasicinfo['userid']; ?>">Block</a></li>
+                                                            <?php } ?>
                                                             <li><a class="dropdown-item" href="matches-reportid.php?uid=<?php echo $rowbasicinfo['userid']; ?>">Report</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!--END PROFILE NAME-->
+                                            
                                             <!--SAVE-->
-                                            <?php
-                                            if($rowregistration['verificationinfo'] == 'Done')
-                                            {
-                                            ?>
-                                            <span class="enq-sav text-success desktop" data-toggle="tooltip" ><i class="fa fa-shield text-success" aria-hidden="true"></i>&nbsp;ID Verified</span>
-                                            <?php
-                                            }
-                                            ?>
+                                            <?php if($rowregistration['verificationinfo'] == 'Done') { ?>
+                                                <span class="enq-sav text-success desktop" data-toggle="tooltip"><i class="fa fa-shield text-success" aria-hidden="true"></i>&nbsp;ID Verified</span>
+                                            <?php } ?>
                                             <!--END SAVE-->
                                         </div>
                                     </li>
-                                    <?php
+                                <?php
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                 ?>
                                     <li>
-                                        <div class="all-pro-box user-avil-onli" data-useravil="avilyes" data-aviltxt="Available online">
-                                            <!--PROFILE IMAGE-->
+                                        <div class="all-pro-box user-avil-onli">
                                             <div class="pro-img">
                                                 <div class="slid-inn pr-bio-c wedd-rel-pro sliderarrow m-0 p-0">
                                                     <ul class="slider5">
@@ -316,13 +268,9 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <!--END PROFILE IMAGE-->
-    
-                                            <!--PROFILE NAME-->
                                             <div class="pro-detail">
-                                                <h4 class="profilenotfound"><a href="#">Profiles not found</a></h4>
+                                                <h4 class="profilenotfound"><a href="#">No shortlisted profiles found.</a></h4>
                                             </div>
-                                            <!--END PROFILE NAME-->
                                         </div>
                                     </li>
                                 <?php
@@ -337,7 +285,7 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
     </section>
     <!-- END -->
     
-    <!-- START -->
+    <!-- PAGINATION -->
     <section>
         <div class="blog-main">
             <div class="container">
@@ -347,52 +295,23 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
                         <div class="page-nation">
                             <ul class="pagination pagination-sm" style="justify-content: center;">
                                 <?php
-                                $sqltotalentry = "select * from shortlist_ids where by_whom = '$userid' and delete_status != 'delete' and firstapprove = '1'";
-                                $resulttotalentry = mysqli_query($con,$sqltotalentry);
-                                $counttotalentry = mysqli_num_rows($resulttotalentry);
-                                $total_page = ceil($counttotalentry/3);
+                                $total_page = ceil($total_count / 3);
+                                $sort_param = isset($_GET['sort']) ? $_GET['sort'] : 'desc';
                                 
-                                if($page >= 2)
-                                {
-                                ?>
-                                <li class="page-item"><a class="page-link" href="matches-shortlisted.php?page=<?php echo $page - 1; ?>&sort=<?php echo $_GET['sort']; ?>">Previous</a></li>
-                                <?php
+                                // Previous Button
+                                if($page > 1) {
+                                    echo '<li class="page-item"><a class="page-link" href="matches-shortlisted.php?page='.($page - 1).'&sort='.$sort_param.'">Previous</a></li>';
                                 }
-                                if($total_page >= 1)
-                                {
-                                ?>
-                                <li class="page-item <?php if($page == '1') { echo "active"; }?>"><a class="page-link" href="matches-shortlisted.php?page=1&sort=<?php echo $_GET['sort']; ?>">1</a></li>
-                                <?php
+                                
+                                // Page Numbers
+                                for($i = 1; $i <= $total_page; $i++) {
+                                    $active = ($page == $i) ? 'active' : '';
+                                    echo '<li class="page-item '.$active.'"><a class="page-link" href="matches-shortlisted.php?page='.$i.'&sort='.$sort_param.'">'.$i.'</a></li>';
                                 }
-                                if($total_page >= 2)
-                                {
-                                ?>
-                                <li class="page-item <?php if($page == '2') { echo "active"; }?>"><a class="page-link" href="matches-shortlisted.php?page=2&sort=<?php echo $_GET['sort']; ?>">2</a></li>
-                                <?php
-                                }
-                                if($total_page >= 3)
-                                {
-                                ?>
-                                <li class="page-item <?php if($page == '3') { echo "active"; }?>"><a class="page-link" href="matches-shortlisted.php?page=3&sort=<?php echo $_GET['sort']; ?>">3</a></li>
-                                <?php
-                                }
-                                if($total_page >= 4)
-                                {
-                                ?>
-                                <li class="page-item <?php if($page == '4') { echo "active"; }?>"><a class="page-link" href="matches-shortlisted.php?page=4&sort=<?php echo $_GET['sort']; ?>">4</a></li>
-                                <?php
-                                }
-                                if($total_page >= 5)
-                                {
-                                ?>
-                                <li class="page-item <?php if($page == '5') { echo "active"; }?>"><a class="page-link" href="matches-shortlisted.php?page=5&sort=<?php echo $_GET['sort']; ?>">5</a></li>
-                                <?php
-                                }
-                                if($total_page > $page)
-                                {
-                                ?>
-                                <li class="page-item"><a class="page-link" href="matches-shortlisted.php?page=<?php echo $page + 1; ?>&sort=<?php echo $_GET['sort']; ?>">Next</a></li>
-                                <?php
+                                
+                                // Next Button
+                                if($page < $total_page) {
+                                    echo '<li class="page-item"><a class="page-link" href="matches-shortlisted.php?page='.($page + 1).'&sort='.$sort_param.'">Next</a></li>';
                                 }
                                 ?>
                             </ul>
@@ -405,9 +324,6 @@ $countshortlisted = mysqli_num_rows($resultshortlisted);
     </section>
     <!-- END -->
 
-
-
- <?php
- include 'footer.php';
- ?>
- 
+<?php
+include 'footer.php';
+?>

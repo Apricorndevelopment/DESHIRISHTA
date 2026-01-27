@@ -1,7 +1,40 @@
 <?php
 include 'header.php';
 ?>
+<style>
+    /* Sabhi Inputs ke liye Placeholder Black */
+    .form-control::placeholder {
+        color: #000000 !important;
+        opacity: 1 !important; /* Firefox ke liye zaroori hai */
+        font-weight: 500; /* Thoda bold dikhane ke liye (Optional) */
+    }
 
+    /* Chrome, Safari, Edge, Opera ke liye specific */
+    .form-control::-webkit-input-placeholder {
+        color: #000000 !important;
+    }
+
+    /* Firefox ke liye specific */
+    .form-control::-moz-placeholder {
+        color: #000000 !important;
+        opacity: 1 !important;
+    }
+
+    /* Internet Explorer 10-11 ke liye specific */
+    .form-control:-ms-input-placeholder {
+        color: #000000 !important;
+    }
+    
+    /* Agar aapke select box me pseudo placeholder hai */
+    select.form-control {
+        color: #000000 !important;
+    }
+    
+    /* Select box ke andar "Select" option ke liye */
+    select option[value=""][disabled] {
+        color: #000000 !important;
+    }
+</style>
 <style>
     /* FORM INPUTS (INPUT + TEXTAREA + SELECT) */
     .form-login .form-control,
@@ -33,7 +66,7 @@ include 'header.php';
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        color: maroon;
+        color: black;
     }
 
     /* Left padding for inputs */
@@ -1224,6 +1257,17 @@ include 'header.php';
     display: none;
 }
 
+::placeholder {
+    color: #000;
+    opacity: 1; /* Firefox ke liye */
+}
+
+/* Browser specific (safe side) */
+::-webkit-input-placeholder { color: #000; }
+::-moz-placeholder { color: #000; }
+:-ms-input-placeholder { color: #000; }
+
+
 /* Plus icon */
 .upload-plus {
     position: absolute;
@@ -2328,9 +2372,10 @@ include 'footer.php';
             $('#personeating').text($('#eating').val());
         });
 
-        $('#maglik').change(function() {
-            $('#personmaglik').text($('#maglik').val());
-        });
+      $('#manglik').change(function() {
+    $('#personmaglik').text($('#manglik').val());
+});
+
 
         $(".signupstream-s").change(function() {
             var stream = $("#stream").val();
@@ -2659,7 +2704,7 @@ function previewImage(input) {
 }
 </script>
    <script>
-                                    let countdown = 40;
+                                    let countdown = 60;
                                     let timer = null;
 
                                     document.getElementById('resendOtp').addEventListener('click', function() {
@@ -2692,7 +2737,7 @@ function previewImage(input) {
 
                                             if (countdown <= 0) {
                                                 clearInterval(timer);
-                                                countdown = 40;
+                                                countdown = 60;
 
                                                 document.getElementById('resendTimer').style.display = 'none';
                                                 document.getElementById('resendWrapper').style.display = 'block';

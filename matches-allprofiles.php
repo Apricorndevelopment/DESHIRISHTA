@@ -63,25 +63,102 @@ $sort = 'DESC'; // Default
 if (isset($_GET['sort']) && $_GET['sort'] == 'asc') {
     $sort = 'ASC';
 }
+// ==========================================
+// 5. BUILD DYNAMIC SEARCH QUERY (NEW ADDITION)
+// ==========================================
 
-// Count Total Profiles (Synced with main query logic + DISTINCT to prevent duplicates)
+// Start with basic conditions (Active, Not Me, Opposite Gender, Not Blocked)
+$conditions = [];
+$conditions[] = "r.userid != '$userid'";
+$conditions[] = "r.gender != '$gender'";
+$conditions[] = "r.delete_status != 'delete'";
+$conditions[] = "r.firstapprove = '1'";
+$conditions[] = "r.profilestatus = '1'";
+$conditions[] = "blk_me.id IS NULL"; // They didn't block me
+$conditions[] = "rpt_me.id IS NULL"; // They didn't report me
+
+// --- SMART FILTERS (Only apply if user selected them) ---
+
+// 1. AGE Check
+if (!empty($_GET['agefrom']) && !empty($_GET['ageto'])) {
+    $ageFrom = mysqli_real_escape_string($con, $_GET['agefrom']);
+    $ageTo = mysqli_real_escape_string($con, $_GET['ageto']);
+    $conditions[] = "b.age BETWEEN '$ageFrom' AND '$ageTo'";
+}
+
+// 2. HEIGHT Check (String comparison - requires formatted data in DB)
+if (!empty($_GET['heightfrom']) && !empty($_GET['heightto'])) {
+    $hFrom = mysqli_real_escape_string($con, $_GET['heightfrom']);
+    $hTo = mysqli_real_escape_string($con, $_GET['heightto']);
+    // Note: Comparing height strings like "5 Feet" works but isn't perfect. 
+    // Ideally, store height in CM for accurate range search.
+    $conditions[] = "b.height >= '$hFrom' AND b.height <= '$hTo'";
+}
+
+// 3. MARITAL STATUS (Array)
+if (!empty($_GET['maritalstatus'])) {
+    $marital_list = implode("','", $_GET['maritalstatus']); // Create 'Single','Divorced'
+    $conditions[] = "b.marital IN ('$marital_list')";
+}
+
+// 4. RELIGION (Array)
+if (!empty($_GET['religion'])) {
+    $rel_list = implode("','", $_GET['religion']);
+    $conditions[] = "rel.religion IN ('$rel_list')";
+}
+
+// 5. CASTE (Array)
+if (!empty($_GET['caste'])) {
+    $caste_list = implode("','", $_GET['caste']);
+    $conditions[] = "rel.caste IN ('$caste_list')";
+}
+
+// 6. EDUCATION (Array)
+if (!empty($_GET['education'])) {
+    $edu_list = implode("','", $_GET['education']);
+    $conditions[] = "edu.education IN ('$edu_list')";
+}
+
+// 7. CITY (Array)
+if (!empty($_GET['city'])) {
+    $city_list = implode("','", $_GET['city']);
+    $conditions[] = "loc.city IN ('$city_list')";
+}
+
+// 8. STATE (Array)
+if (!empty($_GET['state'])) {
+    $state_list = implode("','", $_GET['state']);
+    $conditions[] = "loc.state IN ('$state_list')";
+}
+
+// 9. COUNTRY (Array)
+if (!empty($_GET['country'])) {
+    $country_list = implode("','", $_GET['country']);
+    $conditions[] = "loc.country IN ('$country_list')";
+}
+
+// Combine all conditions with AND
+$sql_where_clause = implode(' AND ', $conditions);
+
+// ==========================================
+// 6. COUNT TOTAL RESULTS (For Pagination)
+// ==========================================
+// We must update the Count query to respect the filters too!
 $sqlcountregis = "
     SELECT COUNT(DISTINCT r.id) as total
     FROM registration r
+    LEFT JOIN basic_info b ON r.userid = b.userid
+    LEFT JOIN religious_info rel ON r.userid = rel.userid
+    LEFT JOIN education_info edu ON r.userid = edu.userid
+    LEFT JOIN groom_location loc ON r.userid = loc.userid
     LEFT JOIN block_ids blk_me ON (blk_me.by_whom = r.userid AND blk_me.for_who = '$userid')
     LEFT JOIN report_ids rpt_me ON (rpt_me.by_who = r.userid AND rpt_me.against = '$userid')
-    WHERE 
-        r.userid != '$userid' 
-        AND r.gender != '$gender' 
-        AND r.delete_status != 'delete' 
-        AND r.firstapprove = '1'
-        AND r.profilestatus = '1'
-        AND blk_me.id IS NULL 
-        AND rpt_me.id IS NULL
+    WHERE $sql_where_clause
 ";
 $resultcountregis = mysqli_query($con, $sqlcountregis);
 $rowcount = mysqli_fetch_assoc($resultcountregis);
 $countregis = $rowcount['total'];
+
 
 ?>
 
@@ -248,60 +325,47 @@ $countregis = $rowcount['total'];
                             // ==========================================
                             // 5. RUN OPTIMIZED QUERY
                             // ==========================================
-                            $sqlinfo = "
-                                SELECT 
-                                    r.id as reg_id, r.userid, r.verificationinfo, r.contact_privacy, r.whatsapp_privacy,
-                                    b.fullname, b.age, b.height, b.marital,
-                                    rel.religion, rel.caste,
-                                    edu.education, edu.designation,
-                                    loc.city, loc.state,
-                                    p.profilepic, p.photo1, p.photo2, p.photo3,
-                                    -- Check Outgoing (I Sent)
-                                    MAX(ei_out.ei_status) as outgoing_status,
-                                    MAX(ei_out.id) as outgoing_id,
-                                    -- Check Incoming (They Sent)
-                                    MAX(ei_in.ei_status) as incoming_status,
-                                    MAX(ei_in.id) as incoming_id,
-                                    -- Check Block/Shortlist/Report (MY Actions)
-                                    MAX(blk.id) as is_blocked,
-                                    MAX(sh.id) as is_shortlisted,
-                                    MAX(rpt.id) as is_reported
-                                FROM registration r
-                                LEFT JOIN basic_info b ON r.userid = b.userid
-                                LEFT JOIN religious_info rel ON r.userid = rel.userid
-                                LEFT JOIN education_info edu ON r.userid = edu.userid
-                                LEFT JOIN groom_location loc ON r.userid = loc.userid
-                                LEFT JOIN photos_info p ON r.userid = p.userid
-                                
-                                LEFT JOIN expressinterest ei_out ON (ei_out.ei_sender = '$userid' AND ei_out.ei_receiver = r.userid)
-                                LEFT JOIN expressinterest ei_in ON (ei_in.ei_sender = r.userid AND ei_in.ei_receiver = '$userid')
-                                LEFT JOIN block_ids blk ON (blk.by_whom = '$userid' AND blk.for_who = r.userid)
-                                LEFT JOIN shortlist_ids sh ON (sh.by_whom = '$userid' AND sh.for_who = r.userid)
-                                
-                                -- JOIN TO CHECK IF I REPORTED THEM (Fix for Reported Status)
-                                LEFT JOIN report_ids rpt ON (rpt.by_who = '$userid' AND rpt.against = r.userid)
-                                
-                                -- JOIN TO CHECK IF THEY BLOCKED ME OR REPORTED ME (For Privacy/Hiding)
-                                LEFT JOIN block_ids blk_me ON (blk_me.by_whom = r.userid AND blk_me.for_who = '$userid')
-                                LEFT JOIN report_ids rpt_me ON (rpt_me.by_who = r.userid AND rpt_me.against = '$userid')
+                            // ==========================================
+// 7. RUN MAIN QUERY
+// ==========================================
+$sqlinfo = "
+    SELECT 
+        r.id as reg_id, r.userid, r.verificationinfo, r.contact_privacy, r.whatsapp_privacy,
+        b.fullname, b.age, b.height, b.marital,
+        rel.religion, rel.caste,
+        edu.education, edu.designation,
+        loc.city, loc.state,
+        p.profilepic, p.photo1, p.photo2, p.photo3,
+        MAX(ei_out.ei_status) as outgoing_status,
+        MAX(ei_out.id) as outgoing_id,
+        MAX(ei_in.ei_status) as incoming_status,
+        MAX(ei_in.id) as incoming_id,
+        MAX(blk.id) as is_blocked,
+        MAX(sh.id) as is_shortlisted,
+        MAX(rpt.id) as is_reported
+    FROM registration r
+    LEFT JOIN basic_info b ON r.userid = b.userid
+    LEFT JOIN religious_info rel ON r.userid = rel.userid
+    LEFT JOIN education_info edu ON r.userid = edu.userid
+    LEFT JOIN groom_location loc ON r.userid = loc.userid
+    LEFT JOIN photos_info p ON r.userid = p.userid
+    
+    LEFT JOIN expressinterest ei_out ON (ei_out.ei_sender = '$userid' AND ei_out.ei_receiver = r.userid)
+    LEFT JOIN expressinterest ei_in ON (ei_in.ei_sender = r.userid AND ei_in.ei_receiver = '$userid')
+    LEFT JOIN block_ids blk ON (blk.by_whom = '$userid' AND blk.for_who = r.userid)
+    LEFT JOIN shortlist_ids sh ON (sh.by_whom = '$userid' AND sh.for_who = r.userid)
+    LEFT JOIN report_ids rpt ON (rpt.by_who = '$userid' AND rpt.against = r.userid)
+    LEFT JOIN block_ids blk_me ON (blk_me.by_whom = r.userid AND blk_me.for_who = '$userid')
+    LEFT JOIN report_ids rpt_me ON (rpt_me.by_who = r.userid AND rpt_me.against = '$userid')
 
-                                WHERE 
-                                    r.userid != '$userid' 
-                                    AND r.gender != '$gender' 
-                                    AND r.delete_status != 'delete' 
-                                    AND r.firstapprove = '1'
-                                    AND r.profilestatus = '1'
-                                    
-                                    -- FILTER OUT PROFILES WHO BLOCKED ME OR REPORTED ME
-                                    AND blk_me.id IS NULL 
-                                    AND rpt_me.id IS NULL
-                                
-                                GROUP BY r.id
-                                ORDER BY r.id $sort 
-                                LIMIT $lower_limit, $results_per_page
-                            ";
+    WHERE $sql_where_clause
+    
+    GROUP BY r.id
+    ORDER BY r.id $sort 
+    LIMIT $lower_limit, $results_per_page
+";
 
-                            $resultinfo = mysqli_query($con, $sqlinfo);
+$resultinfo = mysqli_query($con, $sqlinfo);
 
                             if (mysqli_num_rows($resultinfo) > 0) {
                                 while ($rowinfo = mysqli_fetch_assoc($resultinfo)) {

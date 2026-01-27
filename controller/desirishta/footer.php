@@ -1,13 +1,91 @@
-    <!-- FOOTER -->
-     <div id="webPushPopup" style="display:none; position: fixed; bottom: 20px; right: 20px; width: 320px; background: #fff; border-left: 5px solid #E91E63; box-shadow: 0 5px 20px rgba(0,0,0,0.2); border-radius: 8px; padding: 20px; z-index: 99999; animation: slideIn 0.5s ease-out;">
+<style>
+
+    /* ==============================
+   FOOTER BOTTOM GAP FIX (TABLET)
+============================== */
+
+/* Prevent extra page height */
+html, body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden;
+}
+
+/* Footer sections should not add extra space */
+.wed-hom-footer,
+.cr {
+    margin-bottom: 0 !important;
+    padding-bottom: 20px;
+}
+
+/* Remove accidental min-height from sections */
+section {
+    min-height: unset !important;
+}
+
+/* Tablet-specific fix */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .wed-hom-footer {
+        padding-bottom: 10px !important;
+    }
+
+    .cr {
+        padding-bottom: 10px !important;
+    }
+
+    /* Slick slider height fix */
+    .slick-track,
+    .slick-list {
+        height: auto !important;
+    }
+}
+
+    .web-push-popup {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 320px;
+        background: #fff;
+        border-left: 5px solid #E91E63;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        border-radius: 8px;
+        padding: 20px;
+        z-index: 99999;
+        animation: slideIn 0.5s ease-out;
+        box-sizing: border-box; /* Padding को width के अंदर रखने के लिए */
+    }
+
+    /* Mobile Responsive Fix */
+    @media (max-width: 768px) {
+        .web-push-popup {
+            width: auto; /* Fixed width हटायें */
+            left: 15px;  /* लेफ्ट से गैप */
+            right: 15px; /* राइट से गैप */
+            bottom: 15px;
+            font-size: 14px; /* टेक्स्ट थोड़ा छोटा करें */
+        }
+    }
+
+    @keyframes slideIn {
+        from { transform: translateX(120%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+</style>
+
+<div id="webPushPopup" class="web-push-popup">
     <div style="display:flex; justify-content:space-between; align-items:start;">
         <h5 id="wp-title" style="margin:0; font-size:16px; font-weight:700; color:#333;">Notification</h5>
-        <span onclick="closeWebPush()" style="cursor:pointer; color:#888; font-size:20px;">&times;</span>
+        <span onclick="closeWebPush()" style="cursor:pointer; color:#888; font-size:20px; padding: 0 5px;">&times;</span>
     </div>
     <p id="wp-msg" style="margin: 10px 0; font-size:14px; color:#555; line-height: 1.4;"></p>
     <a id="wp-link" href="#" style="display:inline-block; background:#E91E63; color:#fff; padding:8px 15px; text-decoration:none; font-size:12px; border-radius:4px;">Check Now</a>
 </div>
-
 <style>
 @keyframes slideIn {
     from { transform: translateX(100%); opacity: 0; }
@@ -73,7 +151,7 @@ function closeWebPush() {
                     <h4>Get In Touch</h4>
                     <p>Location: New Delhi, India</p>
                     <p>Phone: <a href="tel:+918377053041">+91-8377053041</a></p>
-                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com.</a></p>
+                    <p>Email: <a href="mailto:support@desi-rishta.com">support@desi-rishta.com</a></p>
                 </div>
                 <div class="col-md-4">
                     <h4>HELP &amp; SUPPORT</h4>

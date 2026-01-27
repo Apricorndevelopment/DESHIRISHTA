@@ -2,8 +2,6 @@
 include 'header.php';
 include 'config.php';
 ?>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <!-- BANNER -->
 <section>
     <div class="str">
@@ -42,96 +40,6 @@ include 'config.php';
                     </button>
                 </div>
 
-<<<<<<< HEAD
-<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileFaqSidebar" aria-labelledby="mobileFaqSidebarLabel">
-    <div class="offcanvas-header bg-light">
-        <h5 class="offcanvas-title fw-bold text-danger" id="mobileFaqSidebarLabel">
-            <span class="material-symbols-outlined align-middle me-1">help</span> FAQ Topics
-        </h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body p-0">
-        <div class="db-nav-list">
-            <ul class="nav nav-tabs profiletabs flex-column" role="tablist">
-                <li><a class="nav-link active border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq1"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>About Desi Rishta</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq2"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Registration Process</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq3"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Sign In/Forgot Password</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq4"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Log Out Process</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq5"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Managing Profile</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq6"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Manage Photos</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq7"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Contact Information</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq8"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Finding Matches</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq9"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Privacy Settings</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq10"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Block/Report Feature</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq11"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>WhatsApp Sharing</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq12"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Technical Issues</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq17"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Deactivation/Deletion</a></li>
-                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq18"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>ID Verification</a></li>
-                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq19"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Subscriptions</a></li>
-                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq20"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Wedding E Cards </a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq13"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Subscriptions</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Terms and Conditions</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Privacy Policies</a></li>
-                <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq16"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Cookies Policies</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-4 col-lg-3 d-none d-md-block">
-    <div class="col-md-12 db-sec-com">
-        <div class="db-nav">
-            <div class="db-nav-pro text-center mb-2">
-                <img src="images/gif/faq.gif" class="img-fluid" alt="" style="width:50%">
-            </div>
-            <div class="db-nav-list">
-                <ul class="nav nav-tabs profiletabs" role="tablist">
-                    <li><a class="nav-link active border-0" data-bs-toggle="tab" href="#faq1"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;About Desi Rishta </a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq2"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Registration Process</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq3"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Sign In/Forgot Password</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq4"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Log Out Process</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq5"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Managing Profile</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq6"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Manage Photos</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq7"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Contact Information</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq8"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Finding Matches</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq9"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Privacy Settings</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq10"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Block/Report Feature</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq11"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;WhatsApp Sharing</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq12"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Technical Issues </a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq17"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Deactivation/Deletion</a></li>
-                   <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq18"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;ID Verification </a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq19"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Subscriptions</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq20"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Wedding E-Cards</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq13"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Grievances</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Terms and Conditions</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Privacy Policies</a></li>
-                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq16"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Cookies Policies</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-                    <div class="col-md-8 col-lg-8">
-                        <div class="row">
-                            <div class="col-md-12 db-sec-com profileform">
-                                <div class="p-0">
-                                    <div class="db-inte-main">
-                                        <!-- Tab panes -->
-                                        <div class="tab-content">
-                                            <div id="faq1" class="container tab-pane active p-0 faqs">
-                                                <div id="accordion">
-                                                    <div class="card mb-3 border-5 box-shadow">
-                                                        <div class="card-header">
-                                                            <a class="card-link collapse1" data-toggle="collapse">
-                                                                What services does Desi Rishta offer?
-                                                            </a>
-                                                        </div>
-                                                        <div id="collapse1" class="collapse show" data-parent="#accordion">
-                                                            <div class="card-body text-justify">
-                                                                <p>Desi Rishta is an online matchmaking service that helps individuals connect with potential life partners. Our aim is to provide an easy-to-use platform with a large collection of genuine profiles, enabling faster matches with minimal screening.</p>
-                                                            </div>
-                                                        </div>
-=======
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileFaqSidebar" aria-labelledby="mobileFaqSidebarLabel">
                     <div class="offcanvas-header bg-light">
                         <h5 class="offcanvas-title fw-bold text-danger" id="mobileFaqSidebarLabel">
@@ -158,6 +66,10 @@ include 'config.php';
                                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Terms and Conditions</a></li>
                                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Privacy Policies</a></li>
                                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq16"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Cookies Policies</a></li>
+                            <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq17"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Deactivation/Deletion</a></li>
+                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq18"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>ID Verification</a></li>
+                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq19"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Subscriptions</a></li>
+                 <li><a class="nav-link border-0 py-3 px-4 border-bottom" data-bs-dismiss="offcanvas" data-bs-toggle="tab" href="#faq20"><span class="material-symbols-outlined fs-18 align-middle me-2">motion_play</span>Wedding E Cards </a></li>
                             </ul>
                         </div>
                     </div>
@@ -187,6 +99,10 @@ include 'config.php';
                                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq14"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Terms and Conditions</a></li>
                                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq15"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Privacy Policies</a></li>
                                     <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq16"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Cookies Policies</a></li>
+                                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq17"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Deactivation/Deletion</a></li>
+                   <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq18"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;ID Verification </a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq19"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Subscriptions</a></li>
+                    <li><a class="nav-link border-0" data-bs-toggle="tab" href="#faq20"><span class="material-symbols-outlined fs-18">motion_play</span>&nbsp;Wedding E-Cards</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -206,7 +122,6 @@ include 'config.php';
                                                         <a class="card-link collapse1" data-toggle="collapse">
                                                             What services does Desi Rishta offer?
                                                         </a>
->>>>>>> 9c0999f600c1aa45f87ef675563394361d3dac53
                                                     </div>
                                                     <div id="collapse1" class="collapse show" data-parent="#accordion">
                                                         <div class="card-body text-justify">
@@ -548,303 +463,6 @@ include 'config.php';
                                                     </div>
                                                 </div>
                                             </div>
-<<<<<<< HEAD
-                                            <div id="faq17" class="container tab-pane fade p-0 faqs">
-                                                <!--<div id="accordion11">-->
-                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
-                                                <!--        <div class="card-header">-->
-                                                <!--            <a class="card-link collapse41" data-toggle="collapse">-->
-                                                <!--               Can a user account get automatically deactivated?   -->
-                                                <!--            </a>-->
-                                                <!--        </div>-->
-                                                <!--        <div id="collapse41" class="collapse show" data-parent="#accordion11">-->
-                                                <!--            <div class="card-body text-justify">-->
-                                                <!--                <p> yash If you encounter an error while using Desi Rishta, please email us all pertinent details, including the error description, a screenshot (if possible), the member's name, and their ID, to <a href="mailto:support@desi-rishta.com" class="faqlink-text">support@desi-rishta.com</a></p>-->
-                                                <!--                <ul>-->
-                                                <!--                    <li>Profile Privacy: Customize who can view your profile. </li>-->
-                                                <!--                    <li>Photo Privacy: Manage who can see your photos. </li>-->
-                                                <!--                    <li>Phone Number Privacy: Control who can view your phone number. </li>-->
-                                                <!--                    <li>WhatsApp Sharing Privacy: Determine who can share your profile via WhatsApp.</li>-->
-                                                <!--                </ul>-->
-                                                <!--            </div>-->
-                                                <!--        </div>-->
-                                                <!--    </div>-->
-                                                <!--</div>-->
-                                                <!--<div id="accordion13">-->
-                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
-                                                <!--        <div class="card-header">-->
-                                                <!--            <a class="card-link collapse43" data-toggle="collapse">-->
-                                                <!--                Can a user account get automatically deactivated?-->
-                                                <!--            </a>-->
-                                                <!--        </div>-->
-                                                <!--        <div id="collapse43" class="collapse show" data-parent="#accordion13">-->
-                                                <!--            <div class="card-body text-justify">-->
-                                                <!--                <p>Yes, there are two scenarios in which a user account can be automatically deactivated:<p>-->
-                                                <!--                    <ul>-->
-                                                <!--                    <li>If the verification process is not completed within 7 days from the date of registration, the account will be deactivated. </li>-->
-                                                <!--                    <li>If you have not signed in for the last 30 days, your account will be deactivated due to inactivity.</li>-->
-                                                                    
-                                                <!--                </ul>-->
-                                                <!--            </div>-->
-                                                <!--        </div>-->
-                                                <!--    </div>-->
-                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
-                                                <!--        <div class="card-header">-->
-                                                <!--            <a class="collapsed card-link collapse44" data-toggle="collapse">-->
-                                                <!--                Can a user account get automatically deleted?-->
-                                                <!--            </a>-->
-                                                <!--        </div>-->
-                                                <!--        <div id="collapse44" class="collapse" data-parent="#accordion13">-->
-                                                <!--            <div class="card-body text-justify">-->
-                                                <!--                <p>User account will be permanently deleted if it is not used for more than 3 months.</p>-->
-                                                <!--            </div>-->
-                                                <!--        </div>-->
-                                                <!--    </div>-->
-                                                <!--</div>-->
-                                               
-
-                                                <div id="accordion13">
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link" data-toggle="collapse" href="#collapse43">
-                Can a user account get automatically deactivated?
-            </a>
-        </div>
-
-        <div id="collapse43" class="collapse show" data-parent="#accordion13">
-            <div class="card-body text-justify">
-                <p>Yes, there are two scenarios:</p>
-                <ul>
-                    <li>If verification is not completed within 7 days.</li>
-                    <li>If you have not signed in for 30 days.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
-                Can a user account get automatically deleted?
-            </a>
-        </div>
-
-        <div id="collapse44" class="collapse" data-parent="#accordion13">
-            <div class="card-body text-justify">
-                <p>User account will be permanently deleted if unused for more than 3 months.</p>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-                                            </div>
-                                             <div id="faq18" class="container tab-pane fade p-0 faqs">
-                                                <div id="accordion14">
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link" data-toggle="collapse" href="#collapse43">
-               Is ID verification mandatory for a user to continue using the website?
-            </a>
-        </div>
-
-        <div id="collapse43" class="collapse show" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>Yes, it is mandatory to upload a government-issued ID for user verification. This ensures that only genuine users are on the site and helps maintain the accuracy and integrity of our data.</p>
-                <!--<ul>-->
-                <!--    <li>If verification is not completed within 7 days.</li>-->
-                <!--    <li>If you have not signed in for 30 days.</li>-->
-                <!--</ul>-->
-            </div>
-        </div>
-    </div>
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
-                What happens if a user doesn’t complete the verification process?
-            </a>
-        </div>
-
-        <div id="collapse44" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>If the verification process is not completed within 7 days of registration, the account will be automatically deactivated.</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
-                How can a user reactivate their account after deactivation?
-            </a>
-        </div>
-
-        <div id="collapse45" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>The user can email their request along with a government-issued ID to support@desi-rishta.com. The account will be reactivated within 24 to 48 hours.</p>
-            </div>
-        </div>
-    </div>
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse46">
-                How long does it take to verify a user’s government ID after uploading?
-            </a>
-        </div>
-
-        <div id="collapse46" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>Verification typically takes 24 to 48 hours after the ID has been uploaded.</p>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-                                            </div>
-                                            <div id="faq19" class="container tab-pane fade p-0 faqs">
-                                                <div id="accordion14">
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link" data-toggle="collapse" href="#collapse43">
-               What subscription is assigned when a user signs up for a new account?
-            </a>
-        </div>
-
-        <div id="collapse43" class="collapse show" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>When a user signs up, they are automatically assigned a Free subscription plan. Details of this plan are available in the [Pricing Plan] section.</p>
-                <!--<ul>-->
-                <!--    <li>If verification is not completed within 7 days.</li>-->
-                <!--    <li>If you have not signed in for 30 days.</li>-->
-                <!--</ul>-->
-            </div>
-        </div>
-    </div>
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
-What types of subscription plans are available?
-            </a>
-        </div>
-
-        <div id="collapse44" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>There are three subscription plans available: Free, Gold, and Platinum. For more information, please refer to the [Pricing Plan] section.</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
-                How can a user change or request a new subscription plan?
-            </a>
-        </div>
-
-        <div id="collapse45" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>The user needs to go to the Plan section available in the Dashboard and click on the “Upgrade Plan” button to request a change in the subscription plan as per their choice. The request will then be sent to the Admin for approval, which may take 24–48 hours to complete.</p>
-            </div>
-        </div>
-    </div>
-   
-
-</div>
-
-                                            </div>
-                                            <div id="faq20" class="container tab-pane fade p-0 faqs">
-                                                <div id="accordion14">
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link" data-toggle="collapse" href="#collapse43">
-               Who can use the Wedding E-Cards section?
-            </a>
-        </div>
-
-        <div id="collapse43" class="collapse show" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>Anyone can use this section to create Wedding Invitation E-Cards.</p>
-                <!--<ul>-->
-                <!--    <li>If verification is not completed within 7 days.</li>-->
-                <!--    <li>If you have not signed in for 30 days.</li>-->
-                <!--</ul>-->
-            </div>
-        </div>
-    </div>
-
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
-Is it mandatory to sign up before creating Wedding E-Cards?
-            </a>
-        </div>
-
-        <div id="collapse44" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>No, signing up is not mandatory. Wedding E-Cards can be created both before and after signing in.</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
-                How many E-Card templates can a user use at one time to create Wedding E-Cards?
-            </a>
-        </div>
-
-        <div id="collapse45" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>You can use multiple E-Card templates at a time to create Wedding E-Cards.</p>
-            </div>
-        </div>
-    </div>
-    <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse46">
-                Will the number and types of E-Card templates remain fixed?
-            </a>
-        </div>
-
-        <div id="collapse46" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>No, the number and types of Wedding E-Card templates may change from time to time based on seasonal themes and user demand.</p>
-            </div>
-        </div>
-    </div>
-     <div class="card mb-3 border-5 box-shadow">
-        <div class="card-header">
-            <a class="card-link collapsed" data-toggle="collapse" href="#collapse47">
-                Is there any charge for using the Wedding E-Cards Invitation feature?
-            </a>
-        </div>
-
-        <div id="collapse47" class="collapse" data-parent="#accordion14">
-            <div class="card-body text-justify">
-                <p>No, this feature is completely free for everyone and will remain free in the future.</p>
-            </div>
-        </div>
-    </div>
-   
-
-</div>
-
-                                            </div>
-                                            <div id="faq13" class="container tab-pane fade p-0 faqs">
-                                                <div id="accordion11">
-                                                    <div class="card mb-3 border-5 box-shadow">
-                                                        <div class="card-header">
-                                                            <a class="card-link collapse41" data-toggle="collapse">
-                                                                Grievance Redressal
-                                                            </a>
-=======
                                         </div>
                                         <div id="faq5" class="container tab-pane fade p-0 faqs">
                                             <div id="accordion4">
@@ -857,7 +475,6 @@ Is it mandatory to sign up before creating Wedding E-Cards?
                                                     <div id="collapse27" class="collapse show" data-parent="#accordion3">
                                                         <div class="card-body text-justify">
                                                             <p>Under My Profile, there is an Edit Profile option.</p>
->>>>>>> 9c0999f600c1aa45f87ef675563394361d3dac53
                                                         </div>
                                                     </div>
                                                 </div>
@@ -935,135 +552,6 @@ Is it mandatory to sign up before creating Wedding E-Cards?
                                                         <div class="card-body text-justify">
                                                             <p>It is recommended to add photographs to your profile because it will increase your profile views and chances of finding a good match.</p>
                                                         </div>
-<<<<<<< HEAD
-                                                        <div id="collapse42" class="collapse show" data-parent="#accordion12">
-                                                            <div class="card-body text-justify">
-                                                                <p class="mb-2"><b>Terms of Use / Service Agreement</b></p>
-                                                                <p class="mb-2">Welcome to Desi Rishta, your true matchmaking platform. By utilizing the Desi Rishta platform, you agree to abide by the terms outlined in this Agreement, which may be subject to periodic revisions by Desi Rishta. Membership privileges and admission rights are at the discretion of Desi Rishta and are reserved accordingly.</p>
-                                                                <p class="mb-2">This Terms of Use is published in accordance with the Rule 3 (1) of the Information Technology (Intermediaries Guidelines and Digital Media Ethics Code) Rules, 2021.</p>
-                                                                <p class="mb-2">Desi Rishta serves as a digital platform for matchmaking alliances. It's intended for personal use by individual members to showcase their profiles and seek relevant matches for the purpose of marriage. The platform strictly prohibits any commercial activities.</p>
-                                                                <p class="mb-2">Desi Rishta is dedicated to facilitating serious matchmaking endeavours aimed at finding life partners for marriage, distinguishing itself from casual dating sites.</p>
-                                                                <p class="mb-2">Access to the Desi Rishta website is complimentary. Nevertheless, we provide Premium Memberships for those seeking to enhance visibility and increase their chances of finding suitable matches for marriage, exclusively.</p>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>1.	Acknowledgment of Terms of Use Agreement</b></p>
-                                                                <p class="mb-2">To utilize the Desi Rishta Service, you're required to register as a member on the Website ("Site"). Desi Rishta operates as an intermediary, as defined in sub-clause (w) of Section 2 of the Information Technology Act, 2000. This Agreement constitutes an electronic contract that establishes the legally binding terms you must agree to in order to access the Site and become a "Member." Within the context of this Agreement, the term "Member" refers to an individual who voluntarily provides information to the Site, regardless of whether such individual utilizes the Service as a free or paid member. Additionally, the term "User" denotes a person actively utilizing the Site to promote his or her profile for matchmaking purposes.</p>
-                                                                <p class="mb-2">By accessing or using the Site, you are indicating your acceptance and agreement to be bound by these Terms of Use ("Agreement"). If you desire to become a Member, promote, or advertise your profile to other Members, and utilize the Desi Rishta service ("Service"), please carefully review these Terms of Use and adhere to the instructions provided during the registration process.</p>
-                                                                <p class="mb-2">By utilizing the Service, you agree to provide your personally identifiable information, including sensitive personal data such as financial information if opting for our paid membership, as well as identity proofs if submitted. You consent to the collection, processing, display, and utilization of this information to facilitate the Service and to enable communication with other Members. If you have any objections to the collection or processing of your personal data, we recommend refraining from registering with our Site.</p>
-                                                                <p class="mb-2">Should you wish to withdraw this consent or have objections to the continuous collection or storage of your personal details, you must discontinue using our Service and delete your account. This can be done by sending an email from your registered email ID to <a href="mailto:support@desi-rishta.com" class="faqlink-text">support@desi-rishta.com</a>. Please note that we will be unable to provide any Service without access to your personally identifiable information.</p>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>2.	Eligibility</b></p>
-                                                                <ul class="mb-2 alpha">
-                                                                    <li>To register as a Member of Desi Rishta or to use this Site, you must possess legal competence and meet the legal marriageable age requirements as defined by the laws of India. Presently, this entails being 18 years or older for females and 21 years or older for males.</li>
-                                                                    <li>The Desi Rishta site serves exclusively to facilitate personal advertisements for lawful marriage alliances between individuals who possess the legal capacity to enter into matrimony according to the laws governing them. Membership in the Service is null and void in any jurisdiction where it is prohibited by law.</li>
-                                                                    <li>By utilizing this Site, you assert and guarantee that you possess the requisite right, consent, authority, and legal capacity to enter into this Agreement; provide relevant information to us; and that you are not prohibited or restrained by any applicable law, court order, decree, or injunction from any competent authority that would prevent you from entering into matrimony.</li>
-                                                                    <li>You additionally affirm that your intention in using this site is to seek a life partner and not for casual dating or any commercial purposes. You also commit to adhering to all terms and conditions outlined in this Agreement and using the service in compliance with all relevant laws. In the event that Desi Rishta, at its sole discretion, determines or has reason to believe that you are ineligible for membership, have misrepresented yourself, or violated any provisions of the Terms of Use or applicable laws, Desi Rishta reserves the right to immediately terminate your membership and/or your access to the Service without any refund of any unused subscription fees.</li>
-                                                                    <li>By utilizing this Site, you acknowledge that the match search results presented to you by the system are derived from the partner preference details provided by you in your profile.</li>
-                                                                    <li>Desi Rishta retains the right to share information with third parties regarding any promotions or exclusive offers available to our members. However, we will seek your prior consent before disclosing any of your data.</li>
-                                                                </ul>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>3.	Account Safety</b></p>
-                                                                <p class="mb-2">You are accountable for upholding the confidentiality of your login credentials you designate during the registration process, and you are solely responsible for all activities conducted under your account. You consent to promptly notify us of any disclosure or unauthorized access/use of your account or any other breach of security, and ensure that you log out from your account at the conclusion of each session.</p>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>4.	Term and Conclusion</b></p>
-                                                                <ul class="mb-2 alpha">
-                                                                    <li>This Agreement will remain effective, valid, and in force for as long as you continue to use our Site.</li>
-                                                                    <li>You have the option to terminate your membership at any time, for any reason, either by deleting your profile from the Site or by contacting Desi Rishta at <a href="mailto:support@desi-rishta.com" class="faqlink-text">support@desi-rishta.com</a>. Upon termination of your membership, you will not be entitled to a refund of any unused subscription fees, unless otherwise specified in writing.</li>
-                                                                    <li>Desi Rishta reserves the right to terminate your access to the Site and/or your membership for various reasons, including but not limited to, violation of the terms of use, using the service for commercial purposes, engaging in prohibited or inappropriate communication or activity. Notice of termination may be sent to you via the email address provided in your membership application or any other email address subsequently provided to Desi Rishta. If your membership is terminated due to a breach of this Agreement, you will not be eligible for a refund of any subscription fees paid.</li>
-                                                                    <li>Certain provisions of this Agreement, including sections 4, 5, 6, 7, 8 and sections 10 to 16, shall remain effective even after termination.</li>
-                                                                    <li>The duration of paid Membership will be determined by the type of membership selected.</li>
-                                                                    <li>In the event of business discontinuity, the Company will not refund membership fees paid by you.</li>
-                                                                    
-                                                                    
-                                                                </ul>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>5.	Members' Use for Non-Commercial Purposes</b></p>
-                                                                <p class="mb-2">The Site is intended for the personal use of individual members to advertise and promote their profiles to attract relevant matches and cannot be utilized for any commercial activities. This prohibition includes providing links to other websites, whether they compete with Desi Rishta or not. Organizations, companies, and businesses are not permitted to become Members of Desi Rishta and should refrain from using the Desi Rishta Service or Site for any reason. Any illegal or unauthorized use of the Site, including unauthorized framing or linking to the Site, will be investigated, and appropriate legal action will be taken, including, but not limited to, civil, criminal, and injunctive measures.</p>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>6.	Terms of Service for Bio Data/E-Card Creation</b></p>
-                                                                <p class="mb-2">By using the Bio Data/E-Card creation service provided by Desi Rishta, you acknowledge agree to the following terms:</p>
-                                                                <ul class="mb-2 alpha">
-                                                                    <li>Voluntary Participation: Users may voluntarily enter their details to create a Bio Data or E-Card for marriage purposes. This service is provided free of charge.</li>
-                                                                    <li>Service Availability: This service is available to all registered and unregistered users of Desi Rishta.</li>
-                                                                    <li>Agreement to Terms: By using the Bio Data/E-Card creation service, you agree to these terms of service.</li>
-                                                                    <li>Personal Use Only: The Bio Data/E-Card creation service is intended for personal use only and cannot be used for any commercial purposes.</li>
-                                                                    <li>Compliance: Users must comply with all other Desi Rishta terms and conditions while using this service. Unauthorized use of the service will be investigated, and appropriate legal action will be taken.</li>
-                                                                </ul>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>7.	Additional Use of Terms for Members</b></p>
-                                                                <ul class="mb-2 alpha">
-                                                                    <li>Desi Rishta reserves the exclusive right to evaluate each account's activity and status and to limit or block member access based on this evaluation.</li>
-                                                                    <li>Desi Rishta reserves the right, at its sole discretion, to limit or suspend your access to its website based on a review of your activity, status, or any criteria it deems appropriate, with prior notice to you.
-                                                                    <li>Desi Rishta reserves the right, at its sole discretion, to restrict or suspend your access to its website based on a review of your activity, status, or any criteria it deems appropriate, with due notification to you.
-                                                                    <li>By registering, you confirm that you have no objection to receiving emails, SMS/WhatsApp messages, and calls from Desi Rishta and its members for as long as you are a registered member. This includes SMS permissions for phone verification and transactions via OTP sent by the Payment Gateway. This consent overrides any preferences set with the Do Not Disturb (DND) Register or National Customer Preference Register (NCPR). This consent also covers communications related to, but not limited to, phone number verification, matchmaking advertising services, matchmaking inquiries, and promotions.
-                                                                    <li>You hereby agree that you have no objection to other users sharing your profile details via PDF or profile link through WhatsApp or any other messaging applications for matchmaking purposes.
-                                                                    <li>Creating more than one profile for the same individual is prohibited on our Site. Desi Rishta retains the right to deactivate any additional profiles without issuing a refund for subscription fees.
-                                                                    <li>You affirm that all content and information, including personal details provided by you, are accurate and truthful. If you are creating a profile on behalf of a friend, sibling, or child, you acknowledge that you have obtained the necessary permission or consent from the individual. Impersonation is unlawful and subject to legal consequences.
-                                                                    <li>Desi Rishta services are exclusively committed to facilitating sincere matchmaking efforts intended to find life partners for marriage. It is strongly recommended that you verify the identity of any prospective bride or groom before committing to marriage.
-                                                                    <li>You hereby acknowledge that Desi Rishta will not be held responsible for any mishaps or illegal activities occurring post-marriage, as Desi Rishta is solely dedicated to facilitating sincere matchmaking endeavours aimed at finding life partners for marriage.
-                                                                    <li>Desi Rishta firmly opposes both the giving and taking of dowry before and after marriage. Desi Rishta will not be held responsible for any such acts committed before or after marriage, as our platform is dedicated solely to facilitating genuine matchmaking endeavours aimed at finding life partners for marriage.
-                                                                    <li>Apart from promoting or advertising your profile for matchmaking purposes, you are not permitted to engage in advertising to or solicitation of other members to buy or sell any products or services through the Service.
-                                                                    <li>You agree not to send chain letters or junk email to other Desi Rishta Members. While Desi Rishta cannot monitor the conduct of its Members off the Desi Rishta Site, it is also a violation of the Agreements to use any information obtained from other members to harass, abuse, or harm another person, or to contact, advertise to, solicit, or sell to any Member without their prior explicit consent.
-                                                                    <li>Desi Rishta reserves the right to take necessary measures to protect Desi Rishta and/or its Members from any abuse or misuse, as deemed appropriate in its sole discretion.
-                                                                    <li>You agree not to utilize the Desi Rishta platforms and services to harass any other member on the Desi Rishta platform.
-                                                                    <li>You are expected to interact with other members with respect.
-                                                                    <li>You are prohibited from using any automated processes, including IRC Bots, EXE's, CGI, or any other programs/scripts, to view content on, or communicate/contact/respond/interact with, Desi Rishta and/or its members.
-                                                                    <li>Desi Rishta retains the authority to screen communications/advertisements that you may send to other Members and may regulate them by deleting unwarranted/obscene communications/advertisements at any time at its sole discretion without prior notice to any Member.
-                                                                    <li>Desi Rishta will make every effort to assist the Police (Cyber Crime Investigation Cell) or any other statutory investigation agency in addressing fraudulent users of Desi Rishta, upon specific instruction from the authorities.
-                                                                    <li>Desi Rishta Members are expected to take basic precautions for their privacy and safety. Suggestions for such precautions are provided under security tips.
-                                                                        <ul class="disc">
-                                                                            <li>Personal Information Privacy : Your privacy is our top priority, and our systems are designed to give you full control over your personal information. Our privacy settings allow you to manage who can see your name, photos, and other personal details.</li>
-                                                                            <li>Privacy of Contact Details : Take the conversation offline only when you're ready. To assist with this, our contact details settings allow you to hide your phone number from all members.</li>
-                                                                            <li>Account Credentials : For your security, do not share your account credentials, including your username and password, with anyone. Keeping this information private helps protect your account from unauthorized access.</li>
-                                                                            <li>Meet in Public Places : When meeting for the first time, choose public spaces such as coffee shops, restaurants, malls, etc.</li>
-                                                                            <li>Avoid Providing Financial Assistance : As a precaution, avoid offering financial assistance to any member who claims to have an urgent need.</li>
-                                                                            <li>Report a Profile : If you receive offensive messages or notice anything suspicious about certain profiles, please utilize the "Report Profile" option. This helps us promptly address any inappropriate behaviour and maintain a safe environment for all users.</li>
-                                                                            <li>Contact Us : If you discover any profiles that seem suspicious, please contact us at <a href="mailto:support@desi-rishta.com" class="faqlink-text">support@desi-rishta.com</a>, and we will investigate promptly.</li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li>You agree that Desi Rishta donot give 100% guarantee that will find a partner. It total depends on understanding between two partners. User can't claim refund or any kind of compensation if he/she (user) is not able to a partner.</li>
-                                                                    <li>You agree to provide your government-issued IDs, such as Aadhaar card, PAN card, voter ID, passport, or driving license, when requested for verification purposes, either to maintain/check the authenticity of Desi Rishta users or as required by any government agency for their purposes. </li>
-                                                                    <li>You also agree to fully cooperate with Desi Rishta or any government agencies in the event of fraud, legal obligations, or any incidents that require your cooperation, ensuring your support in the best possible manner.</li>
-                                                                    <br>
-                                                                    <p>By becoming a Member, you hereby agree to read, abide by, and adhere to the above mentioned security tips.</p>
-                                                                </ul>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>8.	Desi Rishta Content: Exclusive Proprietary Rights</b></p>
-                                                                <p class="mb-2">Desi Rishta retains all proprietary rights in the Desi Rishta Site and its Services. The Site contains copyrighted material, trademarks, and other proprietary information owned by Desi Rishta and/or its licensors. You are not permitted to copy, modify, publish, transmit, distribute, perform, display, or sell any such proprietary information, except for information in the public domain or with permission from the user. Any violation of this Agreement, including such acts or attempts, may result in the immediate termination of your membership by Desi Rishta, without refund of any unused subscription fees. Desi Rishta reserves the right to pursue legal action, including civil and/or criminal proceedings, for any violations.</p>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>9.	Content Shared on the Platform</b></p>
-                                                                <ul class="mb-2 alpha">
-                                                                    <li>You comprehend and consent that Desi Rishta reserves the right to remove any listing, content, communication, photos, or profiles (collectively, "Content") that, in Desi Rishta's sole judgment, violate this Agreement or may be offensive, illegal, or pose a threat to the rights, safety, or well-being of Desi Rishta and/or its members.</li>
-                                                                    <li>Regarding the content you submit or make available for inclusion on publicly accessible areas of the Site, including but not limited to your contact details, you hereby unconditionally and irrevocably grant Desi Rishta the consent and license to use, store, distribute, reproduce, prepare derivative works of, modify, adapt, publicly perform, and publicly display such content on the Site and to the members of the Desi Rishta community site(s) from time to time.</li>
-                                                                    <li>By submitting your success story, you hereby expressly authorize Desi Rishta to utilize, publish, and display your photographs and testimony on the Site.</li>
-                                                                    <li>You understand and hereby agree that all information, data, text, photographs, graphics, communications, tags, or other content, whether publicly posted or privately transmitted or otherwise made available to Desi Rishta, are the sole responsibility of the person from whom such content originated. Therefore, it shall be at the member's or person's sole risks and consequences. This means that you (and not Desi Rishta) are solely responsible for all content that you upload, post, email, transmit, or otherwise make available via the Service. Desi Rishta does not control the content posted via the Service and, as such, does not guarantee the accuracy, integrity, or quality of such content. We advise all users to independently verify the content/information posted by other members before acting upon it, and under no circumstances will Desi Rishta be liable in any way for any content, including, but not limited to, any errors or omissions in any content, or any loss or damage of any kind incurred as a result of the use of any content posted, emailed, transmitted, or otherwise made available via the Service.</li>
-                                                                    <li>Desi Rishta reserves the right to verify the authenticity of content posted on the Site. In exercising this right, Desi Rishta may request you to provide any documentary or other forms of evidence supporting the content you post on the Site. Failure to produce such evidence to the satisfaction of Desi Rishta may result in the termination of your Membership, at Desi Rishta's sole discretion, without a refund.</li>
-                                                                    <li>The following is an indicative list of the type of content that is illegal or prohibited on the Site. Desi Rishta reserves the right to investigate and take appropriate legal action, at its sole discretion, against anyone who violates this Agreement. This action may include, but is not limited to, removing the offending communication/content from the Service and terminating the membership of such violators without a refund. Illegal and prohibited content includes:
-                                                                        <ul class="disc">
-                                                                            <li>is blatantly offensive to the community, such as content that promotes racism, bigotry, hatred, or physical harm of any kind against any group or individual; </li>
-                                                                            <li>harasses or advocates harassment of another person; </li>
-                                                                            <li>involves the transmission of "junk mail," "chain letters," or unsolicited mass mailing or "spamming"; </li>
-                                                                            <li>promotes information that you know is false, misleading, or promotes illegal activities or conduct that is abusive, threatening, obscene, defamatory, or libelous; </li>
-                                                                            <li>promotes an illegal or unauthorized copy of another person's copyrighted work, such as providing pirated computer programs or links to them, providing information to circumvent manufacture-installed copy-protection devices, or providing pirated music or links to pirated music files; </li>
-                                                                            <li>contains restricted or password-only access pages, or hidden pages or images (those not linked to or from another accessible page); </li>
-                                                                            <li>displays pornographic or sexually explicit material of any kind; </li>
-                                                                            <li>provides material that exploits people under the age of 18 in a sexual or violent manner, or solicits personal information from anyone under 18; </li>
-                                                                            <li>provides instructional information about illegal activities such as making or buying illegal weapons, violating someone's privacy, or providing or creating computer viruses; </li>
-                                                                            <li>solicits passwords or personal identifying information for commercial or unlawful purposes from other users; and </li>
-                                                                            <li>engages in commercial activities and/or sales without our prior written consent, such as contests, sweepstakes, barter, advertising, and pyramid schemes. </li>
-                                                                            <li>threatens the unity, integrity, defence, security, or sovereignty of India, friendly relations with foreign states, or public order, or causes incitement to the commission of any cognizable offense, or prevents the investigation of any offense, or is insulting to any other nation. </li>
-                                                                            <li>impersonates another person; </li>
-                                                                            <li>deceives or misleads the addressee about the origin of such messages or communicates any information that is grossly offensive or menacing in nature.</li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li>You must use the Desi Rishta Service in a manner consistent with any and all applicable local, state, and federal laws, rules, and regulations. </li>
-                                                                    <li>You cannot include in your Member profile, visible to other members, any telephone numbers, street addresses, URLs, and email addresses.</li>
-                                                                </ul>
-                                                                
-                                                                <p class="mb-2 mt-4"><b>10.	Copyright Policy</b></p>
-                                                                <ul class="mb-2 alpha">
-                                                                    <li>You cannot post, distribute, or reproduce in any way any copyrighted material, trademarks, or other proprietary information of Desi Rishta without obtaining the prior written consent of the owner (Desi Rishta) of such proprietary rights.</li>
-                                                                    <li>Without limiting the foregoing, if you believe that your work has been copied and posted on the Desi Rishta service in a way that constitutes copyright infringement, please provide us with the following information:</li>
-=======
                                                     </div>
                                                 </div>
                                                 <div class="card mb-3 border-5 box-shadow">
@@ -1411,7 +899,6 @@ Is it mandatory to sign up before creating Wedding E-Cards?
                                                                 <li>Desi Rishta retains the authority to screen communications/advertisements that you may send to other Members and may regulate them by deleting unwarranted/obscene communications/advertisements at any time at its sole discretion without prior notice to any Member.
                                                                 <li>Desi Rishta will make every effort to assist the Police (Cyber Crime Investigation Cell) or any other statutory investigation agency in addressing fraudulent users of Desi Rishta, upon specific instruction from the authorities.
                                                                 <li>Desi Rishta Members are expected to take basic precautions for their privacy and safety. Suggestions for such precautions are provided under security tips.
->>>>>>> 9c0999f600c1aa45f87ef675563394361d3dac53
                                                                     <ul class="disc">
                                                                         <li>Personal Information Privacy : Your privacy is our top priority, and our systems are designed to give you full control over your personal information. Our privacy settings allow you to manage who can see your name, photos, and other personal details.</li>
                                                                         <li>Privacy of Contact Details : Take the conversation offline only when you're ready. To assist with this, our contact details settings allow you to hide your phone number from all members.</li>
@@ -1734,6 +1221,293 @@ Is it mandatory to sign up before creating Wedding E-Cards?
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                <div id="faq17" class="container tab-pane fade p-0 faqs">
+                                                <!--<div id="accordion11">-->
+                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
+                                                <!--        <div class="card-header">-->
+                                                <!--            <a class="card-link collapse41" data-toggle="collapse">-->
+                                                <!--               Can a user account get automatically deactivated?   -->
+                                                <!--            </a>-->
+                                                <!--        </div>-->
+                                                <!--        <div id="collapse41" class="collapse show" data-parent="#accordion11">-->
+                                                <!--            <div class="card-body text-justify">-->
+                                                <!--                <p> yash If you encounter an error while using Desi Rishta, please email us all pertinent details, including the error description, a screenshot (if possible), the member's name, and their ID, to <a href="mailto:support@desi-rishta.com" class="faqlink-text">support@desi-rishta.com</a></p>-->
+                                                <!--                <ul>-->
+                                                <!--                    <li>Profile Privacy: Customize who can view your profile. </li>-->
+                                                <!--                    <li>Photo Privacy: Manage who can see your photos. </li>-->
+                                                <!--                    <li>Phone Number Privacy: Control who can view your phone number. </li>-->
+                                                <!--                    <li>WhatsApp Sharing Privacy: Determine who can share your profile via WhatsApp.</li>-->
+                                                <!--                </ul>-->
+                                                <!--            </div>-->
+                                                <!--        </div>-->
+                                                <!--    </div>-->
+                                                <!--</div>-->
+                                                <!--<div id="accordion13">-->
+                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
+                                                <!--        <div class="card-header">-->
+                                                <!--            <a class="card-link collapse43" data-toggle="collapse">-->
+                                                <!--                Can a user account get automatically deactivated?-->
+                                                <!--            </a>-->
+                                                <!--        </div>-->
+                                                <!--        <div id="collapse43" class="collapse show" data-parent="#accordion13">-->
+                                                <!--            <div class="card-body text-justify">-->
+                                                <!--                <p>Yes, there are two scenarios in which a user account can be automatically deactivated:<p>-->
+                                                <!--                    <ul>-->
+                                                <!--                    <li>If the verification process is not completed within 7 days from the date of registration, the account will be deactivated. </li>-->
+                                                <!--                    <li>If you have not signed in for the last 30 days, your account will be deactivated due to inactivity.</li>-->
+                                                                    
+                                                <!--                </ul>-->
+                                                <!--            </div>-->
+                                                <!--        </div>-->
+                                                <!--    </div>-->
+                                                <!--    <div class="card mb-3 border-5 box-shadow">-->
+                                                <!--        <div class="card-header">-->
+                                                <!--            <a class="collapsed card-link collapse44" data-toggle="collapse">-->
+                                                <!--                Can a user account get automatically deleted?-->
+                                                <!--            </a>-->
+                                                <!--        </div>-->
+                                                <!--        <div id="collapse44" class="collapse" data-parent="#accordion13">-->
+                                                <!--            <div class="card-body text-justify">-->
+                                                <!--                <p>User account will be permanently deleted if it is not used for more than 3 months.</p>-->
+                                                <!--            </div>-->
+                                                <!--        </div>-->
+                                                <!--    </div>-->
+                                                <!--</div>-->
+                                               
+
+                                                <div id="accordion13">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+                Can a user account get automatically deactivated?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion13">
+            <div class="card-body text-justify">
+                <p>Yes, there are two scenarios:</p>
+                <ul>
+                    <li>If verification is not completed within 7 days.</li>
+                    <li>If you have not signed in for 30 days.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+                Can a user account get automatically deleted?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion13">
+            <div class="card-body text-justify">
+                <p>User account will be permanently deleted if unused for more than 3 months.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+                                            </div>
+                                        <div id="faq18" class="container tab-pane fade p-0 faqs">
+                                                <div id="accordion14">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+               Is ID verification mandatory for a user to continue using the website?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>Yes, it is mandatory to upload a government-issued ID for user verification. This ensures that only genuine users are on the site and helps maintain the accuracy and integrity of our data.</p>
+                <!--<ul>-->
+                <!--    <li>If verification is not completed within 7 days.</li>-->
+                <!--    <li>If you have not signed in for 30 days.</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+                What happens if a user doesn’t complete the verification process?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>If the verification process is not completed within 7 days of registration, the account will be automatically deactivated.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
+                How can a user reactivate their account after deactivation?
+            </a>
+        </div>
+
+        <div id="collapse45" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>The user can email their request along with a government-issued ID to support@desi-rishta.com. The account will be reactivated within 24 to 48 hours.</p>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse46">
+                How long does it take to verify a user’s government ID after uploading?
+            </a>
+        </div>
+
+        <div id="collapse46" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>Verification typically takes 24 to 48 hours after the ID has been uploaded.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+                                            </div>
+                                            <div id="faq19" class="container tab-pane fade p-0 faqs">
+                                                <div id="accordion14">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+               What subscription is assigned when a user signs up for a new account?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>When a user signs up, they are automatically assigned a Free subscription plan. Details of this plan are available in the [Pricing Plan] section.</p>
+                <!--<ul>-->
+                <!--    <li>If verification is not completed within 7 days.</li>-->
+                <!--    <li>If you have not signed in for 30 days.</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+What types of subscription plans are available?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>There are three subscription plans available: Free, Gold, and Platinum. For more information, please refer to the [Pricing Plan] section.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
+                How can a user change or request a new subscription plan?
+            </a>
+        </div>
+
+        <div id="collapse45" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>The user needs to go to the Plan section available in the Dashboard and click on the “Upgrade Plan” button to request a change in the subscription plan as per their choice. The request will then be sent to the Admin for approval, which may take 24–48 hours to complete.</p>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
+
+                                            </div>
+                                            <div id="faq20" class="container tab-pane fade p-0 faqs"><div id="accordion14">
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapse43">
+               Who can use the Wedding E-Cards section?
+            </a>
+        </div>
+
+        <div id="collapse43" class="collapse show" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>Anyone can use this section to create Wedding Invitation E-Cards.</p>
+                <!--<ul>-->
+                <!--    <li>If verification is not completed within 7 days.</li>-->
+                <!--    <li>If you have not signed in for 30 days.</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse44">
+Is it mandatory to sign up before creating Wedding E-Cards?
+            </a>
+        </div>
+
+        <div id="collapse44" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>No, signing up is not mandatory. Wedding E-Cards can be created both before and after signing in.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse45">
+                How many E-Card templates can a user use at one time to create Wedding E-Cards?
+            </a>
+        </div>
+
+        <div id="collapse45" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>You can use multiple E-Card templates at a time to create Wedding E-Cards.</p>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse46">
+                Will the number and types of E-Card templates remain fixed?
+            </a>
+        </div>
+
+        <div id="collapse46" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>No, the number and types of Wedding E-Card templates may change from time to time based on seasonal themes and user demand.</p>
+            </div>
+        </div>
+    </div>
+     <div class="card mb-3 border-5 box-shadow">
+        <div class="card-header">
+            <a class="card-link collapsed" data-toggle="collapse" href="#collapse47">
+                Is there any charge for using the Wedding E-Cards Invitation feature?
+            </a>
+        </div>
+
+        <div id="collapse47" class="collapse" data-parent="#accordion14">
+            <div class="card-body text-justify">
+                <p>No, this feature is completely free for everyone and will remain free in the future.</p>
+            </div>
+        </div>
+    </div>
+   
+
+</div></div>
+                                            
                                     </div>
                                 </div>
                             </div>

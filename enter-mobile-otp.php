@@ -113,7 +113,7 @@ include 'header.php';
     <p 
         id="resendCountdown" 
         style="display:none;color:dark-brown;font-weight:600;">
-        Resend OTP <span id="timer">11</span> Seconds
+        Resend OTP <span id="timer">60</span> Seconds
     </p>
 
 </div>
@@ -141,7 +141,7 @@ document.getElementById("resendLink").addEventListener("click", function () {
     // Show countdown message
     document.getElementById("resendCountdown").style.display = "block";
 
-    let timeLeft = 11;
+    let timeLeft = 60;
 
     let countdown = setInterval(function () {
 

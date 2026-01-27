@@ -1,7 +1,8 @@
 <?php
 
-function getEmailLayout($customHtml) {
-   
+function getEmailLayout($customHtml)
+{
+
     return <<<HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -18,9 +19,17 @@ function getEmailLayout($customHtml) {
                 <img src="https://desi-rishta.com/images/tlogo.png" alt="Desi Rishta Logo" style="width: 320px; display: inline-block;">
             </div>
 
-            <div style="padding: 20px 40px 20px 40px; text-align: center; background-color: #ffffff;">
-                 <div style='color:#000; width:90%; margin:0 auto;'>
+            <div style="padding: 20px; text-align: left; background-color: #ffffff;">
+                 <div style='color:#000; width:100%; margin:0 auto;'>
                     $customHtml
+                   <div style="margin-top:20px;">
+                    <div>
+                   Thanks & Regards,<br>
+                  Team Desi Rishta<br>
+                 <a href="mailto:support@desi-rishta.com">support@desi-rishta.com</a>
+                </div>
+               </div>
+
                  </div>
             </div>
 
@@ -36,13 +45,51 @@ function getEmailLayout($customHtml) {
                <div style="display: inline-block; vertical-align: middle; width: 60px; height: 1px; background-color: #d4c4a8;"></div>
                </div>
                 
-                 <div style="margin-bottom: 25px;">
-                    <a href="#" style="text-decoration: none; margin: 0 8px;"><img src="https://cdn-icons-png.flaticon.com/32/4494/4494475.png" width="32" alt="Facebook"></a>
-                    <a href="#" style="text-decoration: none; margin: 0 8px;"><img src="https://cdn-icons-png.flaticon.com/32/4494/4494488.png" width="32" alt="Instagram"></a>
-                    <a href="#" style="text-decoration: none; margin: 0 8px;"><img src="https://cdn-icons-png.flaticon.com/32/5969/5969020.png" width="32" alt="X"></a>
-                    <a href="#" style="text-decoration: none; margin: 0 8px;"><img src="https://cdn-icons-png.flaticon.com/32/4494/4494497.png" width="32" alt="LinkedIn"></a>
-                    <a href="#" style="text-decoration: none; margin: 0 8px;"><img src="https://cdn-icons-png.flaticon.com/32/4494/4494485.png" width="32" alt="Youtube"></a>
-                </div>
+                <div style="margin-bottom:25px;text-align:center;">
+<div style="margin-bottom:25px;text-align:center;">
+  <a href="https://facebook.com" style="margin:0 6px;display:inline-block;">
+    <img src="https://desi-rishta.com/images/email_layout_images/facebook.png"
+         alt="Facebook"
+         width="36"
+         height="36"
+         style="display:block;border-radius:50%;background:#6b3f2b;">
+  </a>
+
+  <a href="https://instagram.com" style="margin:0 6px;display:inline-block;">
+    <img src="https://desi-rishta.com/images/email_layout_images/instagram.png"
+         alt="Instagram"
+         width="36"
+         height="36"
+         style="display:block;border-radius:50%;background:#6b3f2b;">
+  </a>
+
+  <a href="https://x.com" style="margin:0 6px;display:inline-block;">
+    <img src="https://desi-rishta.com/images/email_layout_images/x.png"
+         alt="X"
+         width="36"
+         height="36"
+         style="display:block;border-radius:50%;background:#6b3f2b;">
+  </a>
+
+  <a href="https://linkedin.com" style="margin:0 6px;display:inline-block;">
+    <img src="https://desi-rishta.com/images/email_layout_images/linkedin.png"
+         alt="LinkedIn"
+         width="36"
+         height="36"
+         style="display:block;border-radius:50%;background:#6b3f2b;">
+  </a>
+
+  <a href="https://youtube.com" style="margin:0 6px;display:inline-block;">
+    <img src="https://desi-rishta.com/images/email_layout_images/youtube.png"
+         alt="YouTube"
+         width="36"
+         height="36"
+         style="display:block;border-radius:50%;background:#6b3f2b;">
+  </a>
+</div>
+
+</div>
+
 
                 <div style="font-size: 13px; margin-bottom: 25px; color: #5c1a1a;">
                     <a href="#" style="color: #5c1a1a; text-decoration: none;">Privacy policy</a> &nbsp; | &nbsp; 
@@ -62,4 +109,3 @@ function getEmailLayout($customHtml) {
 </html>
 HTML;
 }
-?>

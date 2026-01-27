@@ -33,7 +33,7 @@ include 'header.php';
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        color: maroon;
+        color: black;
     }
 
     /* Left padding for inputs */
@@ -1281,6 +1281,95 @@ include 'header.php';
     </div>
     </div>
 </section>
+<div id="agePopup" class="popup-overlay" style="display:none;">
+    <div class="popup-content">
+        <div class="popup-icon">
+            <i class="fa fa-exclamation-circle"></i>
+        </div>
+        <h3 class="popup-title">Age Eligibility</h3>
+        <p id="popupMessage" class="popup-text"></p>
+        <button type="button" class="btn-popup-close" onclick="closeAgePopup()">OK, Got it</button>
+    </div>
+</div>
+
+  <style>
+    /* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Dimmed background */
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px); /* Blur effect */
+}
+
+/* Popup Box */
+.popup-content {
+    background: #fff;
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border-top: 5px solid maroon; /* Theme Match */
+    animation: fadeInScale 0.3s ease-in-out;
+}
+
+/* Icon */
+.popup-icon i {
+    font-size: 50px;
+    color: maroon;
+    margin-bottom: 15px;
+}
+
+/* Title */
+.popup-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Message Text */
+.popup-text {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Close Button */
+.btn-popup-close {
+    background: maroon;
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s;
+    outline: none;
+}
+
+.btn-popup-close:hover {
+    background: #e91e63; /* Pink hover effect */
+}
+
+/* Animation */
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+  </style>
+
 <!-- END -->
 
 <?php
@@ -2239,9 +2328,10 @@ include 'footer.php';
             $('#personeating').text($('#eating').val());
         });
 
-        $('#maglik').change(function() {
-            $('#personmaglik').text($('#maglik').val());
-        });
+      $('#manglik').change(function() {
+    $('#personmaglik').text($('#manglik').val());
+});
+
 
         $(".signupstream-s").change(function() {
             var stream = $("#stream").val();
@@ -2249,36 +2339,91 @@ include 'footer.php';
             $("#personeducation").text(he);
         });
 
-        $('#dob').change(function() {
-            var getgender = $('#gender').val();
-            var dob = $('#dob').val();
+        // $('#dob').change(function() {
+        //     var getgender = $('#gender').val();
+        //     var dob = $('#dob').val();
+        //     const dobspilt = dob.split("-");
+        //     var birthyear = dobspilt[0]
+        //     var currentyear = <?php echo date('Y'); ?>;
+        //     var age = currentyear - birthyear;
+        //     $('#personage').text(age);
+
+        //     if (getgender == 'Male' && age < '21') {
+        //         $('#religiousbackgroundbtn').hide();
+        //         $('#ageerror').show();
+        //         $('#ageerror').text("The age of boy is less then 21 years, you can not create the account");
+        //     }
+        //     if (getgender == 'Male' && age >= '21') {
+        //         $('#religiousbackgroundbtn').show();
+        //         $('#ageerror').hide();
+        //     }
+
+        //     if (getgender == 'Female' && age < '18') {
+        //         $('#religiousbackgroundbtn').hide();
+        //         $('#ageerror').show();
+        //         $('#ageerror').text("The age of girl is less then 18 years, you can not create the account");
+        //     }
+        //     if (getgender == 'Female' && age >= '18') {
+        //         $('#religiousbackgroundbtn').show();
+        //         $('#ageerror').hide();
+        //     }
+        // });
+
+       
+       $('#dob').change(function() {
+        var getgender = $('#gender').val();
+        var dob = $('#dob').val();
+        
+        // Ensure Gender is selected first
+        if(getgender === "") {
+             alert("Please select Gender first.");
+             $('#dob').val(""); // Reset date
+             return;
+        }
+
+        if (dob) {
             const dobspilt = dob.split("-");
-            var birthyear = dobspilt[0]
-            var currentyear = <?php echo date('Y'); ?>;
+            var birthyear = dobspilt[0];
+            var currentyear = new Date().getFullYear(); // Dynamic current year
             var age = currentyear - birthyear;
+            
+            // Precise Age Calculation (Checking month/day)
+            var birthDate = new Date(dob);
+            var today = new Date();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
             $('#personage').text(age);
 
-            if (getgender == 'Male' && age < '21') {
-                $('#religiousbackgroundbtn').hide();
-                $('#ageerror').show();
-                $('#ageerror').text("The age of boy is less then 21 years, you can not create the account");
-            }
-            if (getgender == 'Male' && age >= '21') {
-                $('#religiousbackgroundbtn').show();
-                $('#ageerror').hide();
+            // Logic for Male (Age < 21)
+            if (getgender == 'Male') {
+                if (age < 21) {
+                    $('#religiousbackgroundbtn').hide(); // Hide Continue Button
+                    $('#popupMessage').text("As per legal guidelines, the groom must be at least 21 years old to create an account.");
+                    $('#agePopup').fadeIn(); // Show Popup
+                    $('#dob').val(""); // Clear invalid date
+                } else {
+                    $('#religiousbackgroundbtn').show(); // Show Continue Button
+                }
             }
 
-            if (getgender == 'Female' && age < '18') {
-                $('#religiousbackgroundbtn').hide();
-                $('#ageerror').show();
-                $('#ageerror').text("The age of girl is less then 18 years, you can not create the account");
+            // Logic for Female (Age < 18)
+            if (getgender == 'Female') {
+                if (age < 18) {
+                    $('#religiousbackgroundbtn').hide(); // Hide Continue Button
+                    $('#popupMessage').text("As per legal guidelines, the bride must be at least 18 years old to create an account.");
+                    $('#agePopup').fadeIn(); // Show Popup
+                    $('#dob').val(""); // Clear invalid date
+                } else {
+                    $('#religiousbackgroundbtn').show(); // Show Continue Button
+                }
             }
-            if (getgender == 'Female' && age >= '18') {
-                $('#religiousbackgroundbtn').show();
-                $('#ageerror').hide();
-            }
-        });
-
+        }
+    });
+       
+       
         $('#religion').change(function() {
             $('#personreligion').text($('#religion').val());
         });
@@ -2342,6 +2487,9 @@ include 'footer.php';
         });
 
     });
+    function closeAgePopup() {
+    $('#agePopup').fadeOut();
+}
 </script>
 
 <script>

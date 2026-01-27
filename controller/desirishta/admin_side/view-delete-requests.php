@@ -48,8 +48,7 @@ $result = mysqli_query($con, $sql);
                                             <th>Reason Selected</th>
                                             <th>Marriage/Other Details</th>
                                             <th>Partner Info</th>
-                                            <!-- <th>Proofs (Photos)</th> -->
-                                            <th>Date of Action</th>
+                                            <th>Couple Photos</th> <th>Date of Action</th>
                                         </tr>
                                     </thead>
                                     
@@ -59,12 +58,21 @@ $result = mysqli_query($con, $sql);
                                     if (mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
                                             
-                                            // Image Paths (Images are in the main 'weddingphoto' folder)
-                                            // We use '../' to go back one step from admin_side
-                                            $img1_path = "../images/user/" . $row['s1'];
-                                            $img2_path = "../weddingphoto/" . $row['s2'];
-                                            $has_img1 = !empty($row['s1']) && file_exists($img1_path);
-                                            $has_img2 = !empty($row['s2']) && file_exists($img2_path);
+                                            // Image Paths
+                                            // Ensure these paths match where insert-deleteprofile.php saves them
+                                            $img1_path = "../weddingphoto/" . $row['photo1']; // Assuming column is photo1 or s1
+                                            $img2_path = "../weddingphoto/" . $row['photo2']; // Assuming column is photo2 or s2
+                                            
+                                            // Fallback if your DB uses 's1' and 's2' instead of 'photo1'/'photo2'
+                                            if(!isset($row['photo1']) && isset($row['s1'])) { $img1_path = "../weddingphoto/" . $row['s1']; }
+                                            if(!isset($row['photo2']) && isset($row['s2'])) { $img2_path = "../weddingphoto/" . $row['s2']; }
+
+                                            $has_img1 = !empty($row['photo1']) || !empty($row['s1']);
+                                            $has_img2 = !empty($row['photo2']) || !empty($row['s2']);
+                                            
+                                            // Check file existence (optional, prevents broken image icons)
+                                            // $has_img1 = $has_img1 && file_exists($img1_path);
+                                            // $has_img2 = $has_img2 && file_exists($img2_path);
                                     ?>
                                     <tr>
                                         <td><?php echo $i++; ?></td>
@@ -123,23 +131,23 @@ $result = mysqli_query($con, $sql);
                                             <?php } ?>
                                         </td>
 
-                                        <!-- <td>
+                                        <td>
                                             <div class="d-flex align-items-center">
                                                 <?php if ($has_img1) { ?>
                                                     <a href="<?php echo $img1_path; ?>" target="_blank" class="mr-1">
-                                                        <img src="<?php echo $img1_path; ?>" width="50" height="50" class="rounded border" style="object-fit:cover">
+                                                        <img src="<?php echo $img1_path; ?>" width="60" height="60" class="rounded border" style="object-fit:cover; cursor:pointer;" alt="Photo 1">
                                                     </a>
                                                 <?php } ?>
                                                 
                                                 <?php if ($has_img2) { ?>
                                                     <a href="<?php echo $img2_path; ?>" target="_blank">
-                                                        <img src="<?php echo $img2_path; ?>" width="50" height="50" class="rounded border" style="object-fit:cover">
+                                                        <img src="<?php echo $img2_path; ?>" width="60" height="60" class="rounded border" style="object-fit:cover; cursor:pointer;" alt="Photo 2">
                                                     </a>
                                                 <?php } ?>
                                                 
                                                 <?php if (!$has_img1 && !$has_img2) { echo "<span class='text-muted small'>No Photos</span>"; } ?>
                                             </div>
-                                        </td> -->
+                                        </td>
 
                                         <td>
                                             <span class="badge badge-pill badge-light-secondary">Record #<?php echo $row['id']; ?></span>

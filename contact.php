@@ -100,7 +100,7 @@ include 'header.php';
                         <div class="we-cont">
                             <img src="images/icon/telephone.png" alt="">
                             <h4>WhatsApp Support</h4>
-                            <p>Welcome to our WhatsApp support Mon – Sat (9AM – 6PM)</p>
+                            <p>Welcome to our WhatsApp support </p>
                             <a href="https://wa.me/918377053041?text=Hi There,
 I have some queries toask.
 Thanks!
@@ -181,7 +181,7 @@ Thanks!
                                             <p class="text-danger errorstatement" id="phoneerror" style="display:none">Please Enter Phone No.</p>
                                         </div>
                                          <div class="form-group">
-                                        <label for="category">Select Issue Category <span class="text-danger">*</span></label>
+                                          <label class="lb">Select Issue Category <span class="text-danger">*</span></label>
                                         <select class="form-control" id="category" name="category" required>
                                             <option value="" disabled selected>--- Select ---</option>
                                             <option value="General Query">General Query</option>
@@ -282,7 +282,7 @@ Thanks!
 
 
                                         <div class="form-group">
-                                        <label for="category">Select Issue Category <span class="text-danger">*</span></label>
+                                        <label for="lb">Select Issue Category <span class="text-danger">*</span></label>
                                         <select class="form-control" id="category" name="category" required>
                                             <option value="" disabled selected>--- Select ---</option>
                                             <option value="General Query">General Query</option>

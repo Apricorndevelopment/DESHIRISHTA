@@ -34,8 +34,10 @@ $message = mysqli_real_escape_string($con, $_POST['message']);
 // ----------------------------------------------------
 // contact_us table mein phone column nahi hai, isliye sirf zaruri fields use honge
 // Note: Assuming 'contact_us' table exists. If using 'tbl_contact', change table name here.
-$sql = "INSERT INTO contact_us (name, email, category, message, status) 
-        VALUES ('$name', '$email', '$category', '$message', 'New')"; 
+// $sql = "INSERT INTO contact_us (name, email, category, message, status) 
+//         VALUES ('$name', '$email', '$category', '$message', 'New')"; 
+$sql = "INSERT INTO contact_us (name, email, phone, category, message, status) 
+        VALUES ('$name', '$email', '$phone', '$category', '$message', 'New')";
 
 if (mysqli_query($con, $sql)) {
     

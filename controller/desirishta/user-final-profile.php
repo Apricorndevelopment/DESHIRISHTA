@@ -66,7 +66,10 @@ $rowregistration = mysqli_fetch_assoc($resultregistration);
 $sqlcountview = "select * from viewvist_ids where visit = '$profileid'";
 $rowcountview = mysqli_query($con,$sqlcountview);
 $countview = mysqli_num_rows($rowcountview);
+
+
 ?>
+
 
 <!-- CSS FOR PREMIUM CARD LAYOUT -->
 <style>
@@ -385,7 +388,7 @@ $countview = mysqli_num_rows($rowcountview);
                             <div class="pro-pg-intro pr-bio-c">
                                 <h1><?php echo $rowbasicinfo['fullname']; ?></h1>
                                 <div class="mb-2 brown textcenter"><b><?php echo $rowbasicinfo['userid']; ?></b></div>
-                                
+<!--                                 
                                 <div class="pro-info-status">
                                     <?php if($rowregistration['verificationinfo'] == 'Done') { ?>
                                     <span class="stat-3"><b>ID Verified</b></span>
@@ -398,7 +401,28 @@ $countview = mysqli_num_rows($rowcountview);
                                     <?php } else { ?>
                                     <span class="stat-4"><b>Unavailable</b></span>
                                     <?php } ?>
-                                </div>
+                                </div> -->
+                                <div class="pro-info-status">
+    <?php if($rowregistration['verificationinfo'] == 'Done') { ?>
+        <span class="stat-3"><b>ID Verified</b></span>
+    <?php } ?>
+    
+    <span class="stat-1"><b><?php echo $countview;?></b> viewers</span>
+    
+    <?php
+    if($loginid == $profileid || strtolower(trim($rowregistration['online'])) == 'yes') {
+    ?>
+        <span class="stat-2"><b>Available</b></span>
+    <?php } else { ?>
+        <span class="stat-4"><b>Unavailable</b></span>
+    <?php } ?>
+</div>
+<style>.coninfo {
+    /* filter: blur(5px); */
+    background-color: #ffffff00;
+    -webkit-user-select: none;
+}</style>
+
                                 
                                 <ul class="mb-3">
                                     <li><div><img src="images/gif/age.gif" loading="lazy"><span> <strong><?php echo $rowbasicinfo['age'].' Yrs'; ?></strong></span></div></li>
@@ -440,7 +464,7 @@ $countview = mysqli_num_rows($rowcountview);
                                         </li>
                                         <li class="desktop">
                                             <span>
-                                                <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                                <i class="fa bi-envelope" aria-hidden="true"></i>
                                                 <b>Email</b> <?php echo $rowcontactinfo['email']; ?>
                                                 &nbsp;<?php if($rowregistration['emailverify'] == '1') { echo '<i class="fa fa-check text-success b-0" aria-hidden="true" title="Verified"></i>'; } ?>
                                             </span>

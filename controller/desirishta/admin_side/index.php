@@ -194,10 +194,10 @@
                                             <input class="form-control" id="login-email" type="text" name="email" placeholder="john@example.com" aria-describedby="login-email" autofocus="" tabindex="1" />
                                         </div>
                                         <div class="form-group">
-                                            <div class="d-flex justify-content-between">
+                                            <!-- <div class="d-flex justify-content-between">
                                                 <label for="login-password">Password</label>
                                                 <a href="index.php?view=changepassword"><small>Change Password / Forgot?</small></a>
-                                            </div>
+                                            </div> -->
                                             <div class="input-group input-group-merge form-password-toggle">
                                                 <input class="form-control form-control-merge" id="login-password" type="password" name="password" placeholder="Password" aria-describedby="login-password" tabindex="2" />
                                                 <div class="input-group-append"><span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span></div>

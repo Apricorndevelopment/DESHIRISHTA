@@ -322,7 +322,7 @@ if ($sub_req_result && mysqli_num_rows($sub_req_result) > 0) {
                         </a>
                     </li>
                     <li>
-                        <a class="d-flex align-items-center" href="view-review-rating.php.php">
+                        <a class="d-flex align-items-center" href="view-review-rating.php">
                             <i data-feather="circle"></i>
                             <span class="menu-title text-truncate" data-i18n="ContactEnquiries">Reviews & Ratings</span>
                         </a>

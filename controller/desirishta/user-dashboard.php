@@ -1,6 +1,7 @@
 <?php
 include 'header.php';
 include 'config.php';
+// include 'auto_logout_popup.php';
 
 $userid = $_COOKIE['dr_userid'];
 $state = $_COOKIE['dr_state'];
@@ -71,9 +72,10 @@ if ($result_user_data && mysqli_num_rows($result_user_data) > 0) {
     $days_old = $interval->days;
 
     // Condition: If (Account <= 15 days old) AND (Privacy is 'Show to All')
-    if ($days_old <= 15 && $privacy_setting == 'Show to All') {
-        $show_first_login_popup = true;
-    }
+// Condition: If (Account <= 15 days old) AND (Privacy is 'Show to All') AND (Cookie is NOT set)
+if ($days_old <= 15 && $privacy_setting == 'Show to All' && !isset($_COOKIE['privacy_popup_seen'])) {
+    $show_first_login_popup = true;
+}
 }
 
 // --- 1. FETCH POPUP DATA (Banners + Status) ---
@@ -208,6 +210,58 @@ $json_popup_queue = json_encode($popup_queue);
 ?>
 
 <style>
+/* ===============================
+   CONTACT PRIVACY POPUP FIX
+   DESKTOP + MOBILE RESPONSIVE
+================================ */
+
+/* Ensure popup never overflows screen */
+.welcome-modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile optimizations */
+@media (max-width: 576px) {
+
+    /* Ribbon text adjust */
+    .welcome-ribbon {
+        font-size: 16px;
+        padding: 12px;
+        line-height: 1.4;
+    }
+
+    /* Body spacing */
+    .welcome-body {
+        padding: 15px;
+    }
+
+    /* Guideline boxes spacing */
+    .guideline-box {
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    /* Buttons stack vertically */
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-actions button {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* Status row font size */
+    .status-row {
+        font-size: 12px;
+    }
+}
+
+
     /* Popup Styles */
     .menu-pop-help h4,
     .menu-pop-help h5,
@@ -1244,8 +1298,13 @@ function closeReconnect() {
 }
 
 function closePrivacyModal() {
+    // 1. Set a Cookie for 24 Hours so popup doesn't come back on refresh
+    document.cookie = "privacy_popup_seen=yes; path=/; max-age=" + (24 * 60 * 60);
+
+    // 2. Hide the modal
     document.getElementById('firstLoginModal').style.display = 'none';
-    // Privacy modal band hone ke baad check karein agar koi aur popup queue mein hai
+
+    // 3. Trigger next popup queue
     if (typeof triggerPopups === 'function') triggerPopups();
 }
 

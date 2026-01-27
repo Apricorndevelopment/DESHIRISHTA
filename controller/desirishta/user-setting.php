@@ -525,10 +525,10 @@ if(isset($_POST['action']) && $userid != '') {
                                                     }
                                                     ?>
                                                 </li>
-                                                <li>
+                                                <!-- <li>
                                                     <div>Profile type</div>
                                                     <div><?php echo $rowplan['plan']; ?></div>
-                                                </li>
+                                                </li> -->
                                                 <li>
                                                     <div>Password</div>
                                                     <!-- This one KEEPS 'sett-acc-edit-eve' because it NEEDS to open the form below -->

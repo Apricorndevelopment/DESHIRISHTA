@@ -12,9 +12,22 @@ if(isset($_POST['update_plan'])) {
     $validity = $_POST['validity_days'];
 
     $sql = "UPDATE tbl_plans SET plan_name='$name', button_text='$btn', price='$price', details='$details', contacts_per_day='$contacts', validity_days='$validity' WHERE id='$id'";
-    if(mysqli_query($con, $sql)) {
-        echo "<script>alert('Plan Updated Successfully'); window.location.href='manage-plans.php';</script>";
-    }
+    // if(mysqli_query($con, $sql)) {
+    //     echo "<script>alert('Plan Updated Successfully'); window.location.href='manage-plans.php';</script>";
+    // }
+    if (mysqli_query($con, $sql)) {
+
+    // ⚠️ EXTEND EXISTING USERS EXPIRY
+    mysqli_query($con, "
+        UPDATE registration
+        SET plan_expiry_date = DATE_ADD(plan_start_date, INTERVAL $validity DAY)
+        WHERE plan_id = '$id'
+          AND plan_start_date IS NOT NULL
+    ");
+
+    echo "<script>alert('Plan Updated & User Expiry Extended'); window.location.href='manage-plans.php';</script>";
+}
+
 }
 
 $row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM tbl_plans WHERE id='$id'"));

@@ -1,6 +1,14 @@
 <?php
 include 'config.php';
 
+// --- INCLUDE EMAIL TEMPLATE (Check path relative to admin_side) ---
+// Since we are in admin_side, we go one step back (../)
+if (file_exists('../email_layout_template.php')) {
+    require_once '../email_layout_template.php';
+} elseif (file_exists($_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php')) {
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/email_layout_template.php';
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $uid = $_POST['uid'];
     $type = $_POST['type'];     // 'groom', 'photos', 'aboutme', or 'all_pending'
@@ -52,8 +60,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 // =================================================================================
-//                               HELPER FUNCTIONS
+//                              HELPER FUNCTIONS
 // =================================================================================
+
+// --- FUNCTION TO SEND EMAIL ---
+function sendApprovalStatusEmail($con, $userid, $subject, $msgBody) {
+    // 1. Fetch User Data
+    $u_sql = mysqli_query($con, "SELECT name, email FROM registration WHERE userid='$userid'");
+    if(mysqli_num_rows($u_sql) > 0) {
+        $u_row = mysqli_fetch_assoc($u_sql);
+        $fullname = $u_row['name'];
+        $email = $u_row['email'];
+
+        // 2. Prepare HTML Body (Using your existing style)
+        $customHtml = "
+            <p style='font-size:15px;'>Hi $fullname,</p>
+            <p style='font-size:15px;'>$msgBody</p>
+            <p style='font-size:15px;'>Please login to your account for more details.</p>
+        ";
+
+        // 3. Get Template Layout
+        if(function_exists('getEmailLayout')) {
+            $mailContent = getEmailLayout($customHtml);
+
+            // 4. Send via SMTP Provider API
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://app.smtpprovider.com/api/send-mail/',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0, // No timeout for background process
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array(
+                    'to' => $email,
+                    'from' => 'info@noreplies.co.in',
+                    'from_name' => 'Desi Rishta',
+                    'subject' => $subject,
+                    'body' => $mailContent,
+                    'token' => '74765968c67007219b197f4d9aafb4e2'
+                ),
+            ));
+            
+            $response = curl_exec($curl);
+            curl_close($curl);
+        }
+    }
+}
 
 // --- FUNCTION: Process About Me ---
 function processAboutMe($con, $uid, $action) {
@@ -73,12 +128,18 @@ function processAboutMe($con, $uid, $action) {
                 mysqli_query($con, "INSERT INTO basic_info (userid, aboutme) VALUES ('$uid', '$new_about')");
             }
             
-            // 3. Update Status
+            // 3. Update Status (Approved)
             mysqli_query($con, "UPDATE registration SET aboutme_approval_status='Approved', aboutme='Done' WHERE userid='$uid'");
+            
+            // 4. Send Approval Email
+            sendApprovalStatusEmail($con, $uid, "About Me Approved - Desi Rishta", "Your 'About Me' profile description has been approved by the admin.");
         }
     } else {
-        // Reject
-        mysqli_query($con, "UPDATE registration SET aboutme_approval_status='Rejected' WHERE userid='$uid'");
+        // Reject - (With reject_popup='1')
+        mysqli_query($con, "UPDATE registration SET aboutme_approval_status='Rejected', reject_popup='1' WHERE userid='$uid'");
+        
+        // Send Rejection Email
+        sendApprovalStatusEmail($con, $uid, "About Me Rejected - Desi Rishta", "Your 'About Me' profile description was rejected. Please update it according to our guidelines.");
     }
     // Clear Temp
     mysqli_query($con, "DELETE FROM temp_basic_info WHERE userid='$uid'");
@@ -105,14 +166,18 @@ function processGroom($con, $uid, $action) {
                 mysqli_query($con, $sql);
             }
 
-            // Update Status
-            // Note: For gender specific 'Done' status (bridelocation vs groomlocation), 
-            // you might want to fetch gender from registration here if needed, but 'Approved' status is sufficient for Admin tracking.
+            // Update Status (Approved)
             mysqli_query($con, "UPDATE registration SET groom_approval_status='Approved' WHERE userid='$uid'");
+
+            // Send Approval Email
+            sendApprovalStatusEmail($con, $uid, "Location Details Approved - Desi Rishta", "Your location details have been approved and updated on your profile.");
         }
     } else {
-        // Reject
-        mysqli_query($con, "UPDATE registration SET groom_approval_status='Rejected' WHERE userid='$uid'");
+        // Reject - (With reject_popup='1')
+        mysqli_query($con, "UPDATE registration SET groom_approval_status='Rejected', reject_popup='1' WHERE userid='$uid'");
+
+        // Send Rejection Email
+        sendApprovalStatusEmail($con, $uid, "Location Details Rejected - Desi Rishta", "Your location details request was declined. Please verify and submit valid details.");
     }
     // Clear Temp
     mysqli_query($con, "DELETE FROM temp_groom_location WHERE userid='$uid'");
@@ -139,12 +204,18 @@ function processPhotos($con, $uid, $action) {
                 mysqli_query($con, $sql);
             }
 
-            // Update Status
+            // Update Status (Approved)
             mysqli_query($con, "UPDATE registration SET photos_approval_status='Approved', photosinfo='Done' WHERE userid='$uid'");
+
+            // Send Approval Email
+            sendApprovalStatusEmail($con, $uid, "Photos Approved - Desi Rishta", "Great news! Your uploaded photos have been approved.");
         }
     } else {
-        // Reject
-        mysqli_query($con, "UPDATE registration SET photos_approval_status='Rejected' WHERE userid='$uid'");
+        // Reject - (With reject_popup='1')
+        mysqli_query($con, "UPDATE registration SET photos_approval_status='Rejected', reject_popup='1' WHERE userid='$uid'");
+
+        // Send Rejection Email
+        sendApprovalStatusEmail($con, $uid, "Photos Rejected - Desi Rishta", "Your uploaded photos were rejected by the admin. Please upload clear photos with your face visible.");
     }
     // Clear Temp
     mysqli_query($con, "DELETE FROM temp_photos_info WHERE userid='$uid'");

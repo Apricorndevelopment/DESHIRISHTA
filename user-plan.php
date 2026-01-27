@@ -9,13 +9,15 @@ if(!isset($_COOKIE['dr_userid']) || empty($_COOKIE['dr_userid'])) {
 }
 $userid = mysqli_real_escape_string($con, trim($_COOKIE['dr_userid']));
 
-// 2. Fetch User's Current Subscription Details
-$user_sql = "SELECT plan_id, plan_expiry_date FROM registration WHERE userid='$userid'";
+// 2. Fetch User's Details (Added 'entrydate' for fallback)
+$user_sql = "SELECT plan_id, plan_expiry_date, plan_start_date, entrydate FROM registration WHERE userid='$userid'";
 $user_res = mysqli_query($con, $user_sql);
 $user_data = mysqli_fetch_assoc($user_res);
 
 $current_plan_id = $user_data['plan_id'] ?? 1; // Default Free
-$expiry_date = $user_data['plan_expiry_date'];
+$stored_expiry_date = $user_data['plan_expiry_date'];
+$plan_start_date = $user_data['plan_start_date'];
+$entry_date = $user_data['entrydate']; // Fallback start date
 
 // 3. Fetch Pending Requests
 $pending_plans = [];
@@ -48,7 +50,7 @@ while($r = mysqli_fetch_assoc($req_res)) {
                             while($plan = mysqli_fetch_assoc($plan_res)) {
                                 $pid = $plan['id'];
                                 $pname = $plan['plan_name'];
-                                $validity_days = $plan['validity_days'];
+                                $validity_days = $plan['validity_days']; // Live Validity from Admin
                                 $contacts = $plan['contacts_per_day'];
                                 $price = $plan['price'];
                                 
@@ -56,8 +58,41 @@ while($r = mysqli_fetch_assoc($req_res)) {
                                 $is_active = ($pid == $current_plan_id);
                                 $is_pending = in_array($pid, $pending_plans);
                                 
-                                // Show Expiry only for active plan
-                                $show_date = ($is_active && $expiry_date) ? date('d F Y', strtotime($expiry_date)) : "N/A";
+                                // --- FIXED LIVE CALCULATION LOGIC ---
+                                // $show_date = "N/A";
+                                
+                                // if ($is_active) {
+                                //     // Step A: Determine effective start date
+                                //     $effective_start = "";
+                                    
+                                //     if (!empty($plan_start_date) && $plan_start_date != '0000-00-00') {
+                                //         $effective_start = $plan_start_date;
+                                //     } elseif (!empty($entry_date) && $entry_date != '0000-00-00') {
+                                //         // Fallback: Use Joining Date if plan start date is missing
+                                //         $effective_start = $entry_date;
+                                //     }
+
+                                //     // Step B: Calculate Expiry
+                                //     if ($effective_start != "") {
+                                //         $live_expiry_date = date('Y-m-d', strtotime($effective_start . " + $validity_days days"));
+
+                                //         $show_date = date('d F Y', strtotime($live_expiry_date));
+                                //     } else {
+                                //         // Final Fallback: Use stored date
+                                //         $show_date = ($stored_expiry_date) ? date('d F Y', strtotime($stored_expiry_date)) : "N/A";
+                                //     }
+                                // }
+                                // --- EXPIRY DATE FROM DB (FINAL & CORRECT) ---
+$show_date = "N/A";
+
+if ($is_active) {
+    $show_date = (!empty($stored_expiry_date) && $stored_expiry_date != '0000-00-00')
+        ? date('d F Y', strtotime($stored_expiry_date))
+        : "N/A";
+}
+// --- END ---
+
+                                // --- END LOGIC ---
                         ?>
                         
                         <div class="col-md-4 db-sec-com">
